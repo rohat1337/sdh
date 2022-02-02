@@ -1,25 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
+// Stack navigator
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+// react-navigation imports
+import { createStackNavigator } from "react-navigation-stack";
+import { createAppContainer } from "react-navigation";
 
-export default App;
+// Screens in navigator
+import ChoosePlayer from "./screens/ChoosePlayer"
+
+const App = createStackNavigator(
+  {
+    ChoosePlayer: ChoosePlayer
+  }
+)
+
+const container = createAppContainer(App)
+
+export default container;

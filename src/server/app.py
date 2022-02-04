@@ -37,11 +37,25 @@ def allPlayerInfo(id):
 def specific_info(stats, id: int):
     specificData = pd.DataFrame()
     playerData = df[id:id+1]
+
+    #TODO: fixa så typ "minutes played" också funkar
     
     for entries in stats:
         specificData[entries] = playerData[entries]
 
     return specificData.to_json(force_ascii=False)
+
+def basic_info():
+    new_df = pd.DataFrame()
+    
+    stats = ["Player", "Team", "Age", "Position"]
+
+    for label, content in df.items():
+       for stat in stats:
+           if label == stat:
+               new_df[label] = content
+
+    return new_df.to_json(force_ascii=False)
 
 
 
@@ -90,6 +104,12 @@ def specificPlayerStats1(id=None, stats=None):
     specificStats = stats.split("$")
     specificStats.remove("")
     return specific_info(specificStats, int(id))
+
+@app.route("/BasicInfoPlayers") 
+def basic_info_cock():
+    return basic_info()
+
+
 
 if __name__ == '__main__':    
     app.run(debug=True, host='0.0.0.0', port=5000)

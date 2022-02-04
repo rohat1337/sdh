@@ -26,9 +26,21 @@ function arrayToString(stats) {
   return result;
 }
 
+export const zip = (arr, ...arrs) => {
+  return arr.map((val, i) => arrs.reduce((a, arr) => [...a, arr[i]], [val]));
+}
+
 export function allsvenskanPlayers() {
   try {
     return fetch(`http://localhost:5000/playersAllsvenskan`)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export function getBasicStats() {
+  try {
+    return fetch(`http://localhost:5000/BasicInfoPlayers`)
   } catch (error) {
     console.log(error)
   }

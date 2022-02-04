@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react"
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native"
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, Dimensions } from "react-native"
 import { getBasicStats, zip } from "../data"
+
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 
 function ChoosePlayer() {
 
@@ -43,23 +46,68 @@ function ChoosePlayer() {
 
 
     return (
-        <View>
-            <FlatList
-            data={test}
-            renderItem={({ item }) => {
-                return (
-                    <View>
-                        <Text>{item.Player}</Text>
-                        <Text>{item.Team}</Text>
-                    </View>
-                )
-            }}/>
+        <View style={styles.root}>
+            <View style={styles.root_left}>
+                <FlatList
+                data={players}
+                renderItem={({ item }) => {
+                    return (                        
+                        <TouchableOpacity
+                        style={styles.players_TO}>
+                            <View style={styles.players_V}>
+                                <Text>{item.Player}</Text>
+                                <View style={styles.players_V_lower}>
+                                    <Text>{item.Team}</Text>
+                                    <Text>, </Text>
+                                    <Text>{item.Age}</Text>
+                                    <Text>, </Text>
+                                    <Text>{item.Position}</Text>
+                                </View>
+                            </View>
+                            
+                        </TouchableOpacity>
+                    )
+                }}/>
+            </View>
+            <View style={styles.root_right}>
+
+            </View>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
-    
+    root: {
+        width: windowWidth,
+        height: windowHeight,
+        flexDirection: "row",
+        backgroundColor: "red"
+    },
+    root_left: {
+        flex: 0.5,
+        backgroundColor:"green",
+        alignItems:"center",
+        marginVertical: "5%"
+    },
+    root_right: {
+        flex:0.5,
+        backgroundColor: "yellow"
+    },
+    players_TO: {
+        backgroundColor: "blue",
+        alignItems: "center",
+        width: windowWidth/3,
+        marginVertical: "0.5%"
+    },
+    players_V: {
+        flexDirection: "column",
+        alignItems: "center"
+    },
+    players_V_lower: {
+        flexDirection: "row",
+        backgroundColor: "green",
+        alignItems: "center"
+    }
 })
 
 export default ChoosePlayer;

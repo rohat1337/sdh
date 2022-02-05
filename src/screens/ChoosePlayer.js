@@ -51,21 +51,24 @@ function ChoosePlayer() {
                 <FlatList
                 data={players}
                 renderItem={({ item }) => {
-                    return (                        
-                        <TouchableOpacity
-                        style={styles.players_TO}>
-                            <View style={styles.players_V}>
-                                <Text>{item.Player}</Text>
-                                <View style={styles.players_V_lower}>
-                                    <Text>{item.Team}</Text>
-                                    <Text>, </Text>
-                                    <Text>{item.Age}</Text>
-                                    <Text>, </Text>
-                                    <Text>{item.Position}</Text>
+                    return (   
+                        <View style={styles.players_TO}>                     
+                            <TouchableOpacity>
+                                <View style={styles.players_V}>
+                                    <View style={styles.players_V_L}>
+                                        <Text style={styles.text_L}>{item.Player}</Text>
+                                    </View>
+                                    <View style={styles.players_V_R}>
+                                        <Text style={styles.text_R}>{item.Team}</Text>
+                                        <Text style={styles.text_R}>, </Text>
+                                        <Text style={styles.text_R}>{item.Age}</Text>
+                                        <Text style={styles.text_R}>, </Text>
+                                        <Text style={styles.text_R}>{item.Position}</Text>
+                                    </View>
                                 </View>
-                            </View>
-                            
-                        </TouchableOpacity>
+                                
+                            </TouchableOpacity>
+                        </View>
                     )
                 }}/>
             </View>
@@ -81,11 +84,10 @@ const styles = StyleSheet.create({
         width: windowWidth,
         height: windowHeight,
         flexDirection: "row",
-        backgroundColor: "red"
+        backgroundColor: "white"
     },
     root_left: {
         flex: 0.5,
-        backgroundColor:"green",
         alignItems:"center",
         marginVertical: "5%"
     },
@@ -94,19 +96,38 @@ const styles = StyleSheet.create({
         backgroundColor: "yellow"
     },
     players_TO: {
-        backgroundColor: "blue",
-        alignItems: "center",
-        width: windowWidth/3,
-        marginVertical: "0.5%"
+        width: windowWidth/4,
+        marginVertical: "2%",
+        alignItems:"center",
+        height: windowHeight/14,
+        borderRadius: 100,
+        backgroundColor: "#0059a1",
     },
     players_V: {
-        flexDirection: "column",
+        flexDirection: "row",
+    },
+    players_V_L: {
+        flexDirection: "row",
+        width: windowWidth/12,
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    players_V_R: {
+        width:windowWidth/6,
+        height: windowHeight/14,
+        flexDirection: "row",
+        justifyContent: "center",
         alignItems: "center"
     },
-    players_V_lower: {
-        flexDirection: "row",
-        backgroundColor: "green",
-        alignItems: "center"
+    text_L: {
+        color: "white",
+        fontWeight: "bold",
+        fontSize: 17
+    },
+    text_R: {
+        color: "white",
+        fontWeight: "bold",
+        fontSize: 12
     }
 })
 

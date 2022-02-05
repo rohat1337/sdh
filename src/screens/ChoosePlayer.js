@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, Dimensions } from "react-native"
-import { getBasicStats, zip } from "../data"
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, Dimensions, TextInput } from "react-native"
+import { getBasicStats, zip, arrayRemove } from "../data"
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -8,8 +8,10 @@ const windowHeight = Dimensions.get("window").height;
 function ChoosePlayer() {
 
     const [players, setPlayers] = useState([])
-    
-    
+    const [selectedPlayers, setSelectedPlayers] = useState([])
+    const [player, setPlayer] = useState(null)
+    const [searchPlayer, setSearchPlayer] = useState(null)
+    const [filteredPlayers, setFilteredPlayers] = useState(null)
     
     // Load all basic stats on startup
     useEffect(() => {
@@ -41,29 +43,52 @@ function ChoosePlayer() {
                 result.push(obj)
             }
             setPlayers(result)
+            setSearchPlayer("")
         })
     }, [])
 
+    // Check if selected player is already chosen or not.
+    useEffect(() => {
+        if (player != null) {
+            if (selectedPlayers.includes(player)) {
+                setSelectedPlayers(arrayRemove(selectedPlayers, player))
+            } else {
+                setSelectedPlayers([...selectedPlayers, player])
+            }
+        }
+        setPlayer(null)
+    }, [player])
+
+    //
+    useEffect(() => {
+        if (searchPlayer != "") {
+            setFilteredPlayers(players.filter((player) => player.Player.includes(searchPlayer)))
+        } else {
+            setFilteredPlayers(players)
+        }
+    }, [searchPlayer])
 
     return (
         <View style={styles.root}>
             <View style={styles.root_left}>
                 <FlatList
-                data={players}
+                data={filteredPlayers}
                 renderItem={({ item }) => {
+                    const textColor = selectedPlayers.includes(item.Player) ? "#ffe00f" : "white";
                     return (   
                         <View style={styles.players_TO}>                     
-                            <TouchableOpacity>
+                            <TouchableOpacity
+                            onPress={() => setPlayer(item.Player)}>
                                 <View style={styles.players_V}>
                                     <View style={styles.players_V_L}>
-                                        <Text style={styles.text_L}>{item.Player}</Text>
+                                        <Text style={[styles.text_L, {color: textColor}]}>{item.Player}</Text>
                                     </View>
                                     <View style={styles.players_V_R}>
-                                        <Text style={styles.text_R}>{item.Team}</Text>
-                                        <Text style={styles.text_R}>, </Text>
-                                        <Text style={styles.text_R}>{item.Age}</Text>
-                                        <Text style={styles.text_R}>, </Text>
-                                        <Text style={styles.text_R}>{item.Position}</Text>
+                                        <Text style={[styles.text_R, {color: textColor}]}>{item.Team}</Text>
+                                        <Text style={[styles.text_R, {color: textColor}]}>, </Text>
+                                        <Text style={[styles.text_R, {color: textColor}]}>{item.Age}</Text>
+                                        <Text style={[styles.text_R, {color: textColor}]}>, </Text>
+                                        <Text style={[styles.text_R, {color: textColor}]}>{item.Position}</Text>
                                     </View>
                                 </View>
                                 
@@ -73,7 +98,32 @@ function ChoosePlayer() {
                 }}/>
             </View>
             <View style={styles.root_right}>
+                <View style={styles.filters_U}>
+                    <TextInput 
+                    placeholder="Sök spelare..."
+                    style={styles.search}
+                    onChangeText={setSearchPlayer}
+                    value={searchPlayer}/>
+                    <View style={styles.filters_UL}>
+                        <TouchableOpacity style={styles.filters_TO}>
+                            <Text>LAG</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.filters_TO}>
+                            <Text>ÅLDER</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.filters_UL}>
+                        <TouchableOpacity style={styles.filters_TO}>
+                            <Text>POSITION</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.filters_TO}>
+                            <Text>SPELADE MINUTER</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                <View style={styles.filters_L}>
 
+                </View>
             </View>
         </View>
     )
@@ -87,13 +137,12 @@ const styles = StyleSheet.create({
         backgroundColor: "white"
     },
     root_left: {
-        flex: 0.5,
+        flex: 0.4,
         alignItems:"center",
         marginVertical: "5%"
     },
     root_right: {
-        flex:0.5,
-        backgroundColor: "yellow"
+        flex:0.6,
     },
     players_TO: {
         width: windowWidth/4,
@@ -127,7 +176,33 @@ const styles = StyleSheet.create({
     text_R: {
         color: "white",
         fontWeight: "bold",
-        fontSize: 12
+        fontSize: 14
+    },
+    filters_U: {
+        flex: 0.5,
+        alignItems: "center"
+    },
+    filters_L: {
+        flex:0.5,
+        backgroundColor: "blue"
+    },
+    search: {
+        paddingLeft: "5%",
+        borderWidth: 1,
+        borderColor: "black",
+        borderRadius: 50,
+        width: "80%",
+        marginTop: "10%",
+        height: windowHeight/14,
+        fontSize: 17,
+        fontWeight: "bold"
+    },
+    filters_UL: {
+        flexDirection: "row",
+        
+    },
+    filters_TO: {
+
     }
 })
 

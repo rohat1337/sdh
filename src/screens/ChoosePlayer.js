@@ -12,6 +12,7 @@ function ChoosePlayer() {
     const [player, setPlayer] = useState(null)
     const [searchPlayer, setSearchPlayer] = useState(null)
     const [filteredPlayers, setFilteredPlayers] = useState(null)
+    const [teams, setTeams] = useState([])
     
     // Load all basic stats on startup
     useEffect(() => {
@@ -55,7 +56,7 @@ function ChoosePlayer() {
             return Promise.all([statusCode, data]);
         })
         .then((data) => {
-            console.log(data[1])
+            setTeams(arrayRemove(Object.values(data[1]), null))
         })
     }, [])
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Dimensions, TextInput } from "react-native"
-import { getBasicStats, zip, arrayRemove } from "../data"
+import { getBasicStats, zip, arrayRemove, allsvenskanTeams } from "../data"
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -44,6 +44,18 @@ function ChoosePlayer() {
             }
             setPlayers(result)
             setSearchPlayer("")
+        })
+    }, [])
+
+    useEffect(() => {
+        allsvenskanTeams()
+        .then((response) => {
+            const statusCode = response.status;
+            const data = response.json();
+            return Promise.all([statusCode, data]);
+        })
+        .then((data) => {
+            console.log(data[1])
         })
     }, [])
 

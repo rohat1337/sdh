@@ -57,7 +57,9 @@ def basic_info():
 
     return new_df.to_json(force_ascii=False)
 
-
+def allTeams():
+    team_df = df['Team']
+    return team_df.drop_duplicates().to_json(force_ascii=False)
 
 
 @app.route("/")
@@ -109,7 +111,9 @@ def specificPlayerStats1(id=None, stats=None):
 def basic_info_cock():
     return basic_info()
 
-
+@app.route("/teamsAllsvenskan")
+def teamsAllsvenskan():
+    return allTeams()
 
 if __name__ == '__main__':    
     app.run(debug=True, host='0.0.0.0', port=5000)

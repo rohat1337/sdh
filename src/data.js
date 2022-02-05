@@ -38,6 +38,14 @@ export function allsvenskanPlayers() {
   }
 }
 
+export function allsvenskanTeams() {
+  try {
+    return fetch(`http://localhost:5000/teamsAllsvenskan`)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export function getBasicStats() {
   try {
     return fetch(`http://localhost:5000/BasicInfoPlayers`)

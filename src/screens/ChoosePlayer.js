@@ -106,18 +106,18 @@ function ChoosePlayer() {
                     value={searchPlayer}/>
                     <View style={styles.filters_UL}>
                         <TouchableOpacity style={styles.filters_TO}>
-                            <Text>LAG</Text>
+                            <Text style={styles.text_filters}>LAG</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.filters_TO}>
-                            <Text>ÅLDER</Text>
+                            <Text style={styles.text_filters}>ÅLDER</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.filters_UL}>
                         <TouchableOpacity style={styles.filters_TO}>
-                            <Text>POSITION</Text>
+                            <Text style={styles.text_filters}>POSITION</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.filters_TO}>
-                            <Text>SPELADE MINUTER</Text>
+                            <Text style={styles.text_filters}>SPELADE MINUTER</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -199,10 +199,22 @@ const styles = StyleSheet.create({
     },
     filters_UL: {
         flexDirection: "row",
-        
+        justifyContent: "space-evenly",
+        width: "80%",
+        marginVertical: "2%"
     },
     filters_TO: {
-
+        backgroundColor: "#0059a1",
+        width: windowWidth/4.5,
+        height: windowHeight/11,
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 50
+    },
+    text_filters: {
+        color: "white",
+        fontWeight: "bold",
+        fontSize: 17
     }
 })
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Dimensions, TextInput, ImageBackground } from "react-native"
 import { getBasicStats, zip, arrayRemove, fix } from "../data"
+import Slider from '@react-native-community/slider';
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -14,6 +15,12 @@ function ChoosePlayer() {
     const [searchAge, setAge] = useState("") //
     const [searchPosition, setPosition] = useState("")
     const [searchPlayer, setSearchPlayer] = useState("")
+    //States for minutes played slider
+    const [minutesPlayed, setMinutesPlayed] = useState(0)
+    const [sliding, setSliding] = useState('Inactive')
+    //Ålder states
+    const [minAge, setMinAge] = useState(0)
+    const [maxAge, setMaxAge] = useState(100)
     
     // Load all basic stats on startup
     useEffect(() => {
@@ -32,7 +39,8 @@ function ChoosePlayer() {
             var teams = Object.values(data["Team within selected timeframe"])
             var position = Object.values(data["Position"])
             var age = Object.values(data["Age"])
-            var list = zip(players, teams, position, age)
+            var minutes = Object.values(data["Minutes played"])
+            var list = zip(players, teams, position, age, minutes)
             // For every player, create object
             // This is only needed because of format issues from flask (no object propety names to access)
             for (var player of list) {
@@ -67,7 +75,9 @@ function ChoosePlayer() {
                 <FlatList
                 data={players.filter((player) => (fix(player.Player.toLowerCase()).includes(searchPlayer.toLowerCase()) && 
                                                 player["Team within selected timeframe"].toLowerCase().includes(searchTeam.toLowerCase()) &&
-                                                player.Position.toLowerCase().includes(searchPosition.toLowerCase())))}
+                                                (player["Age"] >= minAge && player["Age"] <= maxAge) &&
+                                                player["Position"].toLowerCase().includes(searchPosition.toLowerCase()) &&
+                                                player["Minutes played"] >= minutesPlayed))}
                 renderItem={({ item }) => {
                     const textColor = selectedPlayers.includes(item.Player) ? "#ffe00f" : "white";
                     return (   
@@ -103,21 +113,65 @@ function ChoosePlayer() {
                         <TextInput 
                         placeholder="Sök lag..."
                         style={styles.search_small}
-                        value={searchTeam}
-                        onChangeText={searchTeam => setTeam(searchTeam)}/>
-                        <TextInput 
-                        placeholder="Sök ålder..."
-                        style={styles.search_small}
-                        onChangeText={setAge}/>
+                        onChangeText={setTeam}/>
+                        <View style={{flex: 0.5, flexDirection: "column"}}>
+                            <Text style={styles.slider_text}>Ålder</Text>
+                            <View style={{flexDirection:"row"}}>
+                                <View>
+                                    <Text style={styles.slider_text}>Minst</Text>
+                                    <TextInput style={styles.slider_text}
+                                            placeholder={minAge}
+                                            value={minAge}
+                                            onChangeText={value => setMinAge(value)}></TextInput>
+                                    <Slider style={{ width: 250, height: 40, marginLeft: "5%"}} 
+                                        minimumValue={0}
+                                        maximumValue={50}
+                                        minimumTrackTintColor="blue"
+                                        maximumTrackTintColor="gray"
+                                        thumbTintColor="blue"
+                                        value={0}
+                                        onValueChange={value => setMinAge(parseInt(value))}>
+                                    </Slider>
+                                </View>
+                                <View>
+                                    <Text style={styles.slider_text}>Högst</Text>
+                                    <TextInput style={styles.slider_text}
+                                            placeholder={maxAge}
+                                            value={maxAge}
+                                            onChangeText={value => setMaxAge(value)}></TextInput>
+                                    <Slider style={{ width: 250, height: 40, marginLeft: "5%"}} 
+                                        minimumValue={0}
+                                        maximumValue={50}
+                                        minimumTrackTintColor="blue"
+                                        maximumTrackTintColor="gray"
+                                        thumbTintColor="blue"
+                                        value={0}
+                                        onValueChange={value => setMaxAge(parseInt(value))}></Slider>
+                                </View>
+                            </View>
+                                                        
+                        </View>
                     </View>
                     <View style={styles.filters_UL}>
-                    <TextInput 
-                        placeholder="Sök position..."
-                        style={styles.search_small}
-                        onChangeText={setPosition}/>
                         <TextInput 
-                        placeholder="Sök spelade minuter..."
-                        style={styles.search_small}/>
+                            placeholder="Sök position..."
+                            style={styles.search_small}
+                            onChangeText={setPosition}/>
+                        <View style={{flex: 0.5, alignItems:"center"}}>
+                            <Text style={styles.slider_text}>Spelade minuter</Text>
+                            <TextInput placeholder={minutesPlayed}
+                                     style={styles.slider_text}
+                                     onChangeText={value => setMinutesPlayed(value)}/>
+                            <Slider style={{ width: 250, height: 40, marginLeft: "5%"}} 
+                                minimumValue={0}
+                                maximumValue={1}
+                                minimumTrackTintColor="blue"
+                                maximumTrackTintColor="gray"
+                                thumbTintColor="blue"
+                                value={0}
+                                onValueChange={value => setMinutesPlayed(parseInt(value*2700))}/>
+                        </View>
+                        
                     </View>
                 </View>
                 <View style={styles.filters_L}>
@@ -171,7 +225,8 @@ const styles = StyleSheet.create({
     text_L: {
         color: "white",
         fontWeight: "bold",
-        fontSize: 17
+        fontSize: 17,
+        textAlign: 'center'
     },
     text_R: {
         color: "white",
@@ -183,10 +238,10 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     filters_L: {
-        flex:0.5,
+        flex:0.5
     },
     search: {
-        paddingLeft: "5%",
+        paddingLeft: "2%",
         borderWidth: 1,
         borderColor: "black",
         borderRadius: 50,
@@ -199,7 +254,9 @@ const styles = StyleSheet.create({
     filters_UL: {
         flexDirection: "row",
         justifyContent: "space-evenly",
+        alignItems: "center",
         width: "80%",
+        height: "20%",
         marginVertical: "2%"
     },
     filters_TO: {
@@ -216,18 +273,24 @@ const styles = StyleSheet.create({
         fontSize: 17
     },
     search_small: {
-        paddingLeft: "5%",
+        flex: 0.5,
+        paddingLeft: "2%",
         borderWidth: 1,
         borderColor: "black",
         borderRadius: 50,
-        width: windowWidth/4.5,
-        height: windowHeight/11,
+        width: "100%",
+        height: "50%",
         fontSize: 17,
         fontWeight: "bold"
     },
     image: {
         flex: 1
     },
+    slider_text: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        textAlign: 'center'
+    }
 })
 
 export default ChoosePlayer;

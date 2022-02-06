@@ -50,7 +50,7 @@ def specific_info(stats, id: int):
 def basic_info():
     new_df = pd.DataFrame()
     df.replace(r'^\s*$', "cock", regex=True)
-    stats = ["Player", "Team within selected timeframe", "Age", "Position"]
+    stats = ["Player", "Team within selected timeframe", "Age", "Position", "Minutes played"]
 
     for label, content in df.items():
        for stat in stats:

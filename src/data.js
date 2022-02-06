@@ -30,17 +30,14 @@ export const zip = (arr, ...arrs) => {
   return arr.map((val, i) => arrs.reduce((a, arr) => [...a, arr[i]], [val]));
 }
 
+export function fix(str) {
+  return str.replace('š', 's').replace('ć', 'c').replace('č', 'c')
+
+}
+
 export function allsvenskanPlayers() {
   try {
     return fetch(`http://localhost:5000/playersAllsvenskan`)
-  } catch (error) {
-    console.log(error)
-  }
-}
-
-export function allsvenskanTeams() {
-  try {
-    return fetch(`http://localhost:5000/teamsAllsvenskan`)
   } catch (error) {
     console.log(error)
   }

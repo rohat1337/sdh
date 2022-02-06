@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Dimensions, TextInput, ImageBackground } from "react-native"
-import { getBasicStats, zip, arrayRemove, allsvenskanTeams } from "../data"
+import { getBasicStats, zip, arrayRemove, fix } from "../data"
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -65,7 +65,7 @@ function ChoosePlayer() {
         <View style={styles.root}>
             <View style={styles.root_left}>
                 <FlatList
-                data={players.filter((player) => (player.Player.toLowerCase().includes(searchPlayer.toLowerCase()) && 
+                data={players.filter((player) => (fix(player.Player.toLowerCase()).includes(searchPlayer.toLowerCase()) && 
                                                 player["Team within selected timeframe"].toLowerCase().includes(searchTeam.toLowerCase()) &&
                                                 player.Position.toLowerCase().includes(searchPosition.toLowerCase())))}
                 renderItem={({ item }) => {

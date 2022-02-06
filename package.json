@@ -11,6 +11,7 @@
     "react-native": "^0.67.2",
     "react-native-gesture-handler": "^2.2.0",
     "react-native-web": "^0.17.5",
+    "react-native-web-image": "^0.0.6",
     "react-navigation": "^4.4.4",
     "react-navigation-stack": "^2.10.4",
     "react-scripts": "5.0.0",
@@ -40,8 +41,8 @@
       "last 1 safari version"
     ]
   },
-  "babel" : {
-    "presets" : [
+  "babel": {
+    "presets": [
       "@babel/preset-env",
       "@babel/preset-react"
     ]

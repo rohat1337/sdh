@@ -62,7 +62,7 @@ function ChoosePlayer() {
     }, [player])
 
     return (
-        <View style={styles.root}>
+        <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode="cover">
             <View style={styles.root_left}>
                 <FlatList
                 data={players.filter((player) => (fix(player.Player.toLowerCase()).includes(searchPlayer.toLowerCase()) && 
@@ -124,7 +124,7 @@ function ChoosePlayer() {
 
                 </View>
             </View>
-        </View>
+        </ImageBackground>
 
     )
 }
@@ -134,12 +134,12 @@ const styles = StyleSheet.create({
         width: windowWidth,
         height: windowHeight,
         flexDirection: "row",
-        backgroundColor:"white"
+        backgroundColor:"white",
     },
     root_left: {
         flex: 0.4,
         alignItems:"center",
-        marginVertical: "5%"
+        marginVertical: "5%",
     },
     root_right: {
         flex:0.6,
@@ -194,7 +194,9 @@ const styles = StyleSheet.create({
         marginTop: "10%",
         height: windowHeight/14,
         fontSize: 17,
-        fontWeight: "bold"
+        fontWeight: "bold",
+        backgroundColor: "white",
+        opacity: 0.9
     },
     filters_UL: {
         flexDirection: "row",
@@ -223,11 +225,10 @@ const styles = StyleSheet.create({
         width: windowWidth/4.5,
         height: windowHeight/11,
         fontSize: 17,
-        fontWeight: "bold"
-    },
-    image: {
-        flex: 1
-    },
+        fontWeight: "bold",
+        backgroundColor: "white",
+        opacity: 0.9
+    }
 })
 
 export default ChoosePlayer;

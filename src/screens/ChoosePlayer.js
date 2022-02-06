@@ -114,7 +114,7 @@ function ChoosePlayer() {
                         placeholder="Sök lag..."
                         style={styles.search_small}
                         onChangeText={setTeam}/>
-                        <View style={{flex: 0.5, flexDirection: "column"}}>
+                        <View style={{flex: 0.5, flexDirection: "column", height: "100%"}}>
                             <Text style={styles.slider_text}>Ålder</Text>
                             <View style={{flexDirection:"row"}}>
                                 <View>
@@ -123,7 +123,7 @@ function ChoosePlayer() {
                                             placeholder={minAge}
                                             value={minAge}
                                             onChangeText={value => setMinAge(value)}></TextInput>
-                                    <Slider style={{ width: 250, height: 40, marginLeft: "5%"}} 
+                                    <Slider style={{ width: "100%", height: 40, marginRight: "2.5%"}} 
                                         minimumValue={0}
                                         maximumValue={50}
                                         minimumTrackTintColor="blue"
@@ -139,7 +139,7 @@ function ChoosePlayer() {
                                             placeholder={maxAge}
                                             value={maxAge}
                                             onChangeText={value => setMaxAge(value)}></TextInput>
-                                    <Slider style={{ width: 250, height: 40, marginLeft: "5%"}} 
+                                    <Slider style={{ width: "100%", height: 40, marginLeft: "2.5%"}} 
                                         minimumValue={0}
                                         maximumValue={50}
                                         minimumTrackTintColor="blue"
@@ -162,7 +162,7 @@ function ChoosePlayer() {
                             <TextInput placeholder={minutesPlayed}
                                      style={styles.slider_text}
                                      onChangeText={value => setMinutesPlayed(value)}/>
-                            <Slider style={{ width: 250, height: 40, marginLeft: "5%"}} 
+                            <Slider style={{ width: "100%", height: 40, marginLeft: "5%"}} 
                                 minimumValue={0}
                                 maximumValue={1}
                                 minimumTrackTintColor="blue"
@@ -287,9 +287,10 @@ const styles = StyleSheet.create({
         flex: 1
     },
     slider_text: {
-        fontSize: 20,
+        fontSize: 17,
         fontWeight: 'bold',
-        textAlign: 'center'
+        textAlign: 'center',
+        width: "100%"
     }
 })
 

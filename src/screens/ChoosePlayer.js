@@ -14,7 +14,6 @@ function ChoosePlayer() {
     const [searchAge, setAge] = useState("") //
     const [searchPosition, setPosition] = useState("")
     const [searchPlayer, setSearchPlayer] = useState("")
-
     
     // Load all basic stats on startup
     useEffect(() => {
@@ -29,21 +28,21 @@ function ChoosePlayer() {
             var result = []
             var keys = Object.keys(data)
             // Get lists of all names, team names etc..
-            var ar1 = Object.values(data["Player"])
-            var ar2 = Object.values(data["Team within selected timeframe"])
-            var ar3 = Object.values(data["Position"])
-            var ar4 = Object.values(data["Age"])
-            var ar = zip(ar1, ar2, ar3, ar4)
+            var players = Object.values(data["Player"])
+            var teams = Object.values(data["Team within selected timeframe"])
+            var position = Object.values(data["Position"])
+            var age = Object.values(data["Age"])
+            var list = zip(players, teams, position, age)
             // For every player, create object
             // This is only needed because of format issues from flask (no object propety names to access)
-            for (var x of ar) {
-                var obj = {}
-                var i = 0;
-                for (var y of keys) {
-                    obj[y] = x[i]
-                    i++
+            for (var player of list) {
+                var player_obj = {}
+                var info_index = 0;
+                for (var info of keys) {
+                    player_obj[info] = player[info_index]
+                    info_index++
                 }
-                result.push(obj)
+                result.push(player_obj)
             }
             setPlayers(result)
             setSearchPlayer("")
@@ -66,9 +65,9 @@ function ChoosePlayer() {
         <View style={styles.root}>
             <View style={styles.root_left}>
                 <FlatList
-                data={players.filter((player) => (player.Player.includes(searchPlayer) && 
-                                                player["Team within selected timeframe"].includes(searchTeam) &&
-                                                player.Position.includes(searchPosition)))}
+                data={players.filter((player) => (player.Player.toLowerCase().includes(searchPlayer.toLowerCase()) && 
+                                                player["Team within selected timeframe"].toLowerCase().includes(searchTeam.toLowerCase()) &&
+                                                player.Position.toLowerCase().includes(searchPosition.toLowerCase())))}
                 renderItem={({ item }) => {
                     const textColor = selectedPlayers.includes(item.Player) ? "#ffe00f" : "white";
                     return (   
@@ -104,7 +103,8 @@ function ChoosePlayer() {
                         <TextInput 
                         placeholder="Sök lag..."
                         style={styles.search_small}
-                        onChangeText={setTeam}/>
+                        value={searchTeam}
+                        onChangeText={searchTeam => setTeam(searchTeam)}/>
                         <TextInput 
                         placeholder="Sök ålder..."
                         style={styles.search_small}

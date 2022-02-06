@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
         color: "white",
         fontWeight: "bold",
         fontSize: 17,
-        textAlign: 'center'
+        textAlign: 'center',
     },
     text_R: {
         color: "white",

@@ -3,7 +3,7 @@ import {StyleSheet, Text, View, TouchableOpacity} from 'react-native'
 import { Hoverable } from 'react-native-web-hover'
 
 function PlayerField(props) {
-	const [one, set1] = useState(false);
+	const [one, set1] = useState(null);
 	const [two, set2] = useState(false);
 	const [three, set3] = useState(false);
 	const [four, set4] = useState(false);
@@ -15,9 +15,9 @@ function PlayerField(props) {
 	const [ten, set10] = useState(false);
 	const [eleven, set11] = useState(false);
 
-	useEffect(() => { one ? props.func(1) : console.log("yahoo") }, [one]); 
-	useEffect(() => {	  }, [two]);
-	useEffect(() => {	  }, [three]);
+	useEffect(() => { one ? props.func("gk") : props.func("0gk") }, [one]); 
+	useEffect(() => { }, [two]);
+	//useEffect(() => { three ? props.func(["cb", "lcb", "rcb"]) : props.func("0cb, 0lcb, 0rcb") }, [three]);
 	useEffect(() => {	  }, [four]);
 	useEffect(() => {	  }, [five]);
 	useEffect(() => {	  }, [six]);

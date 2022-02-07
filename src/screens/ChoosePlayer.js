@@ -9,8 +9,8 @@ const windowHeight = Dimensions.get("window").height;
 
 function ChoosePlayer(props) {
 
-    function changeField(i) {
-        setField([...field, i])
+    function changeField(positions) {
+        
     }
 
     const [field, setField] = useState([])
@@ -87,7 +87,8 @@ function ChoosePlayer(props) {
                                                     player["Team within selected timeframe"].toLowerCase().includes(searchTeam.toLowerCase()) &&
                                                     (player["Age"] >= minAge && player["Age"] <= maxAge) &&
                                                     player["Position"].toLowerCase().includes(searchPosition.toLowerCase()) &&
-                                                    player["Minutes played"] >= minutesPlayed))}
+                                                    player["Minutes played"] >= minutesPlayed) &&
+                                                    player["Position"].toLowerCase().includes(field))}
                     renderItem={({ item }) => {
                         const textColor = selectedPlayers.includes(item.Player) ? "#ffe00f" : "white";
                         return (   

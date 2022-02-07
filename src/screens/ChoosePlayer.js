@@ -7,18 +7,21 @@ import PlayerField from "../components/PlayerField";
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
-function ChoosePlayer() {
+function ChoosePlayer(props) {
 
+    function changeField(i) {
+        setField([...field, i])
+    }
+
+    const [field, setField] = useState([])
     const [players, setPlayers] = useState([])
     const [selectedPlayers, setSelectedPlayers] = useState([])
     const [player, setPlayer] = useState(null)
     const [searchTeam, setTeam] = useState("")
-    const [searchAge, setAge] = useState("") //
     const [searchPosition, setPosition] = useState("")
     const [searchPlayer, setSearchPlayer] = useState("")
     //States for minutes played slider
     const [minutesPlayed, setMinutesPlayed] = useState(0)
-    const [sliding, setSliding] = useState('Inactive')
     //Ålder states
     const [minAge, setMinAge] = useState(0)
     const [maxAge, setMaxAge] = useState(100)
@@ -72,7 +75,11 @@ function ChoosePlayer() {
 
     return (
         <View style={{flexDirection:"column"}}>
+            <View style={{justifyContent:"center", alignItems:"center", height: windowHeight/10, backgroundColor:"white", textAlign:"center"}}>
+            <Text style={{fontSize: 50, fontWeight:"bold", color: "#0059a1"}}>IK Sirius Datahub</Text>
+            </View>
             <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode="cover">
+
                 <View style={styles.root_left}>
                     <FlatList
                     // Filter players by Name, Team, Age, Position and Minutes played
@@ -128,9 +135,9 @@ function ChoosePlayer() {
                                         <Slider style={{ width: "100%", height: 40, marginRight: "2.5%"}} 
                                             minimumValue={0}
                                             maximumValue={50}
-                                            minimumTrackTintColor="blue"
+                                            minimumTrackTintColor="#0059a1"
                                             maximumTrackTintColor="gray"
-                                            thumbTintColor="blue"
+                                            thumbTintColor="#0059a1"
                                             value={0}
                                             onValueChange={value => setMinAge(parseInt(value))}>
                                         </Slider>
@@ -144,9 +151,9 @@ function ChoosePlayer() {
                                         <Slider style={{ width: "100%", height: 40, marginLeft: "2.5%"}} 
                                             minimumValue={0}
                                             maximumValue={50}
-                                            minimumTrackTintColor="blue"
+                                            minimumTrackTintColor="#0059a1"
                                             maximumTrackTintColor="gray"
-                                            thumbTintColor="blue"
+                                            thumbTintColor="#0059a1"
                                             value={0}
                                             onValueChange={value => setMaxAge(parseInt(value))}></Slider>
                                     </View>
@@ -166,16 +173,16 @@ function ChoosePlayer() {
                                 <Slider style={{ width: "100%", height: 40, marginLeft: "5%"}} 
                                     minimumValue={0}
                                     maximumValue={1}
-                                    minimumTrackTintColor="blue"
+                                    minimumTrackTintColor="#0059a1"
                                     maximumTrackTintColor="gray"
-                                    thumbTintColor="blue"
+                                    thumbTintColor="#0059a1"
                                     value={0}
                                     onValueChange={value => setMinutesPlayed(parseInt(value*2700))}/>
                             </View>
                         </View>
                     </View>
                     <View style={styles.filters_L}>
-                        <PlayerField></PlayerField>
+                        <PlayerField field={field} func={changeField}></PlayerField>
                     </View>
                 </View>
             </ImageBackground>
@@ -186,14 +193,15 @@ function ChoosePlayer() {
 const styles = StyleSheet.create({
     root: {
         width: windowWidth,
-        height: windowHeight,
+        height: windowHeight - windowHeight/10,
         flexDirection: "row",
         backgroundColor:"white",
     },
     root_left: {
         flex: 0.4,
         alignItems:"center",
-        marginVertical: "5%",
+        marginBottom: "5%",
+        marginTop: "2%"
     },
     root_right: {
         flex:0.6,
@@ -239,7 +247,7 @@ const styles = StyleSheet.create({
     },
     filters_L: {
         flex:0.5,
-        alignItems: "center"
+        alignItems: "center",
     },
     search: {
         paddingLeft: "2%",
@@ -247,7 +255,7 @@ const styles = StyleSheet.create({
         borderColor: "black",
         borderRadius: 50,
         width: "80%",
-        marginTop: "10%",
+        marginTop: "3%",
         height: windowHeight/14,
         fontSize: 17,
         fontWeight: "bold",
@@ -260,7 +268,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         width: "80%",
         height: "20%",
-        marginVertical: "2%"
+        marginVertical: "2%",
     },
     filters_TO: {
         backgroundColor: "#0059a1",
@@ -287,7 +295,8 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         backgroundColor: "white",
         opacity: 0.9,
-        fontWeight: "bold"
+        fontWeight: "bold",
+        marginTop: "5%"
     },
     image: {
         flex: 1

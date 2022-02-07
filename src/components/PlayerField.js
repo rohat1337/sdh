@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native'
 import { Hoverable } from 'react-native-web-hover'
 
-function PlayerField() {
+function PlayerField(props) {
 	const [one, set1] = useState(false);
 	const [two, set2] = useState(false);
 	const [three, set3] = useState(false);
@@ -15,24 +15,7 @@ function PlayerField() {
 	const [ten, set10] = useState(false);
 	const [eleven, set11] = useState(false);
 
-	const [selectedPositions, setSelectedPositions] = useState([])
-
-	function arrayRemove(arr, value) {
-		return arr.filter(function (ele) {
-		  return ele != value;
-		});
-	}
-
-	useEffect(() => {
-		if (one) {
-			setSelectedPositions([...selectedPositions, "GK"])
-		} else {
-			if (selectedPositions.includes("GK")) {
-				setSelectedPositions(arrayRemove(selectedPositions, "GK"))
-			}
-		}
-		}, [one]);
-
+	useEffect(() => { one ? props.func(1) : console.log("yahoo") }, [one]); 
 	useEffect(() => {	  }, [two]);
 	useEffect(() => {	  }, [three]);
 	useEffect(() => {	  }, [four]);
@@ -46,7 +29,6 @@ function PlayerField() {
 
   return (
     <View style={styles.root}>
-
 		{/* Goalkeepers */}
 		<Hoverable style={{flex: 0.10, height: "40%", marginRight: 2.5}}>
 			{({ hovered }) => (
@@ -198,21 +180,22 @@ const styles = StyleSheet.create({
 		width: 600, 
 		height: 400, 
 		flexDirection: "row", 
-		alignItems: "center"
+		alignItems: "center",
+		opacity: .9
 	},
 
 	bigSection: {
 		flex: 0.40, 
 		width: "100%", 
 		height: "100%", 
-		flexDirection: "column"
+		flexDirection: "column",
 	},
 
 	smallSection: {
 		flex: 0.25, 
 		width:"100%", 
 		height:"100%", 
-		flexDirection: "column"
+		flexDirection: "column",
 	},
 
 	pressed: {
@@ -221,7 +204,7 @@ const styles = StyleSheet.create({
 		height:"100%",
 		backgroundColor: "#0059a1",
 		alignItems:"center",
-		justifyContent:"center"
+		justifyContent:"center",
 
 	},
 

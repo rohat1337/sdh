@@ -24,7 +24,7 @@ function ChoosePlayer(props) {
     const [minutesPlayed, setMinutesPlayed] = useState(0)
     //Ålder states
     const [minAge, setMinAge] = useState(0)
-    const [maxAge, setMaxAge] = useState(100)
+    const [maxAge, setMaxAge] = useState(50)
     
     // Load all basic stats on startup
     useEffect(() => {
@@ -154,7 +154,7 @@ function ChoosePlayer(props) {
                                             minimumTrackTintColor="#0059a1"
                                             maximumTrackTintColor="gray"
                                             thumbTintColor="#0059a1"
-                                            value={0}
+                                            value={50}
                                             onValueChange={value => setMaxAge(parseInt(value))}></Slider>
                                     </View>
                                 </View>                     
@@ -166,7 +166,7 @@ function ChoosePlayer(props) {
                                 style={styles.search_small}
                                 onChangeText={setPosition}/>
                             <View style={{flex: 0.5, alignItems:"center"}}>
-                                <Text style={styles.slider_text}>Spelade minuter</Text>
+                                <Text style={styles.slider_text}>Minst antal minuter</Text>
                                 <TextInput placeholder={minutesPlayed}
                                         style={styles.slider_text}
                                         onChangeText={value => setMinutesPlayed(value)}/>

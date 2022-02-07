@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
 		height: 400, 
 		flexDirection: "row", 
 		alignItems: "center",
-		opacity: .9
+		opacity: .7
 	},
 
 	bigSection: {

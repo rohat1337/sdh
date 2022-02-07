@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Dimensions, TextInput, ImageBackground } from "react-native"
-import { getBasicStats, zip, arrayRemove, fix, checkSubstringInArray, uncheckFieldBox } from "../data"
+import { getBasicStats, zip, arrayRemove, fix, uncheckFieldBox } from "../data"
 import Slider from '@react-native-community/slider';
 import PlayerField from "../components/PlayerField";
 
@@ -79,8 +79,8 @@ function ChoosePlayer(props) {
 
     return (
         <View style={{flexDirection:"column"}}>
-            <View style={{justifyContent:"center", alignItems:"center", height: windowHeight/10, backgroundColor:"white", textAlign:"center"}}>
-            <Text style={{fontSize: 50, fontWeight:"bold", color: "#0059a1"}}>IK Sirius Datahub</Text>
+            <View style={{opacity: .9,justifyContent:"center", alignItems:"center", height: windowHeight/10, backgroundColor:"#001324", textAlign:"center"}}>
+            <Text style={{fontSize: 50, fontWeight:"bold", color: "white"}}>IK Sirius Datahub</Text>
             </View>
             <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode="cover">
 
@@ -120,12 +120,14 @@ function ChoosePlayer(props) {
                     <View style={styles.filters_U}>
                         <TextInput 
                         placeholder="Sök spelare..."
+                        placeholderTextColor="white"
                         style={styles.search}
                         onChangeText={setSearchPlayer}
                         value={searchPlayer}/>
                         <View style={styles.filters_UL}>
                             <TextInput 
                             placeholder="Sök lag..."
+                            placeholderTextColor="white"
                             style={styles.search_small}
                             onChangeText={setTeam}/>
                             <View style={{flex: 0.5, flexDirection: "column", height: "100%"}}>
@@ -140,9 +142,9 @@ function ChoosePlayer(props) {
                                         <Slider style={{ width: "100%", height: 40, marginRight: "2.5%"}} 
                                             minimumValue={0}
                                             maximumValue={50}
-                                            minimumTrackTintColor="#0059a1"
+                                            minimumTrackTintColor="#078efb"
                                             maximumTrackTintColor="gray"
-                                            thumbTintColor="#0059a1"
+                                            thumbTintColor="#078efb"
                                             value={0}
                                             onValueChange={value => setMinAge(parseInt(value))}>
                                         </Slider>
@@ -156,9 +158,9 @@ function ChoosePlayer(props) {
                                         <Slider style={{ width: "100%", height: 40, marginLeft: "2.5%"}} 
                                             minimumValue={0}
                                             maximumValue={50}
-                                            minimumTrackTintColor="#0059a1"
+                                            minimumTrackTintColor="#078efb"
                                             maximumTrackTintColor="gray"
-                                            thumbTintColor="#0059a1"
+                                            thumbTintColor="#078efb"
                                             value={50}
                                             onValueChange={value => setMaxAge(parseInt(value))}></Slider>
                                     </View>
@@ -168,6 +170,7 @@ function ChoosePlayer(props) {
                         <View style={styles.filters_UL}>
                             <TextInput 
                                 placeholder="Sök position..."
+                                placeholderTextColor="white"
                                 style={styles.search_small}
                                 onChangeText={setPosition}/>
                             <View style={{flex: 0.5, alignItems:"center"}}>
@@ -178,16 +181,16 @@ function ChoosePlayer(props) {
                                 <Slider style={{ width: "100%", height: 40, marginLeft: "5%"}} 
                                     minimumValue={0}
                                     maximumValue={1}
-                                    minimumTrackTintColor="#0059a1"
+                                    minimumTrackTintColor="#078efb"
                                     maximumTrackTintColor="gray"
-                                    thumbTintColor="#0059a1"
+                                    thumbTintColor="#078efb"
                                     value={0}
                                     onValueChange={value => setMinutesPlayed(parseInt(value*2700))}/>
                             </View>
                         </View>
                     </View>
                     <View style={styles.filters_L}>
-                        <PlayerField field={field} func={changeField}></PlayerField>
+                        <PlayerField func={changeField}></PlayerField>
                     </View>
                 </View>
             </ImageBackground>
@@ -200,7 +203,7 @@ const styles = StyleSheet.create({
         width: windowWidth,
         height: windowHeight - windowHeight/10,
         flexDirection: "row",
-        backgroundColor:"white",
+        backgroundColor:"#001324",
     },
     root_left: {
         flex: 0.4,
@@ -264,8 +267,9 @@ const styles = StyleSheet.create({
         height: windowHeight/14,
         fontSize: 17,
         fontWeight: "bold",
-        backgroundColor: "white",
-        opacity: 0.9
+        backgroundColor: "gray",
+        opacity: 0.9,
+        color: "white",
     },
     filters_UL: {
         flexDirection: "row",
@@ -298,10 +302,11 @@ const styles = StyleSheet.create({
         height: "50%",
         fontSize: 17,
         fontWeight: "bold",
-        backgroundColor: "white",
+        backgroundColor: "gray",
         opacity: 0.9,
         fontWeight: "bold",
-        marginTop: "5%"
+        marginTop: "5%",
+        color: "white"
     },
     image: {
         flex: 1

@@ -10,14 +10,6 @@ const windowHeight = Dimensions.get("window").height;
 function ChoosePlayer(props) {
 
     function changeField(positions) {
-        /*
-        if (positions.includes("0")) {
-            setField(arrayRemove(field, positions.replace("0", "")))
-        } else {
-            setField([...field, positions])
-        }
-        */
-
         if (positions.includes("0")) {
             setField(uncheckFieldBox(field, positions))
         } else {

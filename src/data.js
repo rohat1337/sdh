@@ -32,7 +32,10 @@ export const zip = (arr, ...arrs) => {
 
 export function fix(str) {
   return str.replace('š', 's').replace('ć', 'c').replace('č', 'c')
+}
 
+export function checkSubstringInArray(arr, str) {
+  return arr.find(ele => ele.includes(str)) ? true : false
 }
 
 export function allsvenskanPlayers() {

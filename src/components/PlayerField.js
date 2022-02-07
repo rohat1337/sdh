@@ -16,16 +16,16 @@ function PlayerField(props) {
 	const [eleven, set11] = useState(false);
 
 	useEffect(() => { one ? props.func("gk") : props.func("0gk") }, [one]); 
-	useEffect(() => { }, [two]);
-	//useEffect(() => { three ? props.func(["cb", "lcb", "rcb"]) : props.func("0cb, 0lcb, 0rcb") }, [three]);
-	useEffect(() => {	  }, [four]);
-	useEffect(() => {	  }, [five]);
-	useEffect(() => {	  }, [six]);
-	useEffect(() => {	  }, [seven]);
-	useEffect(() => {	  }, [eight]);
-	useEffect(() => {	  }, [nine]);
-	useEffect(() => {	  }, [ten]);
-	useEffect(() => {	  }, [eleven]);
+	useEffect(() => { two ? props.func("lb") : props.func("0lb") }, [two]);
+	useEffect(() => { three ? props.func("cb, lcb, rcb") : props.func("0cb, lcb, rcb") }, [three]);
+	useEffect(() => { four ? props.func("rb") : props.func("0rb") }, [four]);
+	useEffect(() => { five ? props.func("rw, ramf, rwb") : props.func("0rw, ramf, rwb") }, [five]);
+	useEffect(() => { six ? props.func("lw, lamf, lwb") : props.func("0lw, lamf, lwb") }, [six]);
+	useEffect(() => { seven ? props.func("rwf") : props.func("0rwf")}, [seven]);
+	useEffect(() => { eight ? props.func("lcmf, ldmf, rcmf, rdmf, dmf") : props.func("0lcmf, ldmf, rcmf, rdmf, dmf") }, [eight]);
+	useEffect(() => { nine ? props.func("cf") : props.func("0cf")}, [nine]);
+	useEffect(() => { ten ? props.func("amf") : props.func("0amf") }, [ten]);
+	useEffect(() => { eleven ? props.func("lwf") : props.func("0lwf")}, [eleven]);
 
   return (
     <View style={styles.root}>

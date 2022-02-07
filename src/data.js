@@ -38,6 +38,11 @@ export function checkSubstringInArray(arr, str) {
   return arr.find(ele => ele.includes(str)) ? true : false
 }
 
+export function uncheckFieldBox(field, box) {
+  box = box.replace("0", "").split(", ")
+  return field.filter(ele => !box.includes(ele))
+}
+
 export function allsvenskanPlayers() {
   try {
     return fetch(`http://localhost:5000/playersAllsvenskan`)

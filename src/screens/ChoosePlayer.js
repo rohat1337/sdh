@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Dimensions, TextInput, ImageBackground } from "react-native"
-import { getBasicStats, zip, arrayRemove, fix, checkSubstringInArray } from "../data"
+import { getBasicStats, zip, arrayRemove, fix, checkSubstringInArray, uncheckFieldBox } from "../data"
 import Slider from '@react-native-community/slider';
 import PlayerField from "../components/PlayerField";
 
@@ -10,10 +10,18 @@ const windowHeight = Dimensions.get("window").height;
 function ChoosePlayer(props) {
 
     function changeField(positions) {
+        /*
         if (positions.includes("0")) {
             setField(arrayRemove(field, positions.replace("0", "")))
         } else {
             setField([...field, positions])
+        }
+        */
+
+        if (positions.includes("0")) {
+            setField(uncheckFieldBox(field, positions))
+        } else {
+            setField([...field, ...positions.split(", ")])
         }
     }
 
@@ -92,7 +100,7 @@ function ChoosePlayer(props) {
                                                     (player["Age"] >= minAge && player["Age"] <= maxAge) &&
                                                     player["Position"].toLowerCase().includes(searchPosition.toLowerCase()) &&
                                                     player["Minutes played"] >= minutesPlayed) &&
-                                                    (checkSubstringInArray(field, player["Position"].toLowerCase()) || field.length == 0))}
+                                                    (field.some(ele => player["Position"].toLowerCase().includes(ele)) || field.length == 0))}
                     renderItem={({ item }) => {
                         const textColor = selectedPlayers.includes(item.Player) ? "#ffe00f" : "white";
                         return (   

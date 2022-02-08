@@ -12,3 +12,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@font-face {
+  font-family: "VitesseSans-Black";
+  src: url("./assets/VitesseSans-Black.otf");
+}
+
+@font-face {
+  font-family: "VitesseSans-Book";
+  src: url("./assets/VitesseSans-Book.otf");
+}

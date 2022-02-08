@@ -31,7 +31,7 @@ export const zip = (arr, ...arrs) => {
 }
 
 export function fix(str) {
-  return str.replace('š', 's').replace('ć', 'c').replace('č', 'c')
+  return str.replace('š', 's').replace('ć', 'c').replace('č', 'c').replace('ó', 'o')
 }
 
 export function uncheckFieldBox(field, box) {

@@ -226,7 +226,8 @@ const styles = StyleSheet.create({
 	},
 
 	numberStyle: {
-		fontSize: 20
+		fontSize: 20,
+		fontFamily: "VitesseSans-Book"
 	}
 })
 

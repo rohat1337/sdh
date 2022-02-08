@@ -270,7 +270,6 @@ const styles = StyleSheet.create({
         fontSize: 17,
         fontWeight: "bold",
         backgroundColor: "gray",
-        //opacity: 0.9,
         color: "white",
         fontFamily: "VitesseSans-Book"
     },
@@ -307,7 +306,6 @@ const styles = StyleSheet.create({
         fontSize: 17,
         fontWeight: "bold",
         backgroundColor: "gray",
-        //opacity: 0.9,
         marginTop: "5%",
         color: "white",
         fontFamily: "VitesseSans-Book"
@@ -321,7 +319,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         width: "100%",
         color: "white",
-        //opacity: .9,
         fontFamily: "VitesseSans-Book"
     }
 })

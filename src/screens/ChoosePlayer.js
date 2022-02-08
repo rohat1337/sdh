@@ -80,7 +80,7 @@ function ChoosePlayer(props) {
     return (
         <View style={{flexDirection:"column"}}>
             <View style={{opacity: .9,justifyContent:"center", alignItems:"center", height: windowHeight/10, backgroundColor:"#001324", textAlign:"center"}}>
-            <Text style={{fontSize: 50, fontWeight:"bold", color: "white"}}>IK Sirius Datahub</Text>
+            <Text style={{fontSize: 50, fontWeight:"bold", color: "white", fontFamily: "VitesseSans-Black"}}>IK Sirius Datahub</Text>
             </View>
             <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode="cover">
 
@@ -243,11 +243,13 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         fontSize: 17,
         textAlign: 'center',
+        fontFamily: "VitesseSans-Book"
     },
     text_R: {
         color: "white",
         fontWeight: "bold",
-        fontSize: 14
+        fontSize: 14,
+        fontFamily: "VitesseSans-Book"
     },
     filters_U: {
         flex: 0.5,
@@ -268,8 +270,9 @@ const styles = StyleSheet.create({
         fontSize: 17,
         fontWeight: "bold",
         backgroundColor: "gray",
-        opacity: 0.9,
+        //opacity: 0.9,
         color: "white",
+        fontFamily: "VitesseSans-Book"
     },
     filters_UL: {
         flexDirection: "row",
@@ -290,7 +293,8 @@ const styles = StyleSheet.create({
     text_filters: {
         color: "white",
         fontWeight: "bold",
-        fontSize: 17
+        fontSize: 17,
+        fontFamily: "VitesseSans-Book"
     },
     search_small: {
         flex: 0.5,
@@ -303,9 +307,10 @@ const styles = StyleSheet.create({
         fontSize: 17,
         fontWeight: "bold",
         backgroundColor: "gray",
-        opacity: 0.9,
+        //opacity: 0.9,
         marginTop: "5%",
-        color: "white"
+        color: "white",
+        fontFamily: "VitesseSans-Book"
     },
     image: {
         flex: 1
@@ -316,7 +321,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         width: "100%",
         color: "white",
-        opacity: .9
+        //opacity: .9,
+        fontFamily: "VitesseSans-Book"
     }
 })
 

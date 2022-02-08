@@ -92,7 +92,7 @@ function ChoosePlayer(props) {
                                                     (player["Age"] >= minAge && player["Age"] <= maxAge) &&
                                                     player["Position"].toLowerCase().includes(searchPosition.toLowerCase()) &&
                                                     player["Minutes played"] >= minutesPlayed) &&
-                                                    (field.some(ele => player["Position"].toLowerCase().includes(ele)) || field.length == 0))}
+                                                    (field.some(ele => player["Position"].toLowerCase().includes(ele)) || field.length === 0))}
                     renderItem={({ item }) => {
                         const textColor = selectedPlayers.includes(item.Player) ? "#ffe00f" : "white";
                         return (   
@@ -304,7 +304,6 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         backgroundColor: "gray",
         opacity: 0.9,
-        fontWeight: "bold",
         marginTop: "5%",
         color: "white"
     },
@@ -315,7 +314,9 @@ const styles = StyleSheet.create({
         fontSize: 17,
         fontWeight: 'bold',
         textAlign: 'center',
-        width: "100%"
+        width: "100%",
+        color: "white",
+        opacity: .9
     }
 })
 

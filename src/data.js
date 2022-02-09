@@ -30,6 +30,15 @@ export const zip = (arr, ...arrs) => {
   return arr.map((val, i) => arrs.reduce((a, arr) => [...a, arr[i]], [val]));
 }
 
+export function fix(str) {
+  return str.replace('š', 's').replace('ć', 'c').replace('č', 'c').replace('ó', 'o')
+}
+
+export function uncheckFieldBox(field, box) {
+  box = box.replace("0", "").split(", ")
+  return field.filter(ele => !box.includes(ele))
+}
+
 export function allsvenskanPlayers() {
   try {
     return fetch(`http://localhost:5000/playersAllsvenskan`)
@@ -44,4 +53,10 @@ export function getBasicStats() {
   } catch (error) {
     console.log(error)
   }
+}
+
+export function arrayRemove(arr, value) {
+  return arr.filter(function (ele) {
+    return ele !== value;
+  });
 }

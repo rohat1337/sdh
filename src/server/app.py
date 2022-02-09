@@ -1,6 +1,8 @@
+
 from flask import Flask, redirect, url_for, render_template, request, flash
 import pandas as pd
 import sys
+import numpy as np
 import json
 from flask_cors import CORS
 
@@ -47,18 +49,15 @@ def specific_info(stats, id: int):
 
 def basic_info():
     new_df = pd.DataFrame()
-    
-    stats = ["Player", "Team", "Age", "Position"]
+    df.replace(r'^\s*$', "cock", regex=True)
+    stats = ["Player", "Team within selected timeframe", "Age", "Position", "Minutes played"]
 
     for label, content in df.items():
        for stat in stats:
-           if label == stat:
-               new_df[label] = content
+            if label == stat:
+                new_df[label] = content
 
     return new_df.to_json(force_ascii=False)
-
-
-
 
 @app.route("/")
 def index():
@@ -108,8 +107,6 @@ def specificPlayerStats1(id=None, stats=None):
 @app.route("/BasicInfoPlayers") 
 def basic_info_cock():
     return basic_info()
-
-
 
 if __name__ == '__main__':    
     app.run(debug=True, host='0.0.0.0', port=5000)

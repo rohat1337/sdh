@@ -7,11 +7,12 @@ import { createAppContainer } from "react-navigation";
 // Screens in navigator
 import ChoosePlayer from "./screens/ChoosePlayer"
 
-const App = createStackNavigator(
-  {
-    ChoosePlayer: ChoosePlayer
-  }
-)
+const App = createStackNavigator({
+    ChoosePlayer: {
+      screen: ChoosePlayer,
+      navigationOptions: { headerShown: false }
+    }
+})
 
 const container = createAppContainer(App)
 

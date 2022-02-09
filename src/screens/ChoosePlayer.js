@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity, Dimensions, TextInp
 import { getBasicStats, zip, arrayRemove, fix, uncheckFieldBox } from "../data"
 import Slider from '@react-native-community/slider';
 import PlayerField from "../components/PlayerField";
+import Header from "../components/Header";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -79,9 +80,7 @@ function ChoosePlayer(props) {
 
     return (
         <View style={{flexDirection:"column"}}>
-            <View style={{opacity: .9,justifyContent:"center", alignItems:"center", height: windowHeight/10, backgroundColor:"#001324", textAlign:"center"}}>
-            <Text style={{fontSize: 50, fontWeight:"bold", color: "white", fontFamily: "VitesseSans-Black"}}>IK Sirius Datahub</Text>
-            </View>
+            <Header header={styles.header} nav={props.navigation} stackIndex={0} />
             <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode="cover">
 
                 <View style={styles.root_left}>
@@ -320,6 +319,14 @@ const styles = StyleSheet.create({
         width: "100%",
         color: "white",
         fontFamily: "VitesseSans-Book"
+    },
+    header: {opacity: .9,
+        justifyContent:"center", 
+        alignItems:"center", 
+        height: windowHeight/10, 
+        backgroundColor:"#001324", 
+        textAlign:"center", 
+        flexDirection: "row"
     }
 })
 

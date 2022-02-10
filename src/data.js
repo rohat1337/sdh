@@ -55,6 +55,14 @@ export function getBasicStats() {
   }
 }
 
+export function getStatNames() {
+  try {
+    return fetch(`http://localhost:5000/stats`)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export function arrayRemove(arr, value) {
   return arr.filter(function (ele) {
     return ele !== value;

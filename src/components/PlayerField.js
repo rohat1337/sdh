@@ -1,6 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native'
+import {StyleSheet, Text, View, TouchableOpacity, Dimensions } from 'react-native'
 import { Hoverable } from 'react-native-web-hover'
+
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 
 function PlayerField(props) {
 	const [one, set1] = useState(null);
@@ -177,8 +180,8 @@ function PlayerField(props) {
 
 const styles = StyleSheet.create({
 	root: {
-		width: 600, 
-		height: 400, 
+		width: windowWidth/2.5, 
+		height: windowHeight/2.5, 
 		flexDirection: "row", 
 		alignItems: "center",
 		opacity: .7,

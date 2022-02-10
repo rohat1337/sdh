@@ -240,14 +240,14 @@ const styles = StyleSheet.create({
     text_L: {
         color: "white",
         fontWeight: "bold",
-        fontSize: 17,
+        fontSize: 14,
         textAlign: 'center',
         fontFamily: "VitesseSans-Book"
     },
     text_R: {
         color: "white",
         fontWeight: "bold",
-        fontSize: 14,
+        fontSize: 12,
         fontFamily: "VitesseSans-Book"
     },
     filters_U: {
@@ -270,7 +270,8 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         backgroundColor: "gray",
         color: "white",
-        fontFamily: "VitesseSans-Book"
+        fontFamily: "VitesseSans-Book",
+        opacity: .9
     },
     filters_UL: {
         flexDirection: "row",
@@ -307,7 +308,8 @@ const styles = StyleSheet.create({
         backgroundColor: "gray",
         marginTop: "5%",
         color: "white",
-        fontFamily: "VitesseSans-Book"
+        fontFamily: "VitesseSans-Book",
+        opacity: .9
     },
     image: {
         flex: 1

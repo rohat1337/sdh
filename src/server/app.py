@@ -59,6 +59,9 @@ def basic_info():
 
     return new_df.to_json(force_ascii=False)
 
+def allStats():
+    return json.dumps(list(df.columns)[9:-1])
+
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -107,6 +110,10 @@ def specificPlayerStats1(id=None, stats=None):
 @app.route("/BasicInfoPlayers") 
 def basic_info_cock():
     return basic_info()
+
+@app.route("/stats")
+def stats():
+    return allStats()
 
 if __name__ == '__main__':    
     app.run(debug=True, host='0.0.0.0', port=5000)

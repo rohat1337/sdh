@@ -11,7 +11,13 @@ function ChooseStats(props) {
 
             <Header header={styles.header} stackIndex={1} nav={props.navigation} />
             <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode="cover">
+                <View style={styles.root_l}>
 
+                       
+                </View>
+                <View style={styles.root_r}>
+
+                </View>
             </ImageBackground>
         </View>
 
@@ -25,14 +31,21 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         backgroundColor:"#001324",
     },
-    header: {opacity: .9,
+    header: {
+        opacity: .9,
         justifyContent:"center", 
         alignItems:"center", 
         height: windowHeight/10, 
         backgroundColor:"#001324", 
         textAlign:"center", 
         flexDirection: "row"
-    }
+    },
+    root_l: {
+        flex: 0.3,
+    },
+    root_r: {
+        flex: 0.7,   
+    },
 })
 
 export default ChooseStats;

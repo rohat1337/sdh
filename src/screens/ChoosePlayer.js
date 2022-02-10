@@ -320,7 +320,8 @@ const styles = StyleSheet.create({
         color: "white",
         fontFamily: "VitesseSans-Book"
     },
-    header: {opacity: .9,
+    header: {
+        opacity: .9,
         justifyContent:"center", 
         alignItems:"center", 
         height: windowHeight/10, 

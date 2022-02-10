@@ -11,7 +11,7 @@ function Header(props) {
                <View style={{flex: 0.1}}>  
                    <TouchableOpacity
                    onPress={() => props.nav.push('ChooseStats')}>
-                       <Text style={{ color: "white", fontWeight: "bold", fontSize: 14, fontFamily: "VitesseSans-Book"}}>
+                       <Text style={{ color: "white", fontWeight: "bold", fontSize: 18, fontFamily: "VitesseSans-Book"}}>
                            Gå vidare -{">"}
                        </Text>
                    </TouchableOpacity>
@@ -24,7 +24,7 @@ function Header(props) {
                 <View style={{flex: 0.1}}>  
                    <TouchableOpacity
                    onPress={() => props.nav.goBack()}>
-                       <Text style={{ color: "white", fontWeight: "bold", fontSize: 14, fontFamily: "VitesseSans-Book"}}>
+                       <Text style={{ color: "white", fontWeight: "bold", fontSize: 18, fontFamily: "VitesseSans-Book"}}>
                            {"<"}- Tillbaks
                        </Text>
                    </TouchableOpacity>

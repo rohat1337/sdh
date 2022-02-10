@@ -10,8 +10,8 @@ function Header(props) {
                </View>
                <View style={{flex: 0.1}}>  
                    <TouchableOpacity
-                   onPress={() => props.nav.push('ChooseStats')}>
-                       <Text style={{ color: "white", fontWeight: "bold", fontSize: 18, fontFamily: "VitesseSans-Book"}}>
+                   onPress={() => props.nextIsOK == "white" ? props.nav.push("ChooseStats") : {}}>
+                       <Text style={{ color: props.nextIsOK, fontWeight: "bold", fontSize: 18, fontFamily: "VitesseSans-Book"}}>
                            Gå vidare -{">"}
                        </Text>
                    </TouchableOpacity>

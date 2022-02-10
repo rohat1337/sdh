@@ -80,7 +80,7 @@ function ChoosePlayer(props) {
 
     return (
         <View style={{flexDirection:"column"}}>
-            <Header header={styles.header} nav={props.navigation} stackIndex={0} />
+            <Header header={styles.header} nav={props.navigation} stackIndex={0} nextIsOK={selectedPlayers.length > 1 ? "white" : "gray"}/>
             <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode="cover">
 
                 <View style={styles.root_left}>
@@ -129,7 +129,7 @@ function ChoosePlayer(props) {
                             placeholderTextColor="white"
                             style={styles.search_small}
                             onChangeText={setTeam}/>
-                            <View style={{flex: 0.5, flexDirection: "column", height: "100%"}}>
+                            <View style={{flex: 0.5, flexDirection: "column", height: "100%", alignItems: "center"}}>
                                 <Text style={styles.slider_text}>Ålder</Text>
                                 <View style={{flexDirection:"row"}}>
                                     <View>
@@ -138,7 +138,7 @@ function ChoosePlayer(props) {
                                                 placeholder={minAge}
                                                 value={minAge}
                                                 onChangeText={value => setMinAge(value)}></TextInput>
-                                        <Slider style={{ width: "100%", height: 40, marginRight: "2.5%"}} 
+                                        <Slider style={{ width: windowWidth/9, height: 40, marginRight: "2.5%"}} 
                                             minimumValue={0}
                                             maximumValue={50}
                                             minimumTrackTintColor="#078efb"
@@ -154,7 +154,7 @@ function ChoosePlayer(props) {
                                                 placeholder={maxAge}
                                                 value={maxAge}
                                                 onChangeText={value => setMaxAge(value)}></TextInput>
-                                        <Slider style={{ width: "100%", height: 40, marginLeft: "2.5%"}} 
+                                        <Slider style={{ width: windowWidth/9, height: 40, marginLeft: "2.5%"}} 
                                             minimumValue={0}
                                             maximumValue={50}
                                             minimumTrackTintColor="#078efb"
@@ -174,10 +174,11 @@ function ChoosePlayer(props) {
                                 onChangeText={setPosition}/>
                             <View style={{flex: 0.5, alignItems:"center"}}>
                                 <Text style={styles.slider_text}>Minst antal minuter</Text>
-                                <TextInput placeholder={minutesPlayed}
+                                <TextInput placeholder={0}
+                                        value={minutesPlayed}
                                         style={styles.slider_text}
                                         onChangeText={value => setMinutesPlayed(value)}/>
-                                <Slider style={{ width: "100%", height: 40, marginLeft: "5%"}} 
+                                <Slider style={{ width: windowWidth/4.5, height: 40, marginLeft: "5%"}} 
                                     minimumValue={0}
                                     maximumValue={1}
                                     minimumTrackTintColor="#078efb"
@@ -320,7 +321,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         width: "100%",
         color: "white",
-        fontFamily: "VitesseSans-Book"
+        fontFamily: "VitesseSans-Book",
+        marginVertical: "1%",
     },
     header: {
         opacity: .9,

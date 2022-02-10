@@ -13,7 +13,7 @@ function ChooseStats(props) {
             <Header header={styles.header} stackIndex={1} nav={props.navigation} />
             <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode="cover">
                 <View style={styles.root_l}>
-
+                    
                        
                 </View>
                 <View style={styles.root_r}>

@@ -12,7 +12,8 @@ function PlayerField(props) {
 	const [four, set4] = useState(false);
 	const [five, set5] = useState(false);
 	const [six, set6] = useState(false);
-	const [seven, set7] = useState(false);
+	const [seven_right, set7_right] = useState(false);
+	const [seven_left, set7_left] = useState(false);
 	const [eight, set8] = useState(false);
 	const [nine, set9] = useState(false);
 	const [ten, set10] = useState(false);
@@ -24,11 +25,12 @@ function PlayerField(props) {
 	useEffect(() => { four ? props.func("rb") : props.func("0rb") }, [four]);
 	useEffect(() => { five ? props.func("rw, ramf, rwb") : props.func("0rw, ramf, rwb") }, [five]);
 	useEffect(() => { six ? props.func("lw, lamf, lwb") : props.func("0lw, lamf, lwb") }, [six]);
-	useEffect(() => { seven ? props.func("rwf") : props.func("0rwf")}, [seven]);
+	useEffect(() => { seven_left ? props.func("lwf, lamf, lw") : props.func("0lwf, lamf, lw")}, [seven_left]);
+	useEffect(() => { seven_right ? props.func("rwf, ramf, rw") : props.func("0rwf, ramf, rw")}, [seven_right]);
 	useEffect(() => { eight ? props.func("lcmf, ldmf, rcmf, rdmf, dmf") : props.func("0lcmf, ldmf, rcmf, rdmf, dmf") }, [eight]);
 	useEffect(() => { nine ? props.func("cf") : props.func("0cf")}, [nine]);
 	useEffect(() => { ten ? props.func("amf") : props.func("0amf") }, [ten]);
-	useEffect(() => { eleven ? props.func("lwf") : props.func("0lwf")}, [eleven]);
+	
 
   return (
     <View style={styles.root}>
@@ -142,9 +144,9 @@ function PlayerField(props) {
 			{/* Left winger */}
 			<Hoverable style={{flex: 0.25, height: "100%", width: "100%"}}>
 				{({ hovered }) => (
-					<TouchableOpacity style={{height:"100%"}} onPress={() => {set11(!eleven)}}>
-						<View style={eleven ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
-							<Text style={styles.numberStyle}>11</Text>
+					<TouchableOpacity style={{height:"100%"}} onPress={() => {set7_left(!seven_left)}}>
+						<View style={seven_left ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
+							<Text style={styles.numberStyle}>7</Text>
 						</View >
 					</TouchableOpacity>
 				)}
@@ -165,8 +167,8 @@ function PlayerField(props) {
 			{/* Right Winger */}
 			<Hoverable style={{flex: 0.25, height: "100%", width: "100%"}}>
 				{({ hovered }) => (
-					<TouchableOpacity style={{height:"100%"}} onPress={() => {set7(!seven)}}>
-						<View style={seven ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
+					<TouchableOpacity style={{height:"100%"}} onPress={() => {set7_right(!seven_right)}}>
+						<View style={seven_right ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
 							<Text style={styles.numberStyle}>7</Text>
 						</View >
 					</TouchableOpacity>

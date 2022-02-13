@@ -7,9 +7,9 @@ const windowHeight = Dimensions.get("window").height;
 
 function PlayerField(props) {
 	const [one, set1] = useState(null);
-	const [two, set2] = useState(false);
-	const [three, set3] = useState(false);
-	const [four, set4] = useState(false);
+	const [mb, setmb] = useState(false);
+	const [lwb, setlwb] = useState(false);
+	const [rwb, setrwb] = useState(false);
 	const [five, set5] = useState(false);
 	const [six, set6] = useState(false);
 	const [seven_right, set7_right] = useState(false);
@@ -17,12 +17,11 @@ function PlayerField(props) {
 	const [eight, set8] = useState(false);
 	const [nine, set9] = useState(false);
 	const [ten, set10] = useState(false);
-	const [eleven, set11] = useState(false);
 
 	useEffect(() => { one ? props.func("gk") : props.func("0gk") }, [one]); 
-	useEffect(() => { two ? props.func("cb, lcb, rcb") : props.func("0cb, lcb, rcb") }, [two]);
-	useEffect(() => { three ? props.func("lb, lwb") : props.func("0lb, lwb") }, [three]);
-	useEffect(() => { four ? props.func("rb, rwb") : props.func("0rb, rwb") }, [four]);
+	useEffect(() => { mb ? props.func("cb, lcb, rcb") : props.func("0cb, lcb, rcb") }, [mb]);
+	useEffect(() => { lwb ? props.func("lb, lwb") : props.func("0lb, lwb") }, [lwb]);
+	useEffect(() => { rwb ? props.func("rb, rwb") : props.func("0rb, rwb") }, [rwb]);
 	useEffect(() => { six ? props.func("dmf, ldmf, rdmf") : props.func("0dmf, ldmf, rdmf") }, [six]);
 	useEffect(() => { seven_left ? props.func("lwf, lamf, lw") : props.func("0lwf, lamf, lw")}, [seven_left]);
 	useEffect(() => { seven_right ? props.func("rwf, ramf, rw") : props.func("0rwf, ramf, rw")}, [seven_right]);
@@ -49,9 +48,9 @@ function PlayerField(props) {
 			{/* Left backs */}
 			<Hoverable style={{flex: 0.25, height: "100%", width: "100%", marginBottom: 2.5}}>
 				{({ hovered }) => (
-					<TouchableOpacity style={{height:"100%"}} onPress={() => {set3(!three)}}>
-						<View style={three ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
-							<Text style={styles.numberStyle}>3</Text>
+					<TouchableOpacity style={{height:"100%"}} onPress={() => {setlwb(!lwb)}}>
+						<View style={lwb ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
+							<Text style={styles.numberStyle}>WB / V</Text>
 						</View >
 					</TouchableOpacity>
 				)}
@@ -61,9 +60,9 @@ function PlayerField(props) {
 			{/* Centre backs */}
 			<Hoverable style={{flex: 0.50, height: "100%", width: "100%", marginTop: 2.5, marginBottom: 2.5}}>
 				{({ hovered }) => (
-					<TouchableOpacity style={{height:"100%"}} onPress={() => {set2(!two)}}>
-						<View style={two ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
-							<Text style={styles.numberStyle}>2</Text>
+					<TouchableOpacity style={{height:"100%"}} onPress={() => {setmb(!mb)}}>
+						<View style={mb ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
+							<Text style={styles.numberStyle}>MB</Text>
 						</View >
 					</TouchableOpacity>
 				)}
@@ -72,9 +71,9 @@ function PlayerField(props) {
 			{/* Right backs */}
 			<Hoverable style={{flex: 0.25, height: "100%", width: "100%", marginTop: 2.5}}>
 				{({ hovered }) => (
-					<TouchableOpacity style={{height:"100%"}} onPress={() => {set4(!four)}}>
-						<View style={four ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
-							<Text style={styles.numberStyle}>4</Text>
+					<TouchableOpacity style={{height:"100%"}} onPress={() => {setrwb(!rwb)}}>
+						<View style={rwb ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
+							<Text style={styles.numberStyle}>WB / H</Text>
 						</View >
 					</TouchableOpacity>
 				)}

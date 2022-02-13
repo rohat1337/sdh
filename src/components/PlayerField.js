@@ -20,19 +20,17 @@ function PlayerField(props) {
 	const [eleven, set11] = useState(false);
 
 	useEffect(() => { one ? props.func("gk") : props.func("0gk") }, [one]); 
-	useEffect(() => { two ? props.func("lb") : props.func("0lb") }, [two]);
-	useEffect(() => { three ? props.func("cb, lcb, rcb") : props.func("0cb, lcb, rcb") }, [three]);
-	useEffect(() => { four ? props.func("rb") : props.func("0rb") }, [four]);
-	useEffect(() => { five ? props.func("rw, ramf, rwb") : props.func("0rw, ramf, rwb") }, [five]);
-	useEffect(() => { six ? props.func("lw, lamf, lwb") : props.func("0lw, lamf, lwb") }, [six]);
+	useEffect(() => { two ? props.func("cb, lcb, rcb") : props.func("0cb, lcb, rcb") }, [two]);
+	useEffect(() => { three ? props.func("lb, lwb") : props.func("0lb, lwb") }, [three]);
+	useEffect(() => { four ? props.func("rb, rwb") : props.func("0rb, rwb") }, [four]);
+	useEffect(() => { six ? props.func("dmf, ldmf, rdmf") : props.func("0dmf, ldmf, rdmf") }, [six]);
 	useEffect(() => { seven_left ? props.func("lwf, lamf, lw") : props.func("0lwf, lamf, lw")}, [seven_left]);
 	useEffect(() => { seven_right ? props.func("rwf, ramf, rw") : props.func("0rwf, ramf, rw")}, [seven_right]);
-	useEffect(() => { eight ? props.func("lcmf, ldmf, rcmf, rdmf, dmf") : props.func("0lcmf, ldmf, rcmf, rdmf, dmf") }, [eight]);
+	useEffect(() => { eight ? props.func("lcmf, hcmf") : props.func("0lcmf, hcmf") }, [eight]);
 	useEffect(() => { nine ? props.func("cf") : props.func("0cf")}, [nine]);
 	useEffect(() => { ten ? props.func("amf") : props.func("0amf") }, [ten]);
 	
-
-  return (
+	return (
     <View style={styles.root}>
 		{/* Goalkeepers */}
 		<Hoverable style={{flex: 0.10, height: "40%", marginRight: 2.5}}>
@@ -51,9 +49,9 @@ function PlayerField(props) {
 			{/* Left backs */}
 			<Hoverable style={{flex: 0.25, height: "100%", width: "100%", marginBottom: 2.5}}>
 				{({ hovered }) => (
-					<TouchableOpacity style={{height:"100%"}} onPress={() => {set2(!two)}}>
-						<View style={two ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
-							<Text style={styles.numberStyle}>2</Text>
+					<TouchableOpacity style={{height:"100%"}} onPress={() => {set3(!three)}}>
+						<View style={three ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
+							<Text style={styles.numberStyle}>3</Text>
 						</View >
 					</TouchableOpacity>
 				)}
@@ -63,9 +61,9 @@ function PlayerField(props) {
 			{/* Centre backs */}
 			<Hoverable style={{flex: 0.50, height: "100%", width: "100%", marginTop: 2.5, marginBottom: 2.5}}>
 				{({ hovered }) => (
-					<TouchableOpacity style={{height:"100%"}} onPress={() => {set3(!three)}}>
-						<View style={three ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
-							<Text style={styles.numberStyle}>3</Text>
+					<TouchableOpacity style={{height:"100%"}} onPress={() => {set2(!two)}}>
+						<View style={two ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
+							<Text style={styles.numberStyle}>2</Text>
 						</View >
 					</TouchableOpacity>
 				)}
@@ -177,10 +175,13 @@ function PlayerField(props) {
 
 		</View>
     </View>
-  );
-}
+  )}
 
 const styles = StyleSheet.create({
+	fieldRoot: {
+		flex: 1,
+		flexDirection: "column"
+	},
 	root: {
 		width: windowWidth/2.5, 
 		height: windowHeight/2.5, 

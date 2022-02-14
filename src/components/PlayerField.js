@@ -10,7 +10,6 @@ function PlayerField(props) {
 	const [mb, setmb] = useState(false);
 	const [lwb, setlwb] = useState(false);
 	const [rwb, setrwb] = useState(false);
-	const [five, set5] = useState(false);
 	const [six, set6] = useState(false);
 	const [seven_right, set7_right] = useState(false);
 	const [seven_left, set7_left] = useState(false);

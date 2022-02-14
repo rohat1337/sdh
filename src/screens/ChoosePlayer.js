@@ -231,32 +231,35 @@ const styles = StyleSheet.create({
     },
     players_V: {
         flexDirection: "row",
+        justifyContent: "space-between"
     },
     players_V_L: {
         flexDirection: "row",
         width: windowWidth/12,
         alignItems: "center",
         justifyContent: "center",
+        flex: 0.45
     },
     players_V_R: {
         width:windowWidth/6,
         height: windowHeight/14,
         flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center"
+        justifyContent: "flex-end",
+        alignItems: "center",
+        paddingRight: windowWidth/100,
+        flex: 0.55
     },
     text_L: {
         color: "white",
         fontWeight: "bold",
-        fontSize: 14,
-        textAlign: 'center',
+        fontSize: windowHeight/50,
         fontFamily: "VitesseSans-Book"
     },
     text_R: {
         color: "white",
         fontWeight: "bold",
-        fontSize: 12,
-        fontFamily: "VitesseSans-Book"
+        fontSize: windowHeight/70,
+        fontFamily: "VitesseSans-Book",
     },
     filters_U: {
         flex: 0.7,

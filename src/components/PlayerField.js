@@ -211,8 +211,9 @@ const styles = StyleSheet.create({
 	},
 
 	numberStyle: {
-		fontSize: 20,
-		fontFamily: "VitesseSans-Book"
+		fontSize: 23,
+		fontFamily: "VitesseSans-Book",
+		color: "white"
 	}
 })
 

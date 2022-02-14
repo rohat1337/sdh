@@ -127,11 +127,12 @@ function PlayerField(props) {
 					</View>
 
 					<View style={styles.right}>
+						
 						{/* Right backs */}
 						<Hoverable style={{flex: 0.5, margin: "0.5%", height: windowHeight/11}}>
 							{({ hovered }) => (
-								<TouchableOpacity style={{height:"100%"}} onPress={() => {setlwb(!lwb)}}>
-									<View style={lwb ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
+								<TouchableOpacity style={{height:"100%"}} onPress={() => {setrwb(!rwb)}}>
+									<View style={rwb ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
 										<Text style={styles.numberStyle}>WB / H</Text>
 									</View >
 								</TouchableOpacity>
@@ -310,7 +311,7 @@ const styles = StyleSheet.create({
 		height: windowHeight/2.5, 
 		flexDirection: "row", 
 		alignItems: "center",
-		opacity: .7,
+		opacity: .9,
 	},
 	left: {
 		flex: 0.25, 
@@ -348,7 +349,7 @@ const styles = StyleSheet.create({
 		borderWidth: 2,
 		borderColor: "black",
 		height:"100%",
-		backgroundColor: "#0059a1",
+		backgroundColor: "#00bb53",
 		alignItems:"center",
 		justifyContent:"center",
 
@@ -358,7 +359,7 @@ const styles = StyleSheet.create({
 		borderWidth: 2,
 		borderColor: "black",
 		height:"100%",
-		backgroundColor: "#DEF2FF",
+		backgroundColor: "#00bb53",
 		alignItems:"center",
 		justifyContent:"center"
 	},
@@ -366,7 +367,7 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 		borderColor: "black",
 		height:"100%",
-		backgroundColor: "white",
+		backgroundColor: "#006e31",
 		alignItems:"center", 
 		justifyContent:"center",
 	},

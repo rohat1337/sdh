@@ -129,16 +129,18 @@ function ChoosePlayer(props) {
                             placeholderTextColor="white"
                             style={styles.search_small}
                             onChangeText={setTeam}/>
-                            <View style={{flex: 0.5, flexDirection: "column", height: "100%", alignItems: "center"}}>
-                                <Text style={styles.slider_text}>Ålder</Text>
+                            <View style={{flex: 0.5, flexDirection: "column", height: "100%", alignItems: "center", marginLeft:"1%"}}>
                                 <View style={{flexDirection:"row"}}>
                                     <View>
-                                        <Text style={styles.slider_text}>Minst</Text>
-                                        <TextInput style={styles.slider_text}
+                                        <View style={{flexDirection: "row"}}>
+                                            <Text style={styles.slider_text}>Ålder (min)</Text>
+                                            <TextInput style={[styles.slider_text, {width: windowWidth/30}]}
                                                 placeholder={minAge}
                                                 value={minAge}
-                                                onChangeText={value => setMinAge(value)}></TextInput>
-                                        <Slider style={{ width: windowWidth/9, height: 40, marginRight: "2.5%"}} 
+                                                onChangeText={value => setMinAge(value)}/>
+                                        </View>
+                                        
+                                        <Slider style={{ width: windowWidth/9, height: windowHeight/20}} 
                                             minimumValue={0}
                                             maximumValue={50}
                                             minimumTrackTintColor="#078efb"
@@ -148,13 +150,16 @@ function ChoosePlayer(props) {
                                             onValueChange={value => setMinAge(parseInt(value))}>
                                         </Slider>
                                     </View>
-                                    <View>
-                                        <Text style={styles.slider_text}>Högst</Text>
-                                        <TextInput style={styles.slider_text}
+                                    <View style={{marginLeft: "10%"}}>
+                                        <View style={{flexDirection: "row"}}>
+                                            <Text style={styles.slider_text}>Ålder (max)</Text>
+                                            <TextInput style={[styles.slider_text, {width: windowWidth/30}]}
                                                 placeholder={maxAge}
                                                 value={maxAge}
-                                                onChangeText={value => setMaxAge(value)}></TextInput>
-                                        <Slider style={{ width: windowWidth/9, height: windowHeight/20, marginLeft: "2.5%"}} 
+                                                onChangeText={value => setMaxAge(value)}/>
+                                        </View>
+                                        
+                                        <Slider style={{ width: windowWidth/10, height: windowHeight/20}} 
                                             minimumValue={0}
                                             maximumValue={50}
                                             minimumTrackTintColor="#078efb"
@@ -173,11 +178,13 @@ function ChoosePlayer(props) {
                                 style={styles.search_small}
                                 onChangeText={setPosition}/>
                             <View style={{flex: 0.5, alignItems:"center"}}>
-                                <Text style={styles.slider_text}>Minst antal minuter</Text>
-                                <TextInput placeholder={0}
-                                        value={minutesPlayed}
-                                        style={styles.slider_text}
-                                        onChangeText={value => setMinutesPlayed(value)}/>
+                                <View style={{flexDirection:"row", paddingTop: "5%"}}>
+                                    <Text style={[styles.slider_text, {marginLeft: "15%"}]}>Spelade minuter</Text>
+                                    <TextInput placeholder={0}
+                                            value={minutesPlayed}
+                                            style={styles.slider_text}
+                                            onChangeText={value => setMinutesPlayed(value)}/>
+                                </View>
                                 <Slider style={{ width: windowWidth/4.5, height: windowHeight/20, marginLeft: "5%"}} 
                                     minimumValue={0}
                                     maximumValue={1}
@@ -252,12 +259,14 @@ const styles = StyleSheet.create({
         fontFamily: "VitesseSans-Book"
     },
     filters_U: {
-        flex: 0.5,
+        flex: 0.7,
         alignItems: "center"
     },
     filters_L: {
-        flex:0.5,
+        flex:0.3,
         alignItems: "center",
+        marginBottom: "20%",
+
     },
     search: {
         paddingLeft: "2%",

@@ -232,7 +232,8 @@ const styles = StyleSheet.create({
     },
     players_V: {
         flexDirection: "row",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
+        marginBottom: "3%"
     },
     players_V_L: {
         flexDirection: "row",

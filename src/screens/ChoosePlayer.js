@@ -129,7 +129,7 @@ function ChoosePlayer(props) {
                             placeholderTextColor="white"
                             style={styles.search_small}
                             onChangeText={setTeam}/>
-                            <View style={{flex: 0.5, flexDirection: "column", height: "100%", alignItems: "center", marginLeft:"1%"}}>
+                            <View style={{flex: 0.5, flexDirection: "column", height: "100%", alignItems: "center", marginLeft:"1%", marginTop: "2%"}}>
                                 <View style={{flexDirection:"row"}}>
                                     <View>
                                         <View style={{flexDirection: "row"}}>

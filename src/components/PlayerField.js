@@ -183,20 +183,6 @@ const styles = StyleSheet.create({
 		width: "100%", 
 		height: "100%",
 	},
-	bigSection: {
-		flex: 0.40, 
-		width: "100%", 
-		height: "100%", 
-		flexDirection: "column",
-	},
-
-	smallSection: {
-		flex: 0.25, 
-		width:"100%", 
-		height:"100%", 
-		flexDirection: "column",
-	},
-
 	pressed: {
 		borderWidth: 2,
 		borderColor: "black",

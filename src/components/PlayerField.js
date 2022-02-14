@@ -29,6 +29,130 @@ function PlayerField(props) {
 	useEffect(() => { nine ? props.func("cf") : props.func("0cf")}, [nine]);
 	useEffect(() => { ten ? props.func("amf") : props.func("0amf") }, [ten]);
 	
+	if (true) { return (
+		<View style={styles.root}>
+			{/* Goalkeepers */}
+			<Hoverable style={{flex: .1, height: "40%", marginRight: 2.5}}>
+				{({ hovered }) => (
+					<TouchableOpacity style={{height:"100%"}} onPress={() => {set1(!one)}}>
+						<View style={one ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
+							<Text style={styles.numberStyle}>1</Text>
+						</View>
+					</TouchableOpacity>
+				)}
+			</Hoverable>
+
+			<View style={styles.fieldRoot}>
+					<View style={styles.left}>
+
+						{/* Left backs */}
+						<Hoverable style={{flex: 0.5, margin: "0.5%"}}>
+							{({ hovered }) => (
+								<TouchableOpacity style={{height:"100%"}} onPress={() => {setlwb(!lwb)}}>
+									<View style={lwb ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
+										<Text style={styles.numberStyle}>WB / V</Text>
+									</View >
+								</TouchableOpacity>
+							)}
+						</Hoverable>
+
+						{/* Left wingers */}
+						<Hoverable style={{flex: 0.5, margin: "0.5%"}}>
+							{({ hovered }) => (
+								<TouchableOpacity style={{height:"100%"}} onPress={() => {set7_left(!seven_left)}}>
+									<View style={seven_left ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
+										<Text style={styles.numberStyle}>7 / V</Text>
+									</View >
+								</TouchableOpacity>
+							)}
+						</Hoverable>
+
+					</View>
+
+					<View style={styles.mid}>
+						{/* Centre backs */}
+						<Hoverable style={{flex: 1/6, margin: "0.5%", height: "100%"}}>
+							{({ hovered }) => (
+								<TouchableOpacity style={{height:"100%"}} onPress={() => {setmb(!mb)}}>
+									<View style={mb ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
+										<Text style={styles.numberStyle}>MB</Text>
+									</View >
+								</TouchableOpacity>
+							)}
+						</Hoverable>
+
+						{/* DM */}
+						<Hoverable style={{flex: 1/4, margin: "0.5%", height: "100%"}}>
+							{({ hovered }) => (
+								<TouchableOpacity style={{height:"100%"}} onPress={() => {set6(!six)}}>
+									<View style={six ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
+										<Text style={styles.numberStyle}>6</Text>
+									</View >
+								</TouchableOpacity>
+							)}
+						</Hoverable>
+
+						{/* CM */}
+						<Hoverable style={{flex: 1/4, margin: "0.5%", height: "100%"}}>
+							{({ hovered }) => (
+								<TouchableOpacity style={{height:"100%"}} onPress={() => {set8(!eight)}}>
+									<View style={eight ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
+										<Text style={styles.numberStyle}>8</Text>
+									</View >
+								</TouchableOpacity>
+							)}
+						</Hoverable>
+
+						{/* CAM */}
+						<Hoverable style={{flex: 1/6, margin: "0.5%", height: "100%"}}>
+							{({ hovered }) => (
+								<TouchableOpacity style={{height:"100%"}} onPress={() => {set10(!ten)}}>
+									<View style={ten ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
+										<Text style={styles.numberStyle}>10</Text>
+									</View >
+								</TouchableOpacity>
+							)}
+						</Hoverable>
+
+						{/* CF */}
+						<Hoverable style={{flex: 1/6, margin: "0.5%", height: "100%"}}>
+							{({ hovered }) => (
+								<TouchableOpacity style={{height:"100%"}} onPress={() => {set9(!nine)}}>
+									<View style={nine ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
+										<Text style={styles.numberStyle}>9</Text>
+									</View >
+								</TouchableOpacity>
+							)}
+						</Hoverable>		
+					</View>
+
+					<View style={styles.right}>
+						{/* Left backs */}
+						<Hoverable style={{flex: 0.5, margin: "0.5%"}}>
+							{({ hovered }) => (
+								<TouchableOpacity style={{height:"100%"}} onPress={() => {setlwb(!lwb)}}>
+									<View style={lwb ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
+										<Text style={styles.numberStyle}>WB / H</Text>
+									</View >
+								</TouchableOpacity>
+							)}
+						</Hoverable>
+
+						{/* Left wingers */}
+						<Hoverable style={{flex: 0.5, margin: "0.5%"}}>
+							{({ hovered }) => (
+								<TouchableOpacity style={{height:"100%"}} onPress={() => {set7_right(!seven_right)}}>
+									<View style={seven_right ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
+										<Text style={styles.numberStyle}>7 / H</Text>
+									</View >
+								</TouchableOpacity>
+							)}
+						</Hoverable>
+					</View>
+			</View>
+		</View>
+	)} else {
+	
 	return (
     <View style={styles.root}>
 		{/* Goalkeepers */}
@@ -174,21 +298,38 @@ function PlayerField(props) {
 
 		</View>
     </View>
-  )}
+  )}}
 
 const styles = StyleSheet.create({
 	fieldRoot: {
-		flex: 1,
-		flexDirection: "column"
+		flex: 0.9,
+		flexDirection: "column",
 	},
 	root: {
-		width: windowWidth/2.5, 
+		width: windowWidth/2, 
 		height: windowHeight/2.5, 
 		flexDirection: "row", 
 		alignItems: "center",
 		opacity: .7,
 	},
-
+	left: {
+		flex: 0.25, 
+		flexDirection: "row",
+		width: "100%", 
+		height: "100%",
+	},
+	mid: {
+		flex: 0.5,
+		flexDirection: "row",
+		width: "100%", 
+		height: "100%",
+	},
+	right: {
+		flex: 0.25, 
+		flexDirection: "row",
+		width: "100%", 
+		height: "100%",
+	},
 	bigSection: {
 		flex: 0.40, 
 		width: "100%", 

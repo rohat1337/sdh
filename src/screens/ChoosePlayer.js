@@ -213,21 +213,22 @@ const styles = StyleSheet.create({
         backgroundColor:"#001324",
     },
     root_left: {
-        flex: 0.4,
+        flex: 0.45,
         alignItems:"center",
         marginBottom: "5%",
-        marginTop: "2%"
+        marginTop: "2%",
     },
     root_right: {
-        flex:0.6,
+        flex:0.55,
     },
     players_TO: {
-        width: "100%",
-        marginVertical: "2%",
+        width: windowWidth/3,
+        marginLeft: windowWidth/20,
         alignItems:"center",
         height: "75%",
         borderRadius: 100,
         backgroundColor: "#0059a1",
+
     },
     players_V: {
         flexDirection: "row",
@@ -241,24 +242,24 @@ const styles = StyleSheet.create({
         flex: 0.45
     },
     players_V_R: {
-        width:windowWidth/6,
+        width: windowWidth/4,
         height: windowHeight/14,
         flexDirection: "row",
         justifyContent: "flex-end",
         alignItems: "center",
-        paddingRight: windowWidth/100,
-        flex: 0.55
+        paddingRight: windowWidth/60,
+        flex: 0.55,
     },
     text_L: {
         color: "white",
         fontWeight: "bold",
-        fontSize: windowHeight/50,
+        fontSize: windowWidth/80,
         fontFamily: "VitesseSans-Book"
     },
     text_R: {
         color: "white",
         fontWeight: "bold",
-        fontSize: windowHeight/70,
+        fontSize: windowWidth/100,
         fontFamily: "VitesseSans-Book",
     },
     filters_U: {
@@ -268,7 +269,7 @@ const styles = StyleSheet.create({
     filters_L: {
         flex:0.3,
         alignItems: "center",
-        marginBottom: "20%",
+        marginBottom: "25%",
 
     },
     search: {

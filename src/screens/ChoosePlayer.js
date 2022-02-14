@@ -154,7 +154,7 @@ function ChoosePlayer(props) {
                                                 placeholder={maxAge}
                                                 value={maxAge}
                                                 onChangeText={value => setMaxAge(value)}></TextInput>
-                                        <Slider style={{ width: windowWidth/9, height: 40, marginLeft: "2.5%"}} 
+                                        <Slider style={{ width: windowWidth/9, height: windowHeight/20, marginLeft: "2.5%"}} 
                                             minimumValue={0}
                                             maximumValue={50}
                                             minimumTrackTintColor="#078efb"
@@ -178,7 +178,7 @@ function ChoosePlayer(props) {
                                         value={minutesPlayed}
                                         style={styles.slider_text}
                                         onChangeText={value => setMinutesPlayed(value)}/>
-                                <Slider style={{ width: windowWidth/4.5, height: 40, marginLeft: "5%"}} 
+                                <Slider style={{ width: windowWidth/4.5, height: windowHeight/20, marginLeft: "5%"}} 
                                     minimumValue={0}
                                     maximumValue={1}
                                     minimumTrackTintColor="#078efb"

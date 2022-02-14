@@ -49,7 +49,7 @@ function PlayerField(props) {
 							{({ hovered }) => (
 								<TouchableOpacity style={{height:"100%"}} onPress={() => {setlwb(!lwb)}}>
 									<View style={lwb ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
-										<Text style={styles.numberStyle}>WB / V</Text>
+										<Text style={styles.numberStyle}>WB (v)</Text>
 									</View >
 								</TouchableOpacity>
 							)}
@@ -60,7 +60,7 @@ function PlayerField(props) {
 							{({ hovered }) => (
 								<TouchableOpacity style={{height:"100%"}} onPress={() => {set7_left(!seven_left)}}>
 									<View style={seven_left ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
-										<Text style={styles.numberStyle}>7 / V</Text>
+										<Text style={styles.numberStyle}>7 (v)</Text>
 									</View >
 								</TouchableOpacity>
 							)}
@@ -132,7 +132,7 @@ function PlayerField(props) {
 							{({ hovered }) => (
 								<TouchableOpacity style={{height:"100%"}} onPress={() => {setrwb(!rwb)}}>
 									<View style={rwb ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
-										<Text style={styles.numberStyle}>WB / H</Text>
+										<Text style={styles.numberStyle}>WB (h)</Text>
 									</View >
 								</TouchableOpacity>
 							)}
@@ -143,7 +143,7 @@ function PlayerField(props) {
 							{({ hovered }) => (
 								<TouchableOpacity style={{height:"100%"}} onPress={() => {set7_right(!seven_right)}}>
 									<View style={seven_right ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
-										<Text style={styles.numberStyle}>7 / H</Text>
+										<Text style={styles.numberStyle}>7 (h)</Text>
 									</View >
 								</TouchableOpacity>
 							)}

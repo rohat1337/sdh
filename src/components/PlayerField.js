@@ -32,7 +32,7 @@ function PlayerField(props) {
 	if (true) { return (
 		<View style={styles.root}>
 			{/* Goalkeepers */}
-			<Hoverable style={{flex: .1, height: "40%", marginRight: 2.5}}>
+			<Hoverable style={{flex: .08, height: "40%", marginRight: 2.5}}>
 				{({ hovered }) => (
 					<TouchableOpacity style={{height:"100%"}} onPress={() => {set1(!one)}}>
 						<View style={one ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
@@ -46,7 +46,7 @@ function PlayerField(props) {
 					<View style={styles.left}>
 
 						{/* Left backs */}
-						<Hoverable style={{flex: 0.5, margin: "0.5%"}}>
+						<Hoverable style={{flex: 0.5, margin: "0.5%", height: windowHeight/11}}>
 							{({ hovered }) => (
 								<TouchableOpacity style={{height:"100%"}} onPress={() => {setlwb(!lwb)}}>
 									<View style={lwb ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
@@ -57,7 +57,7 @@ function PlayerField(props) {
 						</Hoverable>
 
 						{/* Left wingers */}
-						<Hoverable style={{flex: 0.5, margin: "0.5%"}}>
+						<Hoverable style={{flex: 0.5, margin: "0.5%", height: windowHeight/11}}>
 							{({ hovered }) => (
 								<TouchableOpacity style={{height:"100%"}} onPress={() => {set7_left(!seven_left)}}>
 									<View style={seven_left ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
@@ -71,7 +71,7 @@ function PlayerField(props) {
 
 					<View style={styles.mid}>
 						{/* Centre backs */}
-						<Hoverable style={{flex: 1/6, margin: "0.5%", height: "100%"}}>
+						<Hoverable style={{flex: 1/6, margin: "0.5%", height: windowHeight/4.5}}>
 							{({ hovered }) => (
 								<TouchableOpacity style={{height:"100%"}} onPress={() => {setmb(!mb)}}>
 									<View style={mb ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
@@ -82,7 +82,7 @@ function PlayerField(props) {
 						</Hoverable>
 
 						{/* DM */}
-						<Hoverable style={{flex: 1/4, margin: "0.5%", height: "100%"}}>
+						<Hoverable style={{flex: 1/4, margin: "0.5%", height: windowHeight/4.5}}>
 							{({ hovered }) => (
 								<TouchableOpacity style={{height:"100%"}} onPress={() => {set6(!six)}}>
 									<View style={six ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
@@ -93,7 +93,7 @@ function PlayerField(props) {
 						</Hoverable>
 
 						{/* CM */}
-						<Hoverable style={{flex: 1/4, margin: "0.5%", height: "100%"}}>
+						<Hoverable style={{flex: 1/4, margin: "0.5%", height:windowHeight/4.5}}>
 							{({ hovered }) => (
 								<TouchableOpacity style={{height:"100%"}} onPress={() => {set8(!eight)}}>
 									<View style={eight ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
@@ -104,7 +104,7 @@ function PlayerField(props) {
 						</Hoverable>
 
 						{/* CAM */}
-						<Hoverable style={{flex: 1/6, margin: "0.5%", height: "100%"}}>
+						<Hoverable style={{flex: 1/6, margin: "0.5%", height: windowHeight/4.5}}>
 							{({ hovered }) => (
 								<TouchableOpacity style={{height:"100%"}} onPress={() => {set10(!ten)}}>
 									<View style={ten ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
@@ -115,7 +115,7 @@ function PlayerField(props) {
 						</Hoverable>
 
 						{/* CF */}
-						<Hoverable style={{flex: 1/6, margin: "0.5%", height: "100%"}}>
+						<Hoverable style={{flex: 1/6, margin: "0.5%", height: windowHeight/4.5}}>
 							{({ hovered }) => (
 								<TouchableOpacity style={{height:"100%"}} onPress={() => {set9(!nine)}}>
 									<View style={nine ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
@@ -127,8 +127,8 @@ function PlayerField(props) {
 					</View>
 
 					<View style={styles.right}>
-						{/* Left backs */}
-						<Hoverable style={{flex: 0.5, margin: "0.5%"}}>
+						{/* Right backs */}
+						<Hoverable style={{flex: 0.5, margin: "0.5%", height: windowHeight/11}}>
 							{({ hovered }) => (
 								<TouchableOpacity style={{height:"100%"}} onPress={() => {setlwb(!lwb)}}>
 									<View style={lwb ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
@@ -138,7 +138,7 @@ function PlayerField(props) {
 							)}
 						</Hoverable>
 
-						{/* Left wingers */}
+						{/* Right wingers */}
 						<Hoverable style={{flex: 0.5, margin: "0.5%"}}>
 							{({ hovered }) => (
 								<TouchableOpacity style={{height:"100%"}} onPress={() => {set7_right(!seven_right)}}>
@@ -302,11 +302,11 @@ function PlayerField(props) {
 
 const styles = StyleSheet.create({
 	fieldRoot: {
-		flex: 0.9,
+		flex: 1-0.08,
 		flexDirection: "column",
 	},
 	root: {
-		width: windowWidth/2, 
+		width: windowWidth/2.5, 
 		height: windowHeight/2.5, 
 		flexDirection: "row", 
 		alignItems: "center",

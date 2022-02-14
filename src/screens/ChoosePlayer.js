@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
     players_V: {
         flexDirection: "row",
         justifyContent: "space-between",
-        marginBottom: "3%"
+        marginBottom: windowHeight/50
     },
     players_V_L: {
         flexDirection: "row",
@@ -270,7 +270,7 @@ const styles = StyleSheet.create({
     filters_L: {
         flex:0.3,
         alignItems: "center",
-        marginBottom: "25%",
+        marginBottom: "30%",
 
     },
     search: {

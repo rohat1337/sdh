@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity, Dimensions, TextInp
 import { getBasicStats, zip, arrayRemove, fix, uncheckFieldBox } from "../data"
 import Slider from '@react-native-community/slider';
 import PlayerField from "../components/PlayerField";
+import Header from "../components/Header";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -79,9 +80,7 @@ function ChoosePlayer(props) {
 
     return (
         <View style={{flexDirection:"column"}}>
-            <View style={{opacity: .9,justifyContent:"center", alignItems:"center", height: windowHeight/10, backgroundColor:"#001324", textAlign:"center"}}>
-            <Text style={{fontSize: 50, fontWeight:"bold", color: "white", fontFamily: "VitesseSans-Black"}}>IK Sirius Datahub</Text>
-            </View>
+            <Header header={styles.header} nav={props.navigation} stackIndex={0} nextIsOK={selectedPlayers.length > 1 ? "white" : "gray"}/>
             <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode="cover">
 
                 <View style={styles.root_left}>
@@ -130,16 +129,18 @@ function ChoosePlayer(props) {
                             placeholderTextColor="white"
                             style={styles.search_small}
                             onChangeText={setTeam}/>
-                            <View style={{flex: 0.5, flexDirection: "column", height: "100%"}}>
-                                <Text style={styles.slider_text}>Ålder</Text>
+                            <View style={{flex: 0.5, flexDirection: "column", height: "100%", alignItems: "center", marginLeft:"1%", marginTop: "2%"}}>
                                 <View style={{flexDirection:"row"}}>
                                     <View>
-                                        <Text style={styles.slider_text}>Minst</Text>
-                                        <TextInput style={styles.slider_text}
+                                        <View style={{flexDirection: "row",  width: windowWidth/10}}>
+                                            <Text style={styles.slider_text}>Ålder (min)</Text>
+                                            <TextInput style={[styles.slider_text, {width: windowWidth/30}]}
                                                 placeholder={minAge}
                                                 value={minAge}
-                                                onChangeText={value => setMinAge(value)}></TextInput>
-                                        <Slider style={{ width: "100%", height: 40, marginRight: "2.5%"}} 
+                                                onChangeText={value => setMinAge(value)}/>
+                                        </View>
+                                        
+                                        <Slider style={{ width: windowWidth/9, height: windowHeight/20}} 
                                             minimumValue={0}
                                             maximumValue={50}
                                             minimumTrackTintColor="#078efb"
@@ -149,13 +150,16 @@ function ChoosePlayer(props) {
                                             onValueChange={value => setMinAge(parseInt(value))}>
                                         </Slider>
                                     </View>
-                                    <View>
-                                        <Text style={styles.slider_text}>Högst</Text>
-                                        <TextInput style={styles.slider_text}
+                                    <View style={{marginLeft: "10%"}}>
+                                        <View style={{flexDirection: "row", width: windowWidth/10}}>
+                                            <Text style={styles.slider_text}>Ålder (max)</Text>
+                                            <TextInput style={[styles.slider_text, {width: windowWidth/30}]}
                                                 placeholder={maxAge}
                                                 value={maxAge}
-                                                onChangeText={value => setMaxAge(value)}></TextInput>
-                                        <Slider style={{ width: "100%", height: 40, marginLeft: "2.5%"}} 
+                                                onChangeText={value => setMaxAge(value)}/>
+                                        </View>
+                                        
+                                        <Slider style={{ width: windowWidth/10, height: windowHeight/20}} 
                                             minimumValue={0}
                                             maximumValue={50}
                                             minimumTrackTintColor="#078efb"
@@ -174,11 +178,14 @@ function ChoosePlayer(props) {
                                 style={styles.search_small}
                                 onChangeText={setPosition}/>
                             <View style={{flex: 0.5, alignItems:"center"}}>
-                                <Text style={styles.slider_text}>Minst antal minuter</Text>
-                                <TextInput placeholder={minutesPlayed}
-                                        style={styles.slider_text}
-                                        onChangeText={value => setMinutesPlayed(value)}/>
-                                <Slider style={{ width: "100%", height: 40, marginLeft: "5%"}} 
+                                <View style={{flexDirection:"row", paddingTop: "5%"}}>
+                                    <Text style={[styles.slider_text, {marginLeft: "15%"}]}>Spelade minuter</Text>
+                                    <TextInput placeholder={0}
+                                            value={minutesPlayed}
+                                            style={styles.slider_text}
+                                            onChangeText={value => setMinutesPlayed(value)}/>
+                                </View>
+                                <Slider style={{ width: windowWidth/4.5, height: windowHeight/20, marginLeft: "5%"}} 
                                     minimumValue={0}
                                     maximumValue={1}
                                     minimumTrackTintColor="#078efb"
@@ -206,58 +213,65 @@ const styles = StyleSheet.create({
         backgroundColor:"#001324",
     },
     root_left: {
-        flex: 0.4,
+        flex: 0.45,
         alignItems:"center",
         marginBottom: "5%",
-        marginTop: "2%"
+        marginTop: "2%",
     },
     root_right: {
-        flex:0.6,
+        flex:0.55,
     },
     players_TO: {
-        width: "100%",
-        marginVertical: "2%",
+        width: windowWidth/3,
+        marginLeft: windowWidth/20,
         alignItems:"center",
         height: "75%",
         borderRadius: 100,
         backgroundColor: "#0059a1",
+
     },
     players_V: {
         flexDirection: "row",
+        justifyContent: "space-between",
+        marginBottom: windowHeight/50
     },
     players_V_L: {
         flexDirection: "row",
         width: windowWidth/12,
         alignItems: "center",
         justifyContent: "center",
+        flex: 0.45
     },
     players_V_R: {
-        width:windowWidth/6,
+        width: windowWidth/4,
         height: windowHeight/14,
         flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center"
+        justifyContent: "flex-end",
+        alignItems: "center",
+        paddingRight: windowWidth/60,
+        flex: 0.55,
     },
     text_L: {
         color: "white",
         fontWeight: "bold",
-        fontSize: 17,
-        textAlign: 'center',
+        fontSize: windowWidth/80,
         fontFamily: "VitesseSans-Book"
     },
     text_R: {
         color: "white",
         fontWeight: "bold",
-        fontSize: 14,
-        fontFamily: "VitesseSans-Book"
+        fontSize: windowWidth/100,
+        fontFamily: "VitesseSans-Book",
     },
     filters_U: {
-        flex: 0.5,
+        flex: 0.7,
         alignItems: "center"
     },
     filters_L: {
-        flex:0.5,
+        flex:0.3,
         alignItems: "center",
+        marginBottom: "30%",
+
     },
     search: {
         paddingLeft: "2%",
@@ -271,7 +285,8 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         backgroundColor: "gray",
         color: "white",
-        fontFamily: "VitesseSans-Book"
+        fontFamily: "VitesseSans-Book",
+        opacity: .9
     },
     filters_UL: {
         flexDirection: "row",
@@ -308,7 +323,8 @@ const styles = StyleSheet.create({
         backgroundColor: "gray",
         marginTop: "5%",
         color: "white",
-        fontFamily: "VitesseSans-Book"
+        fontFamily: "VitesseSans-Book",
+        opacity: .9
     },
     image: {
         flex: 1
@@ -319,7 +335,17 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         width: "100%",
         color: "white",
-        fontFamily: "VitesseSans-Book"
+        fontFamily: "VitesseSans-Book",
+        marginVertical: "1%",
+    },
+    header: {
+        opacity: .9,
+        justifyContent:"center", 
+        alignItems:"center", 
+        height: windowHeight/10, 
+        backgroundColor:"#001324", 
+        textAlign:"center", 
+        flexDirection: "row"
     }
 })
 

@@ -132,7 +132,7 @@ function ChoosePlayer(props) {
                             <View style={{flex: 0.5, flexDirection: "column", height: "100%", alignItems: "center", marginLeft:"1%", marginTop: "2%"}}>
                                 <View style={{flexDirection:"row"}}>
                                     <View>
-                                        <View style={{flexDirection: "row"}}>
+                                        <View style={{flexDirection: "row",  width: windowWidth/10}}>
                                             <Text style={styles.slider_text}>Ålder (min)</Text>
                                             <TextInput style={[styles.slider_text, {width: windowWidth/30}]}
                                                 placeholder={minAge}
@@ -151,7 +151,7 @@ function ChoosePlayer(props) {
                                         </Slider>
                                     </View>
                                     <View style={{marginLeft: "10%"}}>
-                                        <View style={{flexDirection: "row"}}>
+                                        <View style={{flexDirection: "row", width: windowWidth/10}}>
                                             <Text style={styles.slider_text}>Ålder (max)</Text>
                                             <TextInput style={[styles.slider_text, {width: windowWidth/30}]}
                                                 placeholder={maxAge}

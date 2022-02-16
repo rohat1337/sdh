@@ -15,7 +15,9 @@ app.config['JSON_AS_ASCII'] = False
 
 # forward positions
 forwardPos = ['SS', 'CF', 'LWF', 'RWF', 'LW', 'RW']
+
 midfielderPos = ['RCMF', 'LCMF', 'AMF', 'DMF', 'RDMF', 'LDMF', 'RAMF', 'LAMF']
+
 defenderPos = ['RB', 'RCB', 'LCB', 'LB', 'RCB3', 'CB', 'LCB3', 'RWB', 'LWB', 'RB5', 'LB5']
 
 # Return all players from list of positions. i.e forwards, midfielders or defenders
@@ -31,7 +33,6 @@ def allPlayersForPosition(position_list):
                     result[player] = playerPosTemp
     return json.dumps(result)
 
-
 def allPlayerInfo(id):
     return df[id:id+1].to_json(force_ascii=False)
 
@@ -39,8 +40,6 @@ def allPlayerInfo(id):
 def specific_info(stats, id: int):
     specificData = pd.DataFrame()
     playerData = df[id:id+1]
-
-    #TODO: fixa så typ "minutes played" också funkar
     
     for entries in stats:
         specificData[entries] = playerData[entries]

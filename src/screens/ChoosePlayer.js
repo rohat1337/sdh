@@ -5,6 +5,8 @@ import Slider from '@react-native-community/slider';
 import PlayerField from "../components/PlayerField";
 import Header from "../components/Header";
 
+import { fixPlayerPositions } from "../data";
+
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
@@ -30,40 +32,95 @@ function ChoosePlayer(props) {
     //Ålder states
     const [minAge, setMinAge] = useState(0)
     const [maxAge, setMaxAge] = useState(50)
-    
+
     // Load all basic stats on startup
     useEffect(() => {
         getBasicStats() // Fetch
-        .then((response) => {
-            const statusCode = response.status;
-            const data = response.json();
-            return Promise.all([statusCode, data]);
-        })
-        .then((data) => {
-            data = data[1]
-            var result = []
-            var keys = Object.keys(data)
-            // Get lists of all names, team names etc..
-            var players = Object.values(data["Player"])
-            var teams = Object.values(data["Team within selected timeframe"])
-            var position = Object.values(data["Position"])
-            var age = Object.values(data["Age"])
-            var minutes = Object.values(data["Minutes played"])
-            var list = zip(players, teams, position, age, minutes)
-            // For every player, create object
-            // This is only needed because of format issues from flask (no object propety names to access)
-            for (var player of list) {
-                var player_obj = {}
-                var info_index = 0;
-                for (var info of keys) {
-                    player_obj[info] = player[info_index]
-                    info_index++
+            .then((response) => {
+                const statusCode = response.status;
+                const data = response.json();
+                return Promise.all([statusCode, data]);
+            })
+            .then((data) => {
+                data = data[1]
+                var result = []
+                var keys = Object.keys(data)
+                // Get lists of all names, team names etc..
+                var players = Object.values(data["Player"])
+                var teams = Object.values(data["Team within selected timeframe"])
+                
+                
+                var position = Object.values(data["Position"])
+
+                // // for (var string of position) {
+                // for (let i = 0; i < position.length; i++) {
+
+                //     var positions = position[i].split(", ")
+                    
+                //     for (let index = 0; index < positions.length; index++) {
+                        
+                //         if(positions[index] == "cf"){
+                //             positions[index] = "9"
+                //         }
+
+                //         else if (positions[index] == "lw" || positions[index] == "lmf" || positions[index] == "lamf"){
+                //             positions[index] = "7 (v)"
+                //         }
+
+                //         else if (positions[index] == "rw" || positions[index] == "rmf" || positions[index] == "ramf"){
+                //             positions[index] = "7 (h)"
+                //         }
+
+
+                //         else if (positions[index] == "cam") {
+                //             positions[index] = "10"
+                //         }  
+
+                        
+                //         else if (positions[index] == ("lcmf") || positions[index] == ("hcmf")) {
+                //             positions[index] = "8"
+                //         }
+                        
+                        
+                //         else if (positions[index] == ("dmf") || positions[index] == ("ldmf") || positions[index] == ("rdmf")) {
+                //             positions[index] = "6"
+
+                //         }
+                        
+                //         else if ( positions[index] == "lb" || positions[index] == ("lwb") ) {
+                //             positions[index] = "wb (v)"
+                //         }
+                        
+                //         else if ( positions[index] == "rb" || positions[index] == ("rwb") ) {
+                //             positions[index] = "wb (h)"
+                //         }
+                        
+
+                //         else if (positions[index] == "lcb" || positions[index] == "rcb" || positions[index] == "cb") {
+                //             positions[index] = "MB"
+                //         }  
+                //         position[i] = positions[index]
+                //     }
+                // }
+                // // console.log(position)
+                
+                var age = Object.values(data["Age"])
+                var minutes = Object.values(data["Minutes played"])
+                var list = zip(players, teams, position, age, minutes)
+                // For every player, create object
+                // This is only needed because of format issues from flask (no object propety names to access)
+                for (var player of list) {
+                    var player_obj = {}
+                    var info_index = 0;
+                    for (var info of keys) {
+                        player_obj[info] = player[info_index]
+                        info_index++
+                    }
+                    result.push(player_obj)
                 }
-                result.push(player_obj)
-            }
-            setPlayers(result)
-            setSearchPlayer("")
-        })
+                setPlayers(result)
+                setSearchPlayer("")
+            })
     }, [])
 
     // Check if selected player is already chosen or not.
@@ -79,68 +136,73 @@ function ChoosePlayer(props) {
     }, [player])
 
     return (
-        <View style={{flexDirection:"column"}}>
-            <Header header={styles.header} nav={props.navigation} stackIndex={0} players={selectedPlayers[0]} nextIsOK={selectedPlayers.length > 0 ? "white" : "gray"}/>
+        <View style={{ flexDirection: "column" }}>
+            <Header header={styles.header} nav={props.navigation} stackIndex={0} players={selectedPlayers[0]} nextIsOK={selectedPlayers.length > 0 ? "white" : "gray"} />
             <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode="cover">
 
                 <View style={styles.root_left}>
                     <FlatList
-                    // Filter players by Name, Team, Age, Position and Minutes played
-                    data={players.filter((player) => (fix(player["Player"].toLowerCase()).includes(searchPlayer.toLowerCase()) && 
-                                                    player["Team within selected timeframe"].toLowerCase().includes(searchTeam.toLowerCase()) &&
-                                                    (player["Age"] >= minAge && player["Age"] <= maxAge) &&
-                                                    player["Position"].toLowerCase().includes(searchPosition.toLowerCase()) &&
-                                                    player["Minutes played"] >= minutesPlayed) &&
-                                                    (field.some(ele => player["Position"].toLowerCase().includes(ele)) || field.length === 0))}
-                    renderItem={({ item }) => {
-                        const textColor = selectedPlayers.includes(item.Player) ? "#ffe00f" : "white";
-                        return (   
-                            <View style={styles.players_TO}>                     
-                                <TouchableOpacity
-                                onPress={() => setPlayer(item.Player)}>
-                                    <View style={styles.players_V}>
-                                        <View style={styles.players_V_L}>
-                                            <Text style={[styles.text_L, {color: textColor}]}>{item["Player"]}</Text>
+                        // Filter players by Name, Team, Age, Position and Minutes played
+                        data={players.filter((player) => (fix(player["Player"].toLowerCase()).includes(searchPlayer.toLowerCase()) &&
+                            player["Team within selected timeframe"].toLowerCase().includes(searchTeam.toLowerCase()) &&
+                            (player["Age"] >= minAge && player["Age"] <= maxAge) &&
+                            player["Position"].toLowerCase().includes(searchPosition.toLowerCase()) &&
+                            player["Minutes played"] >= minutesPlayed) && 
+                            (field.some(ele => player["Position"].toLowerCase().split(", ").includes(ele)
+                            )) || field.length == 0)}
+
+
+
+
+                        renderItem={({ item }) => {
+                            const textColor = selectedPlayers.includes(item.Player) ? "#ffe00f" : "white";
+                            return (
+                                <View style={styles.players_TO}>
+                                    <TouchableOpacity
+                                        onPress={() => setPlayer(item.Player)}>
+                                        <View style={styles.players_V}>
+                                            <View style={styles.players_V_L}>
+                                                <Text style={[styles.text_L, { color: textColor }]}>{item["Player"]}</Text>
+                                            </View>
+                                            <View style={styles.players_V_R}>
+                                                <Text style={[styles.text_R, { color: textColor }]}>{item["Team within selected timeframe"]}</Text>
+                                                <Text style={[styles.text_R, { color: textColor }]}>, </Text>
+                                                <Text style={[styles.text_R, { color: textColor }]}>{item["Age"]} år</Text>
+                                                <Text style={[styles.text_R, { color: textColor }]}>, </Text>
+                                                <Text style={[styles.text_R, { color: textColor }]}>{fixPlayerPositions(item["Position"])} </Text>
+                                            </View>
                                         </View>
-                                        <View style={styles.players_V_R}>
-                                            <Text style={[styles.text_R, {color: textColor}]}>{item["Team within selected timeframe"]}</Text>
-                                            <Text style={[styles.text_R, {color: textColor}]}>, </Text>
-                                            <Text style={[styles.text_R, {color: textColor}]}>{item["Age"]}</Text>
-                                            <Text style={[styles.text_R, {color: textColor}]}>, </Text>
-                                            <Text style={[styles.text_R, {color: textColor}]}>{item["Position"]}</Text>
-                                        </View>
-                                    </View>
-                                </TouchableOpacity>
-                            </View>
-                        )
-                    }}/>
+                                    </TouchableOpacity>
+                                </View>
+                            )
+                        }} />
                 </View>
                 <View style={styles.root_right}>
                     <View style={styles.filters_U}>
-                        <TextInput 
-                        placeholder="Sök spelare..."
-                        placeholderTextColor="white"
-                        style={styles.search}
-                        onChangeText={setSearchPlayer}
-                        value={searchPlayer}/>
-                        <View style={styles.filters_UL}>
-                            <TextInput 
-                            placeholder="Sök lag..."
+                        <TextInput
+                            placeholder="Sök spelare..."
                             placeholderTextColor="white"
-                            style={styles.search_small}
-                            onChangeText={setTeam}/>
-                            <View style={{flex: 0.5, flexDirection: "column", height: "100%", alignItems: "center", marginLeft:"1%", marginTop: "2%"}}>
-                                <View style={{flexDirection:"row"}}>
+                            style={styles.search}
+                            onChangeText={setSearchPlayer}
+                            value={searchPlayer} />
+                        <View style={styles.filters_UL}>
+                            <TextInput
+                                placeholder="Sök lag..."
+                                placeholderTextColor="white"
+                                style={styles.search_small}
+                                onChangeText={setTeam} />
+                            <View style={{ flex: 0.5, flexDirection: "column", height: "100%", alignItems: "center", marginLeft: "1%", marginTop: "2%" }}>
+                                <View style={{ flexDirection: "row" }}>
                                     <View>
-                                        <View style={{flexDirection: "row",  width: windowWidth/10}}>
+                                        <View style={{ flexDirection: "row", width: windowWidth / 10 }}>
                                             <Text style={styles.slider_text}>Ålder (min)</Text>
-                                            <TextInput style={[styles.slider_text, {width: windowWidth/30}]}
+                                            <TextInput style={[styles.slider_text, { width: windowWidth / 30 }]}
                                                 placeholder={minAge}
                                                 value={minAge}
-                                                onChangeText={value => setMinAge(value)}/>
+                                                onChangeText={value => setMinAge(value)} />
                                         </View>
-                                        
-                                        <Slider style={{ width: windowWidth/9, height: windowHeight/20}} 
+
+                                        <Slider style={{ width: windowWidth / 9, height: windowHeight / 20 }}
                                             minimumValue={0}
                                             maximumValue={50}
                                             minimumTrackTintColor="#078efb"
@@ -150,16 +212,16 @@ function ChoosePlayer(props) {
                                             onValueChange={value => setMinAge(parseInt(value))}>
                                         </Slider>
                                     </View>
-                                    <View style={{marginLeft: "10%"}}>
-                                        <View style={{flexDirection: "row", width: windowWidth/10}}>
+                                    <View style={{ marginLeft: "10%" }}>
+                                        <View style={{ flexDirection: "row", width: windowWidth / 10 }}>
                                             <Text style={styles.slider_text}>Ålder (max)</Text>
-                                            <TextInput style={[styles.slider_text, {width: windowWidth/30}]}
+                                            <TextInput style={[styles.slider_text, { width: windowWidth / 30 }]}
                                                 placeholder={maxAge}
                                                 value={maxAge}
-                                                onChangeText={value => setMaxAge(value)}/>
+                                                onChangeText={value => setMaxAge(value)} />
                                         </View>
-                                        
-                                        <Slider style={{ width: windowWidth/10, height: windowHeight/20}} 
+
+                                        <Slider style={{ width: windowWidth / 10, height: windowHeight / 20 }}
                                             minimumValue={0}
                                             maximumValue={50}
                                             minimumTrackTintColor="#078efb"
@@ -168,31 +230,31 @@ function ChoosePlayer(props) {
                                             value={50}
                                             onValueChange={value => setMaxAge(parseInt(value))}></Slider>
                                     </View>
-                                </View>                     
+                                </View>
                             </View>
                         </View>
                         <View style={styles.filters_UL}>
-                            <TextInput 
+                            <TextInput
                                 placeholder="Sök position..."
                                 placeholderTextColor="white"
                                 style={styles.search_small}
-                                onChangeText={setPosition}/>
-                            <View style={{flex: 0.5, alignItems:"center"}}>
-                                <View style={{flexDirection:"row", paddingTop: "5%"}}>
-                                    <Text style={[styles.slider_text, {marginLeft: "15%"}]}>Spelade minuter</Text>
+                                onChangeText={setPosition} />
+                            <View style={{ flex: 0.5, alignItems: "center" }}>
+                                <View style={{ flexDirection: "row", paddingTop: "5%" }}>
+                                    <Text style={[styles.slider_text, { marginLeft: "15%" }]}>Spelade minuter</Text>
                                     <TextInput placeholder={0}
-                                            value={minutesPlayed}
-                                            style={styles.slider_text}
-                                            onChangeText={value => setMinutesPlayed(value)}/>
+                                        value={minutesPlayed}
+                                        style={styles.slider_text}
+                                        onChangeText={value => setMinutesPlayed(value)} />
                                 </View>
-                                <Slider style={{ width: windowWidth/4.5, height: windowHeight/20, marginLeft: "5%"}} 
+                                <Slider style={{ width: windowWidth / 4.5, height: windowHeight / 20, marginLeft: "5%" }}
                                     minimumValue={0}
                                     maximumValue={1}
                                     minimumTrackTintColor="#078efb"
                                     maximumTrackTintColor="gray"
                                     thumbTintColor="#078efb"
                                     value={0}
-                                    onValueChange={value => setMinutesPlayed(parseInt(value*2700))}/>
+                                    onValueChange={value => setMinutesPlayed(parseInt(value * 2700))} />
                             </View>
                         </View>
                     </View>
@@ -208,23 +270,23 @@ function ChoosePlayer(props) {
 const styles = StyleSheet.create({
     root: {
         width: windowWidth,
-        height: windowHeight - windowHeight/10,
+        height: windowHeight - windowHeight / 10,
         flexDirection: "row",
-        backgroundColor:"#001324",
+        backgroundColor: "#001324",
     },
     root_left: {
         flex: 0.45,
-        alignItems:"center",
+        alignItems: "center",
         marginBottom: "5%",
         marginTop: "2%",
     },
     root_right: {
-        flex:0.55,
+        flex: 0.55,
     },
     players_TO: {
-        width: windowWidth/3,
-        marginLeft: windowWidth/20,
-        alignItems:"center",
+        width: windowWidth / 3,
+        marginLeft: windowWidth / 20,
+        alignItems: "center",
         height: "75%",
         borderRadius: 100,
         backgroundColor: "#0059a1",
@@ -233,34 +295,34 @@ const styles = StyleSheet.create({
     players_V: {
         flexDirection: "row",
         justifyContent: "space-between",
-        marginBottom: windowHeight/50
+        marginBottom: windowHeight / 50
     },
     players_V_L: {
         flexDirection: "row",
-        width: windowWidth/12,
+        width: windowWidth / 12,
         alignItems: "center",
         justifyContent: "center",
         flex: 0.45
     },
     players_V_R: {
-        width: windowWidth/4,
-        height: windowHeight/14,
+        width: windowWidth / 4,
+        height: windowHeight / 14,
         flexDirection: "row",
         justifyContent: "flex-end",
         alignItems: "center",
-        paddingRight: windowWidth/60,
+        paddingRight: windowWidth / 60,
         flex: 0.55,
     },
     text_L: {
         color: "white",
         fontWeight: "bold",
-        fontSize: windowWidth/80,
+        fontSize: windowWidth / 80,
         fontFamily: "VitesseSans-Book"
     },
     text_R: {
         color: "white",
         fontWeight: "bold",
-        fontSize: windowWidth/100,
+        fontSize: windowWidth / 100,
         fontFamily: "VitesseSans-Book",
     },
     filters_U: {
@@ -268,7 +330,7 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     filters_L: {
-        flex:0.3,
+        flex: 0.3,
         alignItems: "center",
         marginBottom: "30%",
 
@@ -280,7 +342,7 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         width: "80%",
         marginTop: "3%",
-        height: windowHeight/14,
+        height: windowHeight / 14,
         fontSize: 17,
         fontWeight: "bold",
         backgroundColor: "gray",
@@ -298,8 +360,8 @@ const styles = StyleSheet.create({
     },
     filters_TO: {
         backgroundColor: "#0059a1",
-        width: windowWidth/4.5,
-        height: windowHeight/11,
+        width: windowWidth / 4.5,
+        height: windowHeight / 11,
         justifyContent: "center",
         alignItems: "center",
         borderRadius: 50
@@ -340,11 +402,11 @@ const styles = StyleSheet.create({
     },
     header: {
         opacity: .9,
-        justifyContent:"center", 
-        alignItems:"center", 
-        height: windowHeight/10, 
-        backgroundColor:"#001324", 
-        textAlign:"center", 
+        justifyContent: "center",
+        alignItems: "center",
+        height: windowHeight / 10,
+        backgroundColor: "#001324",
+        textAlign: "center",
         flexDirection: "row"
     }
 })

@@ -51,58 +51,6 @@ function ChoosePlayer(props) {
                 
                 
                 var position = Object.values(data["Position"])
-
-                // // for (var string of position) {
-                // for (let i = 0; i < position.length; i++) {
-
-                //     var positions = position[i].split(", ")
-                    
-                //     for (let index = 0; index < positions.length; index++) {
-                        
-                //         if(positions[index] == "cf"){
-                //             positions[index] = "9"
-                //         }
-
-                //         else if (positions[index] == "lw" || positions[index] == "lmf" || positions[index] == "lamf"){
-                //             positions[index] = "7 (v)"
-                //         }
-
-                //         else if (positions[index] == "rw" || positions[index] == "rmf" || positions[index] == "ramf"){
-                //             positions[index] = "7 (h)"
-                //         }
-
-
-                //         else if (positions[index] == "cam") {
-                //             positions[index] = "10"
-                //         }  
-
-                        
-                //         else if (positions[index] == ("lcmf") || positions[index] == ("hcmf")) {
-                //             positions[index] = "8"
-                //         }
-                        
-                        
-                //         else if (positions[index] == ("dmf") || positions[index] == ("ldmf") || positions[index] == ("rdmf")) {
-                //             positions[index] = "6"
-
-                //         }
-                        
-                //         else if ( positions[index] == "lb" || positions[index] == ("lwb") ) {
-                //             positions[index] = "wb (v)"
-                //         }
-                        
-                //         else if ( positions[index] == "rb" || positions[index] == ("rwb") ) {
-                //             positions[index] = "wb (h)"
-                //         }
-                        
-
-                //         else if (positions[index] == "lcb" || positions[index] == "rcb" || positions[index] == "cb") {
-                //             positions[index] = "MB"
-                //         }  
-                //         position[i] = positions[index]
-                //     }
-                // }
-                // // console.log(position)
                 
                 var age = Object.values(data["Age"])
                 var minutes = Object.values(data["Minutes played"])
@@ -149,7 +97,7 @@ function ChoosePlayer(props) {
                             player["Position"].toLowerCase().includes(searchPosition.toLowerCase()) &&
                             player["Minutes played"] >= minutesPlayed) && 
                             (field.some(ele => player["Position"].toLowerCase().split(", ").includes(ele)
-                            )) || field.length == 0)}
+                            ) || field.length == 0))}
 
 
 

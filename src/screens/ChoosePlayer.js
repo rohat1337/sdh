@@ -80,7 +80,7 @@ function ChoosePlayer(props) {
 
     return (
         <View style={{flexDirection:"column"}}>
-            <Header header={styles.header} nav={props.navigation} stackIndex={0} nextIsOK={selectedPlayers.length > 1 ? "white" : "gray"}/>
+            <Header header={styles.header} nav={props.navigation} stackIndex={0} players={selectedPlayers[0]} nextIsOK={selectedPlayers.length > 0 ? "white" : "gray"}/>
             <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode="cover">
 
                 <View style={styles.root_left}>

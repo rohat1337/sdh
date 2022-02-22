@@ -56,7 +56,8 @@ function ChoosePlayer(props) {
             var minutes = Object.values(data["Minutes played"])
             var height_cm = Object.values(data["Height"])
             var foot = Object.values(data["Foot"])
-            var list = zip(players, teams, position, age, minutes, foot, height_cm)
+            var contract_lengths = Object.values(data["Contract expires"])
+            var list = zip(players, teams, position, age,  contract_lengths, minutes, foot, height_cm)
             // For every player, create object
             // This is only needed because of format issues from flask (no object propety names to access)
             for (var player of list) {
@@ -237,25 +238,46 @@ function ChoosePlayer(props) {
                             </View>
                             
                         </View>
+
                         <View style={[styles.filters_UL, { marginTop: "2%"}]}>
-                        <View style={{flex: 0.5, alignItems:"center"}}>
-                            <View style={{flexDirection:"row"}}>
-                                <Text style={[styles.slider_text, {marginLeft: "15%"}]}>Spelade minuter</Text>
-                                <TextInput placeholder={0}
-                                        value={minutesPlayed}
-                                        style={styles.slider_text}
-                                        onChangeText={value => setMinutesPlayed(value)}/>
+                            <View style={{flex: 0.5}}>
+                                <View style={{flexDirection:"row"}}>
+                                    <Text style={[styles.slider_text, {marginLeft: "15%"}]}>Spelade minuter</Text>
+                                    <TextInput placeholder={0}
+                                            value={minutesPlayed}
+                                            style={styles.slider_text}
+                                            onChangeText={value => setMinutesPlayed(value)}/>
+                                </View>
+                                <Slider style={{ width: windowWidth/4.5, height: windowHeight/20, marginLeft: "0%", marginBottom: "6%"}} 
+                                    minimumValue={0}
+                                    maximumValue={1}
+                                    minimumTrackTintColor="#078efb"
+                                    maximumTrackTintColor="gray"
+                                    thumbTintColor="#078efb"
+                                    value={0}
+                                    onValueChange={value => setMinutesPlayed(parseInt(value*2700))}/>
                             </View>
-                            <Slider style={{ width: windowWidth/4.5, height: windowHeight/20, marginLeft: "5%", marginBottom: "6%"}} 
-                                minimumValue={0}
-                                maximumValue={1}
-                                minimumTrackTintColor="#078efb"
-                                maximumTrackTintColor="gray"
-                                thumbTintColor="#078efb"
-                                value={0}
-                                onValueChange={value => setMinutesPlayed(parseInt(value*2700))}/>
+
+                            <View style={{flex: 0.5}}>
+                                <View style={{flexDirection:"row"}}>
+                                    <Text style={[styles.slider_text, {marginLeft: "15%"}]}>Kontraktlängd</Text>
+                                    <TextInput placeholder={0}
+                                            value={minutesPlayed}
+                                            style={styles.slider_text}
+                                            onChangeText={value => setMinutesPlayed(value)}/>
+                                </View>
+                                <Slider style={{ width: windowWidth/4.5, height: windowHeight/20, marginLeft: "4%", marginBottom: "6%"}} 
+                                    minimumValue={0}
+                                    maximumValue={1}
+                                    minimumTrackTintColor="#078efb"
+                                    maximumTrackTintColor="gray"
+                                    thumbTintColor="#078efb"
+                                    value={0}
+                                    onValueChange={value => setMinutesPlayed(parseInt(value*2700))}/>
                             </View>
+                            
                         </View>
+                            
                     </View>
                     <View style={styles.filters_L}>
                         <PlayerField func={changeField}></PlayerField>

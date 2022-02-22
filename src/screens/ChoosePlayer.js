@@ -190,14 +190,14 @@ function ChoosePlayer(props) {
                                 style={styles.search_small}
                                 onChangeText={setPosition}/>
 
-                            {/* Höjd och fot */}
+                            {/* Längd och fot */}
                             <View style={{flex:0.5, marginLeft:"1%", marginBottom: "2.5%", flexDirection: "row"}}>
 
-                                {/* Höjd */}
+                                {/* Längd */}
                                 <View>
 
                                     <View style={{flexDirection: "row", width: windowWidth/10}}>
-                                        <Text style={styles.slider_text}>Min. höjd (cm)</Text>
+                                        <Text style={styles.slider_text}>Min. längd (cm)</Text>
                                         <TextInput style={[styles.slider_text, {width: windowWidth/30}]}
                                             placeholder={minHeight}
                                             value={minHeight}

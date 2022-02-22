@@ -71,7 +71,7 @@ export function arrayRemove(arr, value) {
 
 export function checkFoot(player, left, right) {
   if ((left && right) || (!left && !right)) {
-    return ((player["Foot"] == "left") || (player["Foot"] == "right"))
+    return true
   } else if (left && !right) {
     return (player["Foot"] == "left")
   } else if (right && !left) {

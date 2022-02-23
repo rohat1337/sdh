@@ -66,6 +66,11 @@ def allStats():
 def index():
     return render_template("index.html")
 
+
+@app.route("/all")
+def all():
+    return df.to_json(force_ascii = False)
+
 @app.route("/playersAllsvenskan")
 def players():
     return df["Player"].to_json(force_ascii=False)

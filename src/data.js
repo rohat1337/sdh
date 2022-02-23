@@ -147,18 +147,20 @@ export function checkFoot(player, left, right) {
 
 
 export function contractDateToYears(listOfDates) {
-  // result = []
-  // listOfDates.forEach(date => {
-  //   if (date == null) {
-  //     result.push(0)
-  //   }
-  //   else{
-  //     result.push(diff)
-  //   }
-  // })
-  // return result
-  var contractDate = new Date("2023-09-24") 
-  var today = new Date()
-  var diff = (contractDate.getTime() - today.getTime()) / (1000*3600*24*30);
-  console.log(diff)
+  var result = []
+  var today = new Date().getTime()
+
+  listOfDates.forEach(date => {
+  
+    if (date == null) {
+      result.push(0)
+    }
+  
+    else{
+      var contractDate = new Date(date).getTime()
+      result.push((contractDate - today) / (1000*3600*24*30))
+    }
+  
+  })
+  return result
 }

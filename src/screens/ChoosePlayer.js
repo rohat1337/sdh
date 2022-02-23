@@ -69,6 +69,7 @@ function ChoosePlayer(props) {
                     player_obj[info] = player[info_index]
                     info_index++
                 }
+                result.push(player_obj)
             }
             setPlayers(result)
             setSearchPlayer("")

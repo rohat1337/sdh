@@ -158,7 +158,7 @@ export function contractDateToYears(listOfDates) {
   
     else{
       var contractDate = new Date(date).getTime()
-      result.push((contractDate - today) / (1000*3600*24*30))
+      result.push(Math.max((contractDate - today) / (1000*3600*24*30),0))
     }
   
   })

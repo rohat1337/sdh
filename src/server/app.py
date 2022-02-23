@@ -49,7 +49,7 @@ def specific_info(stats, id: int):
 def basic_info():
     new_df = pd.DataFrame()
     df.replace(r'^\s*$', "cock", regex=True)
-    stats = ["Player", "Team within selected timeframe", "Age", "Position", "Minutes played"]
+    stats = ["Player", "Team within selected timeframe", "Age", "Position", "Minutes played", "Height", "Foot", "Contract expires"]
 
     for label, content in df.items():
        for stat in stats:
@@ -64,6 +64,11 @@ def allStats():
 @app.route("/")
 def index():
     return render_template("index.html")
+
+
+@app.route("/all")
+def all():
+    return df.to_json(force_ascii = False)
 
 @app.route("/playersAllsvenskan")
 def players():

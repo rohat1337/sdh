@@ -34,10 +34,6 @@ export function fix(str) {
   return str.replace('š', 's').replace('ć', 'c').replace('č', 'c').replace('ó', 'o')
 }
 
-
-
-
-
 export function fixPlayerPositions(position) {
 
   var result = [];
@@ -135,4 +131,12 @@ export function arrayRemove(arr, value) {
   });
 }
 
-
+export function checkFoot(player, left, right) {
+  if ((left && right) || (!left && !right)) {
+    return true
+  } else if (left && !right) {
+    return (player["Foot"] == "left")
+  } else if (right && !left) {
+    return (player["Foot"] == "right")
+  }
+}

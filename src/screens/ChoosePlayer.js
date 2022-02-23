@@ -12,6 +12,8 @@ const windowHeight = Dimensions.get("window").height;
 
 let age;
 let height_cm;
+let contract_lengths;
+
 
 function ChoosePlayer(props) {
 
@@ -59,11 +61,15 @@ function ChoosePlayer(props) {
                 var players = Object.values(data["Player"])
                 var teams = Object.values(data["Team within selected timeframe"])
                 var position = Object.values(data["Position"])
-                age = Object.values(data["Age"])
                 var minutes = Object.values(data["Minutes played"])
-                height_cm = arrayRemove(Object.values(data["Height"]),0)
                 var foot = Object.values(data["Foot"])
-                var contract_lengths = contractDateToYears(Object.values(data["Contract expires"]))
+                
+                
+                age = Object.values(data["Age"])
+                height_cm = arrayRemove(Object.values(data["Height"]),0)
+                contract_lengths = arrayRemove(contractDateToYears(Object.values(data["Contract expires"])),0)
+                
+                
                 var list = zip(players, teams, position, age, contract_lengths, minutes, foot, height_cm)
                 // For every player, create object
                 // This is only needed because of format issues from flask (no object propety names to access)
@@ -122,7 +128,7 @@ function ChoosePlayer(props) {
                                 return (
                                     <View style={styles.players_TO}>
                                         <TouchableOpacity
-                                            onPress={() => { setPlayer(item.Player); console.log(players[0]);console.log(age);console.log(Math.min.apply(Math,height_cm));                                           }}
+                                            onPress={() => { setPlayer(item.Player); console.log(players[0]);console.log(Math.min.apply(Math,contract_lengths))}}
                                             style={{ justifyContent: "center" }}>
 
                                             <View style={styles.players_V}>
@@ -162,8 +168,8 @@ function ChoosePlayer(props) {
                                     </View>
 
                                     <Slider style={{ width: windowWidth / 9, height: windowHeight / 20 }}
-                                        minimumValue={0}
-                                        maximumValue={50}
+                                        minimumValue={Math.min.apply(Math,age)}
+                                        maximumValue={Math.max.apply(Math,age)}
                                         minimumTrackTintColor="#078efb"
                                         maximumTrackTintColor="gray"
                                         thumbTintColor="#078efb"
@@ -181,8 +187,8 @@ function ChoosePlayer(props) {
                                     </View>
 
                                     <Slider style={{ width: windowWidth / 10, height: windowHeight / 20 }}
-                                        minimumValue={0}
-                                        maximumValue={50}
+                                        minimumValue={Math.min.apply(Math,age)}
+                                        maximumValue={Math.max.apply(Math,age)}
                                         minimumTrackTintColor="#078efb"
                                         maximumTrackTintColor="gray"
                                         thumbTintColor="#078efb"
@@ -274,13 +280,13 @@ function ChoosePlayer(props) {
                                         <Text style={styles.slider_text}>Kontraktlängd (min)</Text>
                                         <TextInput style={[styles.slider_text, { width: windowWidth / 30 }]}
                                             placeholder={minContract}
-                                            value={minContract}
+                                            value={Math.max(Math.min.apply(Math,contract_lengths), minContract)}
                                             onChangeText={value => setMinContract(value)} />
                                     </View>
 
                                     <Slider style={{ width: windowWidth / 9, height: windowHeight / 20 }}
                                         minimumValue={0}
-                                        maximumValue={50}
+                                        maximumValue={50000000000000}
                                         minimumTrackTintColor="#078efb"
                                         maximumTrackTintColor="gray"
                                         thumbTintColor="#078efb"
@@ -292,19 +298,19 @@ function ChoosePlayer(props) {
                                     <View style={{ flexDirection: "row", width: windowWidth / 10 }}>
                                     <Text style={styles.slider_text}>Kontraktlängd (max)</Text>
                                         <TextInput style={[styles.slider_text, { width: windowWidth / 30 }]}
-                                            placeholder={maxAge}
-                                            value={maxAge}
-                                            onChangeText={value => setMaxAge(value)} />
+                                            placeholder={maxContract}
+                                            value={Math.min((Math.max.apply(Math,contract_lengths)),maxContract)}
+                                            onChangeText={value => setMaxContract(value)} />
                                     </View>
 
                                     <Slider style={{ width: windowWidth / 10, height: windowHeight / 20 }}
                                         minimumValue={0}
-                                        maximumValue={50}
+                                        maximumValue={500000000}
                                         minimumTrackTintColor="#078efb"
                                         maximumTrackTintColor="gray"
                                         thumbTintColor="#078efb"
-                                        value={50}
-                                        onValueChange={value => setMaxAge(parseInt(value))} />
+                                        //value={50}
+                                        onValueChange={value => setMaxContract(parseInt(value))} />
                                 </View>
                             </View>
                                 {/*<Slider style={{ width: windowWidth / 4.5, height: windowHeight / 20, marginLeft: "4%", marginBottom: "6%" }}

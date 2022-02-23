@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react"
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Dimensions, TextInput, ImageBackground } from "react-native"
-import { getBasicStats, zip, arrayRemove, fix, uncheckFieldBox, checkFoot } from "../data"
+import { getBasicStats, zip, arrayRemove, fix, uncheckFieldBox, checkFoot, fixPlayerPositions } from "../data"
 import Slider from '@react-native-community/slider';
 import PlayerField from "../components/PlayerField";
 import Header from "../components/Header";
-
-import { fixPlayerPositions } from "../data";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -128,7 +126,7 @@ function ChoosePlayer(props) {
                                                     <Text style={[styles.text_R, { color: textColor }]}>, </Text>
                                                     <Text style={[styles.text_R, { color: textColor }]}>{item["Age"]}</Text>
                                                     <Text style={[styles.text_R, { color: textColor }]}>, </Text>
-                                                    <Text style={[styles.text_R, { color: textColor }]}>{item["Position"]}</Text>
+                                                    <Text style={[styles.text_R, { color: textColor }]}>{fixPlayerPositions(item["Position"])}</Text>
                                                 </View>
                                             </View>
                                         </TouchableOpacity>

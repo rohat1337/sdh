@@ -47,7 +47,7 @@ export function fixPlayerPositions(position) {
 
   for (let index = 0; index < arrayOfPositions.length; index++) {
 
-    if(arrayOfPositions[index] == "gk"){
+    if (arrayOfPositions[index] == "gk") {
       result.push("MV")
     }
 
@@ -95,7 +95,7 @@ export function fixPlayerPositions(position) {
   result = [...new Set(result)]
   return result.join(", ")
 
-  
+
 }
 
 
@@ -143,4 +143,22 @@ export function checkFoot(player, left, right) {
   } else if (right && !left) {
     return (player["Foot"] == "right")
   }
+}
+
+
+export function contractDateToYears(listOfDates) {
+  // result = []
+  // listOfDates.forEach(date => {
+  //   if (date == null) {
+  //     result.push(0)
+  //   }
+  //   else{
+  //     result.push(diff)
+  //   }
+  // })
+  // return result
+  var contractDate = new Date("2023-09-24") 
+  var today = new Date()
+  var diff = (contractDate.getTime() - today.getTime()) / (1000*3600*24*30);
+  console.log(diff)
 }

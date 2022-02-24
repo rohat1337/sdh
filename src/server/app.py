@@ -120,5 +120,11 @@ def basic_info_cock():
 def stats():
     return allStats()
 
+
+dashboardEntries = [] # Adrian pls help
+@app.route("/dashboard/<id>")
+def dashboard():
+    return specific_info(dashboardEntries,int(id))
+
 if __name__ == '__main__':    
     app.run(debug=True, host='0.0.0.0', port=5000)

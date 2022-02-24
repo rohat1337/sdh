@@ -6,8 +6,9 @@ import numpy as np
 import json
 from flask_cors import CORS
 
-#df = pd.read_excel("Search results.xlsx",engine='openpyxl');
-df = pd.read_excel('playersAllsvenskan.xlsx')
+from data_PreProcessing import openExcelFile
+
+df = openExcelFile()
 
 app = Flask(__name__)
 CORS(app)

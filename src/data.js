@@ -145,3 +145,8 @@ export function checkFoot(player, left, right) {
   }
 }
 
+
+export function contractToString(milliSeconds){
+  var expiryDate = new Date(milliSeconds)
+  return expiryDate.toString().slice(3,7) + expiryDate.toString().slice(10,15)
+}

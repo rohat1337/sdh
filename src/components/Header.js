@@ -40,7 +40,7 @@ function Header(props) {
                    <TouchableOpacity
                    onPress={() => props.nav.goBack()}>
                        <Text style={{ color: "white", fontWeight: "bold", fontSize: 18, fontFamily: "VitesseSans-Book"}}>
-                           {"<"}- Tillbaks
+                           {"<"}- Tillbaka
                        </Text>
                    </TouchableOpacity>
                </View>
@@ -60,7 +60,7 @@ function Header(props) {
                    <TouchableOpacity
                    onPress={() => props.nav.goBack()}>
                        <Text style={{ color: "white", fontWeight: "bold", fontSize: 18, fontFamily: "VitesseSans-Book"}}>
-                           {"<"}- Tillbaks
+                           {"<"}- Tillbaka
                        </Text>
                    </TouchableOpacity>
                </View>

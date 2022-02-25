@@ -72,9 +72,8 @@ function ChoosePlayer(props) {
 
                 age = Object.values(data["Age"])
                 height_cm = arrayRemove(Object.values(data["Height"]), 0)
-                contract_lengths = arrayRemove(contractDateToYears(Object.values(data["Contract expires"])), 0)
-
-
+                contract_lengths = (Object.values(data["Contract expires"])).map(dates => ((new Date(dates).getTime() - new Date()) / (86400000 * 30 * 12)))
+                console.log(contract_lengths)
                 var list = zip(ids, players, teams, position, age, contract_lengths, minutes, foot, height_cm)
                 // For every player, create object
                 // This is only needed because of format issues from flask (no object propety names to access)
@@ -170,8 +169,7 @@ function ChoosePlayer(props) {
                                     <View style={{ flexDirection: "row", width: windowWidth / 10 }}>
                                         <Text style={styles.slider_text}>Ålder (min)</Text>
                                         <TextInput style={[styles.slider_text, { width: windowWidth / 30 }]}
-                                            //placeholder={0}
-                                            value={Math.max(minAge, Math.min.apply(Math, age))}
+                                            value = {minAge}
                                             onChangeText={value => setMinAge(value)} />
                                     </View>
 
@@ -189,7 +187,6 @@ function ChoosePlayer(props) {
                                     <View style={{ flexDirection: "row", width: windowWidth / 10 }}>
                                         <Text style={styles.slider_text}>Ålder (max)</Text>
                                         <TextInput style={[styles.slider_text, { width: windowWidth / 30 }]}
-                                            // placeholder={maxAge}
                                             value={maxAge}
                                             onChangeText={value => setMaxAge(value)} />
                                     </View>
@@ -221,7 +218,7 @@ function ChoosePlayer(props) {
                                     <View style={{ flexDirection: "row", width: windowWidth / 10 }}>
                                         <Text style={styles.slider_text}>Min. längd (cm)</Text>
                                         <TextInput style={[styles.slider_text, { width: windowWidth / 30 }]}
-                                            placeholder={minHeight}
+                                            // placeholder={minHeight}
                                             value={Math.max(minHeight, Math.min.apply(Math, height_cm))}
                                             onChangeText={value => setMinHeight(value)} />
                                     </View>
@@ -287,7 +284,7 @@ function ChoosePlayer(props) {
                                         <View style={{ flexDirection: "row", width: windowWidth / 10 }}>
                                             <Text style={styles.slider_text}>Kontraktlängd (min)</Text>
                                             <TextInput style={[styles.slider_text, { width: windowWidth / 30 }]}
-                                                placeholder={minContract}
+                                                placeholder={"HEJ"}
                                                 value={Math.max(Math.min.apply(Math, contract_lengths), minContract)}
                                                 onChangeText={value => setMinContract(value)} />
                                         </View>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Dimensions, TextInput, ImageBackground } from "react-native"
-import { getBasicStats, zip, arrayRemove, fix, uncheckFieldBox, checkFoot, fixPlayerPositions, contractDateToYears } from "../data"
+import { getBasicStats, zip, arrayRemove, fix, uncheckFieldBox, checkFoot, fixPlayerPositions, contractToString } from "../data"
 import Slider from '@react-native-community/slider';
 import PlayerField from "../components/PlayerField";
 import Header from "../components/Header";
@@ -13,7 +13,7 @@ const windowHeight = Dimensions.get("window").height;
 let age;
 let height_cm;
 let contract_lengths;
-
+let minutes;
 
 function ChoosePlayer(props) {
 
@@ -66,14 +66,14 @@ function ChoosePlayer(props) {
                 var players = Object.values(data["Player"])
                 var teams = Object.values(data["Team within selected timeframe"])
                 var position = Object.values(data["Position"])
-                var minutes = Object.values(data["Minutes played"])
                 var foot = Object.values(data["Foot"])
-
-
+                
+                
+                minutes = Object.values(data["Minutes played"])
                 age = Object.values(data["Age"])
                 height_cm = arrayRemove(Object.values(data["Height"]), 0)
-                contract_lengths = (Object.values(data["Contract expires"])).map(dates => ((new Date(dates).getTime() - new Date()) / (86400000 * 30 * 12)))
-                console.log(contract_lengths)
+                contract_lengths = (Object.values(data["Contract expires"])).map(dates => ((new Date(dates).getTime() - new Date())))
+
                 var list = zip(ids, players, teams, position, age, contract_lengths, minutes, foot, height_cm)
                 // For every player, create object
                 // This is only needed because of format issues from flask (no object propety names to access)
@@ -135,7 +135,7 @@ function ChoosePlayer(props) {
                                 return (
                                     <View style={styles.players_TO}>
                                         <TouchableOpacity
-                                            onPress={() => { setPlayer(item["ID"]); console.log(players[0]); console.log(Math.min.apply(Math, contract_lengths)) }}
+                                            onPress={() => { setPlayer(item["ID"]); console.log(players[0]) }}
                                             style={{ justifyContent: "center" }}>
 
                                             <View style={styles.players_V}>
@@ -169,7 +169,7 @@ function ChoosePlayer(props) {
                                     <View style={{ flexDirection: "row", width: windowWidth / 10 }}>
                                         <Text style={styles.slider_text}>Ålder (min)</Text>
                                         <TextInput style={[styles.slider_text, { width: windowWidth / 30 }]}
-                                            value = {minAge}
+                                            value={minAge}
                                             onChangeText={value => setMinAge(value)} />
                                     </View>
 
@@ -218,14 +218,13 @@ function ChoosePlayer(props) {
                                     <View style={{ flexDirection: "row", width: windowWidth / 10 }}>
                                         <Text style={styles.slider_text}>Min. längd (cm)</Text>
                                         <TextInput style={[styles.slider_text, { width: windowWidth / 30 }]}
-                                            // placeholder={minHeight}
-                                            value={Math.max(minHeight, Math.min.apply(Math, height_cm))}
+                                            value={minHeight}
                                             onChangeText={value => setMinHeight(value)} />
                                     </View>
 
                                     <Slider style={{ width: windowWidth / 9, height: windowHeight / 20 }}
                                         minimumValue={Math.min.apply(Math, height_cm)}
-                                        maximumValue={210}
+                                        maximumValue={Math.max.apply(Math, height_cm)}
                                         minimumTrackTintColor="#078efb"
                                         maximumTrackTintColor="gray"
                                         thumbTintColor="#078efb"
@@ -284,14 +283,13 @@ function ChoosePlayer(props) {
                                         <View style={{ flexDirection: "row", width: windowWidth / 10 }}>
                                             <Text style={styles.slider_text}>Kontraktlängd (min)</Text>
                                             <TextInput style={[styles.slider_text, { width: windowWidth / 30 }]}
-                                                placeholder={"HEJ"}
-                                                value={Math.max(Math.min.apply(Math, contract_lengths), minContract)}
+                                                value={contractToString(minContract)}
                                                 onChangeText={value => setMinContract(value)} />
                                         </View>
 
                                         <Slider style={{ width: windowWidth / 9, height: windowHeight / 20 }}
-                                            minimumValue={0}
-                                            maximumValue={50000000000000}
+                                            minimumValue={Math.min.apply(Math, contract_lengths)}
+                                            maximumValue={Math.max.apply(Math, contract_lengths)}
                                             minimumTrackTintColor="#078efb"
                                             maximumTrackTintColor="gray"
                                             thumbTintColor="#078efb"
@@ -309,8 +307,8 @@ function ChoosePlayer(props) {
                                         </View>
 
                                         <Slider style={{ width: windowWidth / 10, height: windowHeight / 20 }}
-                                            minimumValue={0}
-                                            maximumValue={500000000}
+                                            minimumValue={Math.min.apply(Math, contract_lengths)}
+                                            maximumValue={Math.max.apply(Math, contract_lengths)}
                                             minimumTrackTintColor="#078efb"
                                             maximumTrackTintColor="gray"
                                             thumbTintColor="#078efb"

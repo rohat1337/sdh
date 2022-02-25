@@ -1,9 +1,13 @@
 import react, { useEffect, useState } from "react"
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Dimensions, TextInput, ImageBackground } from "react-native"
+import Defensive_Actions from "../components/Dashboard/Defensive_Actions";
+import Fasta_Situationer from "../components/Dashboard/Fasta_Sitatuationer";
 import InfoSquare from "../components/Dashboard/Infosquare";
+import Offensive_Actions from "../components/Dashboard/Offensive_Actions"
+import Speluppbyggnad from "../components/Dashboard/Speluppbyggnad";
 import Header from "../components/Header";
 
-import { getPlayerStats } from "../data";
+import { getPlayerStats, getMaxStats } from "../data";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -11,6 +15,10 @@ const windowHeight = Dimensions.get("window").height;
 function Dashboard(props) {
 
     const [selectedPlayer, setSelectedPlayer] = useState(null)
+    const [maxOffensive, setMaxOffensive] = useState(null)
+    const [maxSpeluppbyggnad, setMaxSpeluppbyggnad] = useState(null)
+    const [maxDefensive, setMaxDefensive] = useState(null)
+    const [maxFastaSituationer, setMaxFastaSituationer] = useState(null)
 
     useEffect(() => {
         getPlayerStats(props.navigation.getParam("player_id", "default"))
@@ -22,6 +30,59 @@ function Dashboard(props) {
         .then((data) => {
             data = data[1]
             setSelectedPlayer(data)
+        })
+
+        //Dessa fetchas separat per array, kan nog slås ihop så vi bara behöver 1 fetch
+
+        //fetch max offensive
+        getMaxStats(offensive_actions)
+        .then((response) => {
+            const statusCode = response.status;
+            const data = response.json();
+            return Promise.all([statusCode, data]);
+        })
+        .then((data) => {
+            data = data[1]
+            setMaxOffensive(data)
+        })
+
+        //fetch max speluppbyggnad
+        getMaxStats(speluppbyggnad)
+        .then((response) => {
+            const statusCode = response.status;
+            const data = response.json();
+            return Promise.all([statusCode, data]);
+        })
+        .then((data) => {
+            data = data[1]
+            console.log(data)
+            setMaxSpeluppbyggnad(data)
+        })
+
+        //fetch max defensive actions
+        getMaxStats(defensive_actions)
+        .then((response) => {
+            const statusCode = response.status;
+            const data = response.json();
+            return Promise.all([statusCode, data]);
+        })
+        .then((data) => {
+            data = data[1]
+            console.log(data)
+            setMaxDefensive(data)
+        })
+
+        //fetch max fasta situationer
+        getMaxStats(fasta_situationer)
+        .then((response) => {
+            const statusCode = response.status;
+            const data = response.json();
+            return Promise.all([statusCode, data]);
+        })
+        .then((data) => {
+            data = data[1]
+            console.log(data)
+            setMaxFastaSituationer(data)
         })
     }, [])
 
@@ -48,32 +109,43 @@ function Dashboard(props) {
             {/* Put content here (This view is divided into 4 parts, row) */}
             <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode="cover">
                 {/* Leftmost view, inforutan + 10 viktigaste mätpunkterna*/}
-                <View style={{ flex: 0.25, flexDirection: "column" }}>
+                <View style={{ flex: 0.25, height: windowHeight - windowHeight / 10}}>
 
                     {/* Inforutan */}
-                    <View style={{ flex: 0.4, margin: "5%", flexDirection: "column", backgroundColor: "white" }}>
+                    <View style={{ flex: 0.6, margin: "5%", flexDirection: "column"}}>
                         <InfoSquare player={selectedPlayer} />
                     </View>
 
                     {/* Viktigaste mätpunkterna */}
-                    <View style={{ flex: 0.6, backgroundColor: "red", margin: "5%" }}>
+                    <View style={{ flex: 0.4, margin: "5%" }}>
 
                     </View>
 
                 </View>
 
-                {/* Skapa målchans */}
-                <View style={{ flex: 0.25, backgroundColor: "blue" }}>
-
+                {/* Offensiva aktioner */}
+                <View style={{ flex: 0.25, height: windowHeight - windowHeight/10 }}>
+                    <Text style={{fontSize:30, textAlign:"center", color:"white", fontFamily: "VitesseSans-Book"}}>Offensiva aktioner</Text>
+                    <Offensive_Actions player={selectedPlayer} stats={offensive_actions} maxStats={maxOffensive}/>
                 </View>
 
                 {/* Speluppbyggnad */}
-                <View style={{ flex: 0.25, backgroundColor: "yellow" }}>
-
+                <View style={{ flex: 0.25, height: windowHeight - windowHeight/10 }}>
+                    <Text style={{fontSize:30, textAlign:"center", color:"white", fontFamily: "VitesseSans-Book"}}>Speluppbyggnad</Text>
+                    <Speluppbyggnad player={selectedPlayer} stats={speluppbyggnad} maxStats={maxSpeluppbyggnad}/>
                 </View>
 
                 {/* Försvarsspel */}
-                <View style={{ flex: 0.25, backgroundColor: "red" }}>
+                <View style={{ flex: 0.25, height: windowHeight - windowHeight/10 }}>
+                    <View style={{flex: 0.6}}>
+                        <Text style={{fontSize:30, textAlign:"center", color:"white", fontFamily: "VitesseSans-Book"}}>Defensiva aktioner</Text>
+                        <Defensive_Actions player={selectedPlayer} stats={defensive_actions} maxStats={maxDefensive}/>
+                    </View>
+
+                    <View style={{flex: 0.4}}>
+                        <Text style={{fontSize:30, textAlign:"center", color:"white", fontFamily: "VitesseSans-Book"}}>Fasta situationer</Text>
+                        <Fasta_Situationer player={selectedPlayer} stats={fasta_situationer} maxStats={maxFastaSituationer}/>
+                    </View>
 
                 </View>
                 </ImageBackground>

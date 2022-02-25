@@ -1,10 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native'
-import { getPlayerStats } from "../../data"
+import { getPlayerStats, round_market_value } from "../../data"
 
 function InfoSquare(props) {
-
-    console.log(props.player)
 
     if (props.player == null) {
         return (
@@ -15,32 +13,32 @@ function InfoSquare(props) {
     } else {
         return (
             <View>
-                <Text>
-                    Namn: {Object.values(props.player["Player"])}
+                <Text style={styles.slider_text}>
+                    {Object.values(props.player["Player"])}
                 </Text>
 
-                <Text>
-                    Age: {Object.values(props.player["Age"])}
+                <Text style={styles.slider_text}>
+                    Ålder: {Object.values(props.player["Age"])}
                 </Text>
 
-                <Text>
-                    Lag: {Object.values(props.player["Team within selected timeframe"])}
+                <Text style={styles.slider_text}>
+                    {Object.values(props.player["Team within selected timeframe"])}
                 </Text>
 
-                <Text>
-                    Position: {Object.values(props.player["Position"])}
+                <Text style={styles.slider_text}>
+                    {Object.values(props.player["Position"])}
                 </Text>
 
-                <Text>
+                <Text style={styles.slider_text}>
                     Längd: {Object.values(props.player["Height"])}
                 </Text>
 
-                <Text>
+                <Text style={styles.slider_text}>
                     Vikt: {Object.values(props.player["Weight"])}
                 </Text>
 
-                <Text>
-                    Marknadsvärde: {Object.values(props.player["Market value"])}
+                <Text style={styles.slider_text}>
+                    Marknadsvärde: {'\u20AC'}{round_market_value(Object.values(props.player["Market value"]))}M 
                 </Text>
     
             </View>
@@ -48,5 +46,19 @@ function InfoSquare(props) {
     }
 
 }
+
+const styles = StyleSheet.create({
+
+    slider_text: {
+        fontSize: 30,
+        fontWeight: 'bold',
+        textAlign: "center",
+        width: "100%",
+        color: "white",
+        fontFamily: "VitesseSans-Book",
+        marginVertical: "1%",
+    }
+
+})
 
 export default InfoSquare;

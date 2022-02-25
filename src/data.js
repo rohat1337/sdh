@@ -34,7 +34,9 @@ export function fix(str) {
   return str.replace('š', 's').replace('ć', 'c').replace('č', 'c').replace('ó', 'o')
 }
 
-
+export function round_market_value(int) {
+  return int/1000000
+}
 
 
 
@@ -124,6 +126,14 @@ export function getBasicStats() {
 export function getStatNames() {
   try {
     return fetch(`http://localhost:5000/stats`)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export function getMaxStats(stats) {
+  try {
+    return fetch(`http://localhost:5000/maxStats/${arrayToString(stats)}`)
   } catch (error) {
     console.log(error)
   }

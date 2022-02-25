@@ -41,11 +41,19 @@ def allPlayerInfo(id):
 def specific_info(stats, id: int):
     specificData = pd.DataFrame()
     playerData = df[id:id+1]
-    
+
     for entries in stats:
         specificData[entries] = playerData[entries]
 
     return specificData.to_json(force_ascii=False)
+
+def get_max_for_stat(stats, data: pd.DataFrame):
+    result = {}
+    
+    for stat in stats:
+        result[stat] = float(df[stat].max())
+
+    return json.dumps(result)
 
 def basic_info():
     new_df = pd.DataFrame()
@@ -125,6 +133,16 @@ dashboardEntries = [] # Adrian pls help
 @app.route("/dashboard/<id>")
 def dashboard():
     return specific_info(dashboardEntries,int(id))
+
+@app.route("/maxStats/<stats>")
+def max_stats(stats=None):
+    plays_alot = df["Minutes played"] > 500
+    df_plays_alot = df[plays_alot]
+
+    specificStats = stats.split("$")
+    specificStats.remove("")
+
+    return get_max_for_stat(specificStats, df_plays_alot)
 
 if __name__ == '__main__':    
     app.run(debug=True, host='0.0.0.0', port=5000)

@@ -145,22 +145,3 @@ export function checkFoot(player, left, right) {
   }
 }
 
-
-export function contractDateToYears(listOfDates) {
-  var result = []
-  var today = new Date().getTime()
-
-  listOfDates.forEach(date => {
-  
-    if (date == null) {
-      result.push(0)
-    }
-  
-    else{
-      var contractDate = new Date(date).getTime()
-      result.push(Math.max((contractDate - today) / (1000*3600*24*30),0))
-    }
-  
-  })
-  return result
-}

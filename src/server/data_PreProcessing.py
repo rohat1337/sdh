@@ -41,7 +41,6 @@ def changePosName(pos_string):
             result.append("10")
         
 
-
         elif (pos == ("lcmf") or pos == ("rcmf")):
             result.append("8")
         
@@ -57,7 +56,6 @@ def changePosName(pos_string):
         elif (pos == "rb" or pos == ("rwb")):
             result.append("WB (h)")
         
-
 
         elif (pos == "lcb" or pos == "rcb" or pos == "cb"): 
             result.append("MB")

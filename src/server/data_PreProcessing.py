@@ -19,8 +19,6 @@ def changePosName(pos_string):
     pos_array = pos_string.lower().replace(" ","").split(",")
     
     for pos in pos_array: 
-        print(pos)
-
         if (pos == "gk"):
             result.append("MV")
         
@@ -67,5 +65,7 @@ def changePosName(pos_string):
 def removeZeroEntries(df):
     pass
 
-def contractEntriesToYears(df):
+
+def contractEntriesToYears(date_string):
     pass
+    # return (date_string,months)

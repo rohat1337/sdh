@@ -6,8 +6,9 @@ import numpy as np
 import json
 from flask_cors import CORS
 
-#df = pd.read_excel("Search results.xlsx",engine='openpyxl');
-df = pd.read_excel('playersAllsvenskan.xlsx')
+from pre_processing import openExcelFile
+
+df = openExcelFile()
 
 app = Flask(__name__)
 CORS(app)
@@ -15,7 +16,9 @@ app.config['JSON_AS_ASCII'] = False
 
 # forward positions
 forwardPos = ['SS', 'CF', 'LWF', 'RWF', 'LW', 'RW']
+
 midfielderPos = ['RCMF', 'LCMF', 'AMF', 'DMF', 'RDMF', 'LDMF', 'RAMF', 'LAMF']
+
 defenderPos = ['RB', 'RCB', 'LCB', 'LB', 'RCB3', 'CB', 'LCB3', 'RWB', 'LWB', 'RB5', 'LB5']
 
 # Return all players from list of positions. i.e forwards, midfielders or defenders
@@ -31,7 +34,6 @@ def allPlayersForPosition(position_list):
                     result[player] = playerPosTemp
     return json.dumps(result)
 
-
 def allPlayerInfo(id):
     return df[id:id+1].to_json(force_ascii=False)
 
@@ -40,12 +42,18 @@ def specific_info(stats, id: int):
     specificData = pd.DataFrame()
     playerData = df[id:id+1]
 
-    #TODO: fixa så typ "minutes played" också funkar
-    
     for entries in stats:
         specificData[entries] = playerData[entries]
 
     return specificData.to_json(force_ascii=False)
+
+def get_max_for_stat(stats, data: pd.DataFrame):
+    result = {}
+    
+    for stat in stats:
+        result[stat] = float(df[stat].max())
+
+    return json.dumps(result)
 
 def basic_info():
     new_df = pd.DataFrame()
@@ -119,6 +127,22 @@ def basic_info_cock():
 @app.route("/stats")
 def stats():
     return allStats()
+
+
+dashboardEntries = [] # Adrian pls help
+@app.route("/dashboard/<id>")
+def dashboard():
+    return specific_info(dashboardEntries,int(id))
+
+@app.route("/maxStats/<stats>")
+def max_stats(stats=None):
+    plays_alot = df["Minutes played"] > 500
+    df_plays_alot = df[plays_alot]
+
+    specificStats = stats.split("$")
+    specificStats.remove("")
+
+    return get_max_for_stat(specificStats, df_plays_alot)
 
 if __name__ == '__main__':    
     app.run(debug=True, host='0.0.0.0', port=5000)

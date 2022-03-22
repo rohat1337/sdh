@@ -9,10 +9,12 @@
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
     "@trendmicro/react-dropdown": "^1.4.0",
+    "rc-progress": "^3.2.4",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-native": "^0.67.2",
     "react-native-gesture-handler": "^2.2.0",
+    "react-native-progress": "^5.0.0",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-web": "^0.17.5",
     "react-native-web-hover": "^0.2.9",
@@ -20,6 +22,7 @@
     "react-navigation": "^4.4.4",
     "react-navigation-stack": "^2.10.4",
     "react-scripts": "5.0.0",
+    "react-switch": "^6.0.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

@@ -6,11 +6,14 @@ import InfoSquare from "../components/Dashboard/Infosquare";
 import Offensive_Actions from "../components/Dashboard/Offensive_Actions"
 import Speluppbyggnad from "../components/Dashboard/Speluppbyggnad";
 import Header from "../components/Header";
+import Switch from 'react-switch';
 
 import { getPlayerStats, getMaxStats } from "../data";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
+
+
 
 function Dashboard(props) {
 
@@ -108,7 +111,7 @@ function Dashboard(props) {
 
             {/* Put content here (This view is divided into 4 parts, row) */}
             <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode="cover">
-                {/* Leftmost view, inforutan + 10 viktigaste mätpunkterna*/}
+                {/* Leftmost view, inforutan + ... plan med positioner? */}
                 <View style={{ flex: 0.25, height: windowHeight - windowHeight / 10}}>
 
                     {/* Inforutan */}
@@ -116,9 +119,9 @@ function Dashboard(props) {
                         <InfoSquare player={selectedPlayer} />
                     </View>
 
-                    {/* Viktigaste mätpunkterna */}
+                    {/* ... Checkboxes för att väljav vilka man ska jämföra med */}
                     <View style={{ flex: 0.4, margin: "5%" }}>
-
+                        <input type="checkbox" />
                     </View>
 
                 </View>

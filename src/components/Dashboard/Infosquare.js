@@ -7,7 +7,7 @@ function InfoSquare(props) {
     if (props.player == null) {
         return (
             <View>
-                <Text>Chilla</Text>
+                <Text>Loading...</Text>
             </View>
         )
     } else {

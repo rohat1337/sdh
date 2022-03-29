@@ -49,9 +49,9 @@ def specific_info(stats, id: int):
 
 def get_max_for_stat(stats, data: pd.DataFrame):
     result = {}
-    
+
     for stat in stats:
-        result[stat] = float(df[stat].max())
+        result[stat] = float(data[stat].max())
 
     return json.dumps(result)
 
@@ -135,7 +135,7 @@ def dashboard():
     return specific_info(dashboardEntries,int(id))
 
 @app.route("/maxStats/<stats>")
-def max_stats(stats=None):
+def max_stats_all(stats=None):
     plays_alot = df["Minutes played"] > 500
     df_plays_alot = df[plays_alot]
 
@@ -143,6 +143,34 @@ def max_stats(stats=None):
     specificStats.remove("")
 
     return get_max_for_stat(specificStats, df_plays_alot)
+
+@app.route("/maxStats/<stats>/<position>")
+def max_stats_for_position(stats=None, position=None):
+    plays_alot = df["Minutes played"] > 500
+    df_temp = df[plays_alot]
+
+    print("Checking for ", position, "'s")
+    print(df_temp["Position"])
+
+    if position in defenderPos:
+        defenders = df_temp["Position"].isin(defenderPos)
+        df_temp = df_temp[defenders]
+    elif position in midfielderPos:
+        midfielders = df_temp["Position"].isin(midfielderPos)
+        df_temp = df_temp[midfielders]
+    elif position in forwardPos:
+        forwards = df_temp["Position"].isin(forwardPos)
+        df_temp = df_temp[forwards]
+    else:
+        return "No such position exists"   
+
+    print("========filtered df========")
+    print(df_temp)
+
+    specificStats = stats.split("$")
+    specificStats.remove("")
+
+    return get_max_for_stat(specificStats, df_temp)
 
 if __name__ == '__main__':    
     app.run(debug=True, host='0.0.0.0', port=5000)

@@ -131,9 +131,17 @@ export function getStatNames() {
   }
 }
 
-export function getMaxStats(stats) {
+export function getMaxStatsAll(stats) {
   try {
     return fetch(`http://localhost:5000/maxStats/${arrayToString(stats)}`)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export function getMaxStatsForPosition(stats, position) {
+  try {
+    return fetch(`http://localhost:5000/maxStats/${arrayToString(stats)}/${position}`)
   } catch (error) {
     console.log(error)
   }
@@ -147,7 +155,8 @@ export function arrayRemove(arr, value) {
 
 export function checkFoot(player, left, right) {
   if ((left && right) || (!left && !right)) {
-    return true
+    // ??
+    return true 
   } else if (left && !right) {
     return (player["Foot"] == "left")
   } else if (right && !left) {

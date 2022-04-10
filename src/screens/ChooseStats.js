@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity, Dimensions, TextInp
 import Header from "../components/Header";
 import { getStatNames } from "../data";
 import CSLowerHeader from "../components/CSLowerHeader";
+import ManualCS from "../components/ManualCS";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -22,7 +23,7 @@ function ChooseStats(props) {
                 {/* Välj KPI:er eller mallar (header) */}
                 <View>
                     <CSLowerHeader setButton={setButton} button={button}/>
-
+                    <ManualCS />
                 </View>
 
             </ImageBackground>

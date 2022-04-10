@@ -123,7 +123,11 @@ export function getBasicStats() {
 
 export function getStatNames() {
   try {
-    return fetch(`http://localhost:5000/stats`)
+    return fetch(`http://localhost:5000/stats`).then((response) => {
+      const statusCode = response.status;
+      const data = response.json();
+      return Promise.all([statusCode, data]);
+  })
   } catch (error) {
     console.log(error)
   }

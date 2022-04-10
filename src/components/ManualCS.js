@@ -1,22 +1,30 @@
 import { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, FlatList, StyleSheet, Dimensions } from "react-native";
-import { getStatNames, arrayRemove } from "../data";
+import { View, Text, TouchableOpacity, FlatList, StyleSheet, Dimensions, TextInput } from "react-native";
+import { getStatNames, arrayRemove, filterArray } from "../data";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 export default function ManualCS(props) {
 
+
     // States
     const [stats, setStats] = useState(null)
     const [selectedStats, setSelectedStats] = useState([])
     const [selectStat, setSelectStat] = useState(null)
+    const [search, setSearch] = useState("")
+    const [filteredStats, setFilteredStats] = useState([])
+    const [filteredButtons, setFilteredButtons] = useState([0, 1, 2])
+    const [offensive, setOffensive] = useState(true)
+    const [playmake, setPlaymake] = useState(true)
+    const [defense, setDefense] = useState(true)
 
     useEffect(() => {
         getStatNames().then((data) => {
             if (data[0] === 200) {
                 data = data[1]
                 setStats(data)
+                setFilteredStats(data)
             }
         })
     }, [])
@@ -32,11 +40,55 @@ export default function ManualCS(props) {
         setSelectStat(null)
     }, [selectStat])
 
+    useEffect(() => {
+        if (search === "") {
+            setFilteredStats(stats)
+        } else {
+            setFilteredStats(filterArray(stats, search))
+        }
+    }, [search])
+
+    useEffect(() => {
+        if (offensive) {
+            if (!filteredButtons.includes(0)) {
+                setFilteredButtons([...filteredButtons, 0])
+            } 
+        } else {
+            if (filteredButtons.includes(0)) {
+                setFilteredButtons(arrayRemove(filteredButtons, 0))
+            } 
+        }
+    }, [offensive])
+
+    useEffect(() => {
+        if (playmake) {
+            if (!filteredButtons.includes(1)) {
+                setFilteredButtons([...filteredButtons, 1])
+            } 
+        } else {
+            if (filteredButtons.includes(1)) {
+                setFilteredButtons(arrayRemove(filteredButtons, 1))
+            } 
+        }
+    }, [playmake])
+
+    useEffect(() => {
+        if (defense) {
+            if (!filteredButtons.includes(2)) {
+                setFilteredButtons([...filteredButtons, 2])
+            } 
+        } else {
+            if (filteredButtons.includes(2)) {
+                setFilteredButtons(arrayRemove(filteredButtons, 2))
+            } 
+        }
+    }, [defense])
+
     return (
         <View style={styles.root}>
             <View style={styles.left}>
                 <FlatList
-                data={stats}
+                data={filteredStats}
                 renderItem={({ item }) => {
                     const backgroundColor = selectedStats.includes(item) ? "#0059a1" : "#001a30";
                     return(
@@ -51,7 +103,30 @@ export default function ManualCS(props) {
             </View>
 
             <View style={styles.right}>
-                
+                <TextInput 
+                style={styles.search}
+                value={search}
+                placeholder={"Sök KPI:er..."}
+                onChangeText={setSearch}
+                />
+                <View style={styles.rightLower}>
+
+                    <TouchableOpacity style={[styles.filterButton, { backgroundColor: filteredButtons.includes(0) ? "#0059a1" : "#001a30"}]}
+                    onPress={() => setOffensive(!offensive)}>
+                        <Text style={[styles.text, { fontSize: windowHeight/50}]}>Offensiva aktioner</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={[styles.filterButton, { backgroundColor: filteredButtons.includes(1) ? "#0059a1" : "#001a30"}]}
+                    onPress={() => setPlaymake(!playmake)}>
+                        <Text style={[styles.text, { fontSize: windowHeight/50}]}>Speluppbygnad</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={[styles.filterButton, { backgroundColor: filteredButtons.includes(2) ? "#0059a1" : "#001a30"}]}
+                    onPress={() => setDefense(!defense)}>
+                        <Text style={[styles.text, { fontSize: windowHeight/50}]}>Försvarsspel</Text>
+                    </TouchableOpacity>
+
+                </View>
             </View>
         </View>
     )
@@ -74,7 +149,7 @@ const styles = StyleSheet.create({
     right: {
         height: windowHeight*0.75,
         width: windowWidth*0.5,
-        backgroundColor:"black"
+        alignItems:"center",
     },
     text: {
         fontSize: windowHeight/40,
@@ -90,5 +165,35 @@ const styles = StyleSheet.create({
         alignItems:"center", 
         borderRadius: 100,
         marginVertical: windowWidth/70
+    },
+    search:{
+        paddingLeft: "2%",
+        borderWidth: 1,
+        borderColor: "black",
+        borderRadius: 50,
+        width: "80%",
+        marginTop: "3%",
+        height: windowHeight / 14,
+        fontSize: 17,
+        fontWeight: "bold",
+        backgroundColor: "rgba(80, 80, 80, 1)",
+        fontFamily: "VitesseSans-Book",
+        color:"white"
+    },
+    rightLower: {
+        flexDirection:"row",
+        width: windowWidth*0.5,
+        height: windowHeight/14,
+        marginTop: "5%",
+        justifyContent:"center",
+    },
+    filterButton: {
+        width: windowWidth*0.13,
+        height: windowHeight*0.07,
+        justifyContent:"center",
+        aligntItems: "center",
+        borderRadius: 100,
+        marginHorizontal: windowHeight*0.011
+
     }
 })

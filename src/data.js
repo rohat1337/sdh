@@ -139,4 +139,10 @@ export function arrayRemove(arr, value) {
   });
 }
 
+export function filterArray(arr, value) {
+  return arr.filter(function (ele) {
+    return ele.toLowerCase().includes(value.toLowerCase())
+  })
+}
+
 

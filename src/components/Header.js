@@ -6,12 +6,9 @@ function Header(props) {
     if (props.stackIndex == 0) {
         return(
             <View style={props.header}>
-                <View style={{ flex: 0.33, backgroundColor: "yellow"}}>
-                    <Text>cock</Text>
-                </View>
 
 
-               <View style={{ flex: 0.33}}>
+               <View style={{ flex: 0.67, alignItems:"flex-end"}}>
                    <Text style={{fontSize: 50, fontWeight:"bold", color: "white", fontFamily: "VitesseSans-Black"}}>IK Sirius Datahub</Text>
                 </View>
             

@@ -110,21 +110,38 @@ export default function ManualCS(props) {
                 onChangeText={setSearch}
                 />
                 <View style={styles.rightLower}>
+                    <View style={{ flexDirection:"row", justifyContent:"space-evenly"}}>
+                        <TouchableOpacity style={[styles.filterButton, { backgroundColor: filteredButtons.includes(0) ? "#0059a1" : "#001a30"}]}
+                        onPress={() => setOffensive(!offensive)}>
+                            <Text style={[styles.text, { fontSize: windowHeight/50}]}>Offensiva aktioner</Text>
+                        </TouchableOpacity>
 
-                    <TouchableOpacity style={[styles.filterButton, { backgroundColor: filteredButtons.includes(0) ? "#0059a1" : "#001a30"}]}
-                    onPress={() => setOffensive(!offensive)}>
-                        <Text style={[styles.text, { fontSize: windowHeight/50}]}>Offensiva aktioner</Text>
-                    </TouchableOpacity>
+                        <TouchableOpacity style={[styles.filterButton, { backgroundColor: filteredButtons.includes(1) ? "#0059a1" : "#001a30"}]}
+                        onPress={() => setPlaymake(!playmake)}>
+                            <Text style={[styles.text, { fontSize: windowHeight/50}]}>Speluppbygnad</Text>
+                        </TouchableOpacity>
 
-                    <TouchableOpacity style={[styles.filterButton, { backgroundColor: filteredButtons.includes(1) ? "#0059a1" : "#001a30"}]}
-                    onPress={() => setPlaymake(!playmake)}>
-                        <Text style={[styles.text, { fontSize: windowHeight/50}]}>Speluppbygnad</Text>
-                    </TouchableOpacity>
+                        <TouchableOpacity style={[styles.filterButton, { backgroundColor: filteredButtons.includes(2) ? "#0059a1" : "#001a30"}]}
+                        onPress={() => setDefense(!defense)}>
+                            <Text style={[styles.text, { fontSize: windowHeight/50}]}>Försvarsspel</Text>
+                        </TouchableOpacity>
+                    </View>
 
-                    <TouchableOpacity style={[styles.filterButton, { backgroundColor: filteredButtons.includes(2) ? "#0059a1" : "#001a30"}]}
-                    onPress={() => setDefense(!defense)}>
-                        <Text style={[styles.text, { fontSize: windowHeight/50}]}>Försvarsspel</Text>
-                    </TouchableOpacity>
+                    <View style={styles.graphs}>
+                        <TouchableOpacity style={styles.graphButton}
+                        onPress={() => props.nav.navigate("Spider", { players: props.players, stats: selectedStats})}>
+                            <Text style={styles.text}>Spindel</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.graphButton}>
+                            <Text style={styles.text}>Stapel</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.graphButton}>
+                            <Text style={styles.text}>X/Y-diagram</Text>
+                        </TouchableOpacity>
+
+                </View>
 
                 </View>
             </View>
@@ -181,11 +198,11 @@ const styles = StyleSheet.create({
         color:"white"
     },
     rightLower: {
-        flexDirection:"row",
         width: windowWidth*0.5,
-        height: windowHeight/14,
+        height: windowHeight/2,
         marginTop: "5%",
         justifyContent:"center",
+        backgroundColor:"white"
     },
     filterButton: {
         width: windowWidth*0.13,
@@ -194,6 +211,20 @@ const styles = StyleSheet.create({
         aligntItems: "center",
         borderRadius: 100,
         marginHorizontal: windowHeight*0.011
-
-    }
+    },
+    graphs: {
+        height: windowHeight/5,
+        borderRadius: 20,
+        marginTop: "2%",
+        flexDirection:"row",
+        alignItems:"center",
+        justifyContent:"space-evenly"
+    },
+    graphButton: {
+        height: windowHeight/8,
+        width: windowWidth/10,
+        backgroundColor:"gray",
+        borderRadius: 20,
+        justifyContent:"center"
+    },
 })

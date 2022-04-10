@@ -19,7 +19,7 @@ function Header(props) {
                    </TouchableOpacity>
 
                    <TouchableOpacity
-                   onPress={() => props.nextIsOK == "white" ? props.nav.push("ChooseStats") : {}}>
+                   onPress={() => props.nextIsOK == "white" ? props.nav.navigate("ChooseStats", { players: props.players }) : {}}>
                        <Text style={{ color: props.nextIsOK, fontWeight: "bold", fontSize: 18, fontFamily: "VitesseSans-Book"}}>
                            Nästa -{">"}
                        </Text>
@@ -43,45 +43,10 @@ function Header(props) {
                <View style={{ flex: 0.8}}>
                    <Text style={{fontSize: 50, fontWeight:"bold", color: "white", fontFamily: "VitesseSans-Black"}}>IK Sirius Datahub</Text>
                </View>
-               <View style={{ flex: 0.1}}>
-                    <TouchableOpacity
-                    onPress={() => props.nav.push("ChooseGraph")}>
-                        <Text style={{ color: "white", fontWeight: "bold", fontSize: 18, fontFamily: "VitesseSans-Book"}}>
-                            Nästa -{">"}
-                        </Text>
-                   </TouchableOpacity>
-
-               </View>
                
            </View>
        )
     } else if (props.stackIndex == 2) {
-        return(
-            <View style={props.header}>
-                <View style={{flex: 0.1}}>  
-                   <TouchableOpacity
-                   onPress={() => props.nav.goBack()}>
-                       <Text style={{ color: "white", fontWeight: "bold", fontSize: 18, fontFamily: "VitesseSans-Book"}}>
-                           {"<"}- Tillbaks
-                       </Text>
-                   </TouchableOpacity>
-               </View>
-               <View style={{ flex: 0.8}}>
-                   <Text style={{fontSize: 50, fontWeight:"bold", color: "white", fontFamily: "VitesseSans-Black"}}>IK Sirius Datahub</Text>
-               </View>
-               <View style={{ flex: 0.1}}>
-                    <TouchableOpacity
-                    onPress={() => props.nav.goBack()}>
-                        <Text style={{ color: "white", fontWeight: "bold", fontSize: 18, fontFamily: "VitesseSans-Book"}}>
-                            Nästa -{">"}
-                        </Text>
-                   </TouchableOpacity>
-
-               </View>
-               
-           </View>
-       )
-    } else if (props.stackIndex == 3) {
         return(
             <View style={props.header}>
                 <View style={{flex: 0.1}}>  

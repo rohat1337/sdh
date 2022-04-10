@@ -23,6 +23,7 @@ function ChoosePlayer(props) {
     const [field, setField] = useState([])
     const [players, setPlayers] = useState([])
     const [selectedPlayers, setSelectedPlayers] = useState([])
+    const [selectedPlayersWithID, setSelectedPlayersWithID] = useState([])
     const [player, setPlayer] = useState(null)
     const [searchTeam, setTeam] = useState("")
     const [searchPosition, setPosition] = useState("")
@@ -45,16 +46,17 @@ function ChoosePlayer(props) {
                 data = data[1]
                 var result = []
                 var keys = Object.keys(data)
+                keys.push("ID")
+
                 // Get lists of all names, team names etc..
+                var ids = Object.keys(data["Player"])
                 var players = Object.values(data["Player"])
-                var teams = Object.values(data["Team within selected timeframe"])
-                
-                
-                var position = Object.values(data["Position"])
-                
+                var teams = Object.values(data["Team within selected timeframe"])                               
+                var position = Object.values(data["Position"])               
                 var age = Object.values(data["Age"])
                 var minutes = Object.values(data["Minutes played"])
-                var list = zip(players, teams, position, age, minutes)
+                var list = zip(players, teams, position, age, minutes, ids)
+
                 // For every player, create object
                 // This is only needed because of format issues from flask (no object propety names to access)
                 for (var player of list) {
@@ -68,16 +70,19 @@ function ChoosePlayer(props) {
                 }
                 setPlayers(result)
                 setSearchPlayer("")
+
             })
     }, [])
 
     // Check if selected player is already chosen or not.
     useEffect(() => {
         if (player != null) {
-            if (selectedPlayers.includes(player)) {
-                setSelectedPlayers(arrayRemove(selectedPlayers, player))
+            if (selectedPlayers.includes(player.Name)) {
+                setSelectedPlayers(arrayRemove(selectedPlayers, player.Name))
+                setSelectedPlayersWithID(arrayRemove(selectedPlayersWithID, player))
             } else {
-                setSelectedPlayers([...selectedPlayers, player])
+                setSelectedPlayers([...selectedPlayers, player.Name])
+                setSelectedPlayersWithID([...selectedPlayersWithID, player])
             }
         }
         setPlayer(null)
@@ -85,7 +90,7 @@ function ChoosePlayer(props) {
 
     return (
         <View style={{ flexDirection: "column" }}>
-            <Header header={styles.header} nav={props.navigation} stackIndex={0} players={selectedPlayers[0]} nextIsOK={selectedPlayers.length > 0 ? "white" : "gray"} />
+            <Header header={styles.header} nav={props.navigation} stackIndex={0} players={selectedPlayersWithID} nextIsOK={selectedPlayers.length > 0 ? "white" : "gray"} />
             <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode="cover">
 
                 <View style={styles.root_left}>
@@ -107,7 +112,7 @@ function ChoosePlayer(props) {
                             return (
                                 <View style={styles.players_TO}>
                                     <TouchableOpacity
-                                        onPress={() => setPlayer(item.Player)}>
+                                        onPress={() => setPlayer({"Name": item.Player, "ID": item.ID})}>
                                         <View style={styles.players_V}>
                                             <View style={styles.players_V_L}>
                                                 <Text style={[styles.text_L, { color: textColor }]}>{item["Player"]}</Text>

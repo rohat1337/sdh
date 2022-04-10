@@ -1,3 +1,4 @@
+var _ = require('lodash')
 
 export function getPlayerStats(id) {
   try {
@@ -9,7 +10,11 @@ export function getPlayerStats(id) {
 
 export function getSpecificStats(id, stats) {
   try {
-    return fetch(`http://localhost:5000/specificData/${id}/${arrayToString(stats)}`)
+    return fetch(`http://localhost:5000/specificData/${id}/${arrayToString(stats)}`).then((response) => {
+      const statusCode = response.status;
+      const data = response.json();
+      return Promise.all([statusCode, data]);
+  })
   } catch (error) {
     console.log(error)
   }
@@ -135,7 +140,7 @@ export function getStatNames() {
 
 export function arrayRemove(arr, value) {
   return arr.filter(function (ele) {
-    return ele !== value;
+    return !_.isEqual(ele, value)
   });
 }
 

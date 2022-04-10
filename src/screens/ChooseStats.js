@@ -9,7 +9,7 @@ const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 function ChooseStats(props) {
-
+    var playersWithID = props.navigation.state.params.players;
     // States
     const [button, setButton] = useState(true)
 
@@ -23,7 +23,7 @@ function ChooseStats(props) {
                 {/* Välj KPI:er eller mallar (header) */}
                 <View>
                     <CSLowerHeader setButton={setButton} button={button}/>
-                    <ManualCS />
+                    <ManualCS nav={props.navigation} players={playersWithID} />
                 </View>
 
             </ImageBackground>

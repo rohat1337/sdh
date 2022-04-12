@@ -8,8 +8,6 @@ import Header from "../components/Header";
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
-
-
 let age;
 let height_cm;
 let contract_lengths;

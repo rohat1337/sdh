@@ -100,8 +100,6 @@ export function fixPlayerPositions(position) {
 
 }
 
-
-
 export function uncheckFieldBox(field, box) {
   box = box.replace("0", "").split(", ")
   return field.filter(ele => !box.includes(ele))

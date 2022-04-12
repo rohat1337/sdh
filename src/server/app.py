@@ -1,4 +1,5 @@
 
+from multiprocessing.dummy import Array
 from flask import Flask, redirect, url_for, render_template, request, flash
 import pandas as pd
 import sys
@@ -13,6 +14,7 @@ df = openExcelFile()
 app = Flask(__name__)
 CORS(app)
 app.config['JSON_AS_ASCII'] = False
+# app.config['APPLICATION_ROOT'] = '/api/v1'
 
 # forward positions
 forwardPos = ['SS', 'CF', 'LWF', 'RWF', 'LW', 'RW']
@@ -49,6 +51,7 @@ def specific_info(stats, id: int):
 
 def get_max_for_stat(stats, data: pd.DataFrame):
     result = {}
+    print(len(data))
 
     for stat in stats:
         result[stat] = float(data[stat].max())
@@ -66,6 +69,28 @@ def basic_info():
                 new_df[label] = content
 
     return new_df.to_json(force_ascii=False)
+
+# Creates a series of true/false depending on if any value in series is present in arr
+def filter_for_position_arr(series: pd.Series, arr: Array) -> pd.Series: 
+        result = []
+        for _, value in series.iteritems():
+            new_arr = value.split(",")
+
+            #ugly done flag
+            done = False
+            for val in new_arr:
+                # Check if any position in df["Position"] exists in arr
+                if val in arr and not done:
+                    result.append(True)
+
+                    # To make sure we do not return true for many positions
+                    # Ex. if a player has ["RCB", "CB", "RB"] and we are checking for defender positions
+                    # We only want to return true once, and not for all their positions
+                    # To keep len(result) == len(series) true
+                    done = True
+            if not done:
+                result.append(False)
+        return pd.Series(result)
 
 def allStats():
     return json.dumps(list(df.columns)[9:-1])
@@ -97,18 +122,18 @@ def mid_allsvenskan():
 
 @app.route("/defAllsvenskan")
 def def_allsvenskan():
-    return allPlayersForPosition(defenderPos)
+
+    is_defender = filter_for_position_arr(df["Position"], defenderPos)
+    return df[is_defender].to_json(orient="records")
 
 @app.route("/gkAllsvenskan")
 def gk_allsvenskan():
-    print("HEEEEEEEjjjjjjJ")
     result = {}
     positionJson = json.loads(df["Position"].to_json())
     for player in positionJson:
         if positionJson[player] == "GK":
             result[player] = "GK"
     return json.dumps(result)
-
 
 @app.route("/player/<id>")
 def player(id):
@@ -146,26 +171,22 @@ def max_stats_all(stats=None):
 
 @app.route("/maxStats/<stats>/<position>")
 def max_stats_for_position(stats=None, position=None):
-    plays_alot = df["Minutes played"] > 500
-    df_temp = df[plays_alot]
-
-    print("Checking for ", position, "'s")
-    print(df_temp["Position"])
-
-    if position in defenderPos:
-        defenders = df_temp["Position"].isin(defenderPos)
-        df_temp = df_temp[defenders]
-    elif position in midfielderPos:
-        midfielders = df_temp["Position"].isin(midfielderPos)
-        df_temp = df_temp[midfielders]
-    elif position in forwardPos:
-        forwards = df_temp["Position"].isin(forwardPos)
-        df_temp = df_temp[forwards]
+    
+    if position == "DEFENDER":
+        is_defender = filter_for_position_arr(df["Position"], defenderPos)
+        df_temp = df[is_defender]
+    elif position == "MIDFIELDER":
+        is_midfielder = filter_for_position_arr(df["Position"], midfielderPos)
+        df_temp = df[is_midfielder]
+    elif position == "ATTACKER":
+        is_forward = filter_for_position_arr(df["Position"], forwardPos)
+        df_temp = df[is_forward]
     else:
-        return "No such position exists"   
+        return "No such position exists"
 
-    print("========filtered df========")
-    print(df_temp)
+    # Remove outliers
+    plays_alot = df["Minutes played"] > 500
+    df_temp = df_temp[plays_alot]
 
     specificStats = stats.split("$")
     specificStats.remove("")

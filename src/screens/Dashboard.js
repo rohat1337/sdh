@@ -6,7 +6,7 @@ import InfoSquare from "../components/Dashboard/Infosquare";
 import Offensive_Actions from "../components/Dashboard/Offensive_Actions"
 import Speluppbyggnad from "../components/Dashboard/Speluppbyggnad";
 import Header from "../components/Header";
-import { getPlayerStats, getMaxStatsAll, getMaxStatsForPosition } from "../data";
+import { getPlayerStats, getMaxStatsAll, getMaxStatsForPosition, uncheckFieldBox } from "../data";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -15,10 +15,12 @@ function Dashboard(props) {
 
     const [selectedPlayer, setSelectedPlayer] = useState(null)
     const [maxStats, setMaxStats] = useState(null)
-    // const [maxOffensive, setMaxOffensive] = useState(null)
-    // const [maxSpeluppbyggnad, setMaxSpeluppbyggnad] = useState(null)
-    // const [maxStats, setMaxDefensive] = useState(null)
-    // const [maxStats, setMaxFastaSituationer] = useState(null)
+    const [defenseState, setDefenseState] = useState(false)
+    const [midfielderState, setMidfielderState] = useState(false)
+    const [attackerState, setAttackerState] = useState(false)
+    const [filterLabel, setFilterLabel] = useState("Filter: ALLA SPELARE")
+
+    
 
     useEffect(() => {
         getPlayerStats(props.navigation.getParam("player_id", "default"))
@@ -45,15 +47,103 @@ function Dashboard(props) {
         })
     }, [])
 
+    //STATE FOR DEFENSE FILTERING
     useEffect(() => {
-        if (selectedPlayer != null) {
-            setMaxStats(getMaxStatsForPosition(all_stats, selectedPlayer["Position"][0]))
+        console.log(defenseState)
+        if (defenseState) {
+            //fetch all stats
+            getMaxStatsForPosition(all_stats, "DEFENDER")
+            .then((response) => {
+                const statusCode = response.status;
+                const data = response.json();
+                return Promise.all([statusCode, data]);
+            })
+            .then((data) => {
+                data = data[1]
+                setMaxStats(data)
+                setFilterLabel("Filter: FÖRSVARARE")
+            })
+        } else {
+            //fetch all stats
+            getMaxStatsAll(all_stats)
+            .then((response) => {
+                const statusCode = response.status;
+                const data = response.json();
+                return Promise.all([statusCode, data]);
+            })
+            .then((data) => {
+                data = data[1]
+                setMaxStats(data)
+                setFilterLabel("Filter: ALLA SPELARE")
+            })
         }
-        
-    }, [maxStats])
+    }, [defenseState])
+
+    //STATE FOR MIDFIELDER FILTERING
+    useEffect(() => {
+        console.log(midfielderState)
+        if (midfielderState) {
+            //fetch all stats
+            getMaxStatsForPosition(all_stats, "MIDFIELDER")
+            .then((response) => {
+                const statusCode = response.status;
+                const data = response.json();
+                return Promise.all([statusCode, data]);
+            })
+            .then((data) => {
+                data = data[1]
+                setMaxStats(data)
+                setFilterLabel("Filter: MITTFÄLTARE")
+            })
+        } else {
+            //fetch all stats
+            getMaxStatsAll(all_stats)
+            .then((response) => {
+                const statusCode = response.status;
+                const data = response.json();
+                return Promise.all([statusCode, data]);
+            })
+            .then((data) => {
+                data = data[1]
+                setMaxStats(data)
+                setFilterLabel("Filter: ALLA SPELARE")
+            })
+        }
+    }, [midfielderState])
+
+    //STATE FOR ATTACKER FILTERING
+    useEffect(() => {
+        console.log(attackerState)
+        if (attackerState) {
+            //fetch all stats
+            getMaxStatsForPosition(all_stats, "ATTACKER")
+            .then((response) => {
+                const statusCode = response.status;
+                const data = response.json();
+                return Promise.all([statusCode, data]);
+            })
+            .then((data) => {
+                data = data[1]
+                setMaxStats(data)
+                setFilterLabel("Filter: ANFALLARE")
+            })
+        } else {
+            //fetch all stats
+            getMaxStatsAll(all_stats)
+            .then((response) => {
+                const statusCode = response.status;
+                const data = response.json();
+                return Promise.all([statusCode, data]);
+            })
+            .then((data) => {
+                data = data[1]
+                setMaxStats(data)
+                setFilterLabel("Filter: ALLA SPELARE")
+            })
+        }
+    }, [attackerState])
     
     //Tagna från Adrians excelark
-   
     let offensive_actions = ["Non-penalty goals per 90", "xG per 90", "Shots per 90", "Shots on target, %", "Assists per 90", "Crosses from left flank per 90", "Accurate crosses from left flank, %", "Crosses from right flank per 90", "Accurate crosses from right flank, %", "Dribbles per 90", "Successful dribbles, %", "Offensive duels per 90", "Offensive duels won, %", "Touches in box per 90", "Progressive runs per 90", "Accelerations per 90"]
     let speluppbyggnad = ["Received passes per 90", "Passes per 90", "Accurate passes, %", "Forward passes per 90", "Accurate forward passes, %", "Average pass length, m", "xA per 90", "Shot assists per 90", "Passes to final third per 90", "Accurate passes to final third, %", "Passes to penalty area per 90", "Accurate passes to penalty area, %", "Deep completions per 90", "Progressive passes per 90", "Accurate progressive passes, %"]
     let defensive_actions = ["Successful defensive actions per 90", "Defensive duels per 90", "Defensive duels won, %", "Aerial duels per 90", "Aerial duels won, %", "Sliding tackles per 90", "PAdj Sliding tackles", "Shots blocked per 90", "PAdj Interceptions"]
@@ -67,7 +157,6 @@ function Dashboard(props) {
 
             {/* Till senare: Hur ska man switcha mellan om man valt flera spelare innan man går till dashboarden*/}
 
-
             {/* Put content here (This view is divided into 4 parts, row) */}
             <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode="cover">
                 {/* Leftmost view, inforutan + 10 viktigaste mätpunkterna*/}
@@ -79,15 +168,32 @@ function Dashboard(props) {
                     </View>
 
                     {/* Viktigaste mätpunkterna */}
-                    <View style={{ flex: 0.5, flexDirection:"column", margin: "5%" }}>
+                    <View style={{ flex: 0.5, flexDirection:"column", margin: "5%"}}>
+
+                        {/* Label for active filters */}
+                        <Text style={{fontSize:20, textAlign:"center", color:"white", fontFamily: "VitesseSans-Book"}}>{filterLabel}</Text>
+
+                        {/* Filter buttons (THESE WILL NEED CHANGES) */}
+
+                        {/* Defense filter */}
                         <View style={{alignContent:"center", textAlign:"center", padding:"2%"}}>
-                            <TouchableOpacity style={{backgroundColor:"blue"}} onPress={setMaxStats}>Försvarare</TouchableOpacity>
+                            <TouchableOpacity style={{backgroundColor:"blue"}} onPress={() => setDefenseState(!defenseState)}>
+                                <Text style={{fontSize:20, textAlign:"center", color: defenseState ? "red": "white", fontFamily: "VitesseSans-Book"}}>Försvarare</Text>
+                            </TouchableOpacity>
                         </View>
+
+                        {/* Midfielder filter */}
                         <View style={{alignContent:"center", textAlign:"center", padding:"2%"}}>
-                            <TouchableOpacity style={{backgroundColor:"blue"}}>Mittfältare</TouchableOpacity>
+                            <TouchableOpacity style={{backgroundColor:"blue"}} onPress={() => setMidfielderState(!midfielderState)}>
+                                <Text style={{fontSize:20, textAlign:"center", color: midfielderState ? "red": "white", fontFamily: "VitesseSans-Book"}}>Mittfältare</Text>
+                            </TouchableOpacity>
                         </View>
+
+                        {/* Attacker filter */}
                         <View style={{alignContent:"center", textAlign:"center", padding:"2%"}}>
-                            <TouchableOpacity style={{backgroundColor:"blue"}}>Anfallare</TouchableOpacity>
+                            <TouchableOpacity style={{backgroundColor:"blue"}} onPress={() => setAttackerState(!attackerState)}>
+                                    <Text style={{fontSize:20, textAlign:"center", color: attackerState ? "red": "white", fontFamily: "VitesseSans-Book"}}>Anfallare</Text>
+                            </TouchableOpacity>
                         </View>
                     </View>
 
@@ -105,14 +211,16 @@ function Dashboard(props) {
                     <Speluppbyggnad player={selectedPlayer} stats={speluppbyggnad} maxStats={maxStats}/>
                 </View>
 
-                {/* Försvarsspel */}
+                
                 <View style={{ flex: 0.25, height: windowHeight - windowHeight/10 }}>
-                    <View style={{flex: 0.6}}>
+                    {/* Defensiva aktioner */}
+                    <View style={{flex: 0.55}}>
                         <Text style={{fontSize:30, textAlign:"center", color:"white", fontFamily: "VitesseSans-Book"}}>Defensiva aktioner</Text>
                         <Defensive_Actions player={selectedPlayer} stats={defensive_actions} maxStats={maxStats}/>
                     </View>
 
-                    <View style={{flex: 0.4}}>
+                    {/* Fasta situationer */}
+                    <View style={{flex: 0.45}}>
                         <Text style={{fontSize:30, textAlign:"center", color:"white", fontFamily: "VitesseSans-Book"}}>Fasta situationer</Text>
                         <Fasta_Situationer player={selectedPlayer} stats={fasta_situationer} maxStats={maxStats}/>
                     </View>

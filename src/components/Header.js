@@ -7,8 +7,8 @@ function Header(props) {
     if (props.stackIndex == 0) {
         return(
             <View style={props.header}>
-                <View style={{ flex: 0.33, backgroundColor: "yellow"}}>
-                    <Text>cock</Text>
+                <View style={{ flex: 0.33}}>
+                    
                 </View>
 
 

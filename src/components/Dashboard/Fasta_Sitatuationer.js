@@ -20,7 +20,6 @@ function Fasta_Situationer(props) {
 
                             let progressColor = ""
                             var percentile = (Object.values(props.player[item]) / props.maxStats[item])
-                            
                             if (percentile > 0.75) {
                                 progressColor = "green"
                             } else if (percentile < 0.25) {
@@ -29,8 +28,11 @@ function Fasta_Situationer(props) {
                                 progressColor = "yellow"
                             }
                             return(
-                                <View style={{alignItems:"center", padding: "1%"}}>
-                                    <Text style={styles.slider_text}>{item}: {Object.values(props.player[item])} </Text>
+                                <View style={{padding: "1%"}}>
+                                    <View style={{flexDirection: "row"}}>
+                                        <Text style={styles.slider_text_left}>{item}: {Object.values(props.player[item])}</Text>
+                                        <Text style={styles.slider_text_right}>(MAX: {props.maxStats[item]})</Text>
+                                    </View>
                                     <Line percent={percentile*100} strokeWidth="2" strokeColor={progressColor}/>
                                 </View>
                             )
@@ -44,13 +46,21 @@ function Fasta_Situationer(props) {
 
 const styles = StyleSheet.create({
 
-    slider_text: {
+    slider_text_left: {
+        flex:0.75,
         fontSize: 17,
-        textAlign: "center",
-        width: "100%",
+        textAlign: "left",
         color: "white",
         fontFamily: "VitesseSans-Book",
-        marginVertical: "1%",
+        marginVertical: "1%"
+    },
+    slider_text_right: {
+        flex:0.25,
+        fontSize: 17,
+        textAlign: "right",
+        color: "white",
+        fontFamily: "VitesseSans-Book",
+        marginVertical: "1%"
     }
 
 })

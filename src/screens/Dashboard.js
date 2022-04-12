@@ -7,6 +7,7 @@ import Offensive_Actions from "../components/Dashboard/Offensive_Actions"
 import Speluppbyggnad from "../components/Dashboard/Speluppbyggnad";
 import Header from "../components/Header";
 import { getPlayerStats, getMaxStatsAll, getMaxStatsForPosition, uncheckFieldBox } from "../data";
+import Dashboard_Playerfield from "../components/Dashboard/Dashbord_Playerfield"
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -19,6 +20,7 @@ function Dashboard(props) {
     const [midfielderState, setMidfielderState] = useState(false)
     const [attackerState, setAttackerState] = useState(false)
     const [filterLabel, setFilterLabel] = useState("Filter: ALLA SPELARE")
+    const [field, setField] = useState([])
 
     
 
@@ -142,6 +144,15 @@ function Dashboard(props) {
             })
         }
     }, [attackerState])
+
+    //for playerfield dashboard
+    function changeField(positions) {
+        if (positions.includes("0")) {
+            setField(uncheckFieldBox(field, positions))
+        } else {
+            setField([...field, ...positions.split(", ")])
+        }
+    }
     
     //Tagna från Adrians excelark
     let offensive_actions = ["Non-penalty goals per 90", "xG per 90", "Shots per 90", "Shots on target, %", "Assists per 90", "Crosses from left flank per 90", "Accurate crosses from left flank, %", "Crosses from right flank per 90", "Accurate crosses from right flank, %", "Dribbles per 90", "Successful dribbles, %", "Offensive duels per 90", "Offensive duels won, %", "Touches in box per 90", "Progressive runs per 90", "Accelerations per 90"]
@@ -163,39 +174,44 @@ function Dashboard(props) {
                 <View style={{ flex: 0.25, height: windowHeight - windowHeight / 10}}>
 
                     {/* Inforutan */}
-                    <View style={{ flex: 0.5, margin: "5%", flexDirection: "column"}}>
+                    <View style={{ flex: 0.5, flexDirection: "column"}}>
                         <InfoSquare player={selectedPlayer} />
                     </View>
+                    <View style={{flex: 0.5}}>
+                        <Dashboard_Playerfield func={changeField}></Dashboard_Playerfield>
+                    </View>
+                    
 
                     {/* Viktigaste mätpunkterna */}
-                    <View style={{ flex: 0.5, flexDirection:"column", margin: "5%"}}>
+                    {/* <View style={{ flex: 0.5, flexDirection:"column", margin: "5%"}}>
 
                         {/* Label for active filters */}
-                        <Text style={{fontSize:20, textAlign:"center", color:"white", fontFamily: "VitesseSans-Book"}}>{filterLabel}</Text>
+                        {/* <Text style={{fontSize:20, textAlign:"center", color:"white", fontFamily: "VitesseSans-Book"}}>{filterLabel}</Text> */}
 
                         {/* Filter buttons (THESE WILL NEED CHANGES) */}
 
                         {/* Defense filter */}
-                        <View style={{alignContent:"center", textAlign:"center", padding:"2%"}}>
-                            <TouchableOpacity style={{backgroundColor:"blue"}} onPress={() => setDefenseState(!defenseState)}>
+                        {/* <View style={{alignContent:"center", textAlign:"center", padding:"2%"}}> */}
+                            {/* <TouchableOpacity style={{backgroundColor:"blue"}} onPress={() => setDefenseState(!defenseState)}>
                                 <Text style={{fontSize:20, textAlign:"center", color: defenseState ? "red": "white", fontFamily: "VitesseSans-Book"}}>Försvarare</Text>
                             </TouchableOpacity>
-                        </View>
+                        </View> */}
 
                         {/* Midfielder filter */}
-                        <View style={{alignContent:"center", textAlign:"center", padding:"2%"}}>
+                        {/* <View style={{alignContent:"center", textAlign:"center", padding:"2%"}}>
                             <TouchableOpacity style={{backgroundColor:"blue"}} onPress={() => setMidfielderState(!midfielderState)}>
                                 <Text style={{fontSize:20, textAlign:"center", color: midfielderState ? "red": "white", fontFamily: "VitesseSans-Book"}}>Mittfältare</Text>
                             </TouchableOpacity>
-                        </View>
+                        </View> */}
 
                         {/* Attacker filter */}
-                        <View style={{alignContent:"center", textAlign:"center", padding:"2%"}}>
+                        {/* <View style={{alignContent:"center", textAlign:"center", padding:"2%"}}>
                             <TouchableOpacity style={{backgroundColor:"blue"}} onPress={() => setAttackerState(!attackerState)}>
                                     <Text style={{fontSize:20, textAlign:"center", color: attackerState ? "red": "white", fontFamily: "VitesseSans-Book"}}>Anfallare</Text>
                             </TouchableOpacity>
-                        </View>
-                    </View>
+                        </View> */}
+                    
+                    {/* </View> */}
 
                 </View>
 

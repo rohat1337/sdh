@@ -73,6 +73,7 @@ def basic_info():
 # Creates a series of true/false depending on if any value in series is present in arr
 def filter_for_position_arr(series: pd.Series, arr: Array) -> pd.Series: 
         result = []
+        
         for _, value in series.iteritems():
             new_arr = value.split(",")
 

@@ -20,8 +20,6 @@ function Dashboard(props) {
     const [attackerState, setAttackerState] = useState(false)
     const [filterLabel, setFilterLabel] = useState("Filter: ALLA SPELARE")
 
-    
-
     useEffect(() => {
         getPlayerStats(props.navigation.getParam("player_id", "default"))
         .then((response) => {

@@ -5,6 +5,8 @@ import Slider from '@react-native-community/slider';
 import PlayerField from "../components/PlayerField";
 import Header from "../components/Header";
 
+import { fixPlayerPositions } from "../data";
+
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
@@ -105,6 +107,7 @@ function ChoosePlayer(props) {
     return (
         <View style={{ flexDirection: "column" }}>
             <Header header={styles.header} nav={props.navigation} stackIndex={0} player_id={selectedPlayers[0]} nextIsOK={selectedPlayers.length > 0 ? "white" : "gray"} />
+
             <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode="cover">
 
                 <View style={styles.root_left}>

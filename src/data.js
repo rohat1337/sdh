@@ -38,8 +38,6 @@ export function round_market_value(int) {
   return int/1000000
 }
 
-
-
 export function fixPlayerPositions(position) {
 
   var result = [];
@@ -48,8 +46,8 @@ export function fixPlayerPositions(position) {
 
 
   for (let index = 0; index < arrayOfPositions.length; index++) {
-
     if (arrayOfPositions[index] == "gk") {
+
       result.push("MV")
     }
 
@@ -96,7 +94,6 @@ export function fixPlayerPositions(position) {
   result.sort()
   result = [...new Set(result)]
   return result.join(", ")
-
 
 }
 
@@ -162,8 +159,8 @@ export function checkFoot(player, left, right) {
   }
 }
 
-
 export function contractToString(milliSeconds){
   var expiryDate = new Date(milliSeconds)
   return expiryDate.toString().slice(3,7) + expiryDate.toString().slice(10,15)
 }
+

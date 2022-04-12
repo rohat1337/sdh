@@ -22,8 +22,6 @@ function Dashboard(props) {
     const [filterLabel, setFilterLabel] = useState("Filter: ALLA SPELARE")
     const [field, setField] = useState([])
 
-    
-
     useEffect(() => {
         getPlayerStats(props.navigation.getParam("player_id", "default"))
         .then((response) => {

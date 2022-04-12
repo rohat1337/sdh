@@ -142,6 +142,14 @@ export function getMaxStatsForPosition(stats, position) {
   }
 }
 
+export function getMaxStatsForPositionArray(stats, array) {
+  try {
+    return fetch(`http://localhost:5000/maxStatsFromArray/${arrayToString(stats)}/${arrayToString(array)}`)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export function arrayRemove(arr, value) {
   return arr.filter(function (ele) {
     return ele !== value;

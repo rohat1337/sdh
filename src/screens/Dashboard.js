@@ -6,7 +6,7 @@ import InfoSquare from "../components/Dashboard/Infosquare";
 import Offensive_Actions from "../components/Dashboard/Offensive_Actions"
 import Speluppbyggnad from "../components/Dashboard/Speluppbyggnad";
 import Header from "../components/Header";
-import { getPlayerStats, getMaxStatsAll, getMaxStatsForPosition, uncheckFieldBox } from "../data";
+import { getPlayerStats, getMaxStatsAll, getMaxStatsForPosition, uncheckFieldBox, getMaxStatsForPositionArray } from "../data";
 import Dashboard_Playerfield from "../components/Dashboard/Dashbord_Playerfield"
 
 const windowWidth = Dimensions.get("window").width;
@@ -16,10 +16,6 @@ function Dashboard(props) {
 
     const [selectedPlayer, setSelectedPlayer] = useState(null)
     const [maxStats, setMaxStats] = useState(null)
-    const [defenseState, setDefenseState] = useState(false)
-    const [midfielderState, setMidfielderState] = useState(false)
-    const [attackerState, setAttackerState] = useState(false)
-    const [filterLabel, setFilterLabel] = useState("Filter: ALLA SPELARE")
     const [field, setField] = useState([])
 
     useEffect(() => {
@@ -47,12 +43,10 @@ function Dashboard(props) {
         })
     }, [])
 
-    //STATE FOR DEFENSE FILTERING
     useEffect(() => {
-        console.log(defenseState)
-        if (defenseState) {
-            //fetch all stats
-            getMaxStatsForPosition(all_stats, "DEFENDER")
+        if (field.length > 0) {
+            console.log("fetching for positions: ", field)
+            getMaxStatsForPositionArray(all_stats, field)
             .then((response) => {
                 const statusCode = response.status;
                 const data = response.json();
@@ -61,7 +55,6 @@ function Dashboard(props) {
             .then((data) => {
                 data = data[1]
                 setMaxStats(data)
-                setFilterLabel("Filter: FÖRSVARARE")
             })
         } else {
             //fetch all stats
@@ -74,81 +67,18 @@ function Dashboard(props) {
             .then((data) => {
                 data = data[1]
                 setMaxStats(data)
-                setFilterLabel("Filter: ALLA SPELARE")
             })
         }
-    }, [defenseState])
-
-    //STATE FOR MIDFIELDER FILTERING
-    useEffect(() => {
-        console.log(midfielderState)
-        if (midfielderState) {
-            //fetch all stats
-            getMaxStatsForPosition(all_stats, "MIDFIELDER")
-            .then((response) => {
-                const statusCode = response.status;
-                const data = response.json();
-                return Promise.all([statusCode, data]);
-            })
-            .then((data) => {
-                data = data[1]
-                setMaxStats(data)
-                setFilterLabel("Filter: MITTFÄLTARE")
-            })
-        } else {
-            //fetch all stats
-            getMaxStatsAll(all_stats)
-            .then((response) => {
-                const statusCode = response.status;
-                const data = response.json();
-                return Promise.all([statusCode, data]);
-            })
-            .then((data) => {
-                data = data[1]
-                setMaxStats(data)
-                setFilterLabel("Filter: ALLA SPELARE")
-            })
-        }
-    }, [midfielderState])
-
-    //STATE FOR ATTACKER FILTERING
-    useEffect(() => {
-        console.log(attackerState)
-        if (attackerState) {
-            //fetch all stats
-            getMaxStatsForPosition(all_stats, "ATTACKER")
-            .then((response) => {
-                const statusCode = response.status;
-                const data = response.json();
-                return Promise.all([statusCode, data]);
-            })
-            .then((data) => {
-                data = data[1]
-                setMaxStats(data)
-                setFilterLabel("Filter: ANFALLARE")
-            })
-        } else {
-            //fetch all stats
-            getMaxStatsAll(all_stats)
-            .then((response) => {
-                const statusCode = response.status;
-                const data = response.json();
-                return Promise.all([statusCode, data]);
-            })
-            .then((data) => {
-                data = data[1]
-                setMaxStats(data)
-                setFilterLabel("Filter: ALLA SPELARE")
-            })
-        }
-    }, [attackerState])
+    }, [field])
 
     //for playerfield dashboard
     function changeField(positions) {
         if (positions.includes("0")) {
             setField(uncheckFieldBox(field, positions))
+            console.log("field: ", field)
         } else {
             setField([...field, ...positions.split(", ")])
+            console.log("field: ", field)
         }
     }
     

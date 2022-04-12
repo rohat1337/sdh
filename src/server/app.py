@@ -54,7 +54,10 @@ def get_max_for_stat(stats, data: pd.DataFrame):
     print(len(data))
 
     for stat in stats:
-        result[stat] = float(data[stat].max())
+        if data[stat].max() == 'NaN':
+            result[stat] = 0
+        else:
+            result[stat] = float(data[stat].max())
 
     return json.dumps(result)
 
@@ -75,15 +78,14 @@ def filter_for_position_arr(series: pd.Series, arr: Array) -> pd.Series:
         result = []
         
         for _, value in series.iteritems():
-            new_arr = value.split(",")
-
+            #also removes spaces after split, if there are any (there were in some)
+            new_arr = [x.strip() for x in value.split(",")]
             #ugly done flag
             done = False
             for val in new_arr:
                 # Check if any position in df["Position"] exists in arr
                 if val in arr and not done:
                     result.append(True)
-
                     # To make sure we do not return true for many positions
                     # Ex. if a player has ["RCB", "CB", "RB"] and we are checking for defender positions
                     # We only want to return true once, and not for all their positions
@@ -170,27 +172,23 @@ def max_stats_all(stats=None):
 
     return get_max_for_stat(specificStats, df_plays_alot)
 
-@app.route("/maxStats/<stats>/<position>")
-def max_stats_for_position(stats=None, position=None):
-    
-    if position == "DEFENDER":
-        is_defender = filter_for_position_arr(df["Position"], defenderPos)
-        df_temp = df[is_defender]
-    elif position == "MIDFIELDER":
-        is_midfielder = filter_for_position_arr(df["Position"], midfielderPos)
-        df_temp = df[is_midfielder]
-    elif position == "ATTACKER":
-        is_forward = filter_for_position_arr(df["Position"], forwardPos)
-        df_temp = df[is_forward]
-    else:
-        return "No such position exists"
+@app.route("/maxStatsFromArray/<stats>/<positions>")
+def max_stats_for_positionArray(stats=None, positions=None):
 
     # Remove outliers
     plays_alot = df["Minutes played"] > 500
-    df_temp = df_temp[plays_alot]
+    df_temp = df[plays_alot]
+    
+    specificPositions=positions.split("$")
+    specificPositions.remove("")
 
     specificStats = stats.split("$")
     specificStats.remove("")
+
+    is_in_positions = filter_for_position_arr(df["Position"], specificPositions)
+    df_temp = df_temp[is_in_positions]
+
+    print("Length of df with filter: ", str(specificPositions),": ", df_temp.shape[0])
 
     return get_max_for_stat(specificStats, df_temp)
 

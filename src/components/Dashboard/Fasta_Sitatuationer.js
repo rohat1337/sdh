@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
 
     slider_text_left: {
         flex:0.75,
-        fontSize: 17,
+        fontSize: 12,
         textAlign: "left",
         color: "white",
         fontFamily: "VitesseSans-Book",
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     },
     slider_text_right: {
         flex:0.25,
-        fontSize: 17,
+        fontSize: 12,
         textAlign: "right",
         color: "white",
         fontFamily: "VitesseSans-Book",

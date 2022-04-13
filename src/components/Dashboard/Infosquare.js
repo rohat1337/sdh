@@ -14,7 +14,7 @@ function InfoSquare(props) {
         return (
             <View>
                 <Text style={styles.slider_text}>
-                    {Object.values(props.player["Player"])}
+                    {Object.values(props.player["Player"])}, {Object.values(props.player["Team within selected timeframe"])}
                 </Text>
 
                 <Text style={styles.slider_text}>
@@ -22,19 +22,15 @@ function InfoSquare(props) {
                 </Text>
 
                 <Text style={styles.slider_text}>
-                    {Object.values(props.player["Team within selected timeframe"])}
-                </Text>
-
-                <Text style={styles.slider_text}>
                     {Object.values(props.player["Position"])}
                 </Text>
 
                 <Text style={styles.slider_text}>
-                    Längd: {Object.values(props.player["Height"])}
+                    Längd: {Object.values(props.player["Height"])}cm
                 </Text>
 
                 <Text style={styles.slider_text}>
-                    Vikt: {Object.values(props.player["Weight"])}
+                    Vikt: {Object.values(props.player["Weight"])}kg
                 </Text>
 
                 <Text style={styles.slider_text}>
@@ -50,7 +46,7 @@ function InfoSquare(props) {
 const styles = StyleSheet.create({
 
     slider_text: {
-        fontSize: 30,
+        fontSize: 25,
         fontWeight: 'bold',
         textAlign: "center",
         width: "100%",

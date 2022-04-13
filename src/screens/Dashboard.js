@@ -90,7 +90,7 @@ function Dashboard(props) {
     let all_stats = offensive_actions.concat(defensive_actions, fasta_situationer, speluppbyggnad)
 
     return (
-        <View style={{ flexDirection: "column" }}>
+        <View style={{ flexDirection: "column", height:windowHeight - windowHeight / 10, width:windowWidth }}>
 
             <Header header={styles.header} stackIndex={2} nav={props.navigation} />
 
@@ -99,73 +99,42 @@ function Dashboard(props) {
             {/* Put content here (This view is divided into 4 parts, row) */}
             <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode="cover">
                 {/* Leftmost view, inforutan + 10 viktigaste mätpunkterna*/}
-                <View style={{ flex: 0.25, height: windowHeight - windowHeight / 10}}>
+                <View style={{ flex: 0.25, height: "100%"}}>
 
                     {/* Inforutan */}
-                    <View style={{ flex: 0.5, flexDirection: "column"}}>
+                    <View style={{ flex: 0.45, flexDirection: "column"}}>
                         <InfoSquare player={selectedPlayer} />
                     </View>
-                    <View style={{flex: 0.5}}>
+                    <Text style={styles.filter_text}>Filters: {field}</Text>
+                    <View style={{flex: 0.55, backgroundColor:"red"}}>
                         <Dashboard_Playerfield func={changeField}></Dashboard_Playerfield>
                     </View>
-                    
-
-                    {/* Viktigaste mätpunkterna */}
-                    {/* <View style={{ flex: 0.5, flexDirection:"column", margin: "5%"}}>
-
-                        {/* Label for active filters */}
-                        {/* <Text style={{fontSize:20, textAlign:"center", color:"white", fontFamily: "VitesseSans-Book"}}>{filterLabel}</Text> */}
-
-                        {/* Filter buttons (THESE WILL NEED CHANGES) */}
-
-                        {/* Defense filter */}
-                        {/* <View style={{alignContent:"center", textAlign:"center", padding:"2%"}}> */}
-                            {/* <TouchableOpacity style={{backgroundColor:"blue"}} onPress={() => setDefenseState(!defenseState)}>
-                                <Text style={{fontSize:20, textAlign:"center", color: defenseState ? "red": "white", fontFamily: "VitesseSans-Book"}}>Försvarare</Text>
-                            </TouchableOpacity>
-                        </View> */}
-
-                        {/* Midfielder filter */}
-                        {/* <View style={{alignContent:"center", textAlign:"center", padding:"2%"}}>
-                            <TouchableOpacity style={{backgroundColor:"blue"}} onPress={() => setMidfielderState(!midfielderState)}>
-                                <Text style={{fontSize:20, textAlign:"center", color: midfielderState ? "red": "white", fontFamily: "VitesseSans-Book"}}>Mittfältare</Text>
-                            </TouchableOpacity>
-                        </View> */}
-
-                        {/* Attacker filter */}
-                        {/* <View style={{alignContent:"center", textAlign:"center", padding:"2%"}}>
-                            <TouchableOpacity style={{backgroundColor:"blue"}} onPress={() => setAttackerState(!attackerState)}>
-                                    <Text style={{fontSize:20, textAlign:"center", color: attackerState ? "red": "white", fontFamily: "VitesseSans-Book"}}>Anfallare</Text>
-                            </TouchableOpacity>
-                        </View> */}
-                    
-                    {/* </View> */}
 
                 </View>
 
                 {/* Offensiva aktioner */}
-                <View style={{ flex: 0.25, height: windowHeight - windowHeight/10 }}>
-                    <Text style={{fontSize:30, textAlign:"center", color:"white", fontFamily: "VitesseSans-Book"}}>Offensiva aktioner</Text>
+                <View style={{ flex: 0.25 }}>
+                    <Text style={styles.dashboard_stat_header}>Offensiva aktioner</Text>
                     <Offensive_Actions player={selectedPlayer} stats={offensive_actions} maxStats={maxStats}/>
                 </View>
 
                 {/* Speluppbyggnad */}
-                <View style={{ flex: 0.25, height: windowHeight - windowHeight/10 }}>
-                    <Text style={{fontSize:30, textAlign:"center", color:"white", fontFamily: "VitesseSans-Book"}}>Speluppbyggnad</Text>
+                <View style={{ flex: 0.25}}>
+                    <Text style={styles.dashboard_stat_header}>Speluppbyggnad</Text>
                     <Speluppbyggnad player={selectedPlayer} stats={speluppbyggnad} maxStats={maxStats}/>
                 </View>
 
                 
-                <View style={{ flex: 0.25, height: windowHeight - windowHeight/10 }}>
+                <View style={{ flex: 0.25}}>
                     {/* Defensiva aktioner */}
-                    <View style={{flex: 0.55}}>
-                        <Text style={{fontSize:30, textAlign:"center", color:"white", fontFamily: "VitesseSans-Book"}}>Defensiva aktioner</Text>
+                    <View style={{flex: 0.58}}>
+                        <Text style={styles.dashboard_stat_header}>Defensiva aktioner</Text>
                         <Defensive_Actions player={selectedPlayer} stats={defensive_actions} maxStats={maxStats}/>
                     </View>
 
                     {/* Fasta situationer */}
-                    <View style={{flex: 0.45}}>
-                        <Text style={{fontSize:30, textAlign:"center", color:"white", fontFamily: "VitesseSans-Book"}}>Fasta situationer</Text>
+                    <View style={{flex: 0.42}}>
+                        <Text style={styles.dashboard_stat_header}>Fasta situationer</Text>
                         <Fasta_Situationer player={selectedPlayer} stats={fasta_situationer} maxStats={maxStats}/>
                     </View>
 
@@ -191,6 +160,18 @@ const styles = StyleSheet.create({
         height: windowHeight - windowHeight / 10,
         flexDirection: "row",
         backgroundColor: "#001324",
+    },
+    dashboard_stat_header: {
+        fontSize:20,
+        textAlign:"center",
+        color:"white",
+        fontFamily: "VitesseSans-Book"
+    },
+    filter_text: {
+        fontsize:14,
+        textAlign:"left",
+        color:"white",
+        fontFamily:"VitesseSans-Book"
     }
 })
 

@@ -46,7 +46,7 @@ function InfoSquare(props) {
 const styles = StyleSheet.create({
 
     slider_text: {
-        fontSize: 25,
+        fontSize: 35,
         fontWeight: 'bold',
         textAlign: "center",
         width: "100%",

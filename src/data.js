@@ -1,4 +1,4 @@
-
+import { Dimensions } from "react-native-web"
 export function getPlayerStats(id) {
   try {
     return fetch(`http://localhost:5000/player/${id}`)
@@ -24,6 +24,16 @@ function arrayToString(stats) {
   });
 
   return result;
+}
+
+export function getFontSize() {
+  const windowWidth = Dimensions.get("window").width;
+
+  if (windowWidth > 1800) {
+    return 18
+  } else {
+    return 12
+  }
 }
 
 export const zip = (arr, ...arrs) => {

@@ -6,7 +6,7 @@ import InfoSquare from "../components/Dashboard/Infosquare";
 import Offensive_Actions from "../components/Dashboard/Offensive_Actions"
 import Speluppbyggnad from "../components/Dashboard/Speluppbyggnad";
 import Header from "../components/Header";
-import { getPlayerStats, getMaxStatsAll, getMaxStatsForPosition, uncheckFieldBox, getMaxStatsForPositionArray } from "../data";
+import { getPlayerStats, getMaxStatsAll, getMaxStatsForPosition, uncheckFieldBox, getMaxStatsForPositionArray, getFontSize } from "../data";
 import Dashboard_Playerfield from "../components/Dashboard/Dashbord_Playerfield"
 
 const windowWidth = Dimensions.get("window").width;
@@ -79,6 +79,8 @@ function Dashboard(props) {
         } else {
             setField([...field, ...positions.split(", ")])
             console.log("field: ", field)
+            console.log("width: ", windowWidth)
+            console.log("height: ", windowHeight)
         }
     }
     
@@ -106,7 +108,7 @@ function Dashboard(props) {
                         <InfoSquare player={selectedPlayer} />
                     </View>
                     <Text style={styles.filter_text}>Filters: {field}</Text>
-                    <View style={{flex: 0.55, backgroundColor:"red"}}>
+                    <View style={{flex: 0.55}}>
                         <Dashboard_Playerfield func={changeField}></Dashboard_Playerfield>
                     </View>
 

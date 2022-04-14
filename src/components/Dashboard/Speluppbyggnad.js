@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native'
 import { FlatList } from 'react-native-web-hover';
 import { Line } from "rc-progress"
+import { getFontSize } from '../../data';
 
 function Speluppbyggnad(props) {
 
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
 
     slider_text_left: {
         flex:0.75,
-        fontSize: 12,
+        fontSize: getFontSize(),
         textAlign: "left",
         color: "white",
         fontFamily: "VitesseSans-Book",
@@ -56,7 +57,7 @@ const styles = StyleSheet.create({
     },
     slider_text_right: {
         flex:0.25,
-        fontSize: 12,
+        fontSize: getFontSize(),
         textAlign: "right",
         color: "white",
         fontFamily: "VitesseSans-Book",

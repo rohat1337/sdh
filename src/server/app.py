@@ -46,6 +46,10 @@ def specific_info(stats, id: int):
 
     return specificData.to_json(force_ascii=False)
 
+def specific_info_multiID(stats, ids):
+    newdf = df.iloc[ids]
+    return newdf[stats].to_json(force_ascii=False)
+
 def basic_info():
     new_df = pd.DataFrame()
     df.replace(r'^\s*$', "cock", regex=True)
@@ -105,6 +109,14 @@ def specificPlayerStats1(id=None, stats=None):
     specificStats = stats.split("$")
     specificStats.remove("")
     return specific_info(specificStats, int(id))
+
+@app.route("/specificDataMultiID/<ids>/<stats>")
+def specificPlayersStats(ids = None, stats=None):
+    specificStats = stats.split("$")
+    specificStats.remove("")
+    specificIDS = ids.split("$")
+    specificIDS.remove("")
+    return specific_info_multiID(specificStats, specificIDS)
 
 @app.route("/BasicInfoPlayers") 
 def basic_info_cock():

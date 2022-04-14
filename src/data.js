@@ -1,4 +1,8 @@
+import { Radar } from 'recharts'
 var _ = require('lodash')
+
+
+var colors = ["#FFC1CF", "#E8FFB7", "#E2A0FF", "#C4F5FC", "#B7FFD8"]
 
 export function getPlayerStats(id) {
   try {
@@ -138,6 +142,18 @@ export function getStatNames() {
   }
 }
 
+export function getSpecificStatsMultiID(ids, stats) {
+  try {
+    return fetch(`http://localhost:5000/specificDataMultiID/${arrayToString(ids)}/${arrayToString(stats)}`).then((response) => {
+      const statusCode = response.status;
+      const data = response.json();
+      return Promise.all([statusCode, data]);
+  })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export function arrayRemove(arr, value) {
   return arr.filter(function (ele) {
     return !_.isEqual(ele, value)
@@ -150,4 +166,16 @@ export function filterArray(arr, value) {
   })
 }
 
+export function renderRadars(players) {
 
+  const radars = players.map((player) => {
+    var color = colors[player.ID % colors.length]
+    return <Radar 
+            name={player.Name}
+            dataKey={player.ID} 
+            stroke={color} 
+            fill={color} 
+            fillOpacity={0.8} />
+  })
+  return radars
+}

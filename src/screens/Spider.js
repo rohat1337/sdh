@@ -1,8 +1,8 @@
 import Header from "../components/Header"
 import { View, StyleSheet, ImageBackground, Dimensions } from "react-native"
-import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
-import { useEffect } from "react";
-import { getSpecificStats } from "../data";
+import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Legend } from 'recharts';
+import { useEffect, useState } from "react";
+import { getSpecificStatsMultiID, renderRadars } from "../data";
 import { indexOf } from "lodash";
 
 const windowWidth = Dimensions.get("window").width;
@@ -10,25 +10,52 @@ const windowHeight = Dimensions.get("window").height;
 
 export default function Spider(props) {
 
+    // States
+    const [spiderData, setSpiderData] = useState(null)
+    const [radars, setRadars] = useState(null)
+
     useEffect(() => {
-        
-        
+        setRadars(renderRadars(props.navigation.state.params.players))
+        var ids = []
+        for (var player of props.navigation.state.params.players) {
+            ids.push(player.ID)
+        }
+        getSpecificStatsMultiID(ids, props.navigation.state.params.stats).then((data) => {
+            if (data[0] === 200) {
+                data = data[1]
+                var spider = []
+                for (var key of props.navigation.state.params.stats) {
+                    var obj = {}
+                    obj["KPI"] = key
+                    spider.push(obj)
+                }
+                for (var ob of spider) {
+                    for (var id of Object.keys(data[ob["KPI"]])) {
+                        ob[id] = data[ob["KPI"]][id]
+                    }
+                }
+                setSpiderData(spider)
+            }
+        })
     }, [])
 
     return(
         <View>
             <Header stackIndex={2} nav={props.navigation} header={styles.header}/>
             <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode="cover">
-            {/*
+
             <ResponsiveContainer width="100%" height="100%">
-                <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data}>
+                <RadarChart cx="50%" cy="50%" outerRadius="80%" data={spiderData}>
                 <PolarGrid />
-                <PolarAngleAxis dataKey="subject" />
+                <PolarAngleAxis dataKey="KPI" />
                 <PolarRadiusAxis />
-                <Radar name="Mike" dataKey="A" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
+                {
+                    radars
+                }
+                <Legend />
                 </RadarChart>
             </ResponsiveContainer>
-            */}
+
             </ImageBackground>
         </View>
     )

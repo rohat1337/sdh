@@ -47,8 +47,12 @@ def specific_info(stats, id: int):
     return specificData.to_json(force_ascii=False)
 
 def specific_info_multiID(stats, ids):
-    newdf = df.iloc[ids]
-    return newdf[stats].to_json(force_ascii=False)
+    df_stats = df[stats]
+    normalized_df = (df_stats-df_stats.mean())/df_stats.std()
+    newdf = normalized_df.iloc[ids]
+    newdf = newdf[stats]
+    print(newdf)
+    return newdf.to_json(force_ascii=False)
 
 def basic_info():
     new_df = pd.DataFrame()

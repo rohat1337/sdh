@@ -47,11 +47,9 @@ export default function Spider(props) {
             <ResponsiveContainer width="100%" height="100%">
                 <RadarChart cx="50%" cy="50%" outerRadius="80%" data={spiderData}>
                 <PolarGrid />
-                <PolarAngleAxis dataKey="KPI" />
+                <PolarAngleAxis dataKey="KPI" fontFamily="VitesseSans-Book" fontWeight={"bold"} tick={{ fill: "white"}}/>
                 <PolarRadiusAxis />
-                {
-                    radars
-                }
+                {radars}
                 <Legend />
                 </RadarChart>
             </ResponsiveContainer>

@@ -51,7 +51,6 @@ def specific_info_multiID(stats, ids):
     normalized_df = (df_stats-df_stats.mean())/df_stats.std()
     newdf = normalized_df.iloc[ids]
     newdf = newdf[stats]
-    print(newdf)
     return newdf.to_json(force_ascii=False)
 
 def basic_info():

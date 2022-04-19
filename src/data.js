@@ -4,6 +4,18 @@ var _ = require('lodash')
 
 var colors = ["#FFC1CF", "#E8FFB7", "#E2A0FF", "#C4F5FC", "#B7FFD8"]
 
+var nine = ['cf']
+var nineDef = ['Successful defensive actions per 90', 'Defensive duels per 90', 
+              'Defensive duels won, %', 'Aerial duels per 90', 'Aerial duels won, %']
+
+var nineGoalOpp = ['Dribbles per 90', 'Successful dribbles, %', 'xG per 90', 'Non-penalty goals per 90',
+                  'xA per 90', 'Shot assists per 90', 'Touches in box per 90']
+
+var ninePlay = ['Received passes per 90', 'Accurate passes, %', 'Passes to pentalty area per 90',
+                'Accurate passes to penalty area, %', 'Deep completions per 90', 'Progressive runs per 90']
+
+
+
 export function getPlayerStats(id) {
   try {
     return fetch(`http://localhost:5000/player/${id}`)
@@ -175,7 +187,14 @@ export function renderRadars(players) {
             dataKey={player.ID} 
             stroke={color} 
             fill={color} 
-            fillOpacity={0.8} />
+            fillOpacity={0.6} />
   })
   return radars
+}
+
+export function setMall(field) {
+  if (field.length !== 0) {
+    var result = JSON.stringify(field) === JSON.stringify(nine) ? [nineGoalOpp, ninePlay]  : {}
+    return result
+  }
 }

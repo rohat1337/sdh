@@ -20,11 +20,11 @@ export default function Spider(props) {
         for (var player of props.navigation.state.params.players) {
             ids.push(player.ID)
         }
-        getSpecificStatsMultiID(ids, props.navigation.state.params.stats).then((data) => {
+        getSpecificStatsMultiID(ids, props.navigation.state.params.stats[0]).then((data) => {
             if (data[0] === 200) {
                 data = data[1]
                 var spider = []
-                for (var key of props.navigation.state.params.stats) {
+                for (var key of props.navigation.state.params.stats[0]) {
                     var obj = {}
                     obj["KPI"] = key
                     spider.push(obj)

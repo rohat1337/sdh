@@ -7,12 +7,15 @@ function Header(props) {
         return(
             <View style={props.header}>
 
+                <View style={{flex:0.1}}>
 
-               <View style={{ flex: 0.67, alignItems:"flex-end"}}>
+                </View>
+
+               <View style={{ flex: 0.8}}>
                    <Text style={{fontSize: 50, fontWeight:"bold", color: "white", fontFamily: "VitesseSans-Black"}}>IK Sirius Datahub</Text>
                 </View>
             
-               <View style={{flex: 0.33, flexDirection: "row", justifyContent: "flex-end"}}>
+               <View style={{flex: 0.1, flexDirection: "row", justifyContent: "flex-end"}}>
 
                    <TouchableOpacity style={{marginRight: "10%"}} onPress={() => props.nav.navigate('Dashboard', {header: props.header, nav: props.nav, players: props.players})}>
                         <Text style={{color: props.nextIsOK, fontWeight: "bold", fontSize: 18, fontFamily: "VitesseSans-Book"}}>Dashboard</Text>
@@ -42,6 +45,9 @@ function Header(props) {
                </View>
                <View style={{ flex: 0.8}}>
                    <Text style={{fontSize: 50, fontWeight:"bold", color: "white", fontFamily: "VitesseSans-Black"}}>IK Sirius Datahub</Text>
+               </View>
+               <View style={{flex:0.1}}>
+
                </View>
                
            </View>

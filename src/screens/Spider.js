@@ -85,7 +85,6 @@ export default function Spider(props) {
                     <RadarChart cx="50%" cy="50%" outerRadius="80%" data={testSpiderData["Goal"]}>
                     <PolarGrid />
                     <PolarAngleAxis dataKey="KPI" fontFamily="VitesseSans-Book" fontWeight={"bold"} tick={{ fill: "white"}}/>
-                    <PolarRadiusAxis />
                     {radars}
                     <Legend />
                     </RadarChart>
@@ -95,7 +94,6 @@ export default function Spider(props) {
                     <RadarChart cx="50%" cy="50%" outerRadius="80%" data={testSpiderData["Play"]}>
                     <PolarGrid />
                     <PolarAngleAxis dataKey="KPI" fontFamily="VitesseSans-Book" fontWeight={"bold"} tick={{ fill: "white"}}/>
-                    <PolarRadiusAxis />
                     {radars}
                     <Legend />
                     </RadarChart>

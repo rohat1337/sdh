@@ -1,9 +1,9 @@
 import Header from "../components/Header"
-import { View, StyleSheet, ImageBackground, Dimensions } from "react-native"
-import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Legend } from 'recharts';
+import { View, StyleSheet, ImageBackground, Dimensions, TouchableOpacity, Text } from "react-native"
+import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Legend, Label } from 'recharts';
 import { useEffect, useState } from "react";
-import { getSpecificStatsMultiID, renderRadars } from "../data";
-import { indexOf } from "lodash";
+import { getSpecificStatsMultiID, renderRadars, setSpiders, testSpiderFetch, fixSpiderData } from "../data";
+import _ from "lodash";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -13,6 +13,29 @@ export default function Spider(props) {
     // States
     const [spiderData, setSpiderData] = useState(null)
     const [radars, setRadars] = useState(null)
+    const [statsAndIDs, setIDsAndStats] = useState({})
+    const [refreshDev, setRefreshDev] = useState(false)
+    const [testSpiderData, setTestSpiderData] = useState(null)
+
+    useEffect(() => {
+        if (refreshDev) {
+            if (!_.isEqual({}, statsAndIDs)) {
+                testSpiderFetch(statsAndIDs["ids"], statsAndIDs["stats"]).then((data) => {
+                    console.log(data)
+                })
+            }
+        } setRefreshDev(false)
+    }, [refreshDev])
+
+    useEffect(() => {
+        if (!_.isEqual({}, statsAndIDs)) {
+            testSpiderFetch(statsAndIDs["ids"], statsAndIDs["stats"]).then((data)=> {
+                setTestSpiderData(fixSpiderData(data[1]))
+            })
+            //setSpiders(statsAndIDs["stats"], statsAndIDs["ids"])
+        }
+    }, [statsAndIDs])
+
 
     useEffect(() => {
         setRadars(renderRadars(props.navigation.state.params.players))
@@ -20,9 +43,12 @@ export default function Spider(props) {
         for (var player of props.navigation.state.params.players) {
             ids.push(player.ID)
         }
+        setIDsAndStats({"stats": props.navigation.state.params.stats, "ids": ids})
+        /*
         getSpecificStatsMultiID(ids, props.navigation.state.params.stats[0]).then((data) => {
             if (data[0] === 200) {
                 data = data[1]
+                setIDsAndStats({"stats": props.navigation.state.params.stats, "ids": ids})
                 var spider = []
                 for (var key of props.navigation.state.params.stats[0]) {
                     var obj = {}
@@ -36,27 +62,51 @@ export default function Spider(props) {
                 }
                 setSpiderData(spider)
             }
-        })
+        })*/
+
     }, [])
 
-    return(
-        <View>
-            <Header stackIndex={2} nav={props.navigation} header={styles.header}/>
-            <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode="cover">
+    if (testSpiderData ===  null) {
+        return (
+            <View>
+                <TouchableOpacity style={{width: windowWidth, height: windowHeight*0.1, backgroundColor:"white"}}
+                onPress={() => setRefreshDev(!refreshDev)}>
+                    <Text>REFRESH DEV</Text>
+                </TouchableOpacity>
+                <Text>Loading...</Text>
+            </View>
+        )
+    } else {
+        return(
+            <View>
+                <Header stackIndex={2} nav={props.navigation} header={styles.header}/>
+                <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode="cover">
+                <ResponsiveContainer width="50%" height="50%">
+                    <RadarChart cx="50%" cy="50%" outerRadius="80%" data={testSpiderData["Goal"]}>
+                    <PolarGrid />
+                    <PolarAngleAxis dataKey="KPI" fontFamily="VitesseSans-Book" fontWeight={"bold"} tick={{ fill: "white"}}/>
+                    <PolarRadiusAxis />
+                    {radars}
+                    <Legend />
+                    </RadarChart>
+                </ResponsiveContainer>
 
-            <ResponsiveContainer width="100%" height="100%">
-                <RadarChart cx="50%" cy="50%" outerRadius="80%" data={spiderData}>
-                <PolarGrid />
-                <PolarAngleAxis dataKey="KPI" fontFamily="VitesseSans-Book" fontWeight={"bold"} tick={{ fill: "white"}}/>
-                <PolarRadiusAxis />
-                {radars}
-                <Legend />
-                </RadarChart>
-            </ResponsiveContainer>
+                <ResponsiveContainer width="50%" height="50%">
+                    <RadarChart cx="50%" cy="50%" outerRadius="80%" data={testSpiderData["Play"]}>
+                    <PolarGrid />
+                    <PolarAngleAxis dataKey="KPI" fontFamily="VitesseSans-Book" fontWeight={"bold"} tick={{ fill: "white"}}/>
+                    <PolarRadiusAxis />
+                    {radars}
+                    <Legend />
+                    </RadarChart>
+                </ResponsiveContainer>
+    
+                </ImageBackground>
+            </View>
+        )
+    }
 
-            </ImageBackground>
-        </View>
-    )
+
 }
 
 const styles = StyleSheet.create({

@@ -11,7 +11,7 @@ var nineDef = ['Successful defensive actions per 90', 'Defensive duels per 90',
 var nineGoalOpp = ['Dribbles per 90', 'Successful dribbles, %', 'xG per 90', 'Non-penalty goals per 90',
                   'xA per 90', 'Shot assists per 90', 'Touches in box per 90']
 
-var ninePlay = ['Received passes per 90', 'Accurate passes, %', 'Passes to pentalty area per 90',
+var ninePlay = ['Received passes per 90', 'Accurate passes, %', 'Passes to penalty area per 90',
                 'Accurate passes to penalty area, %', 'Deep completions per 90', 'Progressive runs per 90']
 
 
@@ -36,6 +36,14 @@ export function getSpecificStats(id, stats) {
   }
 }
 
+export const zip = (arr, ...arrs) => {
+  return arr.map((val, i) => arrs.reduce((a, arr) => [...a, arr[i]], [val]));
+}
+
+export function fix(str) {
+  return str.replace('š', 's').replace('ć', 'c').replace('č', 'c').replace('ó', 'o')
+}
+
 function arrayToString(stats) {
   var result = "";
 
@@ -47,17 +55,15 @@ function arrayToString(stats) {
   return result;
 }
 
-export const zip = (arr, ...arrs) => {
-  return arr.map((val, i) => arrs.reduce((a, arr) => [...a, arr[i]], [val]));
+function arrayOfArrayToString(statsArray) {
+  var result = ""
+
+  for (var mall of statsArray) {
+   result += arrayToString(mall)
+   result += "€"
+  }
+  return result
 }
-
-export function fix(str) {
-  return str.replace('š', 's').replace('ć', 'c').replace('č', 'c').replace('ó', 'o')
-}
-
-
-
-
 
 export function fixPlayerPositions(position) {
 
@@ -184,7 +190,7 @@ export function renderRadars(players) {
     var color = colors[player.ID % colors.length]
     return <Radar 
             name={player.Name}
-            dataKey={player.ID} 
+            dataKey={parseInt(player.ID)} 
             stroke={color} 
             fill={color} 
             fillOpacity={0.6} />
@@ -197,4 +203,72 @@ export function setMall(field) {
     var result = JSON.stringify(field) === JSON.stringify(nine) ? [nineGoalOpp, ninePlay]  : {}
     return result
   }
+}
+
+function fetchSpider(ids, mall) {
+  setTimeout(() => {
+    getSpecificStatsMultiID(ids, mall).then((data) => {
+      console.log(data)
+    })
+  }, 1000)
+}
+
+export function setSpiders(stats, ids) {
+  for (var mall of stats) {
+    fetchSpider(ids, mall)
+  }
+}
+
+export function makeSpiders(stats, ids) {
+  try {
+    return fetch(`http://localhost:5000/specificDataMultiID/${arrayToString(ids)}/${arrayOfArrayToString(stats)}`).then((response) => {
+      const statusCode = response.status;
+      const data = response.json();
+      return Promise.all([statusCode, data]);
+  })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export function testSpiderFetch(ids, stats) {
+  try {
+    return fetch(`http://localhost:5000/spider/${arrayToString(ids)}/${arrayOfArrayToString(stats)}`).then((response) => {
+      const statusCode = response.status;
+      const data = response.json();
+      return Promise.all([statusCode, data]);
+  })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export function fixSpiderData(spiderData) {
+  var result = {}
+
+  // Goal Spider
+  var goalkpis = []
+  for (var key of nineGoalOpp) {
+    var obj = {}
+    obj["KPI"] = key
+    for (var playerID of Object.keys(spiderData[key])) {
+      obj[playerID] = spiderData[key][playerID]
+    }
+    goalkpis.push(obj)
+  }
+  result["Goal"] = goalkpis
+  
+  // Play spider
+  var playkpis = []
+  for (var key of ninePlay) {
+    var obj = {}
+    obj["KPI"] = key
+    for (var playerID of Object.keys(spiderData[key])) {
+      obj[playerID] = spiderData[key][playerID]
+    }
+    playkpis.push(obj)
+  }
+  result["Play"] = playkpis
+
+  return result
 }

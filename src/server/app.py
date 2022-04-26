@@ -46,6 +46,21 @@ def specific_info(stats, id: int):
 
     return specificData.to_json(force_ascii=False)
 
+def spiderData(stats, ids):
+    spider = pd.DataFrame(columns=ids)
+    for mall in stats:
+        df_mall = df[mall]
+        normalized_df = (df_mall-df_mall.mean())/df_mall.std()
+        newdf = normalized_df.iloc[ids]
+        spider = pd.concat([spider, newdf], axis=1)
+    
+    spider = spider.iloc[:, len(ids):]
+
+    return spider.to_json(force_ascii=False)
+
+def allInfoPlayers(ids):
+    return df.iloc[ids].to_json(force_ascii=False, orient="records")
+
 def specific_info_multiID(stats, ids):
     df_stats = df[stats]
     normalized_df = (df_stats-df_stats.mean())/df_stats.std()
@@ -64,6 +79,16 @@ def basic_info():
                 new_df[label] = content
 
     return new_df.to_json(force_ascii=False)
+
+def fixStatsArray(stats):
+    result = []
+    euro = stats.split("€")
+    euro.remove("")
+    for mall in euro:
+        dollar = mall.split("$")
+        dollar.remove("")
+        result.append(dollar)
+    return result
 
 def allStats():
     return json.dumps(list(df.columns)[9:-1])
@@ -128,6 +153,18 @@ def basic_info_cock():
 @app.route("/stats")
 def stats():
     return allStats()
+
+@app.route("/spider/<ids>/<stats>")
+def spiders(ids = None, stats=None):
+    specificIDS = ids.split("$")
+    specificIDS.remove("")
+    return spiderData(fixStatsArray(stats), specificIDS)
+
+@app.route("/players/<ids>")
+def playersFyn(ids = None):
+    specificIDS = ids.split("$")
+    specificIDS.remove("")
+    return allInfoPlayers(specificIDS)
 
 if __name__ == '__main__':    
     app.run(debug=True, host='0.0.0.0', port=5000)

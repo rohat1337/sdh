@@ -5,9 +5,6 @@ const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 export default function MallCS(props) {
-
-    console.log(props)
-
     return (
         <View>
             <PlayerField func={props.func} button={props.button} />

@@ -6,8 +6,8 @@ import InfoSquare from "../components/Dashboard/Infosquare";
 import Offensive_Actions from "../components/Dashboard/Offensive_Actions"
 import Speluppbyggnad from "../components/Dashboard/Speluppbyggnad";
 import Header from "../components/Header";
-
-import { getPlayerStats, getMaxStats } from "../data";
+import { getPlayerStats, getMaxStatsAll, getMaxStatsForPosition, uncheckFieldBox, getMaxStatsForPositionArray, getFontSize } from "../data";
+import Dashboard_Playerfield from "../components/Dashboard/Dashbord_Playerfield"
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -17,10 +17,8 @@ const windowHeight = Dimensions.get("window").height;
 function Dashboard(props) {
 
     const [selectedPlayer, setSelectedPlayer] = useState(null)
-    const [maxOffensive, setMaxOffensive] = useState(null)
-    const [maxSpeluppbyggnad, setMaxSpeluppbyggnad] = useState(null)
-    const [maxDefensive, setMaxDefensive] = useState(null)
-    const [maxFastaSituationer, setMaxFastaSituationer] = useState(null)
+    const [maxStats, setMaxStats] = useState(null)
+    const [field, setField] = useState([])
 
     useEffect(() => {
         getPlayerStats(props.navigation.getParam("player_id", "default"))
@@ -34,10 +32,8 @@ function Dashboard(props) {
             setSelectedPlayer(data)
         })
 
-        //Dessa fetchas separat per array, kan nog slås ihop så vi bara behöver 1 fetch
-
-        //fetch max offensive
-        getMaxStats(offensive_actions)
+        //fetch all stats
+        getMaxStatsAll(all_stats)
         .then((response) => {
             const statusCode = response.status;
             const data = response.json();
@@ -45,108 +41,109 @@ function Dashboard(props) {
         })
         .then((data) => {
             data = data[1]
-            setMaxOffensive(data)
-        })
-
-        //fetch max speluppbyggnad
-        getMaxStats(speluppbyggnad)
-        .then((response) => {
-            const statusCode = response.status;
-            const data = response.json();
-            return Promise.all([statusCode, data]);
-        })
-        .then((data) => {
-            data = data[1]
-            console.log(data)
-            setMaxSpeluppbyggnad(data)
-        })
-
-        //fetch max defensive actions
-        getMaxStats(defensive_actions)
-        .then((response) => {
-            const statusCode = response.status;
-            const data = response.json();
-            return Promise.all([statusCode, data]);
-        })
-        .then((data) => {
-            data = data[1]
-            console.log(data)
-            setMaxDefensive(data)
-        })
-
-        //fetch max fasta situationer
-        getMaxStats(fasta_situationer)
-        .then((response) => {
-            const statusCode = response.status;
-            const data = response.json();
-            return Promise.all([statusCode, data]);
-        })
-        .then((data) => {
-            data = data[1]
-            console.log(data)
-            setMaxFastaSituationer(data)
+            setMaxStats(data)
         })
     }, [])
 
-    // /let playerFetch = getPlayerStats(navigation.getParam("player_id", "default"))
+    useEffect(() => {
+        if (field.length > 0) {
+            console.log("fetching for positions: ", field)
+            getMaxStatsForPositionArray(all_stats, field)
+            .then((response) => {
+                const statusCode = response.status;
+                const data = response.json();
+                return Promise.all([statusCode, data]);
+            })
+            .then((data) => {
+                data = data[1]
+                setMaxStats(data)
+            })
+        } else {
+            //fetch all stats
+            getMaxStatsAll(all_stats)
+            .then((response) => {
+                const statusCode = response.status;
+                const data = response.json();
+                return Promise.all([statusCode, data]);
+            })
+            .then((data) => {
+                data = data[1]
+                setMaxStats(data)
+            })
+        }
+    }, [field])
 
-
-
-    //						Aerial duels per 90	Aerial duels won, %	Sliding tackles per 90	PAdj Sliding tackles			PAdj Interceptions	 90	Goals per 90	Non-penalty goals	Non-penalty goals per 90	xG per 90		Crosses per 90	Accurate crosses, %	Crosses from left flank per 90	Accurate crosses from left flank, %	Crosses from right flank per 90	Accurate crosses from right flank, %	Crosses to goalie box per 90	Dribbles per 90	Successful dribbles, %	Offensive duels per 90	Offensive duels won, %	Touches in box per 90	Progressive runs per 90	Accelerations per 90	Received passes per 90	Received long passes per 90	Fouls suffered per 90	Passes per 90	Accurate passes, %	Forward passes per 90	Accurate forward passes, %	Back passes per 90	Accurate back passes, %	Lateral passes per 90	Accurate lateral passes, %	Short / medium passes per 90	Accurate short / medium passes, %	Long passes per 90	Accurate long passes, %	Average pass length, m	Average long pass length, m	xA per 90	Shot assists per 90	Second assists per 90	Third assists per 90	Smart passes per 90	Accurate smart passes, %	Key passes per 90	Passes to final third per 90	Accurate passes to final third, %	Passes to penalty area per 90	Accurate passes to penalty area, %	Through passes per 90	Accurate through passes, %	Deep completions per 90	Deep completed crosses per 90	Progressive passes per 90	Accurate progressive passes, %	Conceded goals	Conceded goals per 90	Shots against	Shots against per 90	Clean sheets	Save rate, %	xG against	xG against per 90	Prevented goals	Prevented goals per 90	Back passes received as GK per 90	Exits per 90	Aerial duels per 90	Free kicks per 90	Direct free kicks per 90	Direct free kicks on target, %	Corners per 90	Penalties taken	Penalty conversion, %
-
+    //for playerfield dashboard
+    function changeField(positions) {
+        if (positions.includes("0")) {
+            setField(uncheckFieldBox(field, positions))
+            console.log("field: ", field)
+        } else {
+            setField([...field, ...positions.split(", ")])
+            console.log("field: ", field)
+            console.log("width: ", windowWidth)
+            console.log("height: ", windowHeight)
+        }
+    }
+    
     //Tagna från Adrians excelark
     let offensive_actions = ["Non-penalty goals per 90", "xG per 90", "Shots per 90", "Shots on target, %", "Assists per 90", "Crosses from left flank per 90", "Accurate crosses from left flank, %", "Crosses from right flank per 90", "Accurate crosses from right flank, %", "Dribbles per 90", "Successful dribbles, %", "Offensive duels per 90", "Offensive duels won, %", "Touches in box per 90", "Progressive runs per 90", "Accelerations per 90"]
     let speluppbyggnad = ["Received passes per 90", "Passes per 90", "Accurate passes, %", "Forward passes per 90", "Accurate forward passes, %", "Average pass length, m", "xA per 90", "Shot assists per 90", "Passes to final third per 90", "Accurate passes to final third, %", "Passes to penalty area per 90", "Accurate passes to penalty area, %", "Deep completions per 90", "Progressive passes per 90", "Accurate progressive passes, %"]
     let defensive_actions = ["Successful defensive actions per 90", "Defensive duels per 90", "Defensive duels won, %", "Aerial duels per 90", "Aerial duels won, %", "Sliding tackles per 90", "PAdj Sliding tackles", "Shots blocked per 90", "PAdj Interceptions"]
     let fasta_situationer = ["Free kicks per 90", "Direct free kicks per 90", "Direct free kicks on target, %", "Corners per 90", "Penalties taken", "Penalty conversion, %"]
+    let all_stats = offensive_actions.concat(defensive_actions, fasta_situationer, speluppbyggnad)
 
     return (
-        <View style={{ flexDirection: "column" }}>
+        <View style={{ flexDirection: "column", height:windowHeight - windowHeight / 10, width:windowWidth }}>
 
             <Header header={styles.header} stackIndex={2} nav={props.navigation} />
 
             {/* Till senare: Hur ska man switcha mellan om man valt flera spelare innan man går till dashboarden*/}
 
-
             {/* Put content here (This view is divided into 4 parts, row) */}
             <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode="cover">
-                {/* Leftmost view, inforutan + ... plan med positioner? */}
-                <View style={{ flex: 0.25, height: windowHeight - windowHeight / 10}}>
+
+                {/* Leftmost view, inforutan + 10 viktigaste mätpunkterna*/}
+                <View style={{ flex: 0.25, height: "100%"}}>
+
 
                     {/* Inforutan */}
-                    <View style={{ flex: 0.6, margin: "5%", flexDirection: "column"}}>
+                    <View style={{ flex: 0.45, flexDirection: "column"}}>
                         <InfoSquare player={selectedPlayer} />
                     </View>
 
-                    {/* ... Checkboxes för att väljav vilka man ska jämföra med */}
-                    <View style={{ flex: 0.4, margin: "5%" }}>
-                        <input type="checkbox" />
+                    <Text style={styles.filter_text}>Filters: {field}</Text>
+                    <View style={{flex: 0.55}}>
+                        <Dashboard_Playerfield func={changeField}></Dashboard_Playerfield>
+
                     </View>
 
                 </View>
 
                 {/* Offensiva aktioner */}
-                <View style={{ flex: 0.25, height: windowHeight - windowHeight/10 }}>
-                    <Text style={{fontSize:30, textAlign:"center", color:"white", fontFamily: "VitesseSans-Book"}}>Offensiva aktioner</Text>
-                    <Offensive_Actions player={selectedPlayer} stats={offensive_actions} maxStats={maxOffensive}/>
+                <View style={{ flex: 0.25 }}>
+                    <Text style={styles.dashboard_stat_header}>Offensiva aktioner</Text>
+                    <Offensive_Actions player={selectedPlayer} stats={offensive_actions} maxStats={maxStats}/>
                 </View>
 
                 {/* Speluppbyggnad */}
-                <View style={{ flex: 0.25, height: windowHeight - windowHeight/10 }}>
-                    <Text style={{fontSize:30, textAlign:"center", color:"white", fontFamily: "VitesseSans-Book"}}>Speluppbyggnad</Text>
-                    <Speluppbyggnad player={selectedPlayer} stats={speluppbyggnad} maxStats={maxSpeluppbyggnad}/>
+                <View style={{ flex: 0.25}}>
+                    <Text style={styles.dashboard_stat_header}>Speluppbyggnad</Text>
+                    <Speluppbyggnad player={selectedPlayer} stats={speluppbyggnad} maxStats={maxStats}/>
                 </View>
 
-                {/* Försvarsspel */}
-                <View style={{ flex: 0.25, height: windowHeight - windowHeight/10 }}>
-                    <View style={{flex: 0.6}}>
-                        <Text style={{fontSize:30, textAlign:"center", color:"white", fontFamily: "VitesseSans-Book"}}>Defensiva aktioner</Text>
-                        <Defensive_Actions player={selectedPlayer} stats={defensive_actions} maxStats={maxDefensive}/>
+                
+                <View style={{ flex: 0.25}}>
+                    {/* Defensiva aktioner */}
+                    <View style={{flex: 0.58}}>
+                        <Text style={styles.dashboard_stat_header}>Defensiva aktioner</Text>
+                        <Defensive_Actions player={selectedPlayer} stats={defensive_actions} maxStats={maxStats}/>
                     </View>
 
-                    <View style={{flex: 0.4}}>
-                        <Text style={{fontSize:30, textAlign:"center", color:"white", fontFamily: "VitesseSans-Book"}}>Fasta situationer</Text>
-                        <Fasta_Situationer player={selectedPlayer} stats={fasta_situationer} maxStats={maxFastaSituationer}/>
+                    {/* Fasta situationer */}
+                    <View style={{flex: 0.42}}>
+                        <Text style={styles.dashboard_stat_header}>Fasta situationer</Text>
+                        <Fasta_Situationer player={selectedPlayer} stats={fasta_situationer} maxStats={maxStats}/>
                     </View>
 
                 </View>
@@ -171,6 +168,18 @@ const styles = StyleSheet.create({
         height: windowHeight - windowHeight / 10,
         flexDirection: "row",
         backgroundColor: "#001324",
+    },
+    dashboard_stat_header: {
+        fontSize:20,
+        textAlign:"center",
+        color:"white",
+        fontFamily: "VitesseSans-Book"
+    },
+    filter_text: {
+        fontsize:14,
+        textAlign:"left",
+        color:"white",
+        fontFamily:"VitesseSans-Book"
     }
 })
 

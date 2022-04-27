@@ -2,13 +2,12 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native'
 
 function Header(props) {
-
     //ChoosePlayer header
     if (props.stackIndex == 0) {
         return(
             <View style={props.header}>
-                <View style={{ flex: 0.33, backgroundColor: "yellow"}}>
-                    <Text>cock</Text>
+                <View style={{ flex: 0.33}}>
+                    
                 </View>
 
 
@@ -17,8 +16,8 @@ function Header(props) {
                 </View>
             
                <View style={{flex: 0.33, flexDirection: "row", justifyContent: "flex-end"}}>
-
                    <TouchableOpacity style={{marginRight: "10%"}} onPress={() => props.nav.navigate('Dashboard', {player_id: props.player_id})}>
+
                         <Text style={{color: props.nextIsOK, fontWeight: "bold", fontSize: 18, fontFamily: "VitesseSans-Book"}}>Dashboard</Text>
                    </TouchableOpacity>
 

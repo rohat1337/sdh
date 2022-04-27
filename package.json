@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/plugin-proposal-decorators": "^7.17.9",
     "@ptomasroos/react-native-multi-slider": "^2.2.2",
     "@react-native-community/slider": "^4.2.0",
     "@testing-library/jest-dom": "^5.16.1",

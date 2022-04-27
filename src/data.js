@@ -1,4 +1,4 @@
-
+import { Dimensions } from "react-native-web"
 export function getPlayerStats(id) {
   try {
     return fetch(`http://localhost:5000/player/${id}`)
@@ -26,6 +26,16 @@ function arrayToString(stats) {
   return result;
 }
 
+export function getFontSize() {
+  const windowWidth = Dimensions.get("window").width;
+
+  if (windowWidth > 1800) {
+    return 18
+  } else {
+    return 12
+  }
+}
+
 export const zip = (arr, ...arrs) => {
   return arr.map((val, i) => arrs.reduce((a, arr) => [...a, arr[i]], [val]));
 }
@@ -38,8 +48,6 @@ export function round_market_value(int) {
   return int/1000000
 }
 
-
-
 export function fixPlayerPositions(position) {
 
   var result = [];
@@ -48,8 +56,8 @@ export function fixPlayerPositions(position) {
 
 
   for (let index = 0; index < arrayOfPositions.length; index++) {
-
     if (arrayOfPositions[index] == "gk") {
+
       result.push("MV")
     }
 
@@ -97,10 +105,7 @@ export function fixPlayerPositions(position) {
   result = [...new Set(result)]
   return result.join(", ")
 
-
 }
-
-
 
 export function uncheckFieldBox(field, box) {
   box = box.replace("0", "").split(", ")
@@ -131,9 +136,25 @@ export function getStatNames() {
   }
 }
 
-export function getMaxStats(stats) {
+export function getMaxStatsAll(stats) {
   try {
     return fetch(`http://localhost:5000/maxStats/${arrayToString(stats)}`)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export function getMaxStatsForPosition(stats, position) {
+  try {
+    return fetch(`http://localhost:5000/maxStats/${arrayToString(stats)}/${position}`)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export function getMaxStatsForPositionArray(stats, array) {
+  try {
+    return fetch(`http://localhost:5000/maxStatsFromArray/${arrayToString(stats)}/${arrayToString(array)}`)
   } catch (error) {
     console.log(error)
   }
@@ -147,7 +168,8 @@ export function arrayRemove(arr, value) {
 
 export function checkFoot(player, left, right) {
   if ((left && right) || (!left && !right)) {
-    return true
+    // ??
+    return true 
   } else if (left && !right) {
     return (player["Foot"] == "left")
   } else if (right && !left) {
@@ -155,8 +177,8 @@ export function checkFoot(player, left, right) {
   }
 }
 
-
 export function contractToString(milliSeconds){
   var expiryDate = new Date(milliSeconds)
   return expiryDate.toString().slice(3,7) + expiryDate.toString().slice(10,15)
 }
+

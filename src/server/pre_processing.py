@@ -6,7 +6,7 @@ def openExcelFile():
     
     df = pd.read_excel('playersAllsvenskan.xlsx')
 
-    # df["Positions"] = df["Position"].map(changePosName)
+    df = df.fillna(0)
     
     return df
 

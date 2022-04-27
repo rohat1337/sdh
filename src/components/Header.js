@@ -6,8 +6,8 @@ function Header(props) {
     if (props.stackIndex == 0) {
         return(
             <View style={props.header}>
-                <View style={{ flex: 0.33, backgroundColor: "yellow"}}>
-                    <Text>cock</Text>
+                <View style={{ flex: 0.33}}>
+                    
                 </View>
 
 
@@ -16,8 +16,8 @@ function Header(props) {
                 </View>
             
                <View style={{flex: 0.33, flexDirection: "row", justifyContent: "flex-end"}}>
+                   <TouchableOpacity style={{marginRight: "10%"}} onPress={() => props.nav.navigate('Dashboard', {player_id: props.player_id})}>
 
-                   <TouchableOpacity style={{marginRight: "10%"}} onPress={() => props.nav.navigate('Dashboard', {header: props.header, nav: props.nav, players: props.players})}>
                         <Text style={{color: props.nextIsOK, fontWeight: "bold", fontSize: 18, fontFamily: "VitesseSans-Book"}}>Dashboard</Text>
                    </TouchableOpacity>
 
@@ -39,7 +39,7 @@ function Header(props) {
                    <TouchableOpacity
                    onPress={() => props.nav.goBack()}>
                        <Text style={{ color: "white", fontWeight: "bold", fontSize: 18, fontFamily: "VitesseSans-Book"}}>
-                           {"<"}- Tillbaks
+                           {"<"}- Tillbaka
                        </Text>
                    </TouchableOpacity>
                </View>
@@ -50,6 +50,26 @@ function Header(props) {
            </View>
        )
     }
+
+    // Dashboard header
+    else if (props.stackIndex == 2) {
+        return(
+            <View style={props.header}>
+                <View style={{flex: 0.1}}>  
+                   <TouchableOpacity
+                   onPress={() => props.nav.goBack()}>
+                       <Text style={{ color: "white", fontWeight: "bold", fontSize: 18, fontFamily: "VitesseSans-Book"}}>
+                           {"<"}- Tillbaka
+                       </Text>
+                   </TouchableOpacity>
+               </View>
+               <View style={{ flex: 0.9, paddingRight:"10%"}}>
+                   <Text style={{fontSize: 50, fontWeight:"bold", color: "white", fontFamily: "VitesseSans-Black"}}>IK Sirius Datahub</Text>
+               </View>
+               
+           </View>
+       )
+     }
     
 }
 

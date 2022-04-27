@@ -6,7 +6,6 @@ import InfoSquare from "../components/Dashboard/Infosquare";
 import Offensive_Actions from "../components/Dashboard/Offensive_Actions"
 import Speluppbyggnad from "../components/Dashboard/Speluppbyggnad";
 import Header from "../components/Header";
-import Switch from 'react-switch';
 
 import { getPlayerStats, getMaxStats } from "../data";
 

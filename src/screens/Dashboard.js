@@ -12,6 +12,8 @@ import Dashboard_Playerfield from "../components/Dashboard/Dashbord_Playerfield"
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
+
+
 function Dashboard(props) {
 
     const [selectedPlayer, setSelectedPlayer] = useState(null)
@@ -100,16 +102,20 @@ function Dashboard(props) {
 
             {/* Put content here (This view is divided into 4 parts, row) */}
             <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode="cover">
+
                 {/* Leftmost view, inforutan + 10 viktigaste mätpunkterna*/}
                 <View style={{ flex: 0.25, height: "100%"}}>
+
 
                     {/* Inforutan */}
                     <View style={{ flex: 0.45, flexDirection: "column"}}>
                         <InfoSquare player={selectedPlayer} />
                     </View>
+
                     <Text style={styles.filter_text}>Filters: {field}</Text>
                     <View style={{flex: 0.55}}>
                         <Dashboard_Playerfield func={changeField}></Dashboard_Playerfield>
+
                     </View>
 
                 </View>

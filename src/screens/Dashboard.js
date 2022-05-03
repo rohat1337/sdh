@@ -105,8 +105,7 @@ function Dashboard(props) {
                     <View style={{ flex: 0.45, flexDirection: "column"}}>
                         <InfoSquare player={selectedPlayer} />
                     </View>
-                    <Text style={styles.filter_text}>Filters: {field}</Text>
-                    <View style={{flex: 0.55, backgroundColor:"red"}}>
+                    <View style={{flex: 0.55}}>
                         <Dashboard_Playerfield func={changeField}></Dashboard_Playerfield>
                     </View>
 

@@ -6,11 +6,13 @@ import InfoSquare from "../components/Dashboard/Infosquare";
 import Offensive_Actions from "../components/Dashboard/Offensive_Actions"
 import Speluppbyggnad from "../components/Dashboard/Speluppbyggnad";
 import Header from "../components/Header";
-import { getPlayerStats, getMaxStatsAll, getMaxStatsForPosition, uncheckFieldBox, getMaxStatsForPositionArray } from "../data";
+import { getPlayerStats, getMaxStatsAll, getMaxStatsForPosition, uncheckFieldBox, getMaxStatsForPositionArray, getFontSize } from "../data";
 import Dashboard_Playerfield from "../components/Dashboard/Dashbord_Playerfield"
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
+
+
 
 function Dashboard(props) {
 
@@ -79,6 +81,8 @@ function Dashboard(props) {
         } else {
             setField([...field, ...positions.split(", ")])
             console.log("field: ", field)
+            console.log("width: ", windowWidth)
+            console.log("height: ", windowHeight)
         }
     }
     
@@ -98,15 +102,19 @@ function Dashboard(props) {
 
             {/* Put content here (This view is divided into 4 parts, row) */}
             <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode="cover">
+
                 {/* Leftmost view, inforutan + 10 viktigaste mätpunkterna*/}
                 <View style={{ flex: 0.25, height: "100%"}}>
+
 
                     {/* Inforutan */}
                     <View style={{ flex: 0.45, flexDirection: "column"}}>
                         <InfoSquare player={selectedPlayer} />
                     </View>
+
                     <View style={{flex: 0.55}}>
                         <Dashboard_Playerfield func={changeField}></Dashboard_Playerfield>
+
                     </View>
 
                 </View>

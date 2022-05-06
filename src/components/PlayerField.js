@@ -17,6 +17,7 @@ function PlayerField(props) {
 	const [nine, set9] = useState(false);
 	const [ten, set10] = useState(false);
 
+
 	useEffect(() => { one ? props.func("gk") : props.func("0gk") }, [one]); 
 	useEffect(() => { mb ? props.func("cb, lcb, rcb") : props.func("0cb, lcb, rcb") }, [mb]);
 	useEffect(() => { lwb ? props.func("lb, lwb") : props.func("0lb, lwb") }, [lwb]);

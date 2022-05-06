@@ -1,18 +1,10 @@
 import { Radar } from 'recharts'
+import { positions } from './positions'
+
 var _ = require('lodash')
 
 
 var colors = ["#FFC1CF", "#E8FFB7", "#E2A0FF", "#C4F5FC", "#B7FFD8"]
-
-var nine = ['cf']
-var nineDef = ['Successful defensive actions per 90', 'Defensive duels per 90', 
-              'Defensive duels won, %', 'Aerial duels per 90', 'Aerial duels won, %']
-
-var nineGoalOpp = ['Dribbles per 90', 'Successful dribbles, %', 'xG per 90', 'Non-penalty goals per 90',
-                  'xA per 90', 'Shot assists per 90', 'Touches in box per 90']
-
-var ninePlay = ['Received passes per 90', 'Accurate passes, %', 'Passes to penalty area per 90',
-                'Accurate passes to penalty area, %', 'Deep completions per 90', 'Progressive runs per 90']
 
 
 
@@ -198,9 +190,14 @@ export function renderRadars(players) {
   return radars
 }
 
-export function setMall(field) {
+export function setMall2(field) {
   if (field.length !== 0) {
-    var result = JSON.stringify(field) === JSON.stringify(nine) ? [nineGoalOpp, ninePlay]  : {}
+    let result;
+    for (var position of positions) {
+      if (JSON.stringify(field) === JSON.stringify(position.positions)) {
+        result = { position: position.positions, stats: [position.kpis.def, position.kpis.goalOppurtiny, position.kpis.playmaking]}
+      }
+    }
     return result
   }
 }
@@ -243,12 +240,18 @@ export function testSpiderFetch(ids, stats) {
   }
 }
 
-export function fixSpiderData(spiderData) {
+export function fixSpiderData2(spiderData, position) {
   var result = {}
+  let p
+  for (var pos of positions) {
+    if (JSON.stringify(pos.positions) == JSON.stringify(position)) {
+      p = pos
+    }
+  }
 
   // Goal Spider
   var goalkpis = []
-  for (var key of nineGoalOpp) {
+  for (var key of p.kpis.goalOppurtiny) {
     var obj = {}
     obj["KPI"] = key
     for (var playerID of Object.keys(spiderData[key])) {
@@ -260,7 +263,7 @@ export function fixSpiderData(spiderData) {
   
   // Play spider
   var playkpis = []
-  for (var key of ninePlay) {
+  for (var key of p.kpis.playmaking) {
     var obj = {}
     obj["KPI"] = key
     for (var playerID of Object.keys(spiderData[key])) {
@@ -269,6 +272,19 @@ export function fixSpiderData(spiderData) {
     playkpis.push(obj)
   }
   result["Play"] = playkpis
+
+  // Def spider
+  var defkpis = []
+  for (var key of p.kpis.def) {
+    var obj = {}
+    obj["KPI"] = key
+    for (var playerID of Object.keys(spiderData[key])) {
+      obj[playerID] = spiderData[key][playerID]
+    }
+    defkpis.push(obj)
+  }
+  result["Def"] = defkpis
+
 
   return result
 }

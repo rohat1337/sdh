@@ -5,11 +5,12 @@ const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 export default function MallCS(props) {
+
     return (
         <View>
-            <PlayerField func={props.func} button={props.button} />
+            <PlayerField func={props.func} button={props.button} mall={true} />
             <TouchableOpacity style={styles.graphButton}
-            onPress={() => props.nav.navigate("Spider", { players: props.players, stats: props.stats, mall: true})}>
+            onPress={() => props.nav.navigate("Spider", { players: props.players, stats: props.stats, pos: props.pos})}>
                 <Text style={styles.text}>Spindel</Text>
             </TouchableOpacity>
             

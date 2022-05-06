@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Dimensions, TextInput, ImageBackground } from "react-native"
 import Header from "../components/Header";
-import { getStatNames, uncheckFieldBox, setMall } from "../data";
+import { getStatNames, uncheckFieldBox, setMall, setMall2 } from "../data";
 import CSLowerHeader from "../components/CSLowerHeader";
 import ManualCS from "../components/ManualCS";
 import MallCS from "../components/MallCS";
@@ -25,10 +25,15 @@ function ChooseStats(props) {
     const [field, setField] = useState([])
     const [button, setButton] = useState(true) // True: Manual | False: Mall
     const [stats, setStats] = useState(null)
+    const [pos, setPos] = useState(null)
 
     useEffect(() => {
         // TODO: Only choose one position on field.
-        setStats(setMall(field))
+        if (field.length === 0) {} else {
+            var res = setMall2(field)
+            setStats(res.stats)
+            setPos(res.position)
+        }
     }, [field])
 
     if (button) {
@@ -57,7 +62,7 @@ function ChooseStats(props) {
                 {/* Välj KPI:er eller mallar (header) */}
                 <View>
                     <CSLowerHeader setButton={setButton} button={button}/>
-                    <MallCS func={changeField} field={field} button={button} stats={stats} nav={props.navigation} players={playersWithID} />
+                    <MallCS func={changeField} pos={pos} field={field} button={button} stats={stats} nav={props.navigation} players={playersWithID} />
                 </View>
             </ImageBackground>
             </View>

@@ -1,12 +1,13 @@
 import pandas as pd
 import numpy as np
-
+from pre_processing import ratings
 
 def openExcelFile():
     
-    df = pd.read_excel('playersAllsvenskan.xlsx')
+    #df = pd.read_excel('pre_processing/playersAllsvenskan.xlsx')
+    df = ratings.do_work()
 
-    df = df.fillna(0)
+    #df = df.fillna(0)
     
     return df
 
@@ -61,6 +62,8 @@ def changePosName(pos_string):
         
     return ",".join(result) 
 
+def add_ratings_to_df(data: pd.DataFrame) -> pd.DataFrame:
+    pass
 
 
 def removeZeroEntries(df):

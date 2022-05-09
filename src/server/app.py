@@ -7,9 +7,9 @@ import numpy as np
 import json
 from flask_cors import CORS
 
-from pre_processing import openExcelFile
+from pre_processing import pre_processing
 
-df = openExcelFile()
+df = pre_processing.openExcelFile()
 
 app = Flask(__name__)
 CORS(app)

@@ -215,6 +215,13 @@ def get_player_ratings(id:int):
     df_temp["Team"] = df.iloc[[id]]["Team"]
     df_temp["Position"] = df.iloc[[id]]["Position"]
     return df_temp.to_json(orient="records")
+
+@app.route("/top15/<position>")
+def top_15_for_position(position=None):
+    rating_col = "Rating as " + position
+    df_temp = df[['Player', 'Age', 'Team', rating_col]]
+    df_temp_toplist = df_temp.nlargest(15, rating_col, keep="all")
+    return df_temp_toplist.to_json(orient='records')
     
 
 

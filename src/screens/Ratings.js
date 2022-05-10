@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Dimensions, ImageBackground }
 import Header from "../components/Header";
 import { getPlayerRatings } from "../data";
 import CircularProgress from "../components/CircularProgress"
+import TopList from "../components/TopList"
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -63,42 +64,49 @@ function Ratings(props) {
                             <View style={{flexDirection:"column", textAlign:"center", paddingHorizontal:"5%"}}>
                                 <Text style={styles.small_text}>MB</Text>
                                 <CircularProgress progress={ratingObj["Rating as CB"]}/>
+                                <TopList position="CB" />
                             </View>: null}
 
                             {ratingObj["Rating as WB"] != null ?
                             <View style={{flexDirection:"column", textAlign:"center", paddingHorizontal:"5%"}}>
                                 <Text style={styles.small_text}>WB</Text>
                                 <CircularProgress progress={ratingObj["Rating as WB"]}/>
+                                <TopList position="WB" />
                             </View>: null}
 
                             {ratingObj["Rating as SIX"] != null ?
                             <View style={{flexDirection:"column", textAlign:"center", paddingHorizontal:"5%"}}>
                                 <Text style={styles.small_text}>SEXA</Text>
                                 <CircularProgress progress={ratingObj["Rating as SIX"]}/>
+                                <TopList position="SIX" />
                             </View>: null}
 
                             {ratingObj["Rating as EIGHT"] != null ?
                             <View style={{flexDirection:"column", textAlign:"center", paddingHorizontal:"5%"}}>
                                 <Text style={styles.small_text}>ÅTTA</Text>
                                 <CircularProgress progress={ratingObj["Rating as EIGHT"]}/>
+                                <TopList position="EIGHT" />
                             </View>: null}
 
                             {ratingObj["Rating as SEVEN"] != null ? 
                             <View style={{flexDirection:"column", textAlign:"center", paddingHorizontal:"5%"}}>
                                 <Text style={styles.small_text}>SJUA</Text>
                                 <CircularProgress progress={ratingObj["Rating as SEVEN"]}/>
+                                <TopList position="SEVEN" />
                             </View>: null}
 
                             {ratingObj["Rating as TEN"] != null ? 
                             <View style={{flexDirection:"column", textAlign:"center", paddingHorizontal:"5%"}}>
                                 <Text style={styles.small_text}>TIA</Text>
                                 <CircularProgress progress={ratingObj["Rating as TEN"]}/>
+                                <TopList position="TEN" />
                             </View>: null}
 
-                            {ratingObj["Rating as Nine"] != null ? 
+                            {ratingObj["Rating as NINE"] != null ? 
                             <View style={{flexDirection:"column", textAlign:"center", paddingHorizontal:"5%"}}>
                                 <Text style={styles.small_text}>NIA</Text>
                                 <CircularProgress progress={ratingObj["Rating as NINE"]}/>
+                                <TopList position="NINE" />
                             </View>: null}
 
                         </View>

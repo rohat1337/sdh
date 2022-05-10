@@ -41,9 +41,9 @@ export default function CircularProgress({progress = 100}) {
 
     var background_color = ""
 
-    if (progress < 25) {
+    if (progress < 30) {
         background_color = "red"
-    } else if (progress < 75) {
+    } else if (progress < 70) {
         background_color = "orange"
     } else {
         background_color = "green"

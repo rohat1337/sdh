@@ -136,6 +136,14 @@ export function getStatNames() {
   }
 }
 
+export function getTopList(position) {
+  try {
+    return fetch(`http://localhost:5000/top15/${position}`)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export function getMaxStatsAll(stats) {
   try {
     return fetch(`http://localhost:5000/maxStats/${arrayToString(stats)}`)

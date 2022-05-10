@@ -43,15 +43,67 @@ function Ratings(props) {
             <View style={styles.root}>
                 <Header header={styles.header} stackIndex={3} nav={props.navigation}></Header>
                 <ImageBackground style={styles.content_root} source={require('../imgs/iks.png')} resizeMode="cover">
-                    <View style={{flexDirection:"row"}}>
-                        {ratingObj["Rating as CB"] != null ? <CircularProgress progress={ratingObj["Rating as CB"]}/>: <Text>cock CB</Text>}
-                        {ratingObj["Rating as WB"] != null ? <CircularProgress progress={ratingObj["Rating as WB"]}/>: <Text>cock WB</Text>}
-                        {ratingObj["Rating as SIX"] != null ? <CircularProgress progress={ratingObj["Rating as SIX"]}/>: <Text>cock SIX</Text>}
-                        {ratingObj["Rating as EIGHT"] != null ? <CircularProgress progress={ratingObj["Rating as EIGHT"]}/>: <Text>cock EIGHT</Text>}
-                        {ratingObj["Rating as SEVEN"] != null ? <CircularProgress progress={ratingObj["Rating as SEVEN"]}/>: <Text>cock SEVEN</Text>}
-                        {ratingObj["Rating as TEN"] != null ? <CircularProgress progress={ratingObj["Rating as TEN"]}/>: <Text>cock TEN</Text>}
-                        {ratingObj["Rating as NINE"] != null ? <CircularProgress progress={ratingObj["Rating as NINE"]}/>: <Text>cock NINE</Text>}
+                    <View style={{flexDirection:"row", height:"100%"}}>
+
+                        <View style={{flex: 0.4, flexDirection:"column", marginHorizontal:"2%", height:"100%"}}>
+
+                            <View style={{flex:0.4, textAlign:"center"}}>
+                                <Text style={styles.small_text}>{ratingObj["Player"]}, {ratingObj["Age"]}</Text>
+                                <Text style={styles.small_text}>{ratingObj["Team"]}</Text>
+                                <Text style={styles.small_text}>{ratingObj["Position"]}</Text>
+                            </View>
+
+                            <View style={{flex: 0.6, height:"100%"}}>
+
+                            </View>
+                            
+                        </View>
+                        <View style={{flex: 0.6, flexDirection:"row", marginHorizontal:"5%", height:"100%", justifyContent:"space-around"}}>
+                            {ratingObj["Rating as CB"] != null ? 
+                            <View style={{flexDirection:"column", textAlign:"center", paddingHorizontal:"5%"}}>
+                                <Text style={styles.small_text}>MB</Text>
+                                <CircularProgress progress={ratingObj["Rating as CB"]}/>
+                            </View>: null}
+
+                            {ratingObj["Rating as WB"] != null ?
+                            <View style={{flexDirection:"column", textAlign:"center", paddingHorizontal:"5%"}}>
+                                <Text style={styles.small_text}>WB</Text>
+                                <CircularProgress progress={ratingObj["Rating as WB"]}/>
+                            </View>: null}
+
+                            {ratingObj["Rating as SIX"] != null ?
+                            <View style={{flexDirection:"column", textAlign:"center", paddingHorizontal:"5%"}}>
+                                <Text style={styles.small_text}>SEXA</Text>
+                                <CircularProgress progress={ratingObj["Rating as SIX"]}/>
+                            </View>: null}
+
+                            {ratingObj["Rating as EIGHT"] != null ?
+                            <View style={{flexDirection:"column", textAlign:"center", paddingHorizontal:"5%"}}>
+                                <Text style={styles.small_text}>ÅTTA</Text>
+                                <CircularProgress progress={ratingObj["Rating as EIGHT"]}/>
+                            </View>: null}
+
+                            {ratingObj["Rating as SEVEN"] != null ? 
+                            <View style={{flexDirection:"column", textAlign:"center", paddingHorizontal:"5%"}}>
+                                <Text style={styles.small_text}>SJUA</Text>
+                                <CircularProgress progress={ratingObj["Rating as SEVEN"]}/>
+                            </View>: null}
+
+                            {ratingObj["Rating as TEN"] != null ? 
+                            <View style={{flexDirection:"column", textAlign:"center", paddingHorizontal:"5%"}}>
+                                <Text style={styles.small_text}>TIA</Text>
+                                <CircularProgress progress={ratingObj["Rating as TEN"]}/>
+                            </View>: null}
+
+                            {ratingObj["Rating as Nine"] != null ? 
+                            <View style={{flexDirection:"column", textAlign:"center", paddingHorizontal:"5%"}}>
+                                <Text style={styles.small_text}>NIA</Text>
+                                <CircularProgress progress={ratingObj["Rating as NINE"]}/>
+                            </View>: null}
+
+                        </View>
                     </View>
+                    
                 </ImageBackground>
             </View>
             )
@@ -85,7 +137,7 @@ const styles = StyleSheet.create({
     },
 
     small_text: {
-        fontsize:17,
+        fontSize:50,
         color:"white",
         fontFamily:"VitesseSans-Book"
     },

@@ -1,10 +1,10 @@
 import React, {useRef, useEffect} from 'react';
 import styled from "styled-components/native";
-import {Animated} from 'react-native';
+import {Animated, Text} from 'react-native';
 
 const EMPTY_COLOR = '#a0a0a1'
 const PROGRESS_COLOR = '#0085FF'
-const SIZE = 200;
+const SIZE = 150;
 
 const CircleBase = styled(Animated.View)`
     width: ${SIZE}px;
@@ -39,6 +39,16 @@ const CoverIndicator = styled(CircleBase)`
 export default function CircularProgress({progress = 100}) {
     const animatedProgress = useRef(new Animated.Value(0)).current;
 
+    var background_color = ""
+
+    if (progress < 25) {
+        background_color = "red"
+    } else if (progress < 75) {
+        background_color = "orange"
+    } else {
+        background_color = "green"
+    }
+
     const animateProgress = useRef(toValue => {
         Animated.spring(animatedProgress, {
             toValue,
@@ -68,12 +78,13 @@ export default function CircularProgress({progress = 100}) {
         extrapolate: 'clamp',
     });
 
-    return <EmptyCircle>
+    return <EmptyCircle style={{backgroundColor:background_color}}>
                 <Indicator style={{
                     transform: [{ rotate: firstIndicatorRotate}]
                     }}
                 />
                 <CoverIndicator />
+                <Text style={{transform: [{rotate: '45deg'}], fontSize:SIZE / 3, color:"white", fontFamily:"VitesseSans-Book"}}>{progress != null ? progress : 0}</Text>
                 <Indicator style={{
                     transform: [{ rotate: secondIndicatorRotate}],
                     opacity: secondIndicatorVisibility,

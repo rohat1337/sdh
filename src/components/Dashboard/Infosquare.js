@@ -1,6 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native'
+import {StyleSheet, Text, View, TouchableOpacity, Dimensions} from 'react-native'
 import { getPlayerStats, round_market_value } from "../../data"
+
+const windowWidth = Dimensions.get('window').width
+const windowHeight = Dimensions.get('window').height
 
 function InfoSquare(props) {
 
@@ -46,7 +49,7 @@ function InfoSquare(props) {
 const styles = StyleSheet.create({
 
     slider_text: {
-        fontSize: 35,
+        fontSize: windowWidth / 50,
         fontWeight: 'bold',
         textAlign: "center",
         width: "100%",

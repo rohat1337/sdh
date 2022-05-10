@@ -209,7 +209,12 @@ def player_count_all():
 
 @app.route("/playerRatings/<id>")
 def get_player_ratings(id:int):
-    return df.iloc[[id]].filter(regex="Rating").to_json(orient="records")
+    df_temp = df.iloc[[id]].filter(regex="Rating")
+    df_temp["Player"] = df.iloc[[id]]["Player"]
+    df_temp["Age"] = df.iloc[[id]]["Age"]
+    df_temp["Team"] = df.iloc[[id]]["Team"]
+    df_temp["Position"] = df.iloc[[id]]["Position"]
+    return df_temp.to_json(orient="records")
     
 
 

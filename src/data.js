@@ -184,9 +184,9 @@ export function getPlayerCountAll() {
   }
 }
 
-export function getPlayerRatings(id) {
+export function getPlayerRating(id) {
   try {
-    return fetch(`http://localhost:5000/playerRatings/${id}`)
+    return fetch(`http://localhost:5000/playerRating/${id}`)
   } catch (error) {
     console.log(error)
   }

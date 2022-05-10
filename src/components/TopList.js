@@ -5,9 +5,9 @@ import {Dimensions, FlatList, View, Text, StyleSheet} from "react-native"
 const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height
 
-export default function TopList({position = "CB"}) {
+export default function TopList({position, player}) {
 
-    const [playersList, setPlayersList] = useState([])
+    const [playersList, setPlayersList] = useState(null)
 
     useEffect(() => {
         getTopList(position)
@@ -20,28 +20,45 @@ export default function TopList({position = "CB"}) {
                 setPlayersList(data)
             })
         })
+
     }, [])
 
     if (playersList == null) {
         return (
-            <View style={{width:"65%", height:"100%", backgroundColor:"green"}}>
+            <View>
                 <Text style={{fontSize:30, textAlign:"center", fontFamily:"VitesseSans-Book"}}>
                     Loading...
                 </Text>
             </View>
         )
     } else {
+
+
+
         return (
-            <View style={{height:"65%"}}>
-                <FlatList data={playersList}
-                          renderItem={({ item, index }) => {
-                                <View style={styles.player}>
-                                    <Text>{item["Player"]}</Text>
-                                </View>
-                          }}
-                          keyExtractor={(item, index) => index.toString()}>
-    
-                </FlatList>
+            <View style={{height:"100%", width:"100%", flexDirection:"column"}}>
+                <View style={{flex:0.7}}>
+                    <FlatList data={playersList}
+                                renderItem={({item}) => {
+                                const textColor = player == item["Player"] ? "#ffe00f" : "white";
+                                return (
+                                    <View style={styles.player}>
+                                        <View style={{flex:0.8}}>
+                                            <Text style={[styles.small_text, {color:textColor}]}>{item["Player"]}</Text>
+                                        </View>
+                                        <View style={{flex:0.2}}>
+                                            <Text style={[styles.rating_text, {color:textColor}]}>{item["Rating as " + position]}</Text>
+                                        </View>
+
+                                        
+                                    </View>)
+                                    
+                            }}>
+                    </FlatList>
+                </View>
+                
+                <View style={{flex:0.3}}>
+                </View>
             </View>
         )
     }
@@ -52,7 +69,19 @@ export default function TopList({position = "CB"}) {
 const styles = StyleSheet.create({
     player: {
         width:"100%",
-        height: windowHeight / 20,
-        marginVertical: windowWidth / 80,
-    }
+        flexDirection:"row",
+    },
+
+    small_text: {
+        fontSize:windowWidth / 100,
+        fontFamily:"VitesseSans-Book",
+        textAlign:"left"
+    },
+
+    rating_text: {
+        fontSize:windowWidth / 100,
+        color:"white",
+        fontFamily:"VitesseSans-Book",
+        textAlign:"right"
+    },
 });

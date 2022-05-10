@@ -207,20 +207,24 @@ def player_count(positions=None):
 def player_count_all():
     return str(df.shape[0])
 
-@app.route("/playerRatings/<id>")
-def get_player_ratings(id:int):
+@app.route("/playerRating/<id>")
+def get_player_rating(id:int):
     df_temp = df.iloc[[id]].filter(regex="Rating")
     df_temp["Player"] = df.iloc[[id]]["Player"]
     df_temp["Age"] = df.iloc[[id]]["Age"]
     df_temp["Team"] = df.iloc[[id]]["Team"]
     df_temp["Position"] = df.iloc[[id]]["Position"]
+    df_temp["Weight"] = df.iloc[[id]]["Weight"]
+    df_temp["Height"] = df.iloc[[id]]["Height"]
+    df_temp["Market value"] = df.iloc[[id]]["Market value"]
     return df_temp.to_json(orient="records")
+
 
 @app.route("/top15/<position>")
 def top_15_for_position(position=None):
     rating_col = "Rating as " + position
     df_temp = df[['Player', 'Age', 'Team', rating_col]]
-    df_temp_toplist = df_temp.nlargest(15, rating_col, keep="all")
+    df_temp_toplist = df_temp.nlargest(15, rating_col)
     return df_temp_toplist.to_json(orient='records')
     
 

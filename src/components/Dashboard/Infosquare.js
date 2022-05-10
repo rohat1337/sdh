@@ -17,11 +17,11 @@ function InfoSquare(props) {
         return (
             <View>
                 <Text style={styles.slider_text}>
-                    {Object.values(props.player["Player"])}, {Object.values(props.player["Team within selected timeframe"])}
+                    {Object.values(props.player["Player"])}, {Object.values(props.player["Age"])}
                 </Text>
 
                 <Text style={styles.slider_text}>
-                    Ålder: {Object.values(props.player["Age"])}
+                    {Object.values(props.player["Team"])}
                 </Text>
 
                 <Text style={styles.slider_text}>
@@ -29,11 +29,11 @@ function InfoSquare(props) {
                 </Text>
 
                 <Text style={styles.slider_text}>
-                    Längd: {Object.values(props.player["Height"])}cm
+                    {Object.values(props.player["Height"])}cm
                 </Text>
 
                 <Text style={styles.slider_text}>
-                    Vikt: {Object.values(props.player["Weight"])}kg
+                    {Object.values(props.player["Weight"])}kg
                 </Text>
 
                 <Text style={styles.slider_text}>

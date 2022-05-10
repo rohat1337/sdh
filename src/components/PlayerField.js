@@ -24,7 +24,7 @@ function PlayerField(props) {
 	useEffect(() => { six ? props.func("DMF, LDMF, RDMF") : props.func("0DMF, LDMF, RDMF") }, [six]);
 	useEffect(() => { seven_left ? props.func("LWF, LAMF, LW") : props.func("0LWF, LAMF, LW")}, [seven_left]);
 	useEffect(() => { seven_right ? props.func("RWF, RAMF, RW") : props.func("0RWF, RAMF, RW")}, [seven_right]);
-	useEffect(() => { eight ? props.func("LCMF, HCMF") : props.func("0LCMF, HCMF") }, [eight]);
+	useEffect(() => { eight ? props.func("LCMF, RCMF") : props.func("0LCMF, RCMF") }, [eight]);
 	useEffect(() => { nine ? props.func("CF") : props.func("0CF")}, [nine]);
 	useEffect(() => { ten ? props.func("AMF") : props.func("0AMF") }, [ten]);
 	

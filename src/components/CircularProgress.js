@@ -84,7 +84,7 @@ export default function CircularProgress({progress = 100}) {
                     }}
                 />
                 <CoverIndicator />
-                <Text style={{transform: [{rotate: '45deg'}], fontSize:SIZE / 3, color:"white", fontFamily:"VitesseSans-Book"}}>{progress != null ? progress : 0}</Text>
+                <Text style={{transform: [{rotate: '45deg'}], fontSize:SIZE / 2, color:"white", fontFamily:"VitesseSans-Book"}}>{progress != null ? progress : 0}</Text>
                 <Indicator style={{
                     transform: [{ rotate: secondIndicatorRotate}],
                     opacity: secondIndicatorVisibility,

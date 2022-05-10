@@ -1,7 +1,7 @@
 import react, { useEffect, useState } from "react"
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions, ImageBackground } from "react-native"
 import Header from "../components/Header";
-import { getPlayerRatings } from "../data";
+import { getPlayerRating, getNameAndRating, round_market_value } from "../data";
 import CircularProgress from "../components/CircularProgress"
 import TopList from "../components/TopList"
 
@@ -15,7 +15,7 @@ function Ratings(props) {
 
     useEffect(() => {
         console.log("getting ratings for player_id: ", player_id)
-        getPlayerRatings(player_id)
+        getPlayerRating(player_id)
         .then((response) => {
             const statusCode = response.status;
             const data = response.json()
@@ -25,7 +25,6 @@ function Ratings(props) {
             console.log(data)
             data = data[1][0]
             setRatingObj(data)
-            console.log(data)
         })
     }, [])
 
@@ -52,61 +51,93 @@ function Ratings(props) {
                                 <Text style={styles.small_text}>{ratingObj["Player"]}, {ratingObj["Age"]}</Text>
                                 <Text style={styles.small_text}>{ratingObj["Team"]}</Text>
                                 <Text style={styles.small_text}>{ratingObj["Position"]}</Text>
+                                <Text style={styles.small_text}>{ratingObj["Height"]}cm</Text>
+                                <Text style={styles.small_text}>{ratingObj["Weight"]}kg</Text>
+                                <Text style={styles.small_text}>Marknadsvärde: {'\u20AC'}{round_market_value(ratingObj["Market value"])}</Text>
                             </View>
 
                             <View style={{flex: 0.6, height:"100%"}}>
-
+                                <Text>hello</Text>
                             </View>
                             
                         </View>
-                        <View style={{flex: 0.6, flexDirection:"row", marginHorizontal:"5%", height:"100%", justifyContent:"space-around"}}>
+                        <View style={{flex: 0.6, flexDirection:"row", height:"100%", justifyContent:"space-around"}}>
                             {ratingObj["Rating as CB"] != null ? 
-                            <View style={{flexDirection:"column", textAlign:"center", paddingHorizontal:"5%"}}>
-                                <Text style={styles.small_text}>MB</Text>
-                                <CircularProgress progress={ratingObj["Rating as CB"]}/>
-                                <TopList position="CB" />
+                            <View style={styles.rating_view}>
+                                <View style={styles.rating_content}>
+                                    <Text style={styles.small_text}>MB</Text>
+                                    <CircularProgress progress={ratingObj["Rating as CB"]}/>
+                                </View>
+                                <View style={{width:"100%", flex:0.7}}>
+                                    <TopList position="CB" player={ratingObj["Player"]}/>
+                                </View>
+                                
                             </View>: null}
 
                             {ratingObj["Rating as WB"] != null ?
-                            <View style={{flexDirection:"column", textAlign:"center", paddingHorizontal:"5%"}}>
-                                <Text style={styles.small_text}>WB</Text>
-                                <CircularProgress progress={ratingObj["Rating as WB"]}/>
-                                <TopList position="WB" />
+                            <View style={styles.rating_view}>
+                                <View style={styles.rating_content}>
+                                    <Text style={styles.small_text}>WB</Text>
+                                    <CircularProgress progress={ratingObj["Rating as WB"]}/>
+                                </View>
+                                <View style={{width:"100%", flex:0.7}}>
+                                    <TopList position="WB" player={ratingObj["Player"]}/>
+                                </View>
                             </View>: null}
 
                             {ratingObj["Rating as SIX"] != null ?
-                            <View style={{flexDirection:"column", textAlign:"center", paddingHorizontal:"5%"}}>
-                                <Text style={styles.small_text}>SEXA</Text>
-                                <CircularProgress progress={ratingObj["Rating as SIX"]}/>
-                                <TopList position="SIX" />
+                            <View style={styles.rating_view}>
+                                <View style={styles.rating_content}>
+                                    <Text style={styles.small_text}>SEXA</Text>
+                                    <CircularProgress progress={ratingObj["Rating as SIX"]}/>
+                                </View>
+                                <View style={{width:"100%", flex:0.70}}>
+                                    <TopList position="SIX" player={ratingObj["Player"]}/>
+                                </View>
                             </View>: null}
 
                             {ratingObj["Rating as EIGHT"] != null ?
-                            <View style={{flexDirection:"column", textAlign:"center", paddingHorizontal:"5%"}}>
-                                <Text style={styles.small_text}>ÅTTA</Text>
-                                <CircularProgress progress={ratingObj["Rating as EIGHT"]}/>
-                                <TopList position="EIGHT" />
+                            <View style={styles.rating_view}>
+                                <View style={styles.rating_content}>
+                                    <Text style={styles.small_text}>ÅTTA</Text>
+                                    <CircularProgress progress={ratingObj["Rating as EIGHT"]}/>
+                                </View>
+                                <View style={{width:"100%", flex:0.70}}>
+                                    <TopList position="EIGHT" player={ratingObj["Player"]}/>
+                                </View>
                             </View>: null}
 
                             {ratingObj["Rating as SEVEN"] != null ? 
-                            <View style={{flexDirection:"column", textAlign:"center", paddingHorizontal:"5%"}}>
-                                <Text style={styles.small_text}>SJUA</Text>
-                                <CircularProgress progress={ratingObj["Rating as SEVEN"]}/>
-                                <TopList position="SEVEN" />
+                            <View style={styles.rating_view}>
+                                <View style={styles.rating_content}>
+                                    <Text style={styles.small_text}>SJUA</Text>
+                                    <CircularProgress progress={ratingObj["Rating as SEVEN"]}/>
+                                </View>
+                                <View style={{width:"100%", flex:0.70}}>
+                                    <TopList position="SEVEN" player={ratingObj["Player"]}/>
+                                </View>
                             </View>: null}
 
                             {ratingObj["Rating as TEN"] != null ? 
-                            <View style={{flexDirection:"column", textAlign:"center", paddingHorizontal:"5%"}}>
-                                <Text style={styles.small_text}>TIA</Text>
-                                <CircularProgress progress={ratingObj["Rating as TEN"]}/>
-                                <TopList position="TEN" />
+                            <View style={styles.rating_view}>
+                                <View style={styles.rating_content}>
+                                    <Text style={styles.small_text}>TIA</Text>
+                                    <CircularProgress progress={ratingObj["Rating as TEN"]}/>
+                                </View>
+                                <View style={{width:"100%", flex:0.70}}>
+                                    <TopList position="TEN" player={ratingObj["Player"]}/>
+                                </View>
                             </View>: null}
 
                             {ratingObj["Rating as NINE"] != null ? 
-                            <View style={{flexDirection:"column", textAlign:"center", paddingHorizontal:"5%"}}>
-                                <Text style={styles.small_text}>NIA</Text>
-                                <CircularProgress progress={ratingObj["Rating as NINE"]}/>
-                                <TopList position="NINE" />
+                            <View style={styles.rating_view}>
+                                <View style={styles.rating_content}>
+                                    <Text style={styles.small_text}>NIA</Text>
+                                    <CircularProgress progress={ratingObj["Rating as NINE"]}/>
+                                </View>
+                                <View style={{width:"100%", flex:0.70}}>
+                                    <TopList position="NINE" player={ratingObj["Player"]}/>
+                                </View>
                             </View>: null}
 
                         </View>
@@ -145,8 +176,9 @@ const styles = StyleSheet.create({
     },
 
     small_text: {
-        fontSize:50,
+        fontSize:windowWidth / 50,
         color:"white",
+        fontWeight:"bold",
         fontFamily:"VitesseSans-Book"
     },
 
@@ -154,6 +186,18 @@ const styles = StyleSheet.create({
         fontSize:50,
         color:"white",
         fontFamily:"VitesseSans-Book"
+    },
+
+    rating_view: {
+        flexDirection:"column",
+        width:"30%",
+    },
+
+    rating_content: {
+        textAlign:"center",
+        alignItems:"center",
+        width:"100%",
+        flex:0.3,
     }
 
 });

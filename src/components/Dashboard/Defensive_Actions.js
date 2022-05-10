@@ -32,7 +32,7 @@ function Defensive_Actions(props) {
                                 <View style={{padding: "1%"}}>
                                     <View style={{flexDirection: "row"}}>
                                         <Text style={styles.slider_text_left}>{item}: {Object.values(props.player[item])}</Text>
-                                        <Text style={styles.slider_text_right}>(MAX: {props.maxStats[item]})</Text>
+                                        <Text style={styles.slider_text_right}>MAX: {props.maxStats[item]}</Text>
                                     </View>
                                     <Line percent={percentile*100} strokeWidth="2" strokeColor={progressColor}/>
                                 </View>

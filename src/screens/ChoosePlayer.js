@@ -143,18 +143,6 @@ function ChoosePlayer(props) {
         }
     }, [field])
 
-    const viewabilityConfig = {
-        waitForInteraction: true,
-        // At least one of the viewAreaCoveragePercentThreshold or itemVisiblePercentThreshold is required.
-        viewAreaCoveragePercentThreshold: 95,
-        itemVisiblePercentThreshold: 75
-    }
-      
-    const handleViewableItemsChanged = ({viewableItems, changed}) => {
-        console.log("Visible items are", viewableItems);
-        console.log("Changed in this iteration", changed);
-    };
-
     return (
         <View style={{ flexDirection: "column" }}>
             <Header header={styles.header} nav={props.navigation} stackIndex={0} player_id={selectedPlayers[0]} nextIsOK={selectedPlayers.length > 0 ? "white" : "gray"} />

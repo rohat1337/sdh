@@ -38,13 +38,13 @@ function Header(props) {
                 <View style={{flex: 0.1}}>  
                    <TouchableOpacity
                    onPress={() => props.nav.goBack()}>
-                       <Text style={{ color: "white", fontWeight: "bold", fontSize: 18, fontFamily: "VitesseSans-Book"}}>
+                       <Text style={styles.small_text}>
                            {"<"}- Tillbaka
                        </Text>
                    </TouchableOpacity>
                </View>
                <View style={{ flex: 0.9, paddingRight:"10%"}}>
-                   <Text style={{fontSize: 50, fontWeight:"bold", color: "white", fontFamily: "VitesseSans-Black"}}>IK Sirius Datahub</Text>
+                   <Text style={styles.header}>IK Sirius Datahub</Text>
                </View>
                
            </View>
@@ -58,19 +58,62 @@ function Header(props) {
                 <View style={{flex: 0.1}}>  
                    <TouchableOpacity
                    onPress={() => props.nav.goBack()}>
-                       <Text style={{ color: "white", fontWeight: "bold", fontSize: 18, fontFamily: "VitesseSans-Book"}}>
+                       <Text style={styles.small_text}>
                            {"<"}- Tillbaka
                        </Text>
                    </TouchableOpacity>
                </View>
-               <View style={{ flex: 0.9, paddingRight:"10%"}}>
-                   <Text style={{fontSize: 50, fontWeight:"bold", color: "white", fontFamily: "VitesseSans-Black"}}>IK Sirius Datahub</Text>
+               <View style={{flex: 0.8}}>
+                   <Text style={styles.header}>IK Sirius Datahub</Text>
+               </View>
+               <View style={{flex:0.1}}>
+                   <TouchableOpacity onPress={() => props.nav.navigate('Ratings', {player_id: props.player_id})}>
+                       <Text style={styles.small_text}>Ratings {'->'}</Text>
+                   </TouchableOpacity>
                </View>
                
            </View>
        )
-     }
+    }
+
+    else if (props.stackIndex == 3) {
+        return(
+            <View style={props.header}>
+                <View style={{flex:0.1}}>  
+                   <TouchableOpacity
+                   onPress={() => props.nav.goBack()}>
+                       <Text style={styles.small_text}>
+                           {"<"}- Tillbaka
+                       </Text>
+                   </TouchableOpacity>
+               </View>
+               <View style={{flex:0.8}}>
+                    <Text style={styles.header}>IK Sirius Datahub</Text>
+               </View>
+               <View style={{flex:0.1}}></View>
+           </View>
+       )
+    }
     
 }
+
+const styles = StyleSheet.create({
+
+    small_text: {
+        color: "white",
+        fontWeight: "bold",
+        fontSize: 18,
+        fontFamily: "VitesseSans-Book"
+    },
+
+    header: {
+        fontSize: 50,
+        fontWeight:"bold",
+        color: "white",
+        fontFamily: "VitesseSans-Black",
+        justifyContent:"center",
+        textAlign:"center"
+    }
+});
 
 export default Header;

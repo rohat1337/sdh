@@ -176,6 +176,14 @@ export function getPlayerCountAll() {
   }
 }
 
+export function getPlayerRatings(id) {
+  try {
+    return fetch(`http://localhost:5000/playerRatings/${id}`)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export function arrayRemove(arr, value) {
   return arr.filter(function (ele) {
     return ele !== value;

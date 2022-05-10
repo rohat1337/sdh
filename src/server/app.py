@@ -207,5 +207,11 @@ def player_count(positions=None):
 def player_count_all():
     return str(df.shape[0])
 
+@app.route("/playerRatings/<id>")
+def get_player_ratings(id:int):
+    return df.iloc[[id]].filter(regex="Rating").to_json(orient="records")
+    
+
+
 if __name__ == '__main__':    
     app.run(debug=True, host='0.0.0.0', port=5000)

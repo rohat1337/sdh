@@ -17,16 +17,16 @@ function PlayerField(props) {
 	const [nine, set9] = useState(false);
 	const [ten, set10] = useState(false);
 
-	useEffect(() => { one ? props.func("gk") : props.func("0gk") }, [one]); 
-	useEffect(() => { mb ? props.func("cb, lcb, rcb") : props.func("0cb, lcb, rcb") }, [mb]);
-	useEffect(() => { lwb ? props.func("lb, lwb") : props.func("0lb, lwb") }, [lwb]);
-	useEffect(() => { rwb ? props.func("rb, rwb") : props.func("0rb, rwb") }, [rwb]);
-	useEffect(() => { six ? props.func("dmf, ldmf, rdmf") : props.func("0dmf, ldmf, rdmf") }, [six]);
-	useEffect(() => { seven_left ? props.func("lwf, lamf, lw") : props.func("0lwf, lamf, lw")}, [seven_left]);
-	useEffect(() => { seven_right ? props.func("rwf, ramf, rw") : props.func("0rwf, ramf, rw")}, [seven_right]);
-	useEffect(() => { eight ? props.func("lcmf, hcmf") : props.func("0lcmf, hcmf") }, [eight]);
-	useEffect(() => { nine ? props.func("cf") : props.func("0cf")}, [nine]);
-	useEffect(() => { ten ? props.func("amf") : props.func("0amf") }, [ten]);
+	useEffect(() => { one ? props.func("GK") : props.func("0GK") }, [one]); 
+	useEffect(() => { mb ? props.func("CB, LCB, RCB") : props.func("0CB, LCB, RCB") }, [mb]);
+	useEffect(() => { lwb ? props.func("LB, LWB") : props.func("0LB, LWB") }, [lwb]);
+	useEffect(() => { rwb ? props.func("RB, RWB") : props.func("0RB, RWB") }, [rwb]);
+	useEffect(() => { six ? props.func("DMF, LDMF, RDMF") : props.func("0DMF, LDMF, RDMF") }, [six]);
+	useEffect(() => { seven_left ? props.func("LWF, LAMF, LW") : props.func("0LWF, LAMF, LW")}, [seven_left]);
+	useEffect(() => { seven_right ? props.func("RWF, RAMF, RW") : props.func("0RWF, RAMF, RW")}, [seven_right]);
+	useEffect(() => { eight ? props.func("LCMF, HCMF") : props.func("0LCMF, HCMF") }, [eight]);
+	useEffect(() => { nine ? props.func("CF") : props.func("0CF")}, [nine]);
+	useEffect(() => { ten ? props.func("AMF") : props.func("0AMF") }, [ten]);
 	
 	return (
 		<View style={styles.root}>

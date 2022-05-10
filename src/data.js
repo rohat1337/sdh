@@ -160,6 +160,22 @@ export function getMaxStatsForPositionArray(stats, array) {
   }
 }
 
+export function getPlayerCount(positions) {
+  try {
+    return fetch(`http://localhost:5000/playerCount/${arrayToString(positions)}`)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export function getPlayerCountAll() {
+  try {
+    return fetch(`http://localhost:5000/playerCountAll/`)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export function arrayRemove(arr, value) {
   return arr.filter(function (ele) {
     return ele !== value;

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Dimensions, TextInput, ImageBackground } from "react-native"
-import { getBasicStats, zip, arrayRemove, fix, uncheckFieldBox, checkFoot, fixPlayerPositions, contractToString } from "../data"
+import { getBasicStats, zip, arrayRemove, fix, uncheckFieldBox, checkFoot, fixPlayerPositions, contractToString, getPlayerCountAll, getPlayerCount } from "../data"
 import Slider from '@react-native-community/slider';
 import PlayerField from "../components/PlayerField";
 import Header from "../components/Header";
@@ -30,6 +30,8 @@ function ChoosePlayer(props) {
     const [searchTeam, setTeam] = useState("")
     const [searchPosition, setPosition] = useState("")
     const [searchPlayer, setSearchPlayer] = useState("")
+    const [selectedPlayersLength, setSelectedPlayersLength] = useState(0)
+    const [totalPlayersLength, setTotalPlayersLength] = useState(0)
     //States for minutes played slider
     const [minutesPlayed, setMinutesPlayed] = useState(0)
     //Ålder states
@@ -85,8 +87,21 @@ function ChoosePlayer(props) {
                     result.push(player_obj)
                 }
                 setPlayers(result)
+                
                 setSearchPlayer("")
             })
+        getPlayerCountAll()
+        .then((response) => {
+            const statusCode = response.status;
+            const data = response.json();
+            return Promise.all([statusCode, data]);
+        })
+        .then((data) => {
+            data = data[1]
+            setTotalPlayersLength(data)
+            setSelectedPlayersLength(data)
+        })
+
     }, [])
 
 
@@ -102,6 +117,44 @@ function ChoosePlayer(props) {
         setPlayer(null)
     }, [player])
 
+    useEffect(() => {
+        if (field.length > 1) {
+            getPlayerCount(field)
+            .then((response) => {
+                const statusCode = response.status;
+                const data = response.json();
+                return Promise.all([statusCode, data]);
+            })
+            .then((data) => {
+                data = data[1]
+                setSelectedPlayersLength(data)
+            })
+        } else {
+            getPlayerCountAll()
+            .then((response) => {
+                const statusCode = response.status;
+                const data = response.json();
+                return Promise.all([statusCode, data]);
+            })
+            .then((data) => {
+                data = data[1]
+                setSelectedPlayersLength(data)
+            })
+        }
+    }, [field])
+
+    const viewabilityConfig = {
+        waitForInteraction: true,
+        // At least one of the viewAreaCoveragePercentThreshold or itemVisiblePercentThreshold is required.
+        viewAreaCoveragePercentThreshold: 95,
+        itemVisiblePercentThreshold: 75
+    }
+      
+    const handleViewableItemsChanged = ({viewableItems, changed}) => {
+        console.log("Visible items are", viewableItems);
+        console.log("Changed in this iteration", changed);
+    };
+
     return (
         <View style={{ flexDirection: "column" }}>
             <Header header={styles.header} nav={props.navigation} stackIndex={0} player_id={selectedPlayers[0]} nextIsOK={selectedPlayers.length > 0 ? "white" : "gray"} />
@@ -115,22 +168,22 @@ function ChoosePlayer(props) {
                         style={styles.search}
                         onChangeText={setSearchPlayer}
                         value={searchPlayer} />
-                    <View style={{ height: "85%" }}>
+                    <Text style={styles.text_filters}> Visar {selectedPlayersLength} av {totalPlayersLength}</Text>
+                    <View style={{ height: "85%"}}>
                         <FlatList
                             // Filter players by Name, Team, Age, Position and Minutes played
-                            data={players.filter((player) => (fix(player["Player"].toLowerCase()).includes(searchPlayer.toLowerCase()) &&
+                            data={players.filter((player) =>
+                                (fix(player["Player"].toLowerCase()).includes(searchPlayer.toLowerCase()) &&
                                 player["Team within selected timeframe"].toLowerCase().includes(searchTeam.toLowerCase()) &&
                                 (player["Age"] >= minAge && player["Age"] <= maxAge) &&
                                 fixPlayerPositions(player["Position"].toLowerCase()).includes(searchPosition.toLowerCase()) &&
                                 player["Minutes played"] >= minutesPlayed &&
                                 player["Height"] >= minHeight &&
                                 checkFoot(player, leftFoot, rightFoot)) &&
-                                (field.some(ele => player["Position"].toLowerCase().includes(ele)) || field.length === 0))}
+                                (field.some(ele => player["Position"].includes(ele)) || field.length === 0))
+                            }
                             renderItem={({ item }) => {
-
-
                                 const textColor = selectedPlayers.includes(item["ID"]) ? "#ffe00f" : "white";
-
                                 return (
                                     <View style={styles.players_TO}>
                                         <TouchableOpacity
@@ -152,7 +205,7 @@ function ChoosePlayer(props) {
                                         </TouchableOpacity>
                                     </View>
                                 )
-                            }} />
+                            }}/>
                     </View>
                 </View>
                 <View style={styles.root_right}>
@@ -315,14 +368,6 @@ function ChoosePlayer(props) {
                                             onValueChange={value => setMaxContract(parseInt(value))} />
                                     </View>
                                 </View>
-                                {/*<Slider style={{ width: windowWidth / 4.5, height: windowHeight / 20, marginLeft: "4%", marginBottom: "6%" }}
-                                    minimumValue={0}
-                                    maximumValue={1}
-                                    minimumTrackTintColor="#078efb"
-                                    maximumTrackTintColor="gray"
-                                    thumbTintColor="#078efb"
-                                    value={0}
-                                    onValueChange={value => setMinutesPlayed(parseInt(value * 2700))} />*/}
                             </View>
 
                         </View>
@@ -348,19 +393,18 @@ const styles = StyleSheet.create({
         flex: 0.45,
         alignItems: "center",
         justifyContent: "space-between",
+        height: "90%"
 
     },
     root_right: {
         flex: 0.55,
-        height: windowHeight - windowHeight / 10,
+        height: "90%",
     },
     players_TO: {
-        width: windowWidth / 3,
-        marginLeft: windowWidth / 20,
         height: windowHeight / 20,
         borderRadius: 100,
         backgroundColor: "#0059a1",
-        marginVertical: windowWidth / 80
+        marginVertical:"1%"
     },
     players_V: {
         flexDirection: "row",
@@ -385,7 +429,7 @@ const styles = StyleSheet.create({
     text_L: {
         color: "white",
         fontWeight: "bold",
-        fontSize: windowWidth / 80,
+        fontSize: windowWidth / 100,
         fontFamily: "VitesseSans-Book",
         marginBottom: "7%"
     },
@@ -406,15 +450,14 @@ const styles = StyleSheet.create({
         marginBottom: "30%",
     },
     search: {
-        marginLeft: "11%",
-        paddingLeft: "2%",
+        marginTop:"2%",
+        paddingLeft:"2%",
         borderWidth: 1,
         borderColor: "black",
-        borderRadius: 50,
+        borderRadius: 40,
         width: "80%",
-        marginTop: "3%",
-        height: windowHeight / 14,
-        fontSize: 17,
+        height: "10%",
+        fontSize: windowWidth / 100,
         fontWeight: "bold",
         backgroundColor: "gray",
         color: "white",
@@ -426,7 +469,7 @@ const styles = StyleSheet.create({
         justifyContent: "space-evenly",
         alignItems: "center",
         width: "80%",
-        height: "20%",
+        height: "20%"
     },
     filters_TO: {
         backgroundColor: "#0059a1",
@@ -439,7 +482,7 @@ const styles = StyleSheet.create({
     text_filters: {
         color: "white",
         fontWeight: "bold",
-        fontSize: 17,
+        fontSize: windowWidth / 100,
         fontFamily: "VitesseSans-Book"
     },
     search_small: {
@@ -449,7 +492,7 @@ const styles = StyleSheet.create({
         borderColor: "black",
         borderRadius: 50,
         height: "55%",
-        fontSize: 17,
+        fontSize: windowWidth / 100,
         fontWeight: "bold",
         backgroundColor: "gray",
         color: "white",
@@ -460,7 +503,7 @@ const styles = StyleSheet.create({
         flex: 1
     },
     slider_text: {
-        fontSize: 17,
+        fontSize: windowWidth / 100,
         fontWeight: 'bold',
         textAlign: 'center',
         width: "100%",

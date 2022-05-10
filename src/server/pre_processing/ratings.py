@@ -7,7 +7,6 @@ def do_work():
     df = pd.read_excel("pre_processing/playersAllsvenskan.xlsx")
 
     DF_LEN_ALL = df.shape[0]
-    print("FULL DF LEGNTH: ", DF_LEN_ALL)
 
     df["Accurate forward passes per 90"] = df["Forward passes per 90"] / df["Accurate forward passes, %"]
     df["Accurate aerial duels per 90"] = df["Aerial duels per 90"] / df["Aerial duels won, %"]
@@ -93,7 +92,6 @@ def do_work():
 
     if DF_LEN_ALL != df.shape[0]:
         print("ERROR: LENGTHS OF DF DO NOT MATCH UP")
-        return pd.DataFrame
     else:
         return df
 

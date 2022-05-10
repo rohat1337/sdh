@@ -192,5 +192,20 @@ def max_stats_for_positionArray(stats=None, positions=None):
 
     return get_max_for_stat(specificStats, df_temp)
 
+@app.route("/playerCount/<positions>")
+def player_count(positions=None):
+    df_temp = df.copy()
+    specificPositions = positions.split("$")
+    specificPositions.remove("")
+
+    is_in_positions = filter_for_position_arr(df["Position"], specificPositions)
+    df_temp = df_temp[is_in_positions]
+
+    return str(df_temp.shape[0])
+
+@app.route("/playerCountAll/")
+def player_count_all():
+    return str(df.shape[0])
+
 if __name__ == '__main__':    
     app.run(debug=True, host='0.0.0.0', port=5000)

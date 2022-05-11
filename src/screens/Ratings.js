@@ -1,7 +1,7 @@
 import react, { useEffect, useState } from "react"
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions, ImageBackground } from "react-native"
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions, ImageBackground, FlatList } from "react-native"
 import Header from "../components/Header";
-import { getPlayerRating, getNameAndRating, round_market_value } from "../data";
+import { getPlayerRating, getNameAndRating, round_market_value, getPlayerRanking } from "../data";
 import CircularProgress from "../components/CircularProgress"
 import TopList from "../components/TopList"
 
@@ -12,6 +12,7 @@ function Ratings(props) {
 
     const player_id = props.navigation.getParam("player_id", "default")
     const [ratingObj, setRatingObj] = useState(null)
+    const [rankingObj, setRankingObj] = useState(null)
 
     useEffect(() => {
         console.log("getting ratings for player_id: ", player_id)
@@ -22,9 +23,18 @@ function Ratings(props) {
             return Promise.all([statusCode, data])
         })
         .then((data) => {
-            console.log(data)
             data = data[1][0]
             setRatingObj(data)
+        })
+        getPlayerRanking(player_id)
+        .then((response) => {
+            const statusCode = response.status;
+            const data = response.json()
+            return Promise.all([statusCode, data])
+        })
+        .then((data) => {
+            data = data[1][0]
+            setRankingObj(data)
         })
     }, [])
 
@@ -57,7 +67,39 @@ function Ratings(props) {
                             </View>
 
                             <View style={{flex: 0.6, height:"100%"}}>
-                                <Text>hello</Text>
+                                {rankingObj == null
+                                ? <Text>Loading....</Text> 
+                                : null }
+
+                                {ratingObj["Rating as CB"] != null && rankingObj != null
+                                ? <Text style={styles.small_text}>CB: {rankingObj["Ranking as CB"]}/{rankingObj["CB TOTAL"]}</Text>
+                                : null}
+
+                                {ratingObj["Rating as WB"] != null && rankingObj != null
+                                ? <Text style={styles.small_text}>WB: {rankingObj["Ranking as WB"]}/{rankingObj["WB TOTAL"]}</Text>
+                                : null}
+
+                                {ratingObj["Rating as SIX"] != null && rankingObj != null
+                                ? <Text style={styles.small_text}>SEXA: {rankingObj["Ranking as SIX"]}/{rankingObj["SIX TOTAL"]}</Text>
+                                : null}
+
+                                {ratingObj["Rating as SEVEN"] != null && rankingObj != null
+                                ? <Text style={styles.small_text}>SJUA: {rankingObj["Ranking as SEVEN"]}/{rankingObj["SEVEN TOTAL"]}</Text>
+                                : null}
+
+                                {ratingObj["Rating as EIGHT"] != null && rankingObj != null
+                                ? <Text style={styles.small_text}>ÅTTA: {rankingObj["Ranking as EIGHT"]}/{rankingObj["EIGHT TOTAL"]}</Text>
+                                : null}
+
+                                {ratingObj["Rating as TEN"] != null && rankingObj != null
+                                ? <Text style={styles.small_text}>TIA: {rankingObj["Ranking as TEN"]}/{rankingObj["TEN TOTAL"]}</Text>
+                                : null}
+
+                                {ratingObj["Rating as NINE"] != null && rankingObj != null
+                                ? <Text style={styles.small_text}>NIA: {rankingObj["Ranking as NINE"]}/{rankingObj["NINE TOTAL"]}</Text>
+                                : null}
+                                
+                                
                             </View>
                             
                         </View>
@@ -190,7 +232,7 @@ const styles = StyleSheet.create({
 
     rating_view: {
         flexDirection:"column",
-        width:"30%",
+        width:windowWidth/8,
     },
 
     rating_content: {

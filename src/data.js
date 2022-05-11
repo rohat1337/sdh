@@ -192,6 +192,14 @@ export function getPlayerRating(id) {
   }
 }
 
+export function getPlayerRanking(id) {
+  try {
+    return fetch(`http://localhost:5000/playerRanking/${id}`)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export function arrayRemove(arr, value) {
   return arr.filter(function (ele) {
     return ele !== value;

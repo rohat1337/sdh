@@ -226,8 +226,30 @@ def top_15_for_position(position=None):
     df_temp = df[['Player', 'Age', 'Team', rating_col]]
     df_temp_toplist = df_temp.nlargest(15, rating_col)
     return df_temp_toplist.to_json(orient='records')
-    
 
+@app.route("/playerRanking/<id>")
+def playerRanking(id:int):
+    result = {}
+    
+    for rating in ["Rating as CB", "Rating as WB", "Rating as SIX", "Rating as EIGHT", "Rating as SEVEN", "Rating as TEN", "Rating as NINE"]:
+        df_temp = df.sort_values(by=rating, ascending=False)
+        df_temp.reset_index(inplace=True)
+        # get rank of player after sorting by rating
+
+        string = rating.replace("Rating", "Ranking")
+
+        result[string] = df_temp[df_temp["index"] == int(id)].index + 1
+
+        # Drop players that dont play in that position
+        df_temp = df_temp.dropna(subset=[rating])
+
+        # String is now only the position
+        string = rating.replace("Rating as ", "")
+        
+        #Add total players for that position
+        result[string + " TOTAL"] = df_temp.shape[0]
+
+    return pd.DataFrame(result).to_json(orient='records')
 
 if __name__ == '__main__':    
     app.run(debug=True, host='0.0.0.0', port=5000)

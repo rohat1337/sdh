@@ -91,7 +91,7 @@ export const positions = [
 
             goalOppurtiny: ['Offensive duels per 90', 'Offensive duels won, %', 'xG per 90',
             'Non-penalty goals per 90', 'Shots per 90', 'Shot assists per 90', 'Touches in box per 90',
-            'Crosses per 90', 'Accurate crosses per 90, %'],
+            'Crosses per 90', 'Accurate crosses, %'],
 
             playmaking: ['Received passes per 90', 'Accurate passes, %', 'Progressive passes per 90',
             'Accurate progressive passes, %', 'Passes to penalty area per 90', 'Accurate passes to penalty area, %',
@@ -107,7 +107,7 @@ export const positions = [
 
             goalOppurtiny: ['Offensive duels per 90', 'Offensive duels won, %', 'xG per 90',
             'Non-penalty goals per 90', 'Shots per 90', 'Shot assists per 90', 'Touches in box per 90',
-            'Crosses per 90', 'Accurate crosses per 90, %'],
+            'Crosses per 90', 'Accurate crosses, %'],
 
             playmaking: ['Received passes per 90', 'Accurate passes, %', 'Progressive passes per 90',
             'Accurate progressive passes, %', 'Passes to penalty area per 90', 'Accurate passes to penalty area, %',

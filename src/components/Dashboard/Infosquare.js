@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity, Dimensions} from 'react-native'
-import { getPlayerStats, round_market_value } from "../../data"
+import { getPlayerStats, round_market_value, fixPlayerPositions } from "../../data"
 
 const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height
@@ -25,7 +25,7 @@ function InfoSquare(props) {
                 </Text>
 
                 <Text style={styles.slider_text}>
-                    {Object.values(props.player["Position"])}
+                    {fixPlayerPositions(Object.values(props.player["Position"])[0])}
                 </Text>
 
                 <Text style={styles.slider_text}>

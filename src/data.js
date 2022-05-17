@@ -44,6 +44,28 @@ export function fix(str) {
   return str.replace('š', 's').replace('ć', 'c').replace('č', 'c').replace('ó', 'o')
 }
 
+//skicka tillbaka rätt ändelse för en given siffra
+//
+// talet mod 10 ger ett resultat
+// resultat 1 och 2 returnerar :a eftersom 'första' och 'andra'
+// resultat 3 och resten returnerar :e eftersom 'tredje' osv
+// med undantag 11 (11 mod 10 == 1) som också returnerar :e
+export function fixSuffix(int) {
+  console.log("int: ", int)
+  //undantag
+  if (int == 11) {
+    return ":e"
+  }
+
+  //
+  const result = int % 10
+  if (result == 1 || result == 2) {
+    return ":a"
+  } else {
+    return ":e"
+  }
+}
+
 export function round_market_value(int) {
   return int/1000000
 }
@@ -135,6 +157,7 @@ export function getStatNames() {
     console.log(error)
   }
 }
+
 
 export function getTopList(position) {
   try {

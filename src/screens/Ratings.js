@@ -1,8 +1,9 @@
 import react, { useEffect, useState } from "react"
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions, ImageBackground, FlatList } from "react-native"
 import Header from "../components/Header";
-import { getPlayerRating, getNameAndRating, round_market_value, getPlayerRanking } from "../data";
+import { getPlayerRating, round_market_value, getPlayerRanking, fixPlayerPositions } from "../data";
 import CircularProgress from "../components/CircularProgress"
+import PositionRanking from "../components/PositionRanking"
 import TopList from "../components/TopList"
 
 const windowWidth = Dimensions.get("window").width;
@@ -55,12 +56,12 @@ function Ratings(props) {
                 <ImageBackground style={styles.content_root} source={require('../imgs/iks.png')} resizeMode="cover">
                     <View style={{flexDirection:"row", height:"100%"}}>
 
-                        <View style={{flex: 0.4, flexDirection:"column", marginHorizontal:"2%", height:"100%"}}>
+                        <View style={{flex: 0.4, flexDirection:"column", marginHorizontal:"2%"}}>
 
                             <View style={{flex:0.4, textAlign:"center"}}>
                                 <Text style={styles.small_text}>{ratingObj["Player"]}, {ratingObj["Age"]}</Text>
                                 <Text style={styles.small_text}>{ratingObj["Team"]}</Text>
-                                <Text style={styles.small_text}>{ratingObj["Position"]}</Text>
+                                <Text style={styles.small_text}>{fixPlayerPositions(ratingObj["Position"])}</Text>
                                 <Text style={styles.small_text}>{ratingObj["Height"]}cm</Text>
                                 <Text style={styles.small_text}>{ratingObj["Weight"]}kg</Text>
                                 <Text style={styles.small_text}>Marknadsvärde: {'\u20AC'}{round_market_value(ratingObj["Market value"])}</Text>
@@ -72,31 +73,31 @@ function Ratings(props) {
                                 : null }
 
                                 {ratingObj["Rating as CB"] != null && rankingObj != null
-                                ? <Text style={styles.small_text}>CB: {rankingObj["Ranking as CB"]}/{rankingObj["CB TOTAL"]}</Text>
+                                ? <PositionRanking position="CB" value={rankingObj["Ranking as CB"]} total={rankingObj["CB TOTAL"]}/>
                                 : null}
 
                                 {ratingObj["Rating as WB"] != null && rankingObj != null
-                                ? <Text style={styles.small_text}>WB: {rankingObj["Ranking as WB"]}/{rankingObj["WB TOTAL"]}</Text>
+                                ? <PositionRanking position="WB" value={rankingObj["Ranking as WB"]} total={rankingObj["WB TOTAL"]}/>
                                 : null}
 
                                 {ratingObj["Rating as SIX"] != null && rankingObj != null
-                                ? <Text style={styles.small_text}>SEXA: {rankingObj["Ranking as SIX"]}/{rankingObj["SIX TOTAL"]}</Text>
+                                ? <PositionRanking position="SEXA" value={rankingObj["Ranking as SIX"]} total={rankingObj["SIX TOTAL"]}/>
                                 : null}
 
                                 {ratingObj["Rating as SEVEN"] != null && rankingObj != null
-                                ? <Text style={styles.small_text}>SJUA: {rankingObj["Ranking as SEVEN"]}/{rankingObj["SEVEN TOTAL"]}</Text>
+                                ? <PositionRanking position="SEVEN" value={rankingObj["Ranking as SEVEN"]} total={rankingObj["SEVEN TOTAL"]}/>
                                 : null}
 
                                 {ratingObj["Rating as EIGHT"] != null && rankingObj != null
-                                ? <Text style={styles.small_text}>ÅTTA: {rankingObj["Ranking as EIGHT"]}/{rankingObj["EIGHT TOTAL"]}</Text>
+                                ? <PositionRanking position="EIGHT" value={rankingObj["Ranking as EIGHT"]} total={rankingObj["EIGHT TOTAL"]}/>
                                 : null}
 
                                 {ratingObj["Rating as TEN"] != null && rankingObj != null
-                                ? <Text style={styles.small_text}>TIA: {rankingObj["Ranking as TEN"]}/{rankingObj["TEN TOTAL"]}</Text>
+                                ? <PositionRanking position="TEN" value={rankingObj["Ranking as TEN"]} total={rankingObj["TEN TOTAL"]}/>
                                 : null}
 
                                 {ratingObj["Rating as NINE"] != null && rankingObj != null
-                                ? <Text style={styles.small_text}>NIA: {rankingObj["Ranking as NINE"]}/{rankingObj["NINE TOTAL"]}</Text>
+                                ? <PositionRanking position="NINE" value={rankingObj["Ranking as NINE"]} total={rankingObj["NINE TOTAL"]}/>
                                 : null}
                                 
                                 
@@ -110,7 +111,7 @@ function Ratings(props) {
                                     <Text style={styles.small_text}>MB</Text>
                                     <CircularProgress progress={ratingObj["Rating as CB"]}/>
                                 </View>
-                                <View style={{width:"100%", flex:0.7}}>
+                                <View style={{width:"100%", flex:0.7, marginTop:"5%"}}>
                                     <TopList position="CB" player={ratingObj["Player"]}/>
                                 </View>
                                 
@@ -122,7 +123,7 @@ function Ratings(props) {
                                     <Text style={styles.small_text}>WB</Text>
                                     <CircularProgress progress={ratingObj["Rating as WB"]}/>
                                 </View>
-                                <View style={{width:"100%", flex:0.7}}>
+                                <View style={{width:"100%", flex:0.7, marginTop:"5%"}}>
                                     <TopList position="WB" player={ratingObj["Player"]}/>
                                 </View>
                             </View>: null}
@@ -133,7 +134,7 @@ function Ratings(props) {
                                     <Text style={styles.small_text}>SEXA</Text>
                                     <CircularProgress progress={ratingObj["Rating as SIX"]}/>
                                 </View>
-                                <View style={{width:"100%", flex:0.70}}>
+                                <View style={{width:"100%", flex:0.70, marginTop:"5%"}}>
                                     <TopList position="SIX" player={ratingObj["Player"]}/>
                                 </View>
                             </View>: null}
@@ -144,7 +145,7 @@ function Ratings(props) {
                                     <Text style={styles.small_text}>ÅTTA</Text>
                                     <CircularProgress progress={ratingObj["Rating as EIGHT"]}/>
                                 </View>
-                                <View style={{width:"100%", flex:0.70}}>
+                                <View style={{width:"100%", flex:0.70, marginTop:"5%"}}>
                                     <TopList position="EIGHT" player={ratingObj["Player"]}/>
                                 </View>
                             </View>: null}
@@ -155,7 +156,7 @@ function Ratings(props) {
                                     <Text style={styles.small_text}>SJUA</Text>
                                     <CircularProgress progress={ratingObj["Rating as SEVEN"]}/>
                                 </View>
-                                <View style={{width:"100%", flex:0.70}}>
+                                <View style={{width:"100%", flex:0.70, marginTop:"5%"}}>
                                     <TopList position="SEVEN" player={ratingObj["Player"]}/>
                                 </View>
                             </View>: null}
@@ -166,7 +167,7 @@ function Ratings(props) {
                                     <Text style={styles.small_text}>TIA</Text>
                                     <CircularProgress progress={ratingObj["Rating as TEN"]}/>
                                 </View>
-                                <View style={{width:"100%", flex:0.70}}>
+                                <View style={{width:"100%", flex:0.70, marginTop:"5%"}}>
                                     <TopList position="TEN" player={ratingObj["Player"]}/>
                                 </View>
                             </View>: null}
@@ -177,7 +178,7 @@ function Ratings(props) {
                                     <Text style={styles.small_text}>NIA</Text>
                                     <CircularProgress progress={ratingObj["Rating as NINE"]}/>
                                 </View>
-                                <View style={{width:"100%", flex:0.70}}>
+                                <View style={{width:"100%", flex:0.70, marginTop:"5%"}}>
                                     <TopList position="NINE" player={ratingObj["Player"]}/>
                                 </View>
                             </View>: null}
@@ -204,7 +205,7 @@ const styles = StyleSheet.create({
         width: windowWidth,
         height: windowHeight - windowHeight / 10,
         backgroundColor: "#001324",
-        flexDirection:"column"
+        flexDirection:"column",
     },
 
     header: {
@@ -233,6 +234,7 @@ const styles = StyleSheet.create({
     rating_view: {
         flexDirection:"column",
         width:windowWidth/8,
+        justifyContent:"space-evenly"
     },
 
     rating_content: {

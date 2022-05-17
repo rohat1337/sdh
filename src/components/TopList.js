@@ -49,14 +49,14 @@ export default function TopList({position, player}) {
                 <View>
                     <FlatList data={playersList}
                                 renderItem={({item}) => {
-                                const textColor = player == item["Player"] ? "#ffe00f" : "white";
+                                const boldText = player == item["Player"] ? "bold" : "normal";
                                 return (
                                     <View style={styles.player}>
                                         <View style={{flex:0.8}}>
-                                            <Text style={[styles.small_text, {color:textColor}]}>{item["id"]}. {item["Player"]}</Text>
+                                            <Text style={[styles.small_text, {fontWeight:boldText}]}>{item["id"]}. {item["Player"]}</Text>
                                         </View>
                                         <View style={{flex:0.2}}>
-                                            <Text style={[styles.rating_text, {color:textColor}]}>{item["Rating as " + position]}</Text>
+                                            <Text style={[styles.rating_text, {fontWeight:boldText}]}>{item["Rating as " + position]}</Text>
                                         </View>
 
                                         
@@ -82,7 +82,8 @@ const styles = StyleSheet.create({
     small_text: {
         fontSize:windowWidth / 90,
         fontFamily:"VitesseSans-Book",
-        textAlign:"left"
+        textAlign:"left",
+        color:"white"
     },
 
     rating_text: {

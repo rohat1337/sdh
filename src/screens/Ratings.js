@@ -81,23 +81,23 @@ function Ratings(props) {
                                 : null}
 
                                 {ratingObj["Rating as SIX"] != null && rankingObj != null
-                                ? <PositionRanking position="SEXA" value={rankingObj["Ranking as SIX"]} total={rankingObj["SIX TOTAL"]}/>
+                                ? <PositionRanking position="6" value={rankingObj["Ranking as SIX"]} total={rankingObj["SIX TOTAL"]}/>
                                 : null}
 
                                 {ratingObj["Rating as SEVEN"] != null && rankingObj != null
-                                ? <PositionRanking position="SEVEN" value={rankingObj["Ranking as SEVEN"]} total={rankingObj["SEVEN TOTAL"]}/>
+                                ? <PositionRanking position="7" value={rankingObj["Ranking as SEVEN"]} total={rankingObj["SEVEN TOTAL"]}/>
                                 : null}
 
                                 {ratingObj["Rating as EIGHT"] != null && rankingObj != null
-                                ? <PositionRanking position="EIGHT" value={rankingObj["Ranking as EIGHT"]} total={rankingObj["EIGHT TOTAL"]}/>
+                                ? <PositionRanking position="8" value={rankingObj["Ranking as EIGHT"]} total={rankingObj["EIGHT TOTAL"]}/>
                                 : null}
 
                                 {ratingObj["Rating as TEN"] != null && rankingObj != null
-                                ? <PositionRanking position="TEN" value={rankingObj["Ranking as TEN"]} total={rankingObj["TEN TOTAL"]}/>
+                                ? <PositionRanking position="10" value={rankingObj["Ranking as TEN"]} total={rankingObj["TEN TOTAL"]}/>
                                 : null}
 
                                 {ratingObj["Rating as NINE"] != null && rankingObj != null
-                                ? <PositionRanking position="NINE" value={rankingObj["Ranking as NINE"]} total={rankingObj["NINE TOTAL"]}/>
+                                ? <PositionRanking position="9" value={rankingObj["Ranking as NINE"]} total={rankingObj["NINE TOTAL"]}/>
                                 : null}
                                 
                                 
@@ -131,7 +131,7 @@ function Ratings(props) {
                             {ratingObj["Rating as SIX"] != null ?
                             <View style={styles.rating_view}>
                                 <View style={styles.rating_content}>
-                                    <Text style={styles.small_text}>SEXA</Text>
+                                    <Text style={styles.small_text}>6</Text>
                                     <CircularProgress progress={ratingObj["Rating as SIX"]}/>
                                 </View>
                                 <View style={{width:"100%", flex:0.70, marginTop:"5%"}}>
@@ -142,7 +142,7 @@ function Ratings(props) {
                             {ratingObj["Rating as EIGHT"] != null ?
                             <View style={styles.rating_view}>
                                 <View style={styles.rating_content}>
-                                    <Text style={styles.small_text}>ÅTTA</Text>
+                                    <Text style={styles.small_text}>8</Text>
                                     <CircularProgress progress={ratingObj["Rating as EIGHT"]}/>
                                 </View>
                                 <View style={{width:"100%", flex:0.70, marginTop:"5%"}}>
@@ -153,7 +153,7 @@ function Ratings(props) {
                             {ratingObj["Rating as SEVEN"] != null ? 
                             <View style={styles.rating_view}>
                                 <View style={styles.rating_content}>
-                                    <Text style={styles.small_text}>SJUA</Text>
+                                    <Text style={styles.small_text}>7</Text>
                                     <CircularProgress progress={ratingObj["Rating as SEVEN"]}/>
                                 </View>
                                 <View style={{width:"100%", flex:0.70, marginTop:"5%"}}>
@@ -164,7 +164,7 @@ function Ratings(props) {
                             {ratingObj["Rating as TEN"] != null ? 
                             <View style={styles.rating_view}>
                                 <View style={styles.rating_content}>
-                                    <Text style={styles.small_text}>TIA</Text>
+                                    <Text style={styles.small_text}>10</Text>
                                     <CircularProgress progress={ratingObj["Rating as TEN"]}/>
                                 </View>
                                 <View style={{width:"100%", flex:0.70, marginTop:"5%"}}>
@@ -175,7 +175,7 @@ function Ratings(props) {
                             {ratingObj["Rating as NINE"] != null ? 
                             <View style={styles.rating_view}>
                                 <View style={styles.rating_content}>
-                                    <Text style={styles.small_text}>NIA</Text>
+                                    <Text style={styles.small_text}>9</Text>
                                     <CircularProgress progress={ratingObj["Rating as NINE"]}/>
                                 </View>
                                 <View style={{width:"100%", flex:0.70, marginTop:"5%"}}>

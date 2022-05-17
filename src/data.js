@@ -83,42 +83,42 @@ export function fixPlayerPositions(position) {
       result.push("MV")
     }
 
-    else if (arrayOfPositions[index] == "cf") {
+    if (arrayOfPositions[index] == "cf") {
       result.push("9")
     }
 
-    else if (arrayOfPositions[index] == "lw" || arrayOfPositions[index] == "lmf" || arrayOfPositions[index] == "lamf" || arrayOfPositions[index] == "lwf") {
+    if (arrayOfPositions[index] == "lw" || arrayOfPositions[index] == "lmf" || arrayOfPositions[index] == "lamf" || arrayOfPositions[index] == "lwf") {
       result.push("7 (v)")
     }
 
-    else if (arrayOfPositions[index] == "rw" || arrayOfPositions[index] == "rmf" || arrayOfPositions[index] == "ramf" || arrayOfPositions[index] == "rwf") {
+    if (arrayOfPositions[index] == "rw" || arrayOfPositions[index] == "rmf" || arrayOfPositions[index] == "ramf" || arrayOfPositions[index] == "rwf") {
       result.push("7 (h)")
     }
 
 
-    else if (arrayOfPositions[index] == "amf") {
+    if (arrayOfPositions[index] == "amf" || arrayOfPositions[index] == "ramf" || arrayOfPositions[index] == "lamf") {
       result.push("10")
     }
 
 
-    else if (arrayOfPositions[index] == ("lcmf") || arrayOfPositions[index] == ("rcmf")) {
+    if (arrayOfPositions[index] == ("lcmf") || arrayOfPositions[index] == ("rcmf")) {
       result.push("8")
     }
 
-    else if (arrayOfPositions[index] == ("dmf") || arrayOfPositions[index] == ("ldmf") || arrayOfPositions[index] == ("rdmf")) {
+    if (arrayOfPositions[index] == ("dmf") || arrayOfPositions[index] == ("ldmf") || arrayOfPositions[index] == ("rdmf")) {
       result.push("6")
     }
 
-    else if (arrayOfPositions[index] == "lb" || arrayOfPositions[index] == ("lwb")) {
+    if (arrayOfPositions[index] == "lb" || arrayOfPositions[index] == ("lwb")) {
       result.push("WB (v)")
     }
 
-    else if (arrayOfPositions[index] == "rb" || arrayOfPositions[index] == ("rwb")) {
+    if (arrayOfPositions[index] == "rb" || arrayOfPositions[index] == ("rwb")) {
       result.push("WB (h)")
     }
 
 
-    else if (arrayOfPositions[index] == "lcb" || arrayOfPositions[index] == "rcb" || arrayOfPositions[index] == "cb") {
+    if (arrayOfPositions[index] == "lcb" || arrayOfPositions[index] == "rcb" || arrayOfPositions[index] == "cb") {
       result.push("MB")
     }
   }

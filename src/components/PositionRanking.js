@@ -7,16 +7,8 @@ const windowHeight = Dimensions.get("window").height;
 
 export default function PositionRanking({position, value, total}) {
     return (
-        <View style={{flexDirection:"row", width:"100%"}}>
-
-            <View style={{flex:0.2}}>
-                <Text style={styles.small_text}>{position}: </Text>
-            </View>
-
-            <View style={{flex:0.8}}>
-                <Text style={styles.small_text}>{value}{fixSuffix(value)} av {total} spelare</Text>
-            </View>
-
+        <View style={{flexDirection:"row", width:"100%", marginVertical:"2%", justifyContent:"center"}}>
+            <Text style={styles.small_text}>{position}: {value}{fixSuffix(value)} av {total} spelare</Text>
         </View>
     )
 }

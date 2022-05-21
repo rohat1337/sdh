@@ -1,20 +1,5 @@
 import { Dimensions } from "react-native-web"
-export function getPlayerStats(id) {
-  try {
-    return fetch(`http://localhost:5000/player/${id}`)
-  } catch (error) {
-    console.log(error)
-  }
-}
-
-export function getSpecificStats(id, stats) {
-  try {
-    return fetch(`http://localhost:5000/specificData/${id}/${arrayToString(stats)}`)
-  } catch (error) {
-    console.log(error)
-  }
-}
-
+import config from "./config.json";
 function arrayToString(stats) {
   var result = "";
 
@@ -24,6 +9,22 @@ function arrayToString(stats) {
   });
 
   return result;
+}
+
+export function getPlayerStats(id) {
+  try {
+    return fetch(config.SERVER_URL + `player/${id}`)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export function getSpecificStats(id, stats) {
+  try {
+    return fetch(config.SERVER_URL + `specificData/${id}/${arrayToString(stats)}`)
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 export function getFontSize() {
@@ -136,7 +137,7 @@ export function uncheckFieldBox(field, box) {
 
 export function allsvenskanPlayers() {
   try {
-    return fetch(`http://localhost:5000/playersAllsvenskan`)
+    return fetch(config.SERVER_URL + `playersAllsvenskan`)
   } catch (error) {
     console.log(error)
   }
@@ -144,7 +145,7 @@ export function allsvenskanPlayers() {
 
 export function getBasicStats() {
   try {
-    return fetch(`http://localhost:5000/BasicInfoPlayers`)
+    return fetch(config.SERVER_URL + `BasicInfoPlayers`)
   } catch (error) {
     console.log(error)
   }
@@ -152,7 +153,7 @@ export function getBasicStats() {
 
 export function getStatNames() {
   try {
-    return fetch(`http://localhost:5000/stats`)
+    return fetch(config.SERVER_URL + `stats`)
   } catch (error) {
     console.log(error)
   }
@@ -161,7 +162,7 @@ export function getStatNames() {
 
 export function getTopList(position) {
   try {
-    return fetch(`http://localhost:5000/top15/${position}`)
+    return fetch(config.SERVER_URL + `top15/${position}`)
   } catch (error) {
     console.log(error)
   }
@@ -169,7 +170,7 @@ export function getTopList(position) {
 
 export function getMaxStatsAll(stats) {
   try {
-    return fetch(`http://localhost:5000/maxStats/${arrayToString(stats)}`)
+    return fetch(config.SERVER_URL + `maxStats/${arrayToString(stats)}`)
   } catch (error) {
     console.log(error)
   }
@@ -177,7 +178,7 @@ export function getMaxStatsAll(stats) {
 
 export function getMaxStatsForPosition(stats, position) {
   try {
-    return fetch(`http://localhost:5000/maxStats/${arrayToString(stats)}/${position}`)
+    return fetch(config.SERVER_URL + `maxStats/${arrayToString(stats)}/${position}`)
   } catch (error) {
     console.log(error)
   }
@@ -185,7 +186,7 @@ export function getMaxStatsForPosition(stats, position) {
 
 export function getMaxStatsForPositionArray(stats, array) {
   try {
-    return fetch(`http://localhost:5000/maxStatsFromArray/${arrayToString(stats)}/${arrayToString(array)}`)
+    return fetch(config.SERVER_URL + `maxStatsFromArray/${arrayToString(stats)}/${arrayToString(array)}`)
   } catch (error) {
     console.log(error)
   }
@@ -193,7 +194,7 @@ export function getMaxStatsForPositionArray(stats, array) {
 
 export function getPlayerCount(positions) {
   try {
-    return fetch(`http://localhost:5000/playerCount/${arrayToString(positions)}`)
+    return fetch(config.SERVER_URL + `playerCount/${arrayToString(positions)}`)
   } catch (error) {
     console.log(error)
   }
@@ -201,7 +202,7 @@ export function getPlayerCount(positions) {
 
 export function getPlayerCountAll() {
   try {
-    return fetch(`http://localhost:5000/playerCountAll/`)
+    return fetch(config.SERVER_URL + `playerCountAll/`)
   } catch (error) {
     console.log(error)
   }
@@ -209,7 +210,7 @@ export function getPlayerCountAll() {
 
 export function getPlayerRating(id) {
   try {
-    return fetch(`http://localhost:5000/playerRating/${id}`)
+    return fetch(config.SERVER_URL + `playerRating/${id}`)
   } catch (error) {
     console.log(error)
   }
@@ -217,7 +218,7 @@ export function getPlayerRating(id) {
 
 export function getPlayerRanking(id) {
   try {
-    return fetch(`http://localhost:5000/playerRanking/${id}`)
+    return fetch(config.SERVER_URL + `playerRanking/${id}`)
   } catch (error) {
     console.log(error)
   }

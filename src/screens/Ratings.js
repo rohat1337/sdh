@@ -64,10 +64,13 @@ function Ratings(props) {
                                 <Text style={styles.small_text}>{fixPlayerPositions(ratingObj["Position"])}</Text>
                                 <Text style={styles.small_text}>{ratingObj["Height"]}cm</Text>
                                 <Text style={styles.small_text}>{ratingObj["Weight"]}kg</Text>
-                                <Text style={styles.small_text}>Marknadsvärde: {'\u20AC'}{round_market_value(ratingObj["Market value"])}</Text>
+                                <Text style={styles.small_text}>Marknadsvärde: {'\u20AC'}{round_market_value(ratingObj["Market value"])}M</Text>
                             </View>
 
                             <View style={{flex: 0.6, height:"100%"}}>
+                                <View style={{width:"100%", alignItems:"center"}}>
+                                    <Text style={styles.small_text}>Jämförelse:</Text>
+                                </View>
                                 {rankingObj == null
                                 ? <Text>Loading....</Text> 
                                 : null }

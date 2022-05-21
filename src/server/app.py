@@ -219,7 +219,6 @@ def get_player_rating(id:int):
     df_temp["Market value"] = df.iloc[[id]]["Market value"]
     return df_temp.to_json(orient="records")
 
-
 @app.route("/top15/<position>")
 def top_15_for_position(position=None):
     rating_col = "Rating as " + position

@@ -147,3 +147,6 @@ export const positions = [
         }
     }
 ]
+
+export const positionsArray = ['cf', 'cb', 'lcb', 'rcb', 'lb', 'lwb', 'rb', 'rwb', 'amf', 'lwf', 'lamf', 'lw', 'rwf', 'ramf', 'rw',
+                            'dmf', 'ldmf', 'rdmf', 'lcmf', 'hcmf']

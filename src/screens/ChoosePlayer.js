@@ -212,7 +212,7 @@ function ChoosePlayer(props) {
                         </View>
                     </View>
                     <View style={styles.filters_L}>
-                        <PlayerField func={changeField}></PlayerField>
+                        <PlayerField func={changeField} mall={false} />
                     </View>
                 </View>
             </ImageBackground>

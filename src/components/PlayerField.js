@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity, Dimensions } from 'react-native'
 import { Hoverable } from 'react-native-web-hover'
+import { positionsArray } from '../positions';
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;

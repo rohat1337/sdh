@@ -1,5 +1,5 @@
 import { Radar } from 'recharts'
-import { positions } from './positions'
+import { positions, positionsArray } from './positions'
 
 var _ = require('lodash')
 

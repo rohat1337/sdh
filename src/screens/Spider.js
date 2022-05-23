@@ -1,6 +1,6 @@
 import Header from "../components/Header"
 import { View, StyleSheet, ImageBackground, Dimensions, TouchableOpacity, Text } from "react-native"
-import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Legend, Label } from 'recharts';
+import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Legend } from 'recharts';
 import { useEffect, useState } from "react";
 import { renderRadars, testSpiderFetch, fixSpiderData, fixSpiderData2 } from "../data";
 import _ from "lodash";

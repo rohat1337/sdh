@@ -179,7 +179,7 @@ export function filterArray(arr, value) {
 export function renderRadars(players) {
 
   const radars = players.map((player) => {
-    var color = colors[player.ID % colors.length]
+    var color = colors[players.indexOf(player)]
     return <Radar 
             name={player.Name}
             dataKey={parseInt(player.ID)} 

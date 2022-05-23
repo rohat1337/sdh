@@ -21,7 +21,7 @@
     "react-native-web-image": "^0.0.6",
     "react-navigation": "^4.4.4",
     "react-navigation-stack": "^2.10.4",
-    "react-scripts": "4.0.1",
+    "react-scripts": "^5.0.1",
     "recharts": "^2.1.9",
     "web-vitals": "^2.1.4"
   },

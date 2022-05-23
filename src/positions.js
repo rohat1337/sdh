@@ -12,6 +12,8 @@ export const positions = [
             playmaking: ['Received passes per 90', 'Accurate passes, %', 'Passes to penalty area per 90',
             'Accurate passes to penalty area, %', 'Deep completions per 90', 'Progressive runs per 90'],
 
+            overall_fetch: ['Shots per 90', 'PAdj Interceptions'],
+
             overall: ['xG per 90', 'Shots per 90', 'Non-penalty goals per 90', 'xA per 90', 'Received passes per 90',
             'Deep completions per 90', 'Aerial duels won, %', 'PAdj Interceptions']
         }

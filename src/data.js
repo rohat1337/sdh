@@ -195,7 +195,7 @@ export function setMall2(field) {
     let result;
     for (var position of positions) {
       if (JSON.stringify(field) === JSON.stringify(position.positions)) {
-        result = { position: position.positions, stats: [position.kpis.def, position.kpis.goalOppurtiny, position.kpis.playmaking]}
+        result = { position: position.positions, stats: [position.kpis.def, position.kpis.goalOppurtiny, position.kpis.playmaking, position.kpis.overall_fetch]}
       }
     }
     return result
@@ -285,6 +285,17 @@ export function fixSpiderData2(spiderData, position) {
   }
   result["Def"] = defkpis
 
+  // Sammanställning
+  var overallkpis = []
+  for (var key of p.kpis.overall) {
+    var obj = {}
+    obj["KPI"] = key
+    for (var playerID of Object.keys(spiderData[key])) {
+      obj[playerID] = spiderData[key][playerID]
+    }
+    overallkpis.push(obj)
+  }
+  result["Overall"] = overallkpis
 
   return result
 }

@@ -101,7 +101,15 @@ export default function Spider(props) {
                                 </ResponsiveContainer>
                             </View>
                             <View style={{flexDirection:"column", marginVertical:"2%"}}>
-
+                                <Text style={styles.text}>Sammanställning</Text>
+                                <ResponsiveContainer width={windowWidth/2.5} height={windowHeight/3}>
+                                    <RadarChart cx="50%" cy="50%" outerRadius="80%" data={testSpiderData["Overall"]}>
+                                    <PolarGrid />
+                                    <PolarAngleAxis dataKey="KPI" fontFamily="VitesseSans-Book" fontWeight={"bold"} tick={{ fill: "white"}} fontSize={windowHeight*0.017}/>
+                                    {radars}
+                                    <Legend />
+                                    </RadarChart>
+                                </ResponsiveContainer>
                             </View>
 
                         </View>

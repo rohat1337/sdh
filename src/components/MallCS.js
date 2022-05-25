@@ -12,7 +12,7 @@ export default function MallCS(props) {
         <View style={styles.container}>
             <View style={styles.fieldView}>
 
-                <PlayerField func={props.func} button={props.button} mall={true} />
+                <PlayerField func={props.func} button={props.button} mall={true} clearField={props.clearField} />
 
             </View>
             <View style={styles.buttonsView}>

@@ -184,22 +184,13 @@ function PlayerField(props) {
 		}
 	}, [ten])
 
-	
+	useEffect(() => {
 
-	
+		if (!one && !mb && !rwb && !lwb && !six && !seven_left && !seven_right && !eight && !nine && !ten) {
+			props.clearField()
+		}
 
-	/*
-	useEffect(() => { one ? props.func("gk") : {} }, [one]); 
-	useEffect(() => { mb ? props.func("cb, lcb, rcb") : {} }, [mb]);
-	useEffect(() => { lwb ? props.func("lb, lwb") : props.func("0lb, lwb") }, [lwb]);
-	useEffect(() => { rwb ? props.func("rb, rwb") : props.func("0rb, rwb") }, [rwb]);
-	useEffect(() => { six ? props.func("dmf, ldmf, rdmf") : props.func("0dmf, ldmf, rdmf") }, [six]);
-	useEffect(() => { seven_left ? props.func("lwf, lamf, lw") : props.func("0lwf, lamf, lw")}, [seven_left]);
-	useEffect(() => { seven_right ? props.func("rwf, ramf, rw") : props.func("0rwf, ramf, rw")}, [seven_right]);
-	useEffect(() => { eight ? props.func("lcmf, hcmf") : props.func("0lcmf, hcmf") }, [eight]);
-	useEffect(() => { nine ? props.func("cf") : props.func("0cf")}, [nine]);
-	useEffect(() => { ten ? props.func("amf") : props.func("0amf") }, [ten]);
-	*/
+	}, [one, mb, rwb, lwb, six, seven_left, seven_right, eight, nine, ten])
 
 	
 	return (

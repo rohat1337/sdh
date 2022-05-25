@@ -14,12 +14,11 @@ function ChoosePlayer(props) {
 
     function changeField(positions) {
         updateField(positions, setField)
-        {/*if (positions.includes("0")) {
-            setField(uncheckFieldBox(field, positions))
-        } else {
-            setField([...field, ...positions.split(", ")])
-        }*/}
     }
+
+    function clearField() {
+        setField([])
+    } 
 
     const [field, setField] = useState([])
     const [players, setPlayers] = useState([])
@@ -213,7 +212,7 @@ function ChoosePlayer(props) {
                         </View>
                     </View>
                     <View style={styles.filters_L}>
-                        <PlayerField func={changeField} mall={false} />
+                        <PlayerField func={changeField} mall={false} field={field} clearField={clearField}/>
                     </View>
                 </View>
             </ImageBackground>

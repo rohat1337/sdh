@@ -10,11 +10,16 @@ const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 function ChooseStats(props) {
+
     var playersWithID = props.navigation.state.params.players;
 
     function changeField(positions) {
         updateField(positions, setField)
     }
+
+    function clearField() {
+        setField([])
+    } 
 
     
     // States
@@ -58,7 +63,7 @@ function ChooseStats(props) {
                 {/* Välj KPI:er eller mallar (header) */}
                 <View>
                     <CSLowerHeader setButton={setButton} button={button}/>
-                    <MallCS func={changeField} pos={pos} field={field} button={button} stats={stats} nav={props.navigation} players={playersWithID} />
+                    <MallCS func={changeField} pos={pos} field={field} button={button} stats={stats} nav={props.navigation} players={playersWithID} clearField={clearField} />
                 </View>
             </ImageBackground>
             </View>

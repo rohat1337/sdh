@@ -1,5 +1,7 @@
 import { Radar } from 'recharts'
 import { positions, positionsArray } from './positions'
+import { Dimensions } from "react-native-web"
+
 
 var _ = require('lodash')
 
@@ -8,7 +10,6 @@ var colors = ["#FFC1CF", "#E8FFB7", "#E2A0FF", "#C4F5FC", "#B7FFD8"]
 
 
 
-import { Dimensions } from "react-native-web"
 export function getPlayerStats(id) {
   try {
     return fetch(`http://localhost:5000/player/${id}`)
@@ -27,10 +28,6 @@ export function getSpecificStats(id, stats) {
   } catch (error) {
     console.log(error)
   }
-}
-
-export function fix(str) {
-  return str.replace('š', 's').replace('ć', 'c').replace('č', 'c').replace('ó', 'o')
 }
 
 function arrayToString(stats) {
@@ -236,7 +233,7 @@ export function renderRadars(players) {
   const radars = players.map((player) => {
     var color = colors[players.indexOf(player)]
     return <Radar 
-            name={player.Name}
+            name={player.Player}
             dataKey={parseInt(player.ID)} 
             stroke={color} 
             fill={color} 

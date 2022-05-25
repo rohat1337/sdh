@@ -1,8 +1,8 @@
 import Header from "../components/Header"
 import { View, StyleSheet, ImageBackground, Dimensions, TouchableOpacity, Text } from "react-native"
-import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Legend } from 'recharts';
+import { RadarChart, PolarGrid, PolarAngleAxis, ResponsiveContainer, Legend } from 'recharts';
 import { useEffect, useState } from "react";
-import { renderRadars, testSpiderFetch, fixSpiderData, fixSpiderData2, testSpiderFetch3, getSpecificStatsMultiID } from "../data";
+import { renderRadars, testSpiderFetch, fixSpiderData2, getSpecificStatsMultiID } from "../data";
 import _ from "lodash";
 
 const windowWidth = Dimensions.get("window").width;

@@ -56,24 +56,24 @@ function ChoosePlayer(props) {
                 data = data[1]
                 var result = []
                 var keys = Object.keys(data)
+                keys.push("ID")
 
                 // Get lists of all names, team names etc..
                 var ids = Object.keys(data["Player"])
                 var players = Object.values(data["Player"])
                 var teams = Object.values(data["Team within selected timeframe"])                               
                 var position = Object.values(data["Position"])               
-                var age = Object.values(data["Age"])
-                var minutes = Object.values(data["Minutes played"])
+                age = Object.values(data["Age"])
+                minutes = Object.values(data["Minutes played"])
 
 
                 var foot = Object.values(data["Foot"])
                 
                 
-                minutes = Object.values(data["Minutes played"])
                 height_cm = arrayRemove(Object.values(data["Height"]), 0)
                 contract_lengths = (Object.values(data["Contract expires"])).map(dates => ((new Date(dates).getTime() - new Date())))
 
-                var list = zip(ids, players, teams, position, age, contract_lengths, minutes, foot, height_cm)
+                var list = zip(players, teams, position, age, contract_lengths, minutes, foot,height_cm, ids)
                 // For every player, create object
                 // This is only needed because of format issues from flask (no object propety names to access)
                 for (var player of list) {
@@ -95,11 +95,11 @@ function ChoosePlayer(props) {
     // Check if selected player is already chosen or not.
     useEffect(() => {
         if (player != null) {
-            if (selectedPlayers.includes(player.Name)) {
-                setSelectedPlayers(arrayRemove(selectedPlayers, player.Name))
+            if (selectedPlayers.includes(player.Player)) {
+                setSelectedPlayers(arrayRemove(selectedPlayers, player.Player))
                 setSelectedPlayersWithID(arrayRemove(selectedPlayersWithID, player))
             } else {
-                setSelectedPlayers([...selectedPlayers, player.Name])
+                setSelectedPlayers([...selectedPlayers, player.Player])
                 setSelectedPlayersWithID([...selectedPlayersWithID, player])
             }
         }
@@ -132,13 +132,13 @@ function ChoosePlayer(props) {
                                 (field.some(ele => player["Position"].toLowerCase().includes(ele)) || field.length === 0))}
                             renderItem={({ item }) => {
 
-
-                                const textColor = selectedPlayers.includes(item["ID"]) ? "#ffe00f" : "white";
+                                const textColor = selectedPlayers.includes(item["Player"]) ? "#ffe00f" : "white";
+                                console.log(item)
 
                                 return (
                                     <View style={styles.players_TO}>
                                         <TouchableOpacity
-                                            onPress={() => { setPlayer(item["ID"]); console.log(players[0]) }}
+                                            onPress={() => { setPlayer(item) }}
                                             style={{ justifyContent: "center" }}>
 
                                             <View style={styles.players_V}>

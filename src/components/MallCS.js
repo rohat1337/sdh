@@ -6,6 +6,8 @@ const windowHeight = Dimensions.get("window").height;
 
 export default function MallCS(props) {
 
+
+
     return (
         <View style={styles.container}>
             <View style={styles.fieldView}>

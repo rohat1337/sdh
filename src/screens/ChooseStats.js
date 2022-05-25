@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Dimensions, TextInput, ImageBackground } from "react-native"
 import Header from "../components/Header";
-import { getStatNames, uncheckFieldBox, setMall, setMall2 } from "../data";
+import { getStatNames, uncheckFieldBox, setMall, setMall2, updateField } from "../data";
 import CSLowerHeader from "../components/CSLowerHeader";
 import ManualCS from "../components/ManualCS";
 import MallCS from "../components/MallCS";
@@ -13,11 +13,7 @@ function ChooseStats(props) {
     var playersWithID = props.navigation.state.params.players;
 
     function changeField(positions) {
-        if (positions.includes("0")) {
-            setField(uncheckFieldBox(field, positions))
-        } else {
-            setField(positions.split(", "))
-        }
+        updateField(positions, setField)
     }
 
     

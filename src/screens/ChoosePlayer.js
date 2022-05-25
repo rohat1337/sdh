@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Dimensions, TextInput, ImageBackground } from "react-native"
-import { getBasicStats, zip, arrayRemove, fix, uncheckFieldBox } from "../data"
+import { getBasicStats, zip, arrayRemove, fix, uncheckFieldBox, updateField } from "../data"
 import Slider from '@react-native-community/slider';
 import PlayerField from "../components/PlayerField";
 import Header from "../components/Header";
@@ -13,11 +13,12 @@ const windowHeight = Dimensions.get("window").height;
 function ChoosePlayer(props) {
 
     function changeField(positions) {
-        if (positions.includes("0")) {
+        updateField(positions, setField)
+        {/*if (positions.includes("0")) {
             setField(uncheckFieldBox(field, positions))
         } else {
             setField([...field, ...positions.split(", ")])
-        }
+        }*/}
     }
 
     const [field, setField] = useState([])

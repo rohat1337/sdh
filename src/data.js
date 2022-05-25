@@ -299,3 +299,7 @@ export function fixSpiderData2(spiderData, position) {
 
   return result
 }
+
+export function updateField(clickedBox, setField) {
+  setField(clickedBox.split(', '))
+}

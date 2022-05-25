@@ -7,6 +7,7 @@ const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 function PlayerField(props) {
+
 	const [one, set1] = useState(null);
 	const [mb, setmb] = useState(false);
 	const [lwb, setlwb] = useState(false);
@@ -18,9 +19,178 @@ function PlayerField(props) {
 	const [nine, set9] = useState(false);
 	const [ten, set10] = useState(false);
 
+	useEffect(() => {
+		if (one) {
+			props.func("gk")
+			setmb(false)
+			setlwb(false)
+			setrwb(false)
+			set6(false)
+			set7_left(false)
+			set7_right(false)
+			set8(false)
+			set9(false)
+			set10(false)
+		}
+	}, [one])
 
-	useEffect(() => { one ? props.func("gk") : props.func("0gk") }, [one]); 
-	useEffect(() => { mb ? props.func("cb, lcb, rcb") : props.func("0cb, lcb, rcb") }, [mb]);
+	useEffect(() => {
+		if (mb) {
+			props.func("cb, lcb, rcb")
+			set1(false)
+			setlwb(false)
+			setrwb(false)
+			set6(false)
+			set7_left(false)
+			set7_right(false)
+			set8(false)
+			set9(false)
+			set10(false)
+		}
+	}, [mb])
+
+	useEffect(() => {
+		if (lwb) {
+			props.func("lb, lwb")
+			set1(false)
+			setmb(false)
+			setrwb(false)
+			set6(false)
+			set7_left(false)
+			set7_right(false)
+			set8(false)
+			set9(false)
+			set10(false)
+		}
+	}, [lwb])
+	
+	useEffect(() => {
+		if (rwb) {
+			props.func("rb, rwb")
+			set1(false)
+			setmb(false)
+			setlwb(false)
+			set6(false)
+			set7_left(false)
+			set7_right(false)
+			set8(false)
+			set9(false)
+			set10(false)
+		}
+	}, [rwb])
+
+	useEffect(() => {
+		if (six) {
+			props.func("dmf, ldmf, rdmf")
+			set1(false)
+			setmb(false)
+			setrwb(false)
+			setlwb(false)
+			set7_left(false)
+			set7_right(false)
+			set8(false)
+			set9(false)
+			set10(false)
+		}
+	}, [six])
+
+	useEffect(() => {
+		if (lwb) {
+			props.func("lb, lwb")
+			set1(false)
+			setmb(false)
+			setrwb(false)
+			set6(false)
+			set7_left(false)
+			set7_right(false)
+			set8(false)
+			set9(false)
+			set10(false)
+		}
+	}, [lwb])
+
+	useEffect(() => {
+		if (seven_left) {
+			props.func("lwf, lamf, lw")
+			set1(false)
+			setmb(false)
+			setrwb(false)
+			set6(false)
+			setlwb(false)
+			set7_right(false)
+			set8(false)
+			set9(false)
+			set10(false)
+		}
+	}, [seven_left])
+
+	useEffect(() => {
+		if (seven_right) {
+			props.func("rwf, ramf, rw")
+			set1(false)
+			setmb(false)
+			setrwb(false)
+			set6(false)
+			setlwb(false)
+			set7_left(false)
+			set8(false)
+			set9(false)
+			set10(false)
+		}
+	}, [seven_right])
+
+	useEffect(() => {
+		if (eight) {
+			props.func("lcmf, hcmf")
+			set1(false)
+			setmb(false)
+			setrwb(false)
+			set6(false)
+			setlwb(false)
+			set7_left(false)
+			set7_right(false)
+			set9(false)
+			set10(false)
+		}
+	}, [eight])
+
+	useEffect(() => {
+		if (nine) {
+			props.func("cf")
+			set1(false)
+			setmb(false)
+			setrwb(false)
+			set6(false)
+			setlwb(false)
+			set7_left(false)
+			set8(false)
+			set7_right(false)
+			set10(false)
+		}
+	}, [nine])
+
+	useEffect(() => {
+		if (ten) {
+			props.func("amf")
+			set1(false)
+			setmb(false)
+			setrwb(false)
+			set6(false)
+			setlwb(false)
+			set7_left(false)
+			set8(false)
+			set7_right(false)
+			set9(false)
+		}
+	}, [ten])
+
+	
+
+	
+
+	/*
+	useEffect(() => { one ? props.func("gk") : {} }, [one]); 
+	useEffect(() => { mb ? props.func("cb, lcb, rcb") : {} }, [mb]);
 	useEffect(() => { lwb ? props.func("lb, lwb") : props.func("0lb, lwb") }, [lwb]);
 	useEffect(() => { rwb ? props.func("rb, rwb") : props.func("0rb, rwb") }, [rwb]);
 	useEffect(() => { six ? props.func("dmf, ldmf, rdmf") : props.func("0dmf, ldmf, rdmf") }, [six]);
@@ -29,6 +199,8 @@ function PlayerField(props) {
 	useEffect(() => { eight ? props.func("lcmf, hcmf") : props.func("0lcmf, hcmf") }, [eight]);
 	useEffect(() => { nine ? props.func("cf") : props.func("0cf")}, [nine]);
 	useEffect(() => { ten ? props.func("amf") : props.func("0amf") }, [ten]);
+	*/
+
 	
 	return (
 		<View style={styles.root}>

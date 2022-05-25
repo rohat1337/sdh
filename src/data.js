@@ -240,7 +240,34 @@ export function testSpiderFetch(ids, stats) {
   }
 }
 
+export function testSpiderFetch3(ids, stats) {
+  try {
+    return fetch(`http://localhost:5000/spider/${arrayToString(ids)}/${arrayToString(stats)}`).then((response) => {
+      const statusCode = response.status;
+      const data = response.json();
+      return Promise.all([statusCode, data]);
+  })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export function testSpiderFetch2(ids, stats, setSpider) {
+  try {
+    return fetch(`http://localhost:5000/spider/${arrayToString(ids)}/${arrayOfArrayToString(stats)}`).then((response) => {
+      const statusCode = response.status;
+      const data = response.json();
+      return Promise.all([statusCode, data]);
+    }).then((data) => {
+      console.log(data)
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export function fixSpiderData2(spiderData, position) {
+  console.log(position)
   var result = {}
   let p
   for (var pos of positions) {
@@ -296,6 +323,8 @@ export function fixSpiderData2(spiderData, position) {
     overallkpis.push(obj)
   }
   result["Overall"] = overallkpis
+
+  console.log(result)
 
   return result
 }

@@ -11,6 +11,8 @@ const windowHeight = Dimensions.get("window").height;
 
 function ChooseStats(props) {
 
+    console.log(props)
+
     var playersWithID = props.navigation.state.params.players;
 
     function changeField(positions) {

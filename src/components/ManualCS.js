@@ -110,35 +110,11 @@ export default function ManualCS(props) {
                 onChangeText={setSearch}
                 />
                 <View style={styles.rightLower}>
-                    <View style={{ flexDirection:"row", justifyContent:"space-evenly"}}>
-                        <TouchableOpacity style={[styles.filterButton, { backgroundColor: filteredButtons.includes(0) ? "#0059a1" : "#001a30"}]}
-                        onPress={() => setOffensive(!offensive)}>
-                            <Text style={[styles.text, { fontSize: windowHeight/50}]}>Offensiva aktioner</Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity style={[styles.filterButton, { backgroundColor: filteredButtons.includes(1) ? "#0059a1" : "#001a30"}]}
-                        onPress={() => setPlaymake(!playmake)}>
-                            <Text style={[styles.text, { fontSize: windowHeight/50}]}>Speluppbygnad</Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity style={[styles.filterButton, { backgroundColor: filteredButtons.includes(2) ? "#0059a1" : "#001a30"}]}
-                        onPress={() => setDefense(!defense)}>
-                            <Text style={[styles.text, { fontSize: windowHeight/50}]}>Försvarsspel</Text>
-                        </TouchableOpacity>
-                    </View>
 
                     <View style={styles.graphs}>
                         <TouchableOpacity style={styles.graphButton}
                         onPress={() => props.nav.navigate("Spider", { players: props.players, stats: selectedStats, manual: true })}>
                             <Text style={styles.text}>Spindel</Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity style={styles.graphButton}>
-                            <Text style={styles.text}>Stapel</Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity style={styles.graphButton}>
-                            <Text style={styles.text}>X/Y-diagram</Text>
                         </TouchableOpacity>
 
                 </View>
@@ -202,7 +178,6 @@ const styles = StyleSheet.create({
         height: windowHeight/2,
         marginTop: "5%",
         justifyContent:"center",
-        backgroundColor:"white"
     },
     filterButton: {
         width: windowWidth*0.13,

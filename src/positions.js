@@ -32,7 +32,12 @@ export const positions = [
             playmaking: ['Received passes per 90', 'Accurate passes, %', 'Progressive passes per 90',
             'Accurate progressive passes, %', 'Passes to final third per 90', 'Accurate passes to final third, %',
             'Passes to penalty area per 90', 'Accurate passes to penalty area, %', 'Deep completions per 90',
-            'Progressive runs per 90']
+            'Progressive runs per 90'],
+
+            overall: ['xG per 90', 'xA per 90', 'Accurate passes, %', 'Passes to final third per 90', 'Progressive runs per 90', 'Successful defensive actions per 90',
+            'PAdj Interceptions'],
+
+            overall_fetch: ['xA per 90']
         }
     },
     {
@@ -49,7 +54,12 @@ export const positions = [
             playmaking: ['Received passes per 90', 'Accurate passes, %', 'Progressive passes per 90',
             'Accurate progressive passes, %', 'Passes to final third per 90', 'Accurate passes to final third, %',
             'Passes to penalty area per 90', 'Accurate passes to penalty area, %', 'Deep completions per 90',
-            'Progressive runs per 90']
+            'Progressive runs per 90'],
+
+            overall: ['xG per 90', 'xA per 90', 'Accurate passes, %', 'Passes to final third per 90', 'Progressive runs per 90', 'Successful defensive actions per 90',
+            'PAdj Interceptions'],
+
+            overall_fetch: ['xA per 90']
         }
     },
     {
@@ -66,7 +76,12 @@ export const positions = [
             playmaking: ['Received passes per 90', 'Accurate passes, %', 'Progressive passes per 90',
             'Accurate progressive passes, %', 'Passes to final third per 90', 'Accurate passes to final third, %',
             'Passes to penalty area per 90', 'Accurate passes to penalty area, %', 'Deep completions per 90',
-            'Progressive runs per 90']
+            'Progressive runs per 90'],
+
+            overall: ['xG per 90', 'xA per 90', 'Accurate passes, %', 'Passes to final third per 90', 'Progressive runs per 90', 'Successful defensive actions per 90',
+            'PAdj Interceptions'],
+
+            overall_fetch: ['xA per 90']
         }
     },
     {
@@ -81,7 +96,12 @@ export const positions = [
 
             playmaking: ['Received passes per 90', 'Accurate passes, %', 'Progressive passes per 90',
             'Accurate progressive passes, %', 'Passes to penalty area per 90', 'Accurate passes to penalty area, %',
-            'Deep completions per 90', 'Progressive runs per 90']
+            'Deep completions per 90', 'Progressive runs per 90'],
+
+            overall: ['xG per 90', 'Shots per 90', 'xA per 90', 'Passes to penalty area per 90', 'Progressive passes per 90', 'Deep completions per 90',
+            'Defensive duels won, %', 'PAdj Interceptions'],
+
+            overall_fetch: ['Shots per 90', 'PAdj Interceptions']
         }
     },
     {
@@ -97,7 +117,12 @@ export const positions = [
 
             playmaking: ['Received passes per 90', 'Accurate passes, %', 'Progressive passes per 90',
             'Accurate progressive passes, %', 'Passes to penalty area per 90', 'Accurate passes to penalty area, %',
-            'Deep completions per 90', 'Progressive runs per 90']
+            'Deep completions per 90', 'Progressive runs per 90'],
+
+            overall: ['xG per 90', 'Offensive duels per 90', 'Offensive duels won, %', 'Progressive runs per 90', 
+            'Deep completions per 90', 'Defensive duels won, %', 'PAdj Interceptions'],
+
+            overall_fetch: ['PAdj Interceptions']
         }
     },
     {
@@ -113,7 +138,12 @@ export const positions = [
 
             playmaking: ['Received passes per 90', 'Accurate passes, %', 'Progressive passes per 90',
             'Accurate progressive passes, %', 'Passes to penalty area per 90', 'Accurate passes to penalty area, %',
-            'Deep completions per 90', 'Progressive runs per 90']
+            'Deep completions per 90', 'Progressive runs per 90'],
+
+            overall: ['xG per 90', 'Offensive duels per 90', 'Offensive duels won, %', 'Progressive runs per 90', 
+            'Deep completions per 90', 'Defensive duels won, %', 'PAdj Interceptions'],
+
+            overall_fetch: ['PAdj Interceptions']
         }
     },
     {
@@ -129,7 +159,12 @@ export const positions = [
             playmaking: ['Received passes per 90', 'Accurate passes, %', 'Progressive passes per 90', 
             'Accurate progressive passes, %', 'Passes to final third per 90', 'Accurate passes to final third, %',
             'Passes to penalty area per 90', 'Accurate passes to penalty area, %', 'Deep completions per 90',
-            'Progressive runs per 90']
+            'Progressive runs per 90'],
+
+            overall: ['xG per 90', 'xA per 90', 'Accurate passes, %', 'Deep completions per 90', 'Offensive duels won, %',
+            'Progressive runs per 90', 'Successful defensive actions per 90', 'PAdj Interceptions'],
+
+            overall_fetch: ['Offensive duels won, %']
         }
     },
     {
@@ -145,7 +180,12 @@ export const positions = [
             playmaking: ['Received passes per 90', 'Accurate passes, %', 'Progressive passes per 90', 
             'Accurate progressive passes, %', 'Passes to final third per 90', 'Accurate passes to final third, %',
             'Passes to penalty area per 90', 'Accurate passes to penalty area, %', 'Deep completions per 90',
-            'Progressive runs per 90']
+            'Progressive runs per 90'],
+
+            overall: ['xG per 90', 'xA per 90', 'Accurate passes, %', 'Deep completions per 90', 'Offensive duels won, %',
+            'Progressive runs per 90', 'Successful defensive actions per 90', 'PAdj Interceptions'],
+
+            overall_fetch: ['Offensive duels won, %']
         }
     }
 ]

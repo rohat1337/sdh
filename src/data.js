@@ -1,4 +1,15 @@
+import { Radar } from 'recharts'
+import { positions, positionsArray } from './positions'
 import { Dimensions } from "react-native-web"
+
+
+var _ = require('lodash')
+
+
+var colors = ["#FFC1CF", "#E8FFB7", "#E2A0FF", "#C4F5FC", "#B7FFD8"]
+
+
+
 export function getPlayerStats(id) {
   try {
     return fetch(`http://localhost:5000/player/${id}`)
@@ -9,7 +20,11 @@ export function getPlayerStats(id) {
 
 export function getSpecificStats(id, stats) {
   try {
-    return fetch(`http://localhost:5000/specificData/${id}/${arrayToString(stats)}`)
+    return fetch(`http://localhost:5000/specificData/${id}/${arrayToString(stats)}`).then((response) => {
+      const statusCode = response.status;
+      const data = response.json();
+      return Promise.all([statusCode, data]);
+  })
   } catch (error) {
     console.log(error)
   }
@@ -24,6 +39,16 @@ function arrayToString(stats) {
   });
 
   return result;
+}
+
+function arrayOfArrayToString(statsArray) {
+  var result = ""
+
+  for (var mall of statsArray) {
+   result += arrayToString(mall)
+   result += "€"
+  }
+  return result
 }
 
 export function getFontSize() {
@@ -130,7 +155,23 @@ export function getBasicStats() {
 
 export function getStatNames() {
   try {
-    return fetch(`http://localhost:5000/stats`)
+    return fetch(`http://localhost:5000/stats`).then((response) => {
+      const statusCode = response.status;
+      const data = response.json();
+      return Promise.all([statusCode, data]);
+  })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export function getSpecificStatsMultiID(ids, stats) {
+  try {
+    return fetch(`http://localhost:5000/specificDataMultiID/${arrayToString(ids)}/${arrayToString(stats)}`).then((response) => {
+      const statusCode = response.status;
+      const data = response.json();
+      return Promise.all([statusCode, data]);
+  })
   } catch (error) {
     console.log(error)
   }
@@ -162,10 +203,15 @@ export function getMaxStatsForPositionArray(stats, array) {
 
 export function arrayRemove(arr, value) {
   return arr.filter(function (ele) {
-    return ele !== value;
+    return !_.isEqual(ele, value)
   });
 }
 
+export function filterArray(arr, value) {
+  return arr.filter(function (ele) {
+    return ele.toLowerCase().includes(value.toLowerCase())
+  })
+}
 export function checkFoot(player, left, right) {
   if ((left && right) || (!left && !right)) {
     // ??
@@ -182,3 +228,159 @@ export function contractToString(milliSeconds){
   return expiryDate.toString().slice(3,7) + expiryDate.toString().slice(10,15)
 }
 
+export function renderRadars(players) {
+
+  const radars = players.map((player) => {
+    var color = colors[players.indexOf(player)]
+    return <Radar 
+            name={player.Player}
+            dataKey={parseInt(player.ID)} 
+            stroke={color} 
+            fill={color} 
+            fillOpacity={0.6} />
+  })
+  return radars
+}
+
+export function setMall2(field) {
+  if (field.length !== 0) {
+    let result;
+    for (var position of positions) {
+      if (JSON.stringify(field) === JSON.stringify(position.positions)) {
+        result = { position: position.positions, stats: [position.kpis.def, position.kpis.goalOppurtiny, position.kpis.playmaking, position.kpis.overall_fetch]}
+      }
+    }
+    return result
+  }
+}
+
+function fetchSpider(ids, mall) {
+  setTimeout(() => {
+    getSpecificStatsMultiID(ids, mall).then((data) => {
+      console.log(data)
+    })
+  }, 1000)
+}
+
+export function setSpiders(stats, ids) {
+  for (var mall of stats) {
+    fetchSpider(ids, mall)
+  }
+}
+
+export function makeSpiders(stats, ids) {
+  try {
+    return fetch(`http://localhost:5000/specificDataMultiID/${arrayToString(ids)}/${arrayOfArrayToString(stats)}`).then((response) => {
+      const statusCode = response.status;
+      const data = response.json();
+      return Promise.all([statusCode, data]);
+  })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export function testSpiderFetch(ids, stats) {
+  try {
+    return fetch(`http://localhost:5000/spider/${arrayToString(ids)}/${arrayOfArrayToString(stats)}`).then((response) => {
+      const statusCode = response.status;
+      const data = response.json();
+      return Promise.all([statusCode, data]);
+  })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export function testSpiderFetch3(ids, stats) {
+  try {
+    return fetch(`http://localhost:5000/spider/${arrayToString(ids)}/${arrayToString(stats)}`).then((response) => {
+      const statusCode = response.status;
+      const data = response.json();
+      return Promise.all([statusCode, data]);
+  })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export function testSpiderFetch2(ids, stats, setSpider) {
+  try {
+    return fetch(`http://localhost:5000/spider/${arrayToString(ids)}/${arrayOfArrayToString(stats)}`).then((response) => {
+      const statusCode = response.status;
+      const data = response.json();
+      return Promise.all([statusCode, data]);
+    }).then((data) => {
+      console.log(data)
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export function fixSpiderData2(spiderData, position) {
+  console.log(position)
+  var result = {}
+  let p
+  for (var pos of positions) {
+    if (JSON.stringify(pos.positions) == JSON.stringify(position)) {
+      p = pos
+    }
+  }
+
+  // Goal Spider
+  var goalkpis = []
+  for (var key of p.kpis.goalOppurtiny) {
+    var obj = {}
+    obj["KPI"] = key
+    for (var playerID of Object.keys(spiderData[key])) {
+      obj[playerID] = spiderData[key][playerID]
+    }
+    goalkpis.push(obj)
+  }
+  result["Goal"] = goalkpis
+  
+  // Play spider
+  var playkpis = []
+  for (var key of p.kpis.playmaking) {
+    var obj = {}
+    obj["KPI"] = key
+    for (var playerID of Object.keys(spiderData[key])) {
+      obj[playerID] = spiderData[key][playerID]
+    }
+    playkpis.push(obj)
+  }
+  result["Play"] = playkpis
+
+  // Def spider
+  var defkpis = []
+  for (var key of p.kpis.def) {
+    var obj = {}
+    obj["KPI"] = key
+    for (var playerID of Object.keys(spiderData[key])) {
+      obj[playerID] = spiderData[key][playerID]
+    }
+    defkpis.push(obj)
+  }
+  result["Def"] = defkpis
+
+  // Sammanställning
+  var overallkpis = []
+  for (var key of p.kpis.overall) {
+    var obj = {}
+    obj["KPI"] = key
+    for (var playerID of Object.keys(spiderData[key])) {
+      obj[playerID] = spiderData[key][playerID]
+    }
+    overallkpis.push(obj)
+  }
+  result["Overall"] = overallkpis
+
+  console.log(result)
+
+  return result
+}
+
+export function updateField(clickedBox, setField) {
+  setField(clickedBox.split(', '))
+}

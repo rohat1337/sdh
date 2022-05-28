@@ -8,6 +8,7 @@ import { createAppContainer } from "react-navigation";
 import ChoosePlayer from "./screens/ChoosePlayer"
 import ChooseStats from "./screens/ChooseStats"
 import Dashboard from "./screens/Dashboard"
+import Spider from "./screens/Spider";
 
 const App = createStackNavigator({
     ChoosePlayer: {
@@ -20,6 +21,10 @@ const App = createStackNavigator({
     },
     Dashboard: {
       screen: Dashboard,
+      navigationOptions: { headerShown: false }
+    },
+    Spider: {
+      screen: Spider,
       navigationOptions: { headerShown: false }
     }
 })

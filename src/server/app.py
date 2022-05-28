@@ -49,6 +49,27 @@ def specific_info(stats, id: int):
 
     return specificData.to_json(force_ascii=False)
 
+def spiderData(stats, ids):
+    spider = pd.DataFrame(columns=ids)
+    for mall in stats:
+        df_mall = df[mall]
+        normalized_df = (df_mall-df_mall.mean())/df_mall.std()
+        newdf = normalized_df.iloc[ids]
+        spider = pd.concat([spider, newdf], axis=1)
+    
+    spider = spider.iloc[:, len(ids):]
+
+    return spider.to_json(force_ascii=False)
+
+def allInfoPlayers(ids):
+    return df.iloc[ids].to_json(force_ascii=False, orient="records")
+
+def specific_info_multiID(stats, ids):
+    df_stats = df[stats]
+    normalized_df = (df_stats-df_stats.mean())/df_stats.std()
+    newdf = normalized_df.iloc[ids]
+    newdf = newdf[stats]
+    return newdf.to_json(force_ascii=False)
 def get_max_for_stat(stats, data: pd.DataFrame):
     result = {}
     print(len(data))
@@ -73,6 +94,15 @@ def basic_info():
 
     return new_df.to_json(force_ascii=False)
 
+def fixStatsArray(stats):
+    result = []
+    euro = stats.split("€")
+    euro.remove("")
+    for mall in euro:
+        dollar = mall.split("$")
+        dollar.remove("")
+        result.append(dollar)
+    return result
 # Creates a series of true/false depending on if any value in series is present in arr
 def filter_for_position_arr(series: pd.Series, arr: Array) -> pd.Series: 
         result = []
@@ -148,6 +178,14 @@ def specificPlayerStats1(id=None, stats=None):
     specificStats.remove("")
     return specific_info(specificStats, int(id))
 
+@app.route("/specificDataMultiID/<ids>/<stats>")
+def specificPlayersStats(ids = None, stats=None):
+    specificStats = stats.split("$")
+    specificStats.remove("")
+    specificIDS = ids.split("$")
+    specificIDS.remove("")
+    return specific_info_multiID(specificStats, specificIDS)
+
 @app.route("/BasicInfoPlayers") 
 def basic_info_cock():
     return basic_info()
@@ -156,6 +194,17 @@ def basic_info_cock():
 def stats():
     return allStats()
 
+@app.route("/spider/<ids>/<stats>")
+def spiders(ids = None, stats=None):
+    specificIDS = ids.split("$")
+    specificIDS.remove("")
+    return spiderData(fixStatsArray(stats), specificIDS)
+
+@app.route("/players/<ids>")
+def playersFyn(ids = None):
+    specificIDS = ids.split("$")
+    specificIDS.remove("")
+    return allInfoPlayers(specificIDS)
 
 dashboardEntries = [] # Adrian pls help
 @app.route("/dashboard/<id>")

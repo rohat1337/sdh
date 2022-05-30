@@ -24,20 +24,11 @@ function Dashboard_PlayerField(props) {
 	useEffect(() => { seven_right ? props.func("RWF, RAMF, RW") : props.func("0RWF, RAMF, RW")}, [seven_right]);
 	useEffect(() => { eight ? props.func("LCMF, HCMF") : props.func("0LCMF, HCMF") }, [eight]);
 	useEffect(() => { nine ? props.func("CF") : props.func("0CF")}, [nine]);
-	useEffect(() => { ten ? props.func("AMF") : props.func("0AMF") }, [ten]);
+	useEffect(() => { ten ? props.func("AMF, RAMF, LAMF") : props.func("0AMF, RAMF, LAMF") }, [ten]);
 
     return (
         <View style={styles.root}>
-            {/* Goalkeeper */}
-            <Hoverable style={styles.goalkeeper_style}>
-                {({hovered}) => (
-                    <TouchableOpacity style={{height:"100%"}} onPress={() => {set1(!one)}}>
-                        <View style={one ? styles.pressed : hovered ? styles.hovered : styles.notHovered}> 
-                            <Text style={styles.numberStyle}>1</Text>
-                        </View>
-                    </TouchableOpacity>
-                )}   
-            </Hoverable>
+            
 
             <View style={{flexDirection:"row", height:"80%"}}>
                 {/* Right side */}
@@ -46,9 +37,9 @@ function Dashboard_PlayerField(props) {
                     {/* Right wingback */}
                     <Hoverable style={styles.wings}>
                         {({hovered}) => (
-                            <TouchableOpacity style={{height:"100%"}} onPress={() => {setrwb(!rwb)}}>
-                                <View style={rwb ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
-                                    <Text style={styles.numberStyle}>WB (h)</Text>
+                            <TouchableOpacity style={{height:"100%"}} onPress={() => {set7_left(!seven_left)}}>
+                                <View style={seven_left ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
+                                    <Text style={styles.numberStyle}>7 (v)</Text>
                                 </View>
                             </TouchableOpacity>
                         )} 
@@ -57,9 +48,9 @@ function Dashboard_PlayerField(props) {
                     {/* Right winger */}
                     <Hoverable style={styles.wings}>
                         {({hovered}) => (
-                            <TouchableOpacity style={{height:"100%"}} onPress={() => {set7_right(!seven_right)}}>
-                                <View style={seven_right ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
-                                    <Text style={styles.numberStyle}>7 (h)</Text>
+                            <TouchableOpacity style={{height:"100%"}} onPress={() => {setlwb(!lwb)}}>
+                                <View style={lwb ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
+                                    <Text style={styles.numberStyle}>WB (v)</Text>
                                 </View>
                             </TouchableOpacity>
                         )} 
@@ -72,29 +63,9 @@ function Dashboard_PlayerField(props) {
                 <View style={{flexDirection:"column", flex:0.6}}>
                     <Hoverable style={styles.center}>
                         {({hovered}) => (
-                            <TouchableOpacity style={{height:"100%"}} onPress={() => {setmb(!mb)}}>
-                                <View style={mb ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
-                                    <Text style={styles.numberStyle}>MB</Text>
-                                </View>
-                            </TouchableOpacity>
-                        )} 
-                    </Hoverable>
-
-                    <Hoverable style={styles.center}>
-                        {({hovered}) => (
-                            <TouchableOpacity style={{height:"100%"}} onPress={() => {set6(!six)}}>
-                                <View style={six ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
-                                    <Text style={styles.numberStyle}>6</Text>
-                                </View>
-                            </TouchableOpacity>
-                        )} 
-                    </Hoverable>
-
-                    <Hoverable style={styles.center}>
-                        {({hovered}) => (
-                            <TouchableOpacity style={{height:"100%"}} onPress={() => {set8(!eight)}}>
-                                <View style={eight ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
-                                    <Text style={styles.numberStyle}>8</Text>
+                            <TouchableOpacity style={{height:"100%"}} onPress={() => {set9(!nine)}}>
+                                <View style={nine ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
+                                    <Text style={styles.numberStyle}>9</Text>
                                 </View>
                             </TouchableOpacity>
                         )} 
@@ -112,9 +83,29 @@ function Dashboard_PlayerField(props) {
 
                     <Hoverable style={styles.center}>
                         {({hovered}) => (
-                            <TouchableOpacity style={{height:"100%"}} onPress={() => {set9(!nine)}}>
-                                <View style={nine ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
-                                    <Text style={styles.numberStyle}>9</Text>
+                            <TouchableOpacity style={{height:"100%"}} onPress={() => {set8(!eight)}}>
+                                <View style={eight ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
+                                    <Text style={styles.numberStyle}>8</Text>
+                                </View>
+                            </TouchableOpacity>
+                        )} 
+                    </Hoverable>
+
+                    <Hoverable style={styles.center}>
+                        {({hovered}) => (
+                            <TouchableOpacity style={{height:"100%"}} onPress={() => {set6(!six)}}>
+                                <View style={six ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
+                                    <Text style={styles.numberStyle}>6</Text>
+                                </View>
+                            </TouchableOpacity>
+                        )} 
+                    </Hoverable>
+
+                    <Hoverable style={styles.center}>
+                        {({hovered}) => (
+                            <TouchableOpacity style={{height:"100%"}} onPress={() => {setmb(!mb)}}>
+                                <View style={mb ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
+                                    <Text style={styles.numberStyle}>MB</Text>
                                 </View>
                             </TouchableOpacity>
                         )} 
@@ -127,9 +118,9 @@ function Dashboard_PlayerField(props) {
                     {/* Left wingback */}
                     <Hoverable style={styles.wings}>
                         {({hovered}) => (
-                            <TouchableOpacity style={{height:"100%"}} onPress={() => {setlwb(!lwb)}}>
-                                <View style={lwb ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
-                                    <Text style={styles.numberStyle}>WB (v)</Text>
+                            <TouchableOpacity style={{height:"100%"}} onPress={() => {set7_right(!seven_right)}}>
+                                <View style={seven_right ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
+                                    <Text style={styles.numberStyle}>7 (h)</Text>
                                 </View>
                             </TouchableOpacity>
                         )} 
@@ -138,9 +129,9 @@ function Dashboard_PlayerField(props) {
                     {/* Left winger */}
                     <Hoverable style={styles.wings}>
                         {({hovered}) => (
-                            <TouchableOpacity style={{height:"100%"}} onPress={() => {set7_left(!seven_left)}}>
-                                <View style={seven_left ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
-                                    <Text style={styles.numberStyle}>7 (v)</Text>
+                            <TouchableOpacity style={{height:"100%"}} onPress={() => {setrwb(!rwb)}}>
+                                <View style={rwb ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
+                                    <Text style={styles.numberStyle}>WB (h)</Text>
                                 </View>
                             </TouchableOpacity>
                         )} 
@@ -148,6 +139,17 @@ function Dashboard_PlayerField(props) {
 
                 </View>
             </View>
+
+            {/* Goalkeeper */}
+            <Hoverable style={styles.goalkeeper_style}>
+                {({hovered}) => (
+                    <TouchableOpacity style={{height:"100%"}} onPress={() => {set1(!one)}}>
+                        <View style={one ? styles.pressed : hovered ? styles.hovered : styles.notHovered}> 
+                            <Text style={styles.numberStyle}>1</Text>
+                        </View>
+                    </TouchableOpacity>
+                )}   
+            </Hoverable>
         </View>
     )
 
@@ -156,7 +158,7 @@ function Dashboard_PlayerField(props) {
 const styles = StyleSheet.create({
     root: {
         flexDirection:"column",
-        width: "100%",
+        width:"100%",
         height:"100%"
     },
 

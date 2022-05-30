@@ -105,9 +105,8 @@ function Dashboard(props) {
             {/* Put content here (This view is divided into 4 parts, row) */}
             <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode="cover">
 
-                {/* Leftmost view, inforutan + 10 viktigaste mätpunkterna*/}
+                {/* Leftmost view, inforutan + spelplan*/}
                 <View style={{ flex: 0.25, height: "100%"}}>
-
 
                     {/* Inforutan */}
                     <View style={{ flex: 0.45, flexDirection: "column"}}>

@@ -118,7 +118,7 @@ function ChoosePlayer(props) {
     }, [player])
 
     useEffect(() => {
-        if (field.length > 1) {
+        if (field.length > 0) {
             getPlayerCount(field)
             .then((response) => {
                 const statusCode = response.status;

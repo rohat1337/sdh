@@ -13,7 +13,6 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: 16.13.x
-        cache: npm
     
     - name: standardjs-ga
       uses: devjoca/standardjs-action@0.4.0

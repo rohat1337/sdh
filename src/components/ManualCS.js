@@ -12,10 +12,6 @@ export default function ManualCS (props) {
   const [selectStat, setSelectStat] = useState(null)
   const [search, setSearch] = useState('')
   const [filteredStats, setFilteredStats] = useState([])
-  const [filteredButtons, setFilteredButtons] = useState([0, 1, 2])
-  const [offensive, setOffensive] = useState(true)
-  const [playmake, setPlaymake] = useState(true)
-  const [defense, setDefense] = useState(true)
 
   useEffect(() => {
     getStatNames().then((data) => {
@@ -45,42 +41,6 @@ export default function ManualCS (props) {
       setFilteredStats(filterArray(stats, search))
     }
   }, [search])
-
-  useEffect(() => {
-    if (offensive) {
-      if (!filteredButtons.includes(0)) {
-        setFilteredButtons([...filteredButtons, 0])
-      }
-    } else {
-      if (filteredButtons.includes(0)) {
-        setFilteredButtons(arrayRemove(filteredButtons, 0))
-      }
-    }
-  }, [offensive])
-
-  useEffect(() => {
-    if (playmake) {
-      if (!filteredButtons.includes(1)) {
-        setFilteredButtons([...filteredButtons, 1])
-      }
-    } else {
-      if (filteredButtons.includes(1)) {
-        setFilteredButtons(arrayRemove(filteredButtons, 1))
-      }
-    }
-  }, [playmake])
-
-  useEffect(() => {
-    if (defense) {
-      if (!filteredButtons.includes(2)) {
-        setFilteredButtons([...filteredButtons, 2])
-      }
-    } else {
-      if (filteredButtons.includes(2)) {
-        setFilteredButtons(arrayRemove(filteredButtons, 2))
-      }
-    }
-  }, [defense])
 
   return (
     <View style={styles.root}>

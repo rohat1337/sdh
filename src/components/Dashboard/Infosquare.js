@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-import { getPlayerStats, round_market_value } from '../../data'
+import { StyleSheet, Text, View } from 'react-native'
+import { roundMarketValue } from '../../data'
 
 function InfoSquare (props) {
   if (props.player == null) {
@@ -33,7 +32,7 @@ function InfoSquare (props) {
         </Text>
 
         <Text style={styles.slider_text}>
-          Marknadsvärde: {'\u20AC'}{round_market_value(Object.values(props.player['Market value']))}M
+          Marknadsvärde: {'\u20AC'}{roundMarketValue(Object.values(props.player['Market value']))}M
         </Text>
 
       </View>

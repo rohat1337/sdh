@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, Dimensions } from 'react-native'
 import { Hoverable } from 'react-native-web-hover'
-import { positionsArray } from '../positions'
 
 const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height
@@ -12,8 +11,8 @@ function PlayerField (props) {
   const [lwb, setlwb] = useState(false)
   const [rwb, setrwb] = useState(false)
   const [six, set6] = useState(false)
-  const [seven_right, set7_right] = useState(false)
-  const [seven_left, set7_left] = useState(false)
+  const [sevenRight, setSevenRight] = useState(false)
+  const [sevenLeft, setSevenLeft] = useState(false)
   const [eight, set8] = useState(false)
   const [nine, set9] = useState(false)
   const [ten, set10] = useState(false)
@@ -25,8 +24,8 @@ function PlayerField (props) {
       setlwb(false)
       setrwb(false)
       set6(false)
-      set7_left(false)
-      set7_right(false)
+      setSevenLeft(false)
+      setSevenRight(false)
       set8(false)
       set9(false)
       set10(false)
@@ -40,8 +39,8 @@ function PlayerField (props) {
       setlwb(false)
       setrwb(false)
       set6(false)
-      set7_left(false)
-      set7_right(false)
+      setSevenLeft(false)
+      setSevenRight(false)
       set8(false)
       set9(false)
       set10(false)
@@ -55,8 +54,8 @@ function PlayerField (props) {
       setmb(false)
       setrwb(false)
       set6(false)
-      set7_left(false)
-      set7_right(false)
+      setSevenLeft(false)
+      setSevenRight(false)
       set8(false)
       set9(false)
       set10(false)
@@ -70,8 +69,8 @@ function PlayerField (props) {
       setmb(false)
       setlwb(false)
       set6(false)
-      set7_left(false)
-      set7_right(false)
+      setSevenLeft(false)
+      setSevenRight(false)
       set8(false)
       set9(false)
       set10(false)
@@ -85,8 +84,8 @@ function PlayerField (props) {
       setmb(false)
       setrwb(false)
       setlwb(false)
-      set7_left(false)
-      set7_right(false)
+      setSevenLeft(false)
+      setSevenRight(false)
       set8(false)
       set9(false)
       set10(false)
@@ -100,8 +99,8 @@ function PlayerField (props) {
       setmb(false)
       setrwb(false)
       set6(false)
-      set7_left(false)
-      set7_right(false)
+      setSevenLeft(false)
+      setSevenRight(false)
       set8(false)
       set9(false)
       set10(false)
@@ -109,34 +108,34 @@ function PlayerField (props) {
   }, [lwb])
 
   useEffect(() => {
-    if (seven_left) {
+    if (sevenLeft) {
       props.func('lwf, lamf, lw')
       set1(false)
       setmb(false)
       setrwb(false)
       set6(false)
       setlwb(false)
-      set7_right(false)
+      setSevenRight(false)
       set8(false)
       set9(false)
       set10(false)
     }
-  }, [seven_left])
+  }, [sevenLeft])
 
   useEffect(() => {
-    if (seven_right) {
+    if (sevenRight) {
       props.func('rwf, ramf, rw')
       set1(false)
       setmb(false)
       setrwb(false)
       set6(false)
       setlwb(false)
-      set7_left(false)
+      setSevenLeft(false)
       set8(false)
       set9(false)
       set10(false)
     }
-  }, [seven_right])
+  }, [sevenRight])
 
   useEffect(() => {
     if (eight) {
@@ -146,8 +145,8 @@ function PlayerField (props) {
       setrwb(false)
       set6(false)
       setlwb(false)
-      set7_left(false)
-      set7_right(false)
+      setSevenLeft(false)
+      setSevenRight(false)
       set9(false)
       set10(false)
     }
@@ -161,9 +160,9 @@ function PlayerField (props) {
       setrwb(false)
       set6(false)
       setlwb(false)
-      set7_left(false)
+      setSevenLeft(false)
       set8(false)
-      set7_right(false)
+      setSevenRight(false)
       set10(false)
     }
   }, [nine])
@@ -176,18 +175,18 @@ function PlayerField (props) {
       setrwb(false)
       set6(false)
       setlwb(false)
-      set7_left(false)
+      setSevenLeft(false)
       set8(false)
-      set7_right(false)
+      setSevenRight(false)
       set9(false)
     }
   }, [ten])
 
   useEffect(() => {
-    if (!one && !mb && !rwb && !lwb && !six && !seven_left && !seven_right && !eight && !nine && !ten) {
+    if (!one && !mb && !rwb && !lwb && !six && !sevenLeft && !sevenRight && !eight && !nine && !ten) {
       props.clearField()
     }
-  }, [one, mb, rwb, lwb, six, seven_left, seven_right, eight, nine, ten])
+  }, [one, mb, rwb, lwb, six, sevenLeft, sevenRight, eight, nine, ten])
 
   return (
     <View style={styles.root}>
@@ -219,8 +218,8 @@ function PlayerField (props) {
           {/* Left wingers */}
           <Hoverable style={{ flex: 0.5, margin: '0.5%', height: windowHeight / 11 }}>
             {({ hovered }) => (
-              <TouchableOpacity style={{ height: '100%' }} onPress={() => { set7_left(!seven_left) }}>
-                <View style={seven_left ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
+              <TouchableOpacity style={{ height: '100%' }} onPress={() => { setSevenLeft(!sevenLeft) }}>
+                <View style={sevenLeft ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
                   <Text style={styles.numberStyle}>7 (v)</Text>
                 </View>
               </TouchableOpacity>
@@ -302,8 +301,8 @@ function PlayerField (props) {
           {/* Right wingers */}
           <Hoverable style={{ flex: 0.5, margin: '0.5%' }}>
             {({ hovered }) => (
-              <TouchableOpacity style={{ height: '100%' }} onPress={() => { set7_right(!seven_right) }}>
-                <View style={seven_right ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
+              <TouchableOpacity style={{ height: '100%' }} onPress={() => { setSevenRight(!sevenRight) }}>
+                <View style={sevenRight ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
                   <Text style={styles.numberStyle}>7 (h)</Text>
                 </View>
               </TouchableOpacity>

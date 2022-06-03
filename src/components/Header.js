@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { Text, View, TouchableOpacity } from 'react-native'
 
 function Header (props) {
   // ChoosePlayer header
-  if (props.stackIndex == 0) {
+  if (props.stackIndex === 0) {
     return (
       <View style={props.header}>
         <View style={{ flex: 0.25 }} />
@@ -19,7 +18,7 @@ function Header (props) {
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => props.nextIsOK == 'white' ? props.nav.navigate('ChooseStats', { players: props.players }) : {}}
+            onPress={() => props.nextIsOK === 'white' ? props.nav.navigate('ChooseStats', { players: props.players }) : {}}
           >
             <Text style={{ color: props.nextIsOK, fontWeight: 'bold', fontSize: 18, fontFamily: 'VitesseSans-Book' }}>
               Nästa -{'>'}
@@ -30,7 +29,7 @@ function Header (props) {
       </View>
     )
     // ChooseStats header
-  } else if (props.stackIndex == 1) {
+  } else if (props.stackIndex === 1) {
     return (
       <View style={props.header}>
         <View style={{ flex: 0.1 }}>
@@ -49,7 +48,7 @@ function Header (props) {
 
       </View>
     )
-  } else if (props.stackIndex == 2) {
+  } else if (props.stackIndex === 2) {
     return (
       <View style={props.header}>
         <View style={{ flex: 0.1 }}>
@@ -77,10 +76,7 @@ function Header (props) {
 
       </View>
     )
-  }
-
-  // Dashboard header
-  else if (props.stackIndex == 2) {
+  } else if (props.stackIndex === 2) {
     return (
       <View style={props.header}>
         <View style={{ flex: 0.1 }}>

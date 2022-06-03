@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, Dimensions, ImageBackground } from 'react-native'
-import Defensive_Actions from '../components/Dashboard/Defensive_Actions'
-import Fasta_Situationer from '../components/Dashboard/Fasta_Sitatuationer'
+import DefensiveActions from '../components/Dashboard/DefensiveActions'
+import FastaSituationer from '../components/Dashboard/FastaSitatuationer'
 import InfoSquare from '../components/Dashboard/Infosquare'
-import Offensive_Actions from '../components/Dashboard/Offensive_Actions'
+import OffensiveActions from '../components/Dashboard/OffensiveActions'
 import Speluppbyggnad from '../components/Dashboard/Speluppbyggnad'
 import Header from '../components/Header'
 import { getPlayerStats, getMaxStatsAll, uncheckFieldBox, getMaxStatsForPositionArray } from '../data'
-import Dashboard_Playerfield from '../components/Dashboard/Dashbord_Playerfield'
+import DashboardPlayerfield from '../components/Dashboard/DashbordPlayerfield'
 
 const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height
@@ -30,7 +30,7 @@ function Dashboard (props) {
       })
 
     // fetch all stats
-    getMaxStatsAll(all_stats)
+    getMaxStatsAll(allStats)
       .then((response) => {
         const statusCode = response.status
         const data = response.json()
@@ -45,7 +45,7 @@ function Dashboard (props) {
   useEffect(() => {
     if (field.length > 0) {
       console.log('fetching for positions: ', field)
-      getMaxStatsForPositionArray(all_stats, field)
+      getMaxStatsForPositionArray(allStats, field)
         .then((response) => {
           const statusCode = response.status
           const data = response.json()
@@ -57,7 +57,7 @@ function Dashboard (props) {
         })
     } else {
       // fetch all stats
-      getMaxStatsAll(all_stats)
+      getMaxStatsAll(allStats)
         .then((response) => {
           const statusCode = response.status
           const data = response.json()
@@ -84,11 +84,11 @@ function Dashboard (props) {
   }
 
   // Tagna från Adrians excelark
-  const offensive_actions = ['Non-penalty goals per 90', 'xG per 90', 'Shots per 90', 'Shots on target, %', 'Assists per 90', 'Crosses from left flank per 90', 'Accurate crosses from left flank, %', 'Crosses from right flank per 90', 'Accurate crosses from right flank, %', 'Dribbles per 90', 'Successful dribbles, %', 'Offensive duels per 90', 'Offensive duels won, %', 'Touches in box per 90', 'Progressive runs per 90', 'Accelerations per 90']
+  const offensiveActions = ['Non-penalty goals per 90', 'xG per 90', 'Shots per 90', 'Shots on target, %', 'Assists per 90', 'Crosses from left flank per 90', 'Accurate crosses from left flank, %', 'Crosses from right flank per 90', 'Accurate crosses from right flank, %', 'Dribbles per 90', 'Successful dribbles, %', 'Offensive duels per 90', 'Offensive duels won, %', 'Touches in box per 90', 'Progressive runs per 90', 'Accelerations per 90']
   const speluppbyggnad = ['Received passes per 90', 'Passes per 90', 'Accurate passes, %', 'Forward passes per 90', 'Accurate forward passes, %', 'Average pass length, m', 'xA per 90', 'Shot assists per 90', 'Passes to final third per 90', 'Accurate passes to final third, %', 'Passes to penalty area per 90', 'Accurate passes to penalty area, %', 'Deep completions per 90', 'Progressive passes per 90', 'Accurate progressive passes, %']
-  const defensive_actions = ['Successful defensive actions per 90', 'Defensive duels per 90', 'Defensive duels won, %', 'Aerial duels per 90', 'Aerial duels won, %', 'Sliding tackles per 90', 'PAdj Sliding tackles', 'Shots blocked per 90', 'PAdj Interceptions']
-  const fasta_situationer = ['Free kicks per 90', 'Direct free kicks per 90', 'Direct free kicks on target, %', 'Corners per 90', 'Penalties taken', 'Penalty conversion, %']
-  const all_stats = offensive_actions.concat(defensive_actions, fasta_situationer, speluppbyggnad)
+  const defensiveActions = ['Successful defensive actions per 90', 'Defensive duels per 90', 'Defensive duels won, %', 'Aerial duels per 90', 'Aerial duels won, %', 'Sliding tackles per 90', 'PAdj Sliding tackles', 'Shots blocked per 90', 'PAdj Interceptions']
+  const fastaSituationer = ['Free kicks per 90', 'Direct free kicks per 90', 'Direct free kicks on target, %', 'Corners per 90', 'Penalties taken', 'Penalty conversion, %']
+  const allStats = offensiveActions.concat(defensiveActions, fastaSituationer, speluppbyggnad)
 
   return (
     <View style={{ flexDirection: 'column', height: windowHeight - windowHeight / 10, width: windowWidth }}>
@@ -109,7 +109,7 @@ function Dashboard (props) {
           </View>
 
           <View style={{ flex: 0.55 }}>
-            <Dashboard_Playerfield func={changeField} />
+            <DashboardPlayerfield func={changeField} />
 
           </View>
 
@@ -118,7 +118,7 @@ function Dashboard (props) {
         {/* Offensiva aktioner */}
         <View style={{ flex: 0.25 }}>
           <Text style={styles.dashboard_stat_header}>Offensiva aktioner</Text>
-          <Offensive_Actions player={selectedPlayer} stats={offensive_actions} maxStats={maxStats} />
+          <OffensiveActions player={selectedPlayer} stats={offensiveActions} maxStats={maxStats} />
         </View>
 
         {/* Speluppbyggnad */}
@@ -131,13 +131,13 @@ function Dashboard (props) {
           {/* Defensiva aktioner */}
           <View style={{ flex: 0.58 }}>
             <Text style={styles.dashboard_stat_header}>Defensiva aktioner</Text>
-            <Defensive_Actions player={selectedPlayer} stats={defensive_actions} maxStats={maxStats} />
+            <DefensiveActions player={selectedPlayer} stats={defensiveActions} maxStats={maxStats} />
           </View>
 
           {/* Fasta situationer */}
           <View style={{ flex: 0.42 }}>
             <Text style={styles.dashboard_stat_header}>Fasta situationer</Text>
-            <Fasta_Situationer player={selectedPlayer} stats={fasta_situationer} maxStats={maxStats} />
+            <FastaSituationer player={selectedPlayer} stats={fastaSituationer} maxStats={maxStats} />
           </View>
 
         </View>

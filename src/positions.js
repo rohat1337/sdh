@@ -189,16 +189,3 @@ export const positions = [
     }
   }
 ]
-
-export const positionsArray = [
-  { one: 'gk' },
-  { mb: 'cb, lcb, rcb' },
-  { lwb: 'lb, lwb' },
-  { rwb: 'rb, rwb' },
-  { six: 'dmf, ldmf, rdmf' },
-  { seven_left: 'lwf, lamf, lw' },
-  { seven_right: 'rwf, ramf, rw' },
-  { eight: 'lcmf, hcmf' },
-  { nine: 'cf' },
-  { ten: 'amf' }
-]

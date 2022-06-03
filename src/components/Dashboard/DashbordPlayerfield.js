@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import { Hoverable } from 'react-native-web-hover'
 
-function Dashboard_PlayerField (props) {
+export default function DashboardPlayerField (props) {
   const [one, set1] = useState(false)
   const [mb, setmb] = useState(false)
   const [lwb, setlwb] = useState(false)
   const [rwb, setrwb] = useState(false)
   const [six, set6] = useState(false)
-  const [seven_right, set7_right] = useState(false)
-  const [seven_left, set7_left] = useState(false)
+  const [sevenRight, setSevenRight] = useState(false)
+  const [sevenLeft, setSevenLeft] = useState(false)
   const [eight, set8] = useState(false)
   const [nine, set9] = useState(false)
   const [ten, set10] = useState(false)
@@ -19,8 +19,8 @@ function Dashboard_PlayerField (props) {
   useEffect(() => { lwb ? props.func('LB, LWB') : props.func('0LB, LWB') }, [lwb])
   useEffect(() => { rwb ? props.func('RB, RWB') : props.func('0RB, RWB') }, [rwb])
   useEffect(() => { six ? props.func('DMF, LDMF, RDMF') : props.func('0DMF, LDMF, RDMF') }, [six])
-  useEffect(() => { seven_left ? props.func('LWF, LAMF, LW') : props.func('0LWF, LAMF, LW') }, [seven_left])
-  useEffect(() => { seven_right ? props.func('RWF, RAMF, RW') : props.func('0RWF, RAMF, RW') }, [seven_right])
+  useEffect(() => { sevenLeft ? props.func('LWF, LAMF, LW') : props.func('0LWF, LAMF, LW') }, [sevenLeft])
+  useEffect(() => { sevenRight ? props.func('RWF, RAMF, RW') : props.func('0RWF, RAMF, RW') }, [sevenRight])
   useEffect(() => { eight ? props.func('LCMF, HCMF') : props.func('0LCMF, HCMF') }, [eight])
   useEffect(() => { nine ? props.func('CF') : props.func('0CF') }, [nine])
   useEffect(() => { ten ? props.func('AMF') : props.func('0AMF') }, [ten])
@@ -56,8 +56,8 @@ function Dashboard_PlayerField (props) {
           {/* Right winger */}
           <Hoverable style={styles.wings}>
             {({ hovered }) => (
-              <TouchableOpacity style={{ height: '100%' }} onPress={() => { set7_right(!seven_right) }}>
-                <View style={seven_right ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
+              <TouchableOpacity style={{ height: '100%' }} onPress={() => { setSevenRight(!sevenRight) }}>
+                <View style={sevenRight ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
                   <Text style={styles.numberStyle}>7 (h)</Text>
                 </View>
               </TouchableOpacity>
@@ -136,8 +136,8 @@ function Dashboard_PlayerField (props) {
           {/* Left winger */}
           <Hoverable style={styles.wings}>
             {({ hovered }) => (
-              <TouchableOpacity style={{ height: '100%' }} onPress={() => { set7_left(!seven_left) }}>
-                <View style={seven_left ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
+              <TouchableOpacity style={{ height: '100%' }} onPress={() => { setSevenLeft(!sevenLeft) }}>
+                <View style={sevenLeft ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
                   <Text style={styles.numberStyle}>7 (v)</Text>
                 </View>
               </TouchableOpacity>
@@ -214,4 +214,3 @@ const styles = StyleSheet.create({
     backgroundColor: 'green'
   }
 })
-export default Dashboard_PlayerField

@@ -5,8 +5,6 @@ jobs:
     name: StandardJs
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
-    - name: StandardJs
-      uses: docker://jopereyral/standardjs-action
-      with:
-        args: --fix
+    - name: standardjs-ga
+      uses: devjoca/standardjs-action@0.4.0
+

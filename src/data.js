@@ -1,5 +1,5 @@
 import { Radar } from 'recharts'
-import { positions, positionsArray } from './positions'
+import { positions } from './positions'
 import { Dimensions } from 'react-native-web'
 
 const _ = require('lodash')
@@ -65,7 +65,7 @@ export function fix (str) {
   return str.replace('š', 's').replace('ć', 'c').replace('č', 'c').replace('ó', 'o')
 }
 
-export function round_market_value (int) {
+export function roundMarketValue (int) {
   return int / 1000000
 }
 
@@ -75,25 +75,25 @@ export function fixPlayerPositions (position) {
   const arrayOfPositions = position.toLowerCase().split(', ')
 
   for (let index = 0; index < arrayOfPositions.length; index++) {
-    if (arrayOfPositions[index] == 'gk') {
+    if (arrayOfPositions[index] === 'gk') {
       result.push('MV')
-    } else if (arrayOfPositions[index] == 'cf') {
+    } else if (arrayOfPositions[index] === 'cf') {
       result.push('9')
-    } else if (arrayOfPositions[index] == 'lw' || arrayOfPositions[index] == 'lmf' || arrayOfPositions[index] == 'lamf' || arrayOfPositions[index] == 'lwf') {
+    } else if (arrayOfPositions[index] === 'lw' || arrayOfPositions[index] === 'lmf' || arrayOfPositions[index] === 'lamf' || arrayOfPositions[index] === 'lwf') {
       result.push('7 (v)')
-    } else if (arrayOfPositions[index] == 'rw' || arrayOfPositions[index] == 'rmf' || arrayOfPositions[index] == 'ramf' || arrayOfPositions[index] == 'rwf') {
+    } else if (arrayOfPositions[index] === 'rw' || arrayOfPositions[index] === 'rmf' || arrayOfPositions[index] === 'ramf' || arrayOfPositions[index] === 'rwf') {
       result.push('7 (h)')
-    } else if (arrayOfPositions[index] == 'amf') {
+    } else if (arrayOfPositions[index] === 'amf') {
       result.push('10')
-    } else if (arrayOfPositions[index] == ('lcmf') || arrayOfPositions[index] == ('rcmf')) {
+    } else if (arrayOfPositions[index] === ('lcmf') || arrayOfPositions[index] === ('rcmf')) {
       result.push('8')
-    } else if (arrayOfPositions[index] == ('dmf') || arrayOfPositions[index] == ('ldmf') || arrayOfPositions[index] == ('rdmf')) {
+    } else if (arrayOfPositions[index] === ('dmf') || arrayOfPositions[index] === ('ldmf') || arrayOfPositions[index] === ('rdmf')) {
       result.push('6')
-    } else if (arrayOfPositions[index] == 'lb' || arrayOfPositions[index] == ('lwb')) {
+    } else if (arrayOfPositions[index] === 'lb' || arrayOfPositions[index] === ('lwb')) {
       result.push('WB (v)')
-    } else if (arrayOfPositions[index] == 'rb' || arrayOfPositions[index] == ('rwb')) {
+    } else if (arrayOfPositions[index] === 'rb' || arrayOfPositions[index] === ('rwb')) {
       result.push('WB (h)')
-    } else if (arrayOfPositions[index] == 'lcb' || arrayOfPositions[index] == 'rcb' || arrayOfPositions[index] == 'cb') {
+    } else if (arrayOfPositions[index] === 'lcb' || arrayOfPositions[index] === 'rcb' || arrayOfPositions[index] === 'cb') {
       result.push('MB')
     }
   }
@@ -188,9 +188,9 @@ export function checkFoot (player, left, right) {
     // ??
     return true
   } else if (left && !right) {
-    return (player.Foot == 'left')
+    return (player.Foot === 'left')
   } else if (right && !left) {
-    return (player.Foot == 'right')
+    return (player.Foot === 'right')
   }
 }
 
@@ -204,6 +204,7 @@ export function renderRadars (players) {
     const color = colors[players.indexOf(player)]
     return (
       <Radar
+        key={parseInt(player.ID)}
         name={player.Player}
         dataKey={parseInt(player.ID)}
         stroke={color}
@@ -296,17 +297,17 @@ export function fixSpiderData2 (spiderData, position) {
   const result = {}
   let p
   for (const pos of positions) {
-    if (JSON.stringify(pos.positions) == JSON.stringify(position)) {
+    if (JSON.stringify(pos.positions) === JSON.stringify(position)) {
       p = pos
     }
   }
 
   // Goal Spider
   const goalkpis = []
-  for (var key of p.kpis.goalOppurtiny) {
-    var obj = {}
+  for (const key of p.kpis.goalOppurtiny) {
+    const obj = {}
     obj.KPI = key
-    for (var playerID of Object.keys(spiderData[key])) {
+    for (const playerID of Object.keys(spiderData[key])) {
       obj[playerID] = spiderData[key][playerID]
     }
     goalkpis.push(obj)
@@ -315,10 +316,10 @@ export function fixSpiderData2 (spiderData, position) {
 
   // Play spider
   const playkpis = []
-  for (var key of p.kpis.playmaking) {
-    var obj = {}
+  for (const key of p.kpis.playmaking) {
+    const obj = {}
     obj.KPI = key
-    for (var playerID of Object.keys(spiderData[key])) {
+    for (const playerID of Object.keys(spiderData[key])) {
       obj[playerID] = spiderData[key][playerID]
     }
     playkpis.push(obj)
@@ -327,10 +328,10 @@ export function fixSpiderData2 (spiderData, position) {
 
   // Def spider
   const defkpis = []
-  for (var key of p.kpis.def) {
-    var obj = {}
+  for (const key of p.kpis.def) {
+    const obj = {}
     obj.KPI = key
-    for (var playerID of Object.keys(spiderData[key])) {
+    for (const playerID of Object.keys(spiderData[key])) {
       obj[playerID] = spiderData[key][playerID]
     }
     defkpis.push(obj)
@@ -339,10 +340,10 @@ export function fixSpiderData2 (spiderData, position) {
 
   // Sammanställning
   const overallkpis = []
-  for (var key of p.kpis.overall) {
-    var obj = {}
+  for (const key of p.kpis.overall) {
+    const obj = {}
     obj.KPI = key
-    for (var playerID of Object.keys(spiderData[key])) {
+    for (const playerID of Object.keys(spiderData[key])) {
       obj[playerID] = spiderData[key][playerID]
     }
     overallkpis.push(obj)

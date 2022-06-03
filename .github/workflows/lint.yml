@@ -1,0 +1,10 @@
+name: Lint
+on: [push, pull_request]
+jobs:
+  StandardJS:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.4.2
+      - uses: actions/setup-node@v3.2.0
+      - run: npm install standard
+      - run: npx standard

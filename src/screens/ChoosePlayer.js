@@ -9,8 +9,8 @@ const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height
 
 let age
-let height_cm
-let contract_lengths
+let heightcm
+let contractLengths
 let minutes
 
 function ChoosePlayer (props) {
@@ -67,20 +67,20 @@ function ChoosePlayer (props) {
 
         const foot = Object.values(data.Foot)
 
-        height_cm = arrayRemove(Object.values(data.Height), 0)
-        contract_lengths = (Object.values(data['Contract expires'])).map(dates => ((new Date(dates).getTime() - new Date())))
+        heightcm = arrayRemove(Object.values(data.Height), 0)
+        contractLengths = (Object.values(data['Contract expires'])).map(dates => ((new Date(dates).getTime() - new Date())))
 
-        const list = zip(players, teams, position, age, contract_lengths, minutes, foot, height_cm, ids)
+        const list = zip(players, teams, position, age, contractLengths, minutes, foot, heightcm, ids)
         // For every player, create object
         // This is only needed because of format issues from flask (no object propety names to access)
         for (const player of list) {
-          const player_obj = {}
-          let info_index = 0
+          const playerObj = {}
+          let infoIndex = 0
           for (const info of keys) {
-            player_obj[info] = player[info_index]
-            info_index++
+            playerObj[info] = player[infoIndex]
+            infoIndex++
           }
-          result.push(player_obj)
+          result.push(playerObj)
         }
         setPlayers(result)
         setSearchPlayer('')
@@ -235,12 +235,12 @@ function ChoosePlayer (props) {
 
                   <Slider
                     style={{ width: windowWidth / 9, height: windowHeight / 20 }}
-                    minimumValue={Math.min.apply(Math, height_cm)}
-                    maximumValue={Math.max.apply(Math, height_cm)}
+                    minimumValue={Math.min.apply(Math, heightcm)}
+                    maximumValue={Math.max.apply(Math, heightcm)}
                     minimumTrackTintColor='#078efb'
                     maximumTrackTintColor='gray'
                     thumbTintColor='#078efb'
-                    value={Math.min.apply(Math, height_cm)}
+                    value={Math.min.apply(Math, heightcm)}
                     onValueChange={value => setMinHeight(parseInt(value))}
                   />
                 </View>
@@ -308,8 +308,8 @@ function ChoosePlayer (props) {
 
                     <Slider
                       style={{ width: windowWidth / 9, height: windowHeight / 20 }}
-                      minimumValue={Math.min.apply(Math, contract_lengths)}
-                      maximumValue={Math.max.apply(Math, contract_lengths)}
+                      minimumValue={Math.min.apply(Math, contractLengths)}
+                      maximumValue={Math.max.apply(Math, contractLengths)}
                       minimumTrackTintColor='#078efb'
                       maximumTrackTintColor='gray'
                       thumbTintColor='#078efb'
@@ -323,15 +323,15 @@ function ChoosePlayer (props) {
                       <TextInput
                         style={[styles.slider_text, { width: windowWidth / 30 }]}
                         placeholder={maxContract}
-                        value={Math.min((Math.max.apply(Math, contract_lengths)), maxContract)}
+                        value={Math.min((Math.max.apply(Math, contractLengths)), maxContract)}
                         onChangeText={value => setMaxContract(value)}
                       />
                     </View>
 
                     <Slider
                       style={{ width: windowWidth / 10, height: windowHeight / 20 }}
-                      minimumValue={Math.min.apply(Math, contract_lengths)}
-                      maximumValue={Math.max.apply(Math, contract_lengths)}
+                      minimumValue={Math.min.apply(Math, contractLengths)}
+                      maximumValue={Math.max.apply(Math, contractLengths)}
                       minimumTrackTintColor='#078efb'
                       maximumTrackTintColor='gray'
                       thumbTintColor='#078efb'

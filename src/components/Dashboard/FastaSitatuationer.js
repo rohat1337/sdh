@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { FlatList } from 'react-native-web-hover'
 import { Line } from 'rc-progress'
 import { getFontSize } from '../../data'
 
-function Fasta_Situationer (props) {
+export default function FastaSituationer (props) {
   if (props.player == null || props.maxStats == null) {
     return (
       <View>
@@ -62,5 +61,3 @@ const styles = StyleSheet.create({
   }
 
 })
-
-export default Fasta_Situationer

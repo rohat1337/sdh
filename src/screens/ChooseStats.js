@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, Dimensions, TextInput, ImageBackground } from 'react-native'
+import { View, StyleSheet, Dimensions, ImageBackground } from 'react-native'
 import Header from '../components/Header'
-import { getStatNames, uncheckFieldBox, setMall, setMall2, updateField } from '../data'
+import { setMall2, updateField } from '../data'
+
 import CSLowerHeader from '../components/CSLowerHeader'
 import ManualCS from '../components/ManualCS'
 import MallCS from '../components/MallCS'
@@ -30,7 +31,7 @@ function ChooseStats (props) {
 
   useEffect(() => {
     // TODO: Only choose one position on field.
-    if (field.length === 0) {} else {
+    if (field.length !== 0) {
       const res = setMall2(field)
       setStats(res.stats)
       setPos(res.position)

@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { FlatList } from 'react-native-web-hover'
 import { Line } from 'rc-progress'
 import { getFontSize } from '../../data'
 
-function Defensive_Actions (props) {
+export default function OffensiveActions (props) {
   if (props.player == null || props.maxStats == null) {
     return (
       <View>
@@ -19,6 +18,7 @@ function Defensive_Actions (props) {
           renderItem={({ item }) => {
             let progressColor = ''
             const percentile = (Object.values(props.player[item]) / props.maxStats[item])
+
             if (percentile > 0.75) {
               progressColor = 'green'
             } else if (percentile < 0.25) {
@@ -62,5 +62,3 @@ const styles = StyleSheet.create({
   }
 
 })
-
-export default Defensive_Actions

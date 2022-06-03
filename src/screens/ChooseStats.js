@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { View, StyleSheet, Dimensions, ImageBackground } from 'react-native'
 import Header from '../components/Header'
 import { setMall2, updateField } from '../data'
+
 import CSLowerHeader from '../components/CSLowerHeader'
 import ManualCS from '../components/ManualCS'
 import MallCS from '../components/MallCS'

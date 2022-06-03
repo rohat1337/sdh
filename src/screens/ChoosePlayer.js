@@ -332,6 +332,7 @@ function ChoosePlayer (props) {
                       style={{ width: windowWidth / 10, height: windowHeight / 20 }}
                       minimumValue={Math.min.apply(Math, contractLengths)}
                       maximumValue={Math.max.apply(Math, contractLengths)}
+
                       minimumTrackTintColor='#078efb'
                       maximumTrackTintColor='gray'
                       thumbTintColor='#078efb'

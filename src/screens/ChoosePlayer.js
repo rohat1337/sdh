@@ -437,7 +437,7 @@ const styles = StyleSheet.create({
     width: '80%',
     marginTop: '3%',
     height: windowHeight / 14,
-    fontSize: windowHeight*0.02,
+    fontSize: windowHeight * 0.02,
     fontWeight: 'bold',
     backgroundColor: 'gray',
     color: 'white',
@@ -472,7 +472,7 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderRadius: 50,
     height: '55%',
-    fontSize: windowHeight*0.015,
+    fontSize: windowHeight * 0.015,
     fontWeight: 'bold',
     backgroundColor: 'gray',
     color: 'white',
@@ -483,7 +483,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   slider_text: {
-    fontSize: windowHeight*0.018,
+    fontSize: windowHeight * 0.018,
     fontWeight: 'bold',
     textAlign: 'center',
     width: '100%',

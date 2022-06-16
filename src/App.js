@@ -10,11 +10,11 @@ import ChooseStats from './screens/ChooseStats'
 import Dashboard from './screens/Dashboard'
 import Spider from './screens/Spider'
 
-import { LogBox } from 'react-native';
+import { LogBox } from 'react-native'
 
 LogBox.ignoreLogs([
-  'Non-serializable values were found in the navigation state',
-]);
+  'Non-serializable values were found in the navigation state'
+])
 
 const App = createStackNavigator({
   ChoosePlayer: {

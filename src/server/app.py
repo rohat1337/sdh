@@ -222,7 +222,7 @@ def get_player_rating(id:int):
 @app.route("/top15/<position>")
 def top_15_for_position(position=None):
     rating_col = "Rating as " + position
-    df_temp = df[['Player', 'Age', 'Team', rating_col]]
+    df_temp = df[['Player', 'Age', 'Team', 'Market value', rating_col]]
     df_temp_toplist = df_temp.nlargest(15, rating_col)
     return df_temp_toplist.to_json(orient='records')
 

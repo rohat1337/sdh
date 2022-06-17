@@ -128,8 +128,6 @@ function ChoosePlayer (props) {
                                 (field.some(ele => player.Position.toLowerCase().includes(ele)) || field.length === 0))}
               renderItem={({ item }) => {
                 const textColor = selectedPlayers.includes(item.Player) ? '#ffe00f' : 'white'
-                console.log(item)
-
                 return (
                   <View style={styles.players_TO}>
                     <TouchableOpacity
@@ -198,7 +196,7 @@ function ChoosePlayer (props) {
                   </View>
 
                   <Slider
-                    style={{ width: windowWidth / 10, height: windowHeight / 20 }}
+                    style={{ width: windowWidth / 9, height: windowHeight / 20 }}
                     minimumValue={Math.min.apply(Math, age)}
                     maximumValue={Math.max.apply(Math, age)}
                     minimumTrackTintColor='#078efb'
@@ -439,7 +437,7 @@ const styles = StyleSheet.create({
     width: '80%',
     marginTop: '3%',
     height: windowHeight / 14,
-    fontSize: 17,
+    fontSize: windowHeight * 0.02,
     fontWeight: 'bold',
     backgroundColor: 'gray',
     color: 'white',
@@ -474,7 +472,7 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderRadius: 50,
     height: '55%',
-    fontSize: 17,
+    fontSize: windowHeight * 0.015,
     fontWeight: 'bold',
     backgroundColor: 'gray',
     color: 'white',
@@ -485,7 +483,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   slider_text: {
-    fontSize: 17,
+    fontSize: windowHeight * 0.018,
     fontWeight: 'bold',
     textAlign: 'center',
     width: '100%',

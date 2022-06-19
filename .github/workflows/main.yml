@@ -17,6 +17,4 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USR }}
           password: ${{ secrets.PWD }}
-          script: |
-            whoami
-            ls /home/
+          script: echo "hello"

@@ -12,9 +12,10 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
       - run: npm run-script build
-      - uses: appleboy/ssh-action@master
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USR }}
           password: ${{ secrets.PWD }}
-          script: echo "hello"
+          script: whoami

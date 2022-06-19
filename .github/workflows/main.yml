@@ -16,8 +16,8 @@ jobs:
         uses: fifsky/ssh-action@v0.0.6
         with:
           command: |
-            cd /home
-            ls
+            cd
+            touch hirohat.txt
           host: ${{ secrets.HOST }}
           user: ${{ secrets.USR }}
           pass: ${{ secrets.PWD }}

@@ -13,7 +13,7 @@ jobs:
       - run: |
           sudo apt-get install sshpass
           chmod +x ./test.sh
-          .test.sh
+          ./test.sh
     
 
 

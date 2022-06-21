@@ -11,8 +11,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: |
-          ssh siriusadmin@137.184.68.35
-          ls
+          sudo apt-get install sshpass
+          chmod +x ./test.sh
+          .test.sh
     
 
 

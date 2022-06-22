@@ -15,7 +15,7 @@ jobs:
         with:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
       - run:
-          doctl account get
+          doctl compute droplet get ${{ secrets.DIGITALOCEAN_DROPLETID }}
     
 
 

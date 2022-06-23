@@ -23,6 +23,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USR }}
           key: ${{ secrets.KEY }}
+          rm: true
           source: "build/*"
           target: "/var/www/sirius"
 

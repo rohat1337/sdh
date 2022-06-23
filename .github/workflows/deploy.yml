@@ -18,13 +18,14 @@ jobs:
           npm ci
           CI=false npm run build
           ls
-      - uses: appleboy/ssh-action@master
+      - uses: appleboy/scp-action@v0.1.3
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USR }}
           key: ${{ secrets.KEY }}
-          script: |
-            echo "hello"
+          source: "build/*"
+          target: "/var/www/sirius"
+
     
 
 

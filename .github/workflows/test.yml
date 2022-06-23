@@ -16,7 +16,7 @@ jobs:
           npm i react-native-gesture-handler@2.2.1
           npm cache clean --force
           npm ci
-          npm run build
+          CI=false npm run build
           ls
       - uses: appleboy/ssh-action@master
         with:

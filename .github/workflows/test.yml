@@ -11,10 +11,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: |
-          npm cache clean --force
-          rm -rf package-lock.json
           npm i
-          npm audit fix --force
+          npm un react-native-gesture-handler
+          npm i react-native-gesture-handler@2.2.1
+          npm cache clean --force
+          npm ci
           npm run build
           ls
       - uses: appleboy/ssh-action@master

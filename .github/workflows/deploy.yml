@@ -18,14 +18,14 @@ jobs:
           npm ci
           CI=false npm run build
           ls
-      - uses: appleboy/scp-action@v0.1.3
+      - name: Publish
+        uses: nogsantos/scp-deploy@master
         with:
+          src: ./build/
           host: ${{ secrets.HOST }}
-          username: ${{ secrets.USR }}
+          remote: /var/www/sirius/
+          user: ${{ secrets.USR }}
           key: ${{ secrets.KEY }}
-          rm: true
-          source: "build/*"
-          target: "/var/www/sirius/"
 
     
 

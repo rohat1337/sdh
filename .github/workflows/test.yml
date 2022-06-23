@@ -16,9 +16,7 @@ jobs:
           username: ${{ secrets.USR }}
           key: ${{ secrets.KEY }}
           script: |
-            mkdir test
-            cd test
-            touch test.js
+            echo "hello"
     
 
 

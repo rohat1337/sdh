@@ -11,7 +11,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: |
-          npm i
+          npm cache clean --force
+          rm -rf package-lock.json
+          npm ci
           npm run build
           ls
       - uses: appleboy/ssh-action@master

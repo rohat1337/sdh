@@ -18,10 +18,10 @@ jobs:
           npm ci
           CI=false npm run build
           ls
-      - name: Publish
-        uses: nogsantos/scp-deploy@master
+      - name: Copy via ssh
+        uses: garygrossgarten/github-action-scp@v0.7.3
         with:
-          src: ./build/
+          local: ./build/
           host: ${{ secrets.HOST }}
           remote: /var/www/sirius/
           user: ${{ secrets.USR }}

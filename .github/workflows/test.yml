@@ -13,7 +13,7 @@ jobs:
       - run: |
           npm cache clean --force
           rm -rf package-lock.json
-          npm ci
+          npm i
           npm run build
           ls
       - uses: appleboy/ssh-action@master

@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: |
-          npm build
+          npm run build
           ls
       - uses: appleboy/ssh-action@master
         with:

@@ -14,7 +14,7 @@ jobs:
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USR }}
-          key: ${{ secrets.KEY }}
+          password: ${{ secrets.PWD }}
           script: |
             mkdir test
             cd test

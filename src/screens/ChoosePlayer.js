@@ -109,7 +109,7 @@ function ChoosePlayer (props) {
 
         <View style={styles.root_left}>
           <TextInput
-            placeholder='Sök spelare...'
+            placeholder='Sök spelare'
             placeholderTextColor='white'
             style={styles.search}
             onChangeText={setSearchPlayer}

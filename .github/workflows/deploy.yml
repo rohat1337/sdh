@@ -24,7 +24,7 @@ jobs:
           local: ./build/
           host: ${{ secrets.HOST }}
           remote: /var/www/sirius/
-          user: ${{ secrets.USR }}
+          username: ${{ secrets.USR }}
           key: ${{ secrets.KEY }}
 
     

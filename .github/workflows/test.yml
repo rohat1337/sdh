@@ -10,12 +10,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Install doctl
-        uses: digitalocean/action-doctl@v2
+      - uses: appleboy/ssh-action@master
         with:
-          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-      - run:
-          doctl compute droplet get ${{ secrets.DIGITALOCEAN_DROPLETID }}
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USR }}
+          key: ${{ secrets.KEY }}
+          script: |
+            mkdir test
+            cd test
+            touch test.js
     
 
 

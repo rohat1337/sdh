@@ -25,6 +25,11 @@ jobs:
           remote: /home/siriusadmin/scp/
           username: ${{ secrets.USR }}
           privateKey: ${{ secrets.KEY }}
-    
+      - uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          script: /home/siriusadmin/deploy.sh
 
 

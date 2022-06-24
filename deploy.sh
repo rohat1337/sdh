@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-sshpass -p $PASS sudo scp -o StrictHostKeyChecking=no ./build/ /var/www/sirius/
+sudo sshpass -p $PASS sudo scp -o StrictHostKeyChecking=no ./build/ /var/www/sirius/

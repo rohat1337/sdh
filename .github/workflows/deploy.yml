@@ -17,11 +17,14 @@ jobs:
           npm cache clean --force
           npm ci
           CI=false npm run build
-          ls
-      - run: |
-          ./deploy.sh
-        env:
-          PASS: ${{ secrets.PWD }}
+      - name: Copy via ssh
+        uses: garygrossgarten/github-action-scp@v0.7.3
+        with:
+          local: ./build/
+          host: ${{ secrets.HOST }}
+          remote: /home/siriusadmin/scp/
+          username: ${{ secrets.USR }}
+          privateKey: ${{ secrets.KEY }}
     
 
 

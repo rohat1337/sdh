@@ -120,7 +120,7 @@ export function allsvenskanPlayers () {
 
 export function getBasicStats () {
   try {
-    return fetch('http://${url}:5000/BasicInfoPlayers')
+    return fetch(`http://${url}:5000/BasicInfoPlayers`)
   } catch (error) {
     console.log(error)
   }

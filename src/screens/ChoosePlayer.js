@@ -365,7 +365,7 @@ function ChoosePlayer (props) {
 const styles = StyleSheet.create({
   root: {
     width: windowWidth,
-    height: windowHeight*0.8,
+    height: windowHeight * 0.8,
     flexDirection: 'row',
     backgroundColor: '#001324'
   },
@@ -377,7 +377,7 @@ const styles = StyleSheet.create({
   },
   root_right: {
     flex: 0.55,
-    height: windowHeight*0.8
+    height: windowHeight * 0.8
   },
   players_TO: {
     width: windowWidth / 3,

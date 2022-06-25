@@ -49,13 +49,13 @@ const styles = StyleSheet.create({
   buttonsView: {
     width: windowWidth * 0.5,
     height: windowHeight * 0.8,
-    justifyContent: 'center',
+    marginTop: '5%',
     alignItems: 'center'
   },
   fieldView: {
     width: windowWidth * 0.5,
     height: windowHeight * 0.8,
-    justifyContent: 'center',
+    marginTop: '5%',
     alignItems: 'center'
   }
 })

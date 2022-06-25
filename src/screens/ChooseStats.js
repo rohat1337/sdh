@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { View, StyleSheet, Dimensions, ImageBackground } from 'react-native'
 import Header from '../components/Header'
+import Footer from '../components/Footer'
 import { setMall2, updateField } from '../data'
 
 import CSLowerHeader from '../components/CSLowerHeader'
@@ -52,6 +53,7 @@ function ChooseStats (props) {
           </View>
 
         </ImageBackground>
+        <Footer />
       </View>
     )
   } else {
@@ -67,6 +69,7 @@ function ChooseStats (props) {
             <MallCS func={changeField} pos={pos} field={field} button={button} stats={stats} nav={props.navigation} players={playersWithID} clearField={clearField} />
           </View>
         </ImageBackground>
+        <Footer />
       </View>
     )
   }
@@ -75,7 +78,7 @@ function ChooseStats (props) {
 const styles = StyleSheet.create({
   root: {
     width: windowWidth,
-    height: windowHeight - windowHeight / 10,
+    height: windowHeight * 0.8,
     flexDirection: 'row',
     backgroundColor: '#001324'
   },
@@ -86,12 +89,6 @@ const styles = StyleSheet.create({
     height: windowHeight / 10,
     backgroundColor: '#001324',
     textAlign: 'center',
-    flexDirection: 'row'
-  },
-  secondHeader: {
-    width: windowWidth,
-    height: windowHeight * 0.1,
-    backgroundColor: 'red',
     flexDirection: 'row'
   }
 })

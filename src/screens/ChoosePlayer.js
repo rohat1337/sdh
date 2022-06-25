@@ -494,6 +494,7 @@ const styles = StyleSheet.create({
     marginVertical: '1%'
   },
   header: {
+    opacity: 0.9,
     justifyContent: 'center',
     alignItems: 'center',
     height: windowHeight / 10,

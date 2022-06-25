@@ -18,6 +18,8 @@ jobs:
           npm cache clean --force
           npm ci
           CI=false npm run build
+      - name: Git Auto Commit
+        uses: stefanzweifel/git-auto-commit-action@v4.14.1
       - name: Copy via ssh
         uses: garygrossgarten/github-action-scp@v0.7.3
         with:

@@ -10,7 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: |
+      - name: Install packages
+        run: |
           npm i
           npm un react-native-gesture-handler
           npm i react-native-gesture-handler@2.2.1
@@ -26,7 +27,8 @@ jobs:
           username: ${{ secrets.USR }}
           privateKey: ${{ secrets.KEY }}
           rmRemote: true
-      - uses: appleboy/ssh-action@v0.1.4
+      - name: Deploy
+        uses: appleboy/ssh-action@v0.1.4
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USR }}

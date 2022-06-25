@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     width: windowWidth,
     height: windowHeight * 0.8,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-between'
   },
   buttonsView: {
     width: windowWidth * 0.5,

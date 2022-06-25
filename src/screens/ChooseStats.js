@@ -78,7 +78,7 @@ function ChooseStats (props) {
 const styles = StyleSheet.create({
   root: {
     width: windowWidth,
-    height: windowHeight*0.8,
+    height: windowHeight * 0.8,
     flexDirection: 'row',
     backgroundColor: '#001324'
   },

@@ -65,9 +65,7 @@ function Header (props) {
         <View style={{ flex: 0.6 }}>
           <Text style={{ fontSize: windowHeight * 0.04, fontWeight: 'bold', color: 'white', fontFamily: 'VitesseSans-Black' }}>IK Sirius Datahub</Text>
         </View>
-        <View style={{ flex: 0.2 }}>
-
-        </View>
+        <View style={{ flex: 0.2 }} />
 
       </View>
     )

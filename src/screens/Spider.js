@@ -1,6 +1,6 @@
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import { View, StyleSheet, ImageBackground, Dimensions, TouchableOpacity, Text } from 'react-native'
+import { View, StyleSheet, ImageBackground, Dimensions, Text } from 'react-native'
 import { RadarChart, PolarGrid, PolarAngleAxis, ResponsiveContainer, Legend } from 'recharts'
 import { useEffect, useState } from 'react'
 import { renderRadars, testSpiderFetch, fixSpiderData2, getSpecificStatsMultiID } from '../data'
@@ -161,7 +161,7 @@ export default function Spider (props) {
 const styles = StyleSheet.create({
   root: {
     width: windowWidth,
-    height: windowHeight*0.8,
+    height: windowHeight * 0.8,
     flexDirection: 'column',
     backgroundColor: '#001324'
   },
@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
   spdrs: {
     flexDirection: 'row',
     width: windowWidth,
-    height: (windowHeight*0.8) / 2,
+    height: (windowHeight * 0.8) / 2,
     justifyContent: 'space-evenly'
   },
   text: {

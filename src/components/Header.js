@@ -14,7 +14,7 @@ function Header (props) {
         </View>
 
         <View style={{ flex: 0.2, flexDirection: 'row', justifyContent: 'flex-end' }}>
-          <TouchableOpacity style={{ marginRight: '10%' }} onPress={() => props.nav.navigate('Dashboard', { player_id: props.player_id })}>
+          <TouchableOpacity style={{ marginRight: '10%' }} onPress={() => props.nav.navigate('Dashboard', { player_id: props.player_id["ID"] })}>
 
             <Text style={{ color: props.nextIsOK, fontWeight: 'bold', fontSize: windowHeight * 0.025, fontFamily: 'VitesseSans-Book' }}>Dashboard</Text>
           </TouchableOpacity>

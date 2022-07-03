@@ -90,20 +90,21 @@ function ChoosePlayer (props) {
   // Check if selected player is already chosen or not.
   useEffect(() => {
     if (player != null) {
-      if (selectedPlayers.includes(player.Player)) {
-        setSelectedPlayers(arrayRemove(selectedPlayers, player.Player))
+      if (selectedPlayersWithID.includes(player)) {
         setSelectedPlayersWithID(arrayRemove(selectedPlayersWithID, player))
+        console.log(selectedPlayersWithID[0])
       } else {
-        setSelectedPlayers([...selectedPlayers, player.Player])
         setSelectedPlayersWithID([...selectedPlayersWithID, player])
+        console.log(selectedPlayersWithID)
       }
+      
     }
     setPlayer(null)
   }, [player])
 
   return (
     <View style={{ flexDirection: 'column' }}>
-      <Header header={styles.header} nav={props.navigation} stackIndex={0} players={selectedPlayersWithID} player_id={selectedPlayers[0]} nextIsOK={selectedPlayers.length > 0 ? 'white' : 'gray'} />
+      <Header header={styles.header} nav={props.navigation} stackIndex={0} players={selectedPlayersWithID} player_id={selectedPlayersWithID[0]} nextIsOK={selectedPlayersWithID.length > 0 ? 'white' : 'gray'} />
 
       <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode='cover'>
 
@@ -127,7 +128,7 @@ function ChoosePlayer (props) {
                                 checkFoot(player, leftFoot, rightFoot)) &&
                                 (field.some(ele => player.Position.toLowerCase().includes(ele)) || field.length === 0))}
               renderItem={({ item }) => {
-                const textColor = selectedPlayers.includes(item.Player) ? '#ffe00f' : 'white'
+                const textColor = selectedPlayersWithID.includes(item) ? '#ffe00f' : 'white'
                 return (
                   <View style={styles.players_TO}>
                     <TouchableOpacity

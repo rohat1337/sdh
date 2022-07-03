@@ -4,6 +4,7 @@ import { getBasicStats, zip, arrayRemove, fix, updateField, checkFoot, fixPlayer
 import Slider from '@react-native-community/slider'
 import PlayerField from '../components/PlayerField'
 import Header from '../components/Header'
+import Footer from '../components/Footer'
 
 const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height
@@ -110,7 +111,7 @@ function ChoosePlayer (props) {
 
         <View style={styles.root_left}>
           <TextInput
-            placeholder='Sök spelare...'
+            placeholder='Sök spelare'
             placeholderTextColor='white'
             style={styles.search}
             onChangeText={setSearchPlayer}
@@ -357,6 +358,7 @@ function ChoosePlayer (props) {
           </View>
         </View>
       </ImageBackground>
+      <Footer />
     </View>
   )
 }
@@ -364,7 +366,7 @@ function ChoosePlayer (props) {
 const styles = StyleSheet.create({
   root: {
     width: windowWidth,
-    height: windowHeight - windowHeight / 10,
+    height: windowHeight * 0.8,
     flexDirection: 'row',
     backgroundColor: '#001324'
   },
@@ -376,7 +378,7 @@ const styles = StyleSheet.create({
   },
   root_right: {
     flex: 0.55,
-    height: windowHeight - windowHeight / 10
+    height: windowHeight * 0.8
   },
   players_TO: {
     width: windowWidth / 3,

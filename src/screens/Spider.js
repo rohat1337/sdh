@@ -1,5 +1,6 @@
 import Header from '../components/Header'
-import { View, StyleSheet, ImageBackground, Dimensions, TouchableOpacity, Text } from 'react-native'
+import Footer from '../components/Footer'
+import { View, StyleSheet, ImageBackground, Dimensions, Text } from 'react-native'
 import { RadarChart, PolarGrid, PolarAngleAxis, ResponsiveContainer, Legend } from 'recharts'
 import { useEffect, useState } from 'react'
 import { renderRadars, testSpiderFetch, fixSpiderData2, getSpecificStatsMultiID } from '../data'
@@ -69,17 +70,7 @@ export default function Spider (props) {
   }, [])
 
   if (testSpiderData === null) {
-    return (
-      <View>
-        <TouchableOpacity
-          style={{ width: windowWidth, height: windowHeight * 0.1, backgroundColor: 'white' }}
-          onPress={() => setRefreshDev(!refreshDev)}
-        >
-          <Text>REFRESH DEV</Text>
-        </TouchableOpacity>
-        <Text>Loading...</Text>
-      </View>
-    )
+    return null
   } else {
     if (props.navigation.state.params.manual !== null) {
       if (props.navigation.state.params.manual) {
@@ -96,6 +87,7 @@ export default function Spider (props) {
                 </RadarChart>
               </ResponsiveContainer>
             </ImageBackground>
+            <Footer />
           </View>
         )
       } else {
@@ -158,6 +150,7 @@ export default function Spider (props) {
 
               </View>
             </ImageBackground>
+            <Footer />
           </View>
         )
       }
@@ -168,7 +161,7 @@ export default function Spider (props) {
 const styles = StyleSheet.create({
   root: {
     width: windowWidth,
-    height: windowHeight - windowHeight / 10,
+    height: windowHeight * 0.8,
     flexDirection: 'column',
     backgroundColor: '#001324'
   },
@@ -184,7 +177,7 @@ const styles = StyleSheet.create({
   spdrs: {
     flexDirection: 'row',
     width: windowWidth,
-    height: (windowHeight - windowHeight / 10) / 2,
+    height: (windowHeight * 0.8) / 2,
     justifyContent: 'space-evenly'
   },
   text: {

@@ -65,34 +65,7 @@ function Header (props) {
         <View style={{ flex: 0.6 }}>
           <Text style={{ fontSize: windowHeight * 0.04, fontWeight: 'bold', color: 'white', fontFamily: 'VitesseSans-Black' }}>IK Sirius Datahub</Text>
         </View>
-        <View style={{ flex: 0.2 }}>
-          <TouchableOpacity
-            onPress={() => props.nav.goBack()}
-          >
-            <Text style={{ color: 'white', fontWeight: 'bold', fontSize: windowHeight * 0.025, fontFamily: 'VitesseSans-Book' }}>
-              Nästa -{'>'}
-            </Text>
-          </TouchableOpacity>
-
-        </View>
-
-      </View>
-    )
-  } else if (props.stackIndex === 2) {
-    return (
-      <View style={props.header}>
-        <View style={{ flex: 0.2 }}>
-          <TouchableOpacity
-            onPress={() => props.nav.goBack()}
-          >
-            <Text style={{ color: 'white', fontWeight: 'bold', fontSize: windowHeight * 0.025, fontFamily: 'VitesseSans-Book' }}>
-              {'<'}- Tillbaka
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <View style={{ flex: 0.6, paddingRight: '10%' }}>
-          <Text style={{ fontSize: windowHeight * 0.04, fontWeight: 'bold', color: 'white', fontFamily: 'VitesseSans-Black' }}>IK Sirius Datahub</Text>
-        </View>
+        <View style={{ flex: 0.2 }} />
 
       </View>
     )

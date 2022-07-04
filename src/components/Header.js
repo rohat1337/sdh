@@ -13,8 +13,8 @@ function Header (props) {
           <Text style={{ fontSize: windowHeight * 0.045, fontWeight: 'bold', color: 'white', fontFamily: 'VitesseSans-Black' }}>IK Sirius Datahub</Text>
         </View>
 
-        <View style={{ flex: 0.2, flexDirection: 'row' }}>
-          <TouchableOpacity style={{ marginRight: '10%' }} onPress={() => props.nav.navigate('Dashboard', { player_id: props.player_id })}>
+        <View style={{ flex: 0.2, flexDirection: 'row', justifyContent: 'flex-end' }}>
+          <TouchableOpacity style={{ marginRight: '10%' }} onPress={() => props.nav.navigate('Dashboard', { player_id: props.player_id["ID"] })}>
 
             <Text style={{ color: props.nextIsOK, fontWeight: 'bold', fontSize: windowHeight * 0.025, fontFamily: 'VitesseSans-Book' }}>Dashboard</Text>
           </TouchableOpacity>

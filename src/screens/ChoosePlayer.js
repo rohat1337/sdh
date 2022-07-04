@@ -25,7 +25,6 @@ function ChoosePlayer (props) {
 
   const [field, setField] = useState([])
   const [players, setPlayers] = useState([])
-  const [selectedPlayers, setSelectedPlayers] = useState([])
   const [selectedPlayersWithID, setSelectedPlayersWithID] = useState([])
   const [player, setPlayer] = useState(null)
   const [searchTeam, setTeam] = useState('')
@@ -98,7 +97,6 @@ function ChoosePlayer (props) {
         setSelectedPlayersWithID([...selectedPlayersWithID, player])
         console.log(selectedPlayersWithID)
       }
-      
     }
     setPlayer(null)
   }, [player])

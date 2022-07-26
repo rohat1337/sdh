@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Dimensions, TextInput, ImageBackground } from 'react-native'
-import { getBasicStats, zip, arrayRemove, fix, updateField, checkFoot, fixPlayerPositions, contractToString } from '../data'
+import { getBasicStats, zip, arrayRemove, fix, updateField, checkFoot, fixPlayerPositions, contractToString, getPlayerCountAll, getPlayerCount } from '../data'
 import Slider from '@react-native-community/slider'
 import PlayerField from '../components/PlayerField'
 import Header from '../components/Header'
@@ -24,12 +24,13 @@ function ChoosePlayer (props) {
 
   const [field, setField] = useState([])
   const [players, setPlayers] = useState([])
-  const [selectedPlayers, setSelectedPlayers] = useState([])
   const [selectedPlayersWithID, setSelectedPlayersWithID] = useState([])
   const [player, setPlayer] = useState(null)
   const [searchTeam, setTeam] = useState('')
   const [searchPosition, setPosition] = useState('')
   const [searchPlayer, setSearchPlayer] = useState('')
+  const [selectedPlayersLength, setSelectedPlayersLength] = useState(0)
+  const [totalPlayersLength, setTotalPlayersLength] = useState(0)
   // States for minutes played slider
   const [minutesPlayed, setMinutesPlayed] = useState(0)
   // Ålder states
@@ -55,22 +56,21 @@ function ChoosePlayer (props) {
         data = data[1]
         const result = []
         const keys = Object.keys(data)
-        keys.push('ID')
+        keys.unshift('ID')
 
         // Get lists of all names, team names etc..
         const ids = Object.keys(data.Player)
         const players = Object.values(data.Player)
         const teams = Object.values(data['Team within selected timeframe'])
         const position = Object.values(data.Position)
-        age = Object.values(data.Age)
-        minutes = Object.values(data['Minutes played'])
-
         const foot = Object.values(data.Foot)
 
+        age = Object.values(data.Age)
+        minutes = Object.values(data['Minutes played'])
         heightcm = arrayRemove(Object.values(data.Height), 0)
         contractLengths = (Object.values(data['Contract expires'])).map(dates => ((new Date(dates).getTime() - new Date())))
 
-        const list = zip(players, teams, position, age, contractLengths, minutes, foot, heightcm, ids)
+        const list = zip(ids, players, teams, position, age, contractLengths, minutes, foot, heightcm, ids)
         // For every player, create object
         // This is only needed because of format issues from flask (no object propety names to access)
         for (const player of list) {
@@ -85,6 +85,17 @@ function ChoosePlayer (props) {
         setPlayers(result)
         setSearchPlayer('')
       })
+    getPlayerCountAll()
+      .then((response) => {
+          const statusCode = response.status;
+          const data = response.json();
+          return Promise.all([statusCode, data]);
+      })
+      .then((data) => {
+          data = data[1]
+          setTotalPlayersLength(data)
+          setSelectedPlayersLength(data)
+      })
   }, [])
 
   // Check if selected player is already chosen or not.
@@ -92,15 +103,38 @@ function ChoosePlayer (props) {
     if (player != null) {
       if (selectedPlayersWithID.includes(player)) {
         setSelectedPlayersWithID(arrayRemove(selectedPlayersWithID, player))
-        console.log(selectedPlayersWithID[0])
       } else {
         setSelectedPlayersWithID([...selectedPlayersWithID, player])
-        console.log(selectedPlayersWithID)
       }
-      
     }
     setPlayer(null)
   }, [player])
+
+  useEffect(() => {
+      if (field.length > 0) {
+          getPlayerCount(field)
+          .then((response) => {
+              const statusCode = response.status;
+              const data = response.json();
+              return Promise.all([statusCode, data]);
+          })
+          .then((data) => {
+              data = data[1]
+              setSelectedPlayersLength(data)
+          })
+      } else {
+          getPlayerCountAll()
+          .then((response) => {
+              const statusCode = response.status;
+              const data = response.json();
+              return Promise.all([statusCode, data]);
+          })
+          .then((data) => {
+              data = data[1]
+              setSelectedPlayersLength(data)
+          })
+      }
+  }, [field])
 
   return (
     <View style={{ flexDirection: 'column' }}>
@@ -116,10 +150,12 @@ function ChoosePlayer (props) {
             onChangeText={setSearchPlayer}
             value={searchPlayer}
           />
+          <Text style={styles.text_filters}> Visar {selectedPlayersLength} av {totalPlayersLength}</Text>
           <View style={{ height: '85%' }}>
             <FlatList
                             // Filter players by Name, Team, Age, Position and Minutes played
-              data={players.filter((player) => (fix(player.Player.toLowerCase()).includes(searchPlayer.toLowerCase()) &&
+              data={players.filter((player) => 
+                                (fix(player.Player.toLowerCase()).includes(searchPlayer.toLowerCase()) &&
                                 player['Team within selected timeframe'].toLowerCase().includes(searchTeam.toLowerCase()) &&
                                 (player.Age >= minAge && player.Age <= maxAge) &&
                                 fixPlayerPositions(player.Position.toLowerCase()).includes(searchPosition.toLowerCase()) &&
@@ -133,8 +169,7 @@ function ChoosePlayer (props) {
                   <View style={styles.players_TO}>
                     <TouchableOpacity
                       onPress={() => { setPlayer(item) }}
-                      style={{ justifyContent: 'center' }}
-                    >
+                      style={{ justifyContent: 'center' }}>
 
                       <View style={styles.players_V}>
                         <View style={styles.players_V_L}>
@@ -249,24 +284,20 @@ function ChoosePlayer (props) {
                   <Text style={styles.slider_text}>Fot: </Text>
                   <TouchableOpacity
                     style={{ marginLeft: '10%' }}
-                    onPress={() => { setLeftFoot(!leftFoot) }}
-                  >
+                    onPress={() => { setLeftFoot(!leftFoot) }}>
                     <Text style={[styles.slider_text, { color: (leftFoot ? '#ffe00f' : 'white') }]}>
                       Vänster
                     </Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={{ marginLeft: '10%' }}
-                    onPress={() => { setRightFoot(!rightFoot) }}
-                  >
+                    onPress={() => { setRightFoot(!rightFoot) }}>
                     <Text style={[styles.slider_text, { color: (rightFoot ? '#ffe00f' : 'white') }]}>Höger
 
                     </Text>
                   </TouchableOpacity>
                 </View>
-
               </View>
-
             </View>
 
             <View style={[styles.filters_UL, { marginTop: '2%' }]}>
@@ -277,8 +308,7 @@ function ChoosePlayer (props) {
                     placeholder={0}
                     value={minutesPlayed}
                     style={styles.slider_text}
-                    onChangeText={value => setMinutesPlayed(value)}
-                  />
+                    onChangeText={value => setMinutesPlayed(value)}/>
                 </View>
                 <Slider
                   style={{ width: windowWidth / 4.5, height: windowHeight / 20, marginLeft: '0%', marginBottom: '6%' }}
@@ -339,14 +369,6 @@ function ChoosePlayer (props) {
                     />
                   </View>
                 </View>
-                {/* <Slider style={{ width: windowWidth / 4.5, height: windowHeight / 20, marginLeft: "4%", marginBottom: "6%" }}
-                                    minimumValue={0}
-                                    maximumValue={1}
-                                    minimumTrackTintColor="#078efb"
-                                    maximumTrackTintColor="gray"
-                                    thumbTintColor="#078efb"
-                                    value={0}
-                                    onValueChange={value => setMinutesPlayed(parseInt(value * 2700))} /> */}
               </View>
 
             </View>
@@ -380,11 +402,10 @@ const styles = StyleSheet.create({
   },
   players_TO: {
     width: windowWidth / 3,
-    marginLeft: windowWidth / 20,
     height: windowHeight / 20,
     borderRadius: 100,
     backgroundColor: '#0059a1',
-    marginVertical: windowWidth / 80
+    marginVertical: "1%"
   },
   players_V: {
     flexDirection: 'row',
@@ -409,7 +430,7 @@ const styles = StyleSheet.create({
   text_L: {
     color: 'white',
     fontWeight: 'bold',
-    fontSize: windowWidth / 80,
+    fontSize: windowWidth / 100,
     fontFamily: 'VitesseSans-Book',
     marginBottom: '7%'
   },
@@ -430,13 +451,12 @@ const styles = StyleSheet.create({
     marginBottom: '30%'
   },
   search: {
-    marginLeft: '11%',
+    marginTop: '2%',
     paddingLeft: '2%',
     borderWidth: 1,
     borderColor: 'black',
     borderRadius: 50,
     width: '80%',
-    marginTop: '3%',
     height: windowHeight / 14,
     fontSize: windowHeight * 0.02,
     fontWeight: 'bold',

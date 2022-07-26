@@ -79,7 +79,7 @@ function PlayerField (props) {
 
   useEffect(() => {
     if (six) {
-      props.func('dmf, ldmf, rdmf')
+      props.func('dmf, rdmf, ldmf')
       set1(false)
       setmb(false)
       setrwb(false)
@@ -139,7 +139,7 @@ function PlayerField (props) {
 
   useEffect(() => {
     if (eight) {
-      props.func('lcmf, hcmf')
+      props.func('lcmf, rcmf')
       set1(false)
       setmb(false)
       setrwb(false)

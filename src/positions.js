@@ -168,7 +168,7 @@ export const positions = [
     }
   },
   {
-    positions: ['lcmf', 'hcmf'],
+    positions: ['lcmf', 'rcmf'],
 
     kpis: {
       def: ['Successful defensive actions per 90', 'Aerial duels per 90', 'Aerial duels won, %',

@@ -32,6 +32,7 @@ function ChooseStats (props) {
   useEffect(() => {
     // TODO: Only choose one position on field.
     if (field.length !== 0) {
+      console.log(field)
       const res = setMall2(field)
       setStats(res.stats)
       setPos(res.position)

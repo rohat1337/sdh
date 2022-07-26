@@ -85,7 +85,7 @@ export default function Spider (props) {
       if (props.navigation.state.params.manual) {
         return (
           <View>
-            <Header stackIndex={2} nav={props.navigation} header={styles.header} />
+            <Header stackIndex={1} nav={props.navigation} header={styles.header} />
             <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode='cover'>
               <ResponsiveContainer width={windowWidth} height={windowHeight * 0.85}>
                 <RadarChart cx='50%' cy='50%' outerRadius='80%' data={spiderData}>
@@ -101,7 +101,7 @@ export default function Spider (props) {
       } else {
         return (
           <View>
-            <Header stackIndex={2} nav={props.navigation} header={styles.header} />
+            <Header stackIndex={1} nav={props.navigation} header={styles.header} />
             <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode='cover'>
               <View>
                 <View style={styles.spdrs}>

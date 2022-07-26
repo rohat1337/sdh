@@ -9,6 +9,7 @@ import ChoosePlayer from './screens/ChoosePlayer'
 import ChooseStats from './screens/ChooseStats'
 import Dashboard from './screens/Dashboard'
 import Spider from './screens/Spider'
+import Ratings from './screens/Ratings'
 
 import { LogBox } from 'react-native'
 
@@ -29,10 +30,15 @@ const App = createStackNavigator({
     screen: Dashboard,
     navigationOptions: { headerShown: false }
   },
+  Ratings: {
+    screen: Ratings,
+    navigationOptions: { headerShown: false }
+  },
   Spider: {
     screen: Spider,
     navigationOptions: { headerShown: false }
-  }
+  },
+  
 })
 
 const container = createAppContainer(App)

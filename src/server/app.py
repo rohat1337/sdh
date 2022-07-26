@@ -7,9 +7,9 @@ import numpy as np
 import json
 from flask_cors import CORS
 
-from pre_processing import openExcelFile
+from pre_processing import pre_processing
 
-df = openExcelFile()
+df = pre_processing.openExcelFile()
 
 app = Flask(__name__)
 CORS(app)
@@ -240,6 +240,66 @@ def max_stats_for_positionArray(stats=None, positions=None):
     print("Length of df with filter: ", str(specificPositions),": ", df_temp.shape[0])
 
     return get_max_for_stat(specificStats, df_temp)
+
+@app.route("/playerCount/<positions>")
+def player_count(positions=None):
+    df_temp = df.copy()
+    specific_positions = positions.split("$")
+    specific_positions.remove("")
+    specific_positions_upper = [x.upper() for x in specific_positions]
+    
+
+    is_in_positions = filter_for_position_arr(df["Position"], specific_positions_upper)
+    df_temp = df_temp[is_in_positions]
+
+    return str(df_temp.shape[0])
+
+@app.route("/playerCountAll/")
+def player_count_all():
+    return str(df.shape[0])
+
+@app.route("/playerRating/<id>")
+def get_player_rating(id:int):
+    df_temp = df.iloc[[id]].filter(regex="Rating")
+    df_temp["Player"] = df.iloc[[id]]["Player"]
+    df_temp["Age"] = df.iloc[[id]]["Age"]
+    df_temp["Team"] = df.iloc[[id]]["Team"]
+    df_temp["Position"] = df.iloc[[id]]["Position"]
+    df_temp["Weight"] = df.iloc[[id]]["Weight"]
+    df_temp["Height"] = df.iloc[[id]]["Height"]
+    df_temp["Market value"] = df.iloc[[id]]["Market value"]
+    return df_temp.to_json(orient="records")
+
+@app.route("/top15/<position>")
+def top_15_for_position(position=None):
+    rating_col = "Rating as " + position
+    df_temp = df[['Player', 'Age', 'Team', 'Market value', rating_col]]
+    df_temp_toplist = df_temp.nlargest(15, rating_col)
+    return df_temp_toplist.to_json(orient='records')
+
+@app.route("/playerRanking/<id>")
+def playerRanking(id:int):
+    result = {}
+    
+    for rating in ["Rating as CB", "Rating as WB", "Rating as SIX", "Rating as EIGHT", "Rating as SEVEN", "Rating as TEN", "Rating as NINE"]:
+        df_temp = df.sort_values(by=rating, ascending=False)
+        df_temp.reset_index(inplace=True)
+        # get rank of player after sorting by rating
+
+        string = rating.replace("Rating", "Ranking")
+
+        result[string] = df_temp[df_temp["index"] == int(id)].index + 1
+
+        # Drop players that dont play in that position
+        df_temp = df_temp.dropna(subset=[rating])
+
+        # String is now only the position
+        string = rating.replace("Rating as ", "")
+        
+        #Add total players for that position
+        result[string + " TOTAL"] = df_temp.shape[0]
+
+    return pd.DataFrame(result).to_json(orient='records')
 
 if __name__ == '__main__':    
     app.run(debug=True, host='0.0.0.0', port=5000)

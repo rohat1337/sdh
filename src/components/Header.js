@@ -1,4 +1,4 @@
-import { Text, View, TouchableOpacity, Dimensions } from 'react-native'
+import { Text, View, TouchableOpacity, Dimensions, StyleSheet } from 'react-native'
 
 const windowHeight = Dimensions.get('window').height
 
@@ -7,23 +7,22 @@ function Header (props) {
   if (props.stackIndex === 0) {
     return (
       <View style={props.header}>
-        <View style={{ flex: 0.2 }} />
+        <View style={{ flex: 0.1 }} />
 
-        <View style={{ flex: 0.6 }}>
-          <Text style={{ fontSize: windowHeight * 0.045, fontWeight: 'bold', color: 'white', fontFamily: 'VitesseSans-Black' }}>IK Sirius Datahub</Text>
+        <View style={{ flex: 0.8 }}>
+          <Text style={styles.header}>IK Sirius Datahub</Text>
         </View>
 
-        <View style={{ flex: 0.2, flexDirection: 'row', justifyContent: 'flex-end' }}>
+        <View style={{ flex: 0.1, flexDirection: 'row', justifyContent: 'flex-end' }}>
           <TouchableOpacity style={{ marginRight: '10%' }} onPress={() => props.nav.navigate('Dashboard', { player_id: props.player_id["ID"] })}>
 
-            <Text style={{ color: props.nextIsOK, fontWeight: 'bold', fontSize: windowHeight * 0.025, fontFamily: 'VitesseSans-Book' }}>Dashboard</Text>
+            <Text style={styles.small_text}>Dashboard / Ratings</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            onPress={() => props.nextIsOK === 'white' ? props.nav.navigate('ChooseStats', { players: props.players }) : {}}
-          >
-            <Text style={{ color: props.nextIsOK, fontWeight: 'bold', fontSize: windowHeight * 0.025, fontFamily: 'VitesseSans-Book' }}>
-              Nästa -{'>'}
+          <TouchableOpacity style={{marginRight:"10%"}}
+            onPress={() => props.nextIsOK === 'white' ? props.nav.navigate('ChooseStats', { players: props.players }) : {}}>
+            <Text style={styles.small_text}>
+              Spindel -{'>'}
             </Text>
           </TouchableOpacity>
 
@@ -34,51 +33,49 @@ function Header (props) {
   } else if (props.stackIndex === 1) {
     return (
       <View style={props.header}>
-        <View style={{ flex: 0.2 }}>
+        <View style={{ flex: 0.1 }}>
           <TouchableOpacity
             onPress={() => props.nav.goBack()}
           >
-            <Text style={{ color: 'white', fontWeight: 'bold', fontSize: windowHeight * 0.025, fontFamily: 'VitesseSans-Book' }}>
+            <Text style={styles.small_text}>
               {'<'}- Tillbaka
             </Text>
           </TouchableOpacity>
         </View>
-        <View style={{ flex: 0.6 }}>
+        <View style={{ flex: 0.8 }}>
           <Text style={{ fontSize: windowHeight * 0.04, fontWeight: 'bold', color: 'white', fontFamily: 'VitesseSans-Black' }}>IK Sirius Datahub</Text>
         </View>
-        <View style={{ flex: 0.2 }} />
+        <View style={{ flex: 0.1 }} />
 
       </View>
     )
+    // Dashboard header
   } else if (props.stackIndex === 2) {
-    return (
+    return(
       <View style={props.header}>
-        <View style={{ flex: 0.2 }}>
-          <TouchableOpacity
-            onPress={() => props.nav.goBack()}
-          >
-            <Text style={{ color: 'white', fontWeight: 'bold', fontSize: windowHeight * 0.025, fontFamily: 'VitesseSans-Book' }}>
-              {'<'}- Tillbaks
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <View style={{ flex: 0.6 }}>
-          <Text style={{ fontSize: windowHeight * 0.04, fontWeight: 'bold', color: 'white', fontFamily: 'VitesseSans-Black' }}>IK Sirius Datahub</Text>
-        </View>
-        <View style={{ flex: 0.2 }}>
-          <TouchableOpacity
-            onPress={() => props.nav.goBack()}
-          >
-            <Text style={{ color: 'white', fontWeight: 'bold', fontSize: windowHeight * 0.025, fontFamily: 'VitesseSans-Book' }}>
-              Nästa -{'>'}
-            </Text>
-          </TouchableOpacity>
-
-        </View>
-
-      </View>
-    )
-  } else if (props.stackIndex === 2) {
+          <View style={{flex: 0.1}}>  
+             <TouchableOpacity
+             onPress={() => props.nav.goBack()}>
+                 <Text style={styles.small_text}>
+                     {"<"}- Tillbaka
+                 </Text>
+             </TouchableOpacity>
+         </View>
+         <View style={{flex: 0.8}}>
+             <Text style={styles.header}>IK Sirius Datahub</Text>
+         </View>
+         <View style={{flex:0.1}}>
+             <TouchableOpacity onPress={() => {
+                props.nav.navigate('Ratings', {player_id: props.player_id});
+                console.log("ratings page for Player: " + props.player_id) 
+             }}>
+                 <Text style={styles.small_text}>Ratings {'->'}</Text>
+             </TouchableOpacity>
+         </View>
+         
+     </View>
+ )
+  } else if (props.stackIndex === 3) {
     return (
       <View style={props.header}>
         <View style={{ flex: 0.2 }}>
@@ -98,5 +95,24 @@ function Header (props) {
     )
   }
 }
+
+const styles = StyleSheet.create({
+
+  small_text: {
+      color: "white",
+      fontWeight: "bold",
+      fontSize: 18,
+      fontFamily: "VitesseSans-Book"
+  },
+
+  header: {
+      fontSize: 50,
+      fontWeight:"bold",
+      color: "white",
+      fontFamily: "VitesseSans-Black",
+      justifyContent:"center",
+      textAlign:"center"
+  }
+});
 
 export default Header

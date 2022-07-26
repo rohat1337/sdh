@@ -43,7 +43,7 @@ function Header (props) {
           </TouchableOpacity>
         </View>
         <View style={{ flex: 0.8 }}>
-          <Text style={{ fontSize: windowHeight * 0.04, fontWeight: 'bold', color: 'white', fontFamily: 'VitesseSans-Black' }}>IK Sirius Datahub</Text>
+          <Text style={styles.header}>IK Sirius Datahub</Text>
         </View>
         <View style={{ flex: 0.1 }} />
 

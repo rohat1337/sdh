@@ -42,7 +42,7 @@ function Ratings(props) {
     if (ratingObj == null) {
         return (
         <View style={styles.root}>
-            <Header header={styles.header} stackIndex={3} nav={props.navigation}></Header>
+            <Header header={styles.header} stackIndex={1} nav={props.navigation}></Header>
             <ImageBackground style={styles.content_root} source={require('../imgs/iks.png')} resizeMode="cover">
                 <View>
                     <Text style={styles.loading}>Loading...</Text>
@@ -52,18 +52,18 @@ function Ratings(props) {
     } else {
         return (
             <View style={styles.root}>
-                <Header header={styles.header} stackIndex={3} nav={props.navigation}></Header>
+                <Header header={styles.header} stackIndex={1} nav={props.navigation}></Header>
                 <ImageBackground style={styles.content_root} source={require('../imgs/iks.png')} resizeMode="cover">
                     <View style={{flexDirection:"row", height:"100%"}}>
 
-                        <View style={{flex: 0.4, flexDirection:"column", marginHorizontal:"2%"}}>
+                        <View style={{flex: 0.4, flexDirection:"column", margin:"2%"}}>
 
                             <View style={{flex:0.4, textAlign:"center"}}>
-                                <Text style={styles.small_text}>{ratingObj["Player"]}, {ratingObj["Age"]}</Text>
-                                <Text style={styles.small_text}>{ratingObj["Team"]}</Text>
-                                <Text style={styles.small_text}>{fixPlayerPositions(ratingObj["Position"])}</Text>
-                                <Text style={styles.small_text}>{ratingObj["Height"]}cm</Text>
-                                <Text style={styles.small_text}>{ratingObj["Weight"]}kg</Text>
+                                <Text style={styles.small_text}>{ratingObj["Player"]}, {ratingObj["Team"]}</Text>
+                                <Text style={styles.small_text}>Ålder: {ratingObj["Age"]}</Text>
+                                <Text style={styles.small_text}>Position(er): {fixPlayerPositions(ratingObj["Position"])}</Text>
+                                <Text style={styles.small_text}>Längd: {ratingObj["Height"]}cm</Text>
+                                <Text style={styles.small_text}>Vikt: {ratingObj["Weight"]}kg</Text>
                                 <Text style={styles.small_text}>Marknadsvärde: {'\u20AC'}{round_market_value(ratingObj["Market value"])}M</Text>
                             </View>
 

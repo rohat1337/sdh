@@ -7,9 +7,11 @@ const _ = require('lodash')
 
 const colors = ['#FFC1CF', '#E8FFB7', '#E2A0FF', '#C4F5FC', '#B7FFD8']
 
+const url = process.env.REACT_APP_SERVER
+
 export function getPlayerStats (id) {
   try {
-    return fetch(`http://localhost:5000/player/${id}`)
+    return fetch(`${url}/player/${id}`)
   } catch (error) {
     console.log(error)
   }
@@ -17,7 +19,7 @@ export function getPlayerStats (id) {
 
 export function getSpecificStats (id, stats) {
   try {
-    return fetch(`http://localhost:5000/specificData/${id}/${arrayToString(stats)}`).then((response) => {
+    return fetch(`${url}/specificData/${id}/${arrayToString(stats)}`).then((response) => {
       const statusCode = response.status
       const data = response.json()
       return Promise.all([statusCode, data])
@@ -141,7 +143,7 @@ export function uncheckFieldBox (field, box) {
 
 export function allsvenskanPlayers () {
   try {
-    return fetch('http://localhost:5000/playersAllsvenskan')
+    return fetch(`${url}/playersAllsvenskan`)
   } catch (error) {
     console.log(error)
   }
@@ -149,7 +151,8 @@ export function allsvenskanPlayers () {
 
 export function getBasicStats () {
   try {
-    return fetch('http://localhost:5000/BasicInfoPlayers')
+    console.log("hello madafaka")
+    return fetch(`${url}/BasicInfoPlayers`)
   } catch (error) {
     console.log(error)
   }
@@ -157,7 +160,7 @@ export function getBasicStats () {
 
 export function getStatNames () {
   try {
-    return fetch('http://localhost:5000/stats').then((response) => {
+    return fetch(`${url}/stats`).then((response) => {
       const statusCode = response.status
       const data = response.json()
       return Promise.all([statusCode, data])
@@ -177,7 +180,7 @@ export function getTopList(position) {
 
 export function getSpecificStatsMultiID (ids, stats) {
   try {
-    return fetch(`http://localhost:5000/specificDataMultiID/${arrayToString(ids)}/${arrayToString(stats)}`).then((response) => {
+    return fetch(`${url}/specificDataMultiID/${arrayToString(ids)}/${arrayToString(stats)}`).then((response) => {
       const statusCode = response.status
       const data = response.json()
       return Promise.all([statusCode, data])
@@ -189,7 +192,7 @@ export function getSpecificStatsMultiID (ids, stats) {
 
 export function getMaxStatsAll (stats) {
   try {
-    return fetch(`http://localhost:5000/maxStats/${arrayToString(stats)}`)
+    return fetch(`${url}/maxStats/${arrayToString(stats)}`)
   } catch (error) {
     console.log(error)
   }
@@ -197,7 +200,7 @@ export function getMaxStatsAll (stats) {
 
 export function getMaxStatsForPosition (stats, position) {
   try {
-    return fetch(`http://localhost:5000/maxStats/${arrayToString(stats)}/${position}`)
+    return fetch(`${url}/maxStats/${arrayToString(stats)}/${position}`)
   } catch (error) {
     console.log(error)
   }
@@ -205,7 +208,7 @@ export function getMaxStatsForPosition (stats, position) {
 
 export function getMaxStatsForPositionArray (stats, array) {
   try {
-    return fetch(`http://localhost:5000/maxStatsFromArray/${arrayToString(stats)}/${arrayToString(array)}`)
+    return fetch(`${url}/maxStatsFromArray/${arrayToString(stats)}/${arrayToString(array)}`)
   } catch (error) {
     console.log(error)
   }
@@ -316,7 +319,7 @@ export function setSpiders (stats, ids) {
 
 export function makeSpiders (stats, ids) {
   try {
-    return fetch(`http://localhost:5000/specificDataMultiID/${arrayToString(ids)}/${arrayOfArrayToString(stats)}`).then((response) => {
+    return fetch(`${url}/specificDataMultiID/${arrayToString(ids)}/${arrayOfArrayToString(stats)}`).then((response) => {
       const statusCode = response.status
       const data = response.json()
       return Promise.all([statusCode, data])
@@ -328,7 +331,7 @@ export function makeSpiders (stats, ids) {
 
 export function testSpiderFetch (ids, stats) {
   try {
-    return fetch(`http://localhost:5000/spider/${arrayToString(ids)}/${arrayOfArrayToString(stats)}`).then((response) => {
+    return fetch(`${url}/spider/${arrayToString(ids)}/${arrayOfArrayToString(stats)}`).then((response) => {
       const statusCode = response.status
       const data = response.json()
       return Promise.all([statusCode, data])
@@ -340,7 +343,7 @@ export function testSpiderFetch (ids, stats) {
 
 export function testSpiderFetch3 (ids, stats) {
   try {
-    return fetch(`http://localhost:5000/spider/${arrayToString(ids)}/${arrayToString(stats)}`).then((response) => {
+    return fetch(`${url}/spider/${arrayToString(ids)}/${arrayToString(stats)}`).then((response) => {
       const statusCode = response.status
       const data = response.json()
       return Promise.all([statusCode, data])
@@ -352,7 +355,7 @@ export function testSpiderFetch3 (ids, stats) {
 
 export function testSpiderFetch2 (ids, stats, setSpider) {
   try {
-    return fetch(`http://localhost:5000/spider/${arrayToString(ids)}/${arrayOfArrayToString(stats)}`).then((response) => {
+    return fetch(`${url}/spider/${arrayToString(ids)}/${arrayOfArrayToString(stats)}`).then((response) => {
       const statusCode = response.status
       const data = response.json()
       return Promise.all([statusCode, data])

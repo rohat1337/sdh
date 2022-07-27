@@ -10,6 +10,7 @@ from flask_cors import CORS
 from pre_processing import pre_processing
 
 df = pre_processing.openExcelFile()
+print("df shape after read: ", df.shape[0])
 
 app = Flask(__name__)
 CORS(app)
@@ -83,16 +84,10 @@ def get_max_for_stat(stats, data: pd.DataFrame):
     return json.dumps(result)
 
 def basic_info():
-    new_df = pd.DataFrame()
-    df.replace(r'^\s*$', "cock", regex=True)
-    stats = ["Player", "Team within selected timeframe", "Age", "Position", "Minutes played", "Height", "Foot", "Contract expires"]
+    
+    result = df[["Player", "Team within selected timeframe", "Age", "Position", "Minutes played", "Height", "Foot", "Contract expires"]]
 
-    for label, content in df.items():
-       for stat in stats:
-            if label == stat:
-                new_df[label] = content
-
-    return new_df.to_json(force_ascii=False)
+    return result.to_json(force_ascii=False)
 
 def fixStatsArray(stats):
     result = []

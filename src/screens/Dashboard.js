@@ -27,6 +27,7 @@ function Dashboard (props) {
       })
       .then((data) => {
         data = data[1]
+        console.log(data)
         setSelectedPlayer(data)
       })
 

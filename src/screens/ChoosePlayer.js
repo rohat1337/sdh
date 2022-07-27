@@ -4,6 +4,7 @@ import { getBasicStats, zip, arrayRemove, fix, updateField, checkFoot, fixPlayer
 import Slider from '@react-native-community/slider'
 import PlayerField from '../components/PlayerField'
 import Header from '../components/Header'
+import Footer from '../components/Footer'
 
 const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height
@@ -53,7 +54,9 @@ function ChoosePlayer (props) {
         return Promise.all([statusCode, data])
       })
       .then((data) => {
+        console.log("data: ", data[1])
         data = data[1]
+        
         const result = []
         const keys = Object.keys(data)
         keys.unshift('ID')
@@ -96,6 +99,7 @@ function ChoosePlayer (props) {
           setTotalPlayersLength(data)
           setSelectedPlayersLength(data)
       })
+      
   }, [])
 
   // Check if selected player is already chosen or not.
@@ -107,6 +111,7 @@ function ChoosePlayer (props) {
         setSelectedPlayersWithID([...selectedPlayersWithID, player])
       }
     }
+    console.log(player)
     setPlayer(null)
   }, [player])
 
@@ -144,13 +149,13 @@ function ChoosePlayer (props) {
 
         <View style={styles.root_left}>
           <TextInput
-            placeholder='Sök spelare...'
+            placeholder='Sök spelare'
             placeholderTextColor='white'
             style={styles.search}
             onChangeText={setSearchPlayer}
             value={searchPlayer}
           />
-          <Text style={styles.text_filters}> Visar {selectedPlayersLength} av {totalPlayersLength}</Text>
+          {/*<Text style={styles.text_filters}> Visar {selectedPlayersLength} av {totalPlayersLength}</Text>*/}
           <View style={{ height: '85%' }}>
             <FlatList
                             // Filter players by Name, Team, Age, Position and Minutes played
@@ -379,6 +384,7 @@ function ChoosePlayer (props) {
           </View>
         </View>
       </ImageBackground>
+      <Footer />
     </View>
   )
 }
@@ -386,7 +392,7 @@ function ChoosePlayer (props) {
 const styles = StyleSheet.create({
   root: {
     width: windowWidth,
-    height: windowHeight - windowHeight / 10,
+    height: windowHeight * 0.8,
     flexDirection: 'row',
     backgroundColor: '#001324'
   },
@@ -398,7 +404,7 @@ const styles = StyleSheet.create({
   },
   root_right: {
     flex: 0.55,
-    height: windowHeight - windowHeight / 10
+    height: windowHeight * 0.8
   },
   players_TO: {
     width: windowWidth / 3,

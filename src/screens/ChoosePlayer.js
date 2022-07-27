@@ -54,38 +54,9 @@ function ChoosePlayer (props) {
         return Promise.all([statusCode, data])
       })
       .then((data) => {
-        console.log("data: ", data[1])
         data = data[1]
-        
-        const result = []
-        const keys = Object.keys(data)
-        keys.unshift('ID')
 
-        // Get lists of all names, team names etc..
-        const ids = Object.keys(data.Player)
-        const players = Object.values(data.Player)
-        const teams = Object.values(data['Team within selected timeframe'])
-        const position = Object.values(data.Position)
-        const foot = Object.values(data.Foot)
-
-        age = Object.values(data.Age)
-        minutes = Object.values(data['Minutes played'])
-        heightcm = arrayRemove(Object.values(data.Height), 0)
-        contractLengths = (Object.values(data['Contract expires'])).map(dates => ((new Date(dates).getTime() - new Date())))
-
-        const list = zip(ids, players, teams, position, age, contractLengths, minutes, foot, heightcm, ids)
-        // For every player, create object
-        // This is only needed because of format issues from flask (no object propety names to access)
-        for (const player of list) {
-          const playerObj = {}
-          let infoIndex = 0
-          for (const info of keys) {
-            playerObj[info] = player[infoIndex]
-            infoIndex++
-          }
-          result.push(playerObj)
-        }
-        setPlayers(result)
+        setPlayers(data)
         setSearchPlayer('')
       })
     getPlayerCountAll()
@@ -104,6 +75,7 @@ function ChoosePlayer (props) {
 
   // Check if selected player is already chosen or not.
   useEffect(() => {
+    console.log(player)
     if (player != null) {
       if (selectedPlayersWithID.includes(player)) {
         setSelectedPlayersWithID(arrayRemove(selectedPlayersWithID, player))
@@ -111,8 +83,6 @@ function ChoosePlayer (props) {
         setSelectedPlayersWithID([...selectedPlayersWithID, player])
       }
     }
-    console.log(player)
-    setPlayer(null)
   }, [player])
 
   useEffect(() => {
@@ -143,7 +113,13 @@ function ChoosePlayer (props) {
 
   return (
     <View style={{ flexDirection: 'column' }}>
-      <Header header={styles.header} nav={props.navigation} stackIndex={0} players={selectedPlayersWithID} player_id={selectedPlayersWithID[0]} nextIsOK={selectedPlayersWithID.length > 0 ? 'white' : 'gray'} />
+      <Header header={styles.header}
+              nav={props.navigation}
+              stackIndex={0}
+              players={selectedPlayersWithID}
+              player_dashboard={selectedPlayersWithID[0]}
+              nextIsOK_dashboard={selectedPlayersWithID.length === 1 ? 'white' : 'gray'}
+              nextIsOK_spider={selectedPlayersWithID.length > 1 ? 'white' : 'gray'} />
 
       <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode='cover'>
 
@@ -155,19 +131,19 @@ function ChoosePlayer (props) {
             onChangeText={setSearchPlayer}
             value={searchPlayer}
           />
-          {/*<Text style={styles.text_filters}> Visar {selectedPlayersLength} av {totalPlayersLength}</Text>*/}
+          <Text style={styles.text_filters}> Visar {selectedPlayersLength} av {totalPlayersLength}</Text>
           <View style={{ height: '85%' }}>
             <FlatList
                             // Filter players by Name, Team, Age, Position and Minutes played
-              data={players.filter((player) => 
-                                (fix(player.Player.toLowerCase()).includes(searchPlayer.toLowerCase()) &&
-                                player['Team within selected timeframe'].toLowerCase().includes(searchTeam.toLowerCase()) &&
-                                (player.Age >= minAge && player.Age <= maxAge) &&
-                                fixPlayerPositions(player.Position.toLowerCase()).includes(searchPosition.toLowerCase()) &&
-                                player['Minutes played'] >= minutesPlayed &&
-                                player.Height >= minHeight &&
-                                checkFoot(player, leftFoot, rightFoot)) &&
-                                (field.some(ele => player.Position.toLowerCase().includes(ele)) || field.length === 0))}
+              data={players.filter((player) =>
+                                    (fix(player.Player.toLowerCase()).includes(searchPlayer.toLowerCase()) &&
+                                    player['Team within selected timeframe'].toLowerCase().includes(searchTeam.toLowerCase()) &&
+                                    (player.Age >= minAge && player.Age <= maxAge) &&
+                                    fixPlayerPositions(player.Position.toLowerCase()).includes(searchPosition.toLowerCase()) &&
+                                    player['Minutes played'] >= minutesPlayed &&
+                                    player.Height >= minHeight &&
+                                    checkFoot(player, leftFoot, rightFoot)) &&
+                                    (field.some(ele => player.Position.toLowerCase().includes(ele)) || field.length === 0))}
               renderItem={({ item }) => {
                 const textColor = selectedPlayersWithID.includes(item) ? '#ffe00f' : 'white'
                 return (
@@ -191,8 +167,9 @@ function ChoosePlayer (props) {
                     </TouchableOpacity>
                   </View>
                 )
-              }}
-            />
+              }}>
+
+            </FlatList>
           </View>
         </View>
         <View style={styles.root_right}>

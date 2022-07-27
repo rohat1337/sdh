@@ -52,18 +52,20 @@ export default function Spider (props) {
           }))
         } else {
           testSpiderFetch(statsAndIDs.ids, statsAndIDs.stats).then((data) => {
+            console.log(data[1])
             setTestSpiderData(fixSpiderData2(data[1], props.navigation.state.params.pos))
           })
         }
       }
     }
+    console.log(statsAndIDs)
   }, [statsAndIDs])
 
   useEffect(() => {
     setRadars(renderRadars(props.navigation.state.params.players))
     const ids = []
     for (const player of props.navigation.state.params.players) {
-      ids.push(player.ID)
+      ids.push('' + player.index)
     }
     console.log(props.navigation.state.params.stats)
     setIDsAndStats({ stats: props.navigation.state.params.stats, ids })

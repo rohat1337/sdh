@@ -54,7 +54,8 @@ def spiderData(stats, ids):
     spider = pd.DataFrame(columns=ids)
     for mall in stats:
         df_mall = df[mall]
-        normalized_df = (df_mall-df_mall.mean())/df_mall.std()
+        #normalized_df = (df_mall-df_mall.mean())/df_mall.std()
+        normalized_df = df_mall.rank(pct=True)
         newdf = normalized_df.iloc[ids]
         spider = pd.concat([spider, newdf], axis=1)
     
@@ -84,10 +85,11 @@ def get_max_for_stat(stats, data: pd.DataFrame):
     return json.dumps(result)
 
 def basic_info():
-    
-    result = df[["Player", "Team within selected timeframe", "Age", "Position", "Minutes played", "Height", "Foot", "Contract expires"]]
 
-    return result.to_json(force_ascii=False)
+    result = df[["Player", "Team within selected timeframe", "Age", "Position", "Minutes played", "Height", "Foot", "Contract expires"]]
+    result = result.reset_index()
+
+    return result.to_json(force_ascii=False, orient="records")
 
 def fixStatsArray(stats):
     result = []

@@ -7,7 +7,11 @@ const _ = require('lodash')
 
 const colors = ['#FFC1CF', '#E8FFB7', '#E2A0FF', '#C4F5FC', '#B7FFD8']
 
-const url = process.env.REACT_APP_SERVER
+// hosting
+// const url = process.env.REACT_APP_SERVER
+
+//development
+const url = config.SERVER_URL
 
 export function getPlayerStats (id) {
   try {
@@ -151,7 +155,6 @@ export function allsvenskanPlayers () {
 
 export function getBasicStats () {
   try {
-    console.log("hello madafaka")
     return fetch(`${url}/BasicInfoPlayers`)
   } catch (error) {
     console.log(error)
@@ -172,7 +175,7 @@ export function getStatNames () {
 
 export function getTopList(position) {
   try {
-    return fetch(config.SERVER_URL + `top15/${position}`)
+    return fetch(`${url}/top15/${position}`)
   } catch (error) {
     console.log(error)
   }
@@ -216,7 +219,7 @@ export function getMaxStatsForPositionArray (stats, array) {
 
 export function getPlayerCount(positions) {
   try {
-    return fetch(config.SERVER_URL + `playerCount/${arrayToString(positions)}`)
+    return fetch(`${url}/playerCount/${arrayToString(positions)}`)
   } catch (error) {
     console.log(error)
   }
@@ -224,7 +227,7 @@ export function getPlayerCount(positions) {
 
 export function getPlayerCountAll() {
   try {
-    return fetch(config.SERVER_URL + `playerCountAll/`)
+    return fetch(`${url}/playerCountAll/`)
   } catch (error) {
     console.log(error)
   }
@@ -232,7 +235,7 @@ export function getPlayerCountAll() {
 
 export function getPlayerRating(id) {
   try {
-    return fetch(config.SERVER_URL + `playerRating/${id}`)
+    return fetch(`${url}/playerRating/${id}`)
   } catch (error) {
     console.log(error)
   }
@@ -240,7 +243,7 @@ export function getPlayerRating(id) {
 
 export function getPlayerRanking(id) {
   try {
-    return fetch(config.SERVER_URL + `playerRanking/${id}`)
+    return fetch(`${url}/playerRanking/${id}`)
   } catch (error) {
     console.log(error)
   }

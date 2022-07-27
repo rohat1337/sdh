@@ -2,6 +2,9 @@ import { Text, View, TouchableOpacity, Dimensions, StyleSheet } from 'react-nati
 
 const windowHeight = Dimensions.get('window').height
 
+let color_dashboard
+let color_spider
+
 function Header (props) {
   // ChoosePlayer header
   if (props.stackIndex === 0) {
@@ -14,16 +17,16 @@ function Header (props) {
         </View>
 
         <View style={{ flex: 0.1, flexDirection: 'row', justifyContent: 'flex-end' }}>
-          <TouchableOpacity style={{ marginRight: '10%' }} onPress={() => props.nav.navigate('Dashboard', { player_id: props.player_id["ID"] })}>
+          <TouchableOpacity style={{ marginRight: '10%' }}
+                            onPress={() => props.nextIsOK_dashboard === 'white' ? props.nav.navigate('Dashboard', { player_id: props.player_dashboard.index }) : {}}>
 
-            <Text style={styles.small_text}>Dashboard / Ratings</Text>
+            <Text style={[styles.small_text, {color: props.nextIsOK_dashboard}]}>Dashboard / Ratings</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={{marginRight:"10%"}}
-            onPress={() => props.nextIsOK === 'white' ? props.nav.navigate('ChooseStats', { players: props.players }) : {}}>
-            <Text style={styles.small_text}>
-              Spindel -{'>'}
-            </Text>
+                            onPress={() => props.nextIsOK_spider === 'white' ? props.nav.navigate('ChooseStats', { players: props.players }) : {}}>
+
+            <Text style={[styles.small_text, {color: props.nextIsOK_spider}]}> Spindel -{'>'} </Text>
           </TouchableOpacity>
 
         </View>
@@ -37,7 +40,7 @@ function Header (props) {
           <TouchableOpacity
             onPress={() => props.nav.goBack()}
           >
-            <Text style={styles.small_text}>
+            <Text style={[styles.small_text, {color: "white"}]}>
               {'<'}- Tillbaka
             </Text>
           </TouchableOpacity>
@@ -51,6 +54,7 @@ function Header (props) {
     )
     // Dashboard header
   } else if (props.stackIndex === 2) {
+    console.log("showing dashboard for player index: ", props.player_id)
     return(
       <View style={props.header}>
           <View style={{flex: 0.1}}>  
@@ -67,7 +71,7 @@ function Header (props) {
          <View style={{flex:0.1}}>
              <TouchableOpacity onPress={() => {
                 props.nav.navigate('Ratings', {player_id: props.player_id});
-                console.log("ratings page for Player: " + props.player_id) 
+                console.log("ratings page for player index: " + props.player_id) 
              }}>
                  <Text style={styles.small_text}>Ratings {'->'}</Text>
              </TouchableOpacity>
@@ -99,7 +103,6 @@ function Header (props) {
 const styles = StyleSheet.create({
 
   small_text: {
-      color: "white",
       fontWeight: "bold",
       fontSize: 18,
       fontFamily: "VitesseSans-Book"

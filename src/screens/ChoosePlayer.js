@@ -36,7 +36,7 @@ function ChoosePlayer (props) {
   const [minutesPlayed, setMinutesPlayed] = useState(0)
   // Ålder states
   const [minAge, setMinAge] = useState(0)
-  const [maxAge, setMaxAge] = useState(0)
+  const [maxAge, setMaxAge] = useState(45)
   // Höjd states
   const [minHeight, setMinHeight] = useState(0)
   // Fot
@@ -55,6 +55,8 @@ function ChoosePlayer (props) {
       })
       .then((data) => {
         data = data[1]
+
+        console.log(data)
 
         setPlayers(data)
         setSearchPlayer('')
@@ -83,6 +85,7 @@ function ChoosePlayer (props) {
         setSelectedPlayersWithID([...selectedPlayersWithID, player])
       }
     }
+    setPlayer(null)
   }, [player])
 
   useEffect(() => {
@@ -134,7 +137,8 @@ function ChoosePlayer (props) {
           <Text style={styles.text_filters}> Visar {selectedPlayersLength} av {totalPlayersLength}</Text>
           <View style={{ height: '85%' }}>
             <FlatList
-                            // Filter players by Name, Team, Age, Position and Minutes played
+
+              // Filter players by Name, Team, Age, Position and Minutes played
               data={players.filter((player) =>
                                     (fix(player.Player.toLowerCase()).includes(searchPlayer.toLowerCase()) &&
                                     player['Team within selected timeframe'].toLowerCase().includes(searchTeam.toLowerCase()) &&
@@ -143,7 +147,7 @@ function ChoosePlayer (props) {
                                     player['Minutes played'] >= minutesPlayed &&
                                     player.Height >= minHeight &&
                                     checkFoot(player, leftFoot, rightFoot)) &&
-                                    (field.some(ele => player.Position.toLowerCase().includes(ele)) || field.length === 0))}
+              (field.some(ele => player.Position.toLowerCase().includes(ele)) || field.length === 0))}
               renderItem={({ item }) => {
                 const textColor = selectedPlayersWithID.includes(item) ? '#ffe00f' : 'white'
                 return (
@@ -194,12 +198,12 @@ function ChoosePlayer (props) {
 
                   <Slider
                     style={{ width: windowWidth / 9, height: windowHeight / 20 }}
-                    minimumValue={Math.min.apply(Math, age)}
-                    maximumValue={Math.max.apply(Math, age)}
+                    minimumValue={minAge}
+                    maximumValue={maxAge}
                     minimumTrackTintColor='#078efb'
                     maximumTrackTintColor='gray'
                     thumbTintColor='#078efb'
-                    value={Math.min.apply(Math, age)}
+                    value={minAge}
                     onValueChange={value => setMinAge(parseInt(value))}
                   />
                 </View>
@@ -215,12 +219,13 @@ function ChoosePlayer (props) {
 
                   <Slider
                     style={{ width: windowWidth / 9, height: windowHeight / 20 }}
-                    minimumValue={Math.min.apply(Math, age)}
-                    maximumValue={Math.max.apply(Math, age)}
+                    minimumValue={minAge}
+                    maximumValue={maxAge}
                     minimumTrackTintColor='#078efb'
                     maximumTrackTintColor='gray'
                     thumbTintColor='#078efb'
-                    value={Math.max.apply(Math, age)}
+                    value={maxAge}
+                    step={1}
                     onValueChange={value => setMaxAge(parseInt(value))}
                   />
                 </View>

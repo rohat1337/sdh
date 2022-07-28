@@ -281,9 +281,9 @@ export function renderRadars (players) {
     const color = colors[players.indexOf(player)]
     return (
       <Radar
-        key={parseInt(player.ID)}
+        key={parseInt(player.index)}
         name={player.Player}
-        dataKey={parseInt(player.ID)}
+        dataKey={parseInt(player.index)}
         stroke={color}
         fill={color}
         fillOpacity={0.6}

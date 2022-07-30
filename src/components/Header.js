@@ -16,9 +16,14 @@ function Header (props) {
           <Text style={styles.header}>IK Sirius Datahub</Text>
         </View>
 
+<<<<<<< HEAD
         <View style={{ flex: 0.1, flexDirection: 'row', justifyContent: 'flex-end' }}>
           <TouchableOpacity style={{ marginRight: '10%' }}
                             onPress={() => props.nextIsOK_dashboard === 'white' ? props.nav.navigate('Dashboard', { player_id: props.player_dashboard.index }) : {}}>
+=======
+        <View style={{ flex: 0.2, flexDirection: 'row', justifyContent: 'flex-end' }}>
+          <TouchableOpacity style={{ marginRight: '10%' }} onPress={() => props.nav.navigate('Dashboard', { player_id: props.player_id.ID })}>
+>>>>>>> master
 
             <Text style={[styles.small_text, {color: props.nextIsOK_dashboard}]}>Dashboard / Ratings</Text>
           </TouchableOpacity>

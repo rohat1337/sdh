@@ -60,7 +60,7 @@ function Header (props) {
           <View style={{flex: 0.1}}>  
              <TouchableOpacity
              onPress={() => props.nav.goBack()}>
-                 <Text style={styles.small_text}>
+                 <Text style={[styles.small_text, {color:"white"}]}>
                      {"<"}- Tillbaka
                  </Text>
              </TouchableOpacity>
@@ -73,7 +73,7 @@ function Header (props) {
                 props.nav.navigate('Ratings', {player_id: props.player_id});
                 console.log("ratings page for player index: " + props.player_id) 
              }}>
-                 <Text style={styles.small_text}>Ratings {'->'}</Text>
+                 <Text style={[styles.small_text, {color:"white"}]}>Ratings {'->'}</Text>
              </TouchableOpacity>
          </View>
          

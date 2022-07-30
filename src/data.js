@@ -437,3 +437,22 @@ export function updateField (clickedBox, setField) {
   setField(clickedBox.split(', '))
   console.log(clickedBox.split(', '))
 }
+
+export function countPlayersForPosition(field, players) {
+  let counter = 0
+  console.log("field:", field)
+  for (const [key, value] of Object.entries(players)) {
+    
+    let done = false
+    console.log("positions for player: ", value.Position.split(","))
+    for (const pos of value.Position.toLowerCase().split(",")) {
+      console.log("checking if ", field, " includes ", pos.trim())
+      if (field.includes(pos.trim()) && !done) {
+        console.log("found match!!")
+        counter = counter + 1
+        done = true
+      }
+    }
+  }
+  return counter
+}

@@ -169,7 +169,7 @@ function PlayerField (props) {
 
   useEffect(() => {
     if (ten) {
-      props.func('amf')
+      props.func('amf, lamf, ramf')
       set1(false)
       setmb(false)
       setrwb(false)

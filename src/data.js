@@ -8,10 +8,10 @@ const _ = require('lodash')
 const colors = ['#FFC1CF', '#E8FFB7', '#E2A0FF', '#C4F5FC', '#B7FFD8']
 
 //hosting
-// const url = process.env.REACT_APP_SERVER
+const url = process.env.REACT_APP_SERVER
 
 //development
-const url = config.SERVER_URL
+//const url = config.SERVER_URL
 
 export function getPlayerStats (id) {
   try {

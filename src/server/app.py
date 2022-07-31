@@ -54,8 +54,8 @@ def spiderData(stats, ids):
     spider = pd.DataFrame(columns=ids)
     for mall in stats:
         df_mall = df[mall]
-        #normalized_df = (df_mall-df_mall.mean())/df_mall.std()
-        normalized_df = df_mall.rank(pct=True)
+        normalized_df = (df_mall-df_mall.mean())/df_mall.std()
+        #normalized_df = df_mall.rank(pct=True)
         newdf = normalized_df.iloc[ids]
         spider = pd.concat([spider, newdf], axis=1)
     

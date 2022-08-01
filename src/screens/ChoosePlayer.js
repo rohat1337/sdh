@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Dimensions, TextInput, ImageBackground } from 'react-native'
-import { getBasicStats, zip, arrayRemove, fix, updateField, checkFoot, fixPlayerPositions, contractToString } from '../data'
+import { getBasicStats, zip, arrayRemove, fix, updateField, checkFoot, fixPlayerPositions, contractToString, getPlayerCountAll, getPlayerCount, countPlayersForPosition } from '../data'
 import Slider from '@react-native-community/slider'
 import PlayerField from '../components/PlayerField'
 import Header from '../components/Header'
@@ -9,10 +9,6 @@ import Footer from '../components/Footer'
 const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height
 
-let age
-let heightcm
-let contractLengths
-let minutes
 
 function ChoosePlayer (props) {
   function changeField (positions) {
@@ -30,19 +26,23 @@ function ChoosePlayer (props) {
   const [searchTeam, setTeam] = useState('')
   const [searchPosition, setPosition] = useState('')
   const [searchPlayer, setSearchPlayer] = useState('')
+  const [selectedPlayersLength, setSelectedPlayersLength] = useState(0)
+  const [totalPlayersLength, setTotalPlayersLength] = useState(0)
   // States for minutes played slider
   const [minutesPlayed, setMinutesPlayed] = useState(0)
   // Ålder states
   const [minAge, setMinAge] = useState(0)
-  const [maxAge, setMaxAge] = useState(0)
+  const [maxAge, setMaxAge] = useState(50)
   // Höjd states
-  const [minHeight, setMinHeight] = useState(0)
+  const [minHeight, setMinHeight] = useState(100)
   // Fot
   const [leftFoot, setLeftFoot] = useState(false)
   const [rightFoot, setRightFoot] = useState(false)
   // Kontraktlängd
   const [minContract, setMinContract] = useState(0)
   const [maxContract, setMaxContract] = useState(50)
+  // Visa selectedPlayers
+  const [toggleSelectedPlayers, setToggleSelectedPlayers] = useState(false)
 
   useEffect(() => {
     getBasicStats() // Fetch
@@ -53,57 +53,94 @@ function ChoosePlayer (props) {
       })
       .then((data) => {
         data = data[1]
-        const result = []
-        const keys = Object.keys(data)
-        keys.push('ID')
 
-        // Get lists of all names, team names etc..
-        const ids = Object.keys(data.Player)
-        const players = Object.values(data.Player)
-        const teams = Object.values(data['Team within selected timeframe'])
-        const position = Object.values(data.Position)
-        age = Object.values(data.Age)
-        minutes = Object.values(data['Minutes played'])
+        console.log(data)
 
-        const foot = Object.values(data.Foot)
-
-        heightcm = arrayRemove(Object.values(data.Height), 0)
-        contractLengths = (Object.values(data['Contract expires'])).map(dates => ((new Date(dates).getTime() - new Date())))
-
-        const list = zip(players, teams, position, age, contractLengths, minutes, foot, heightcm, ids)
-        // For every player, create object
-        // This is only needed because of format issues from flask (no object propety names to access)
-        for (const player of list) {
-          const playerObj = {}
-          let infoIndex = 0
-          for (const info of keys) {
-            playerObj[info] = player[infoIndex]
-            infoIndex++
-          }
-          result.push(playerObj)
-        }
-        setPlayers(result)
+        setPlayers(data)
         setSearchPlayer('')
       })
+    getPlayerCountAll()
+      .then((response) => {
+          const statusCode = response.status;
+          const data = response.json();
+          return Promise.all([statusCode, data]);
+      })
+      .then((data) => {
+          data = data[1]
+          setTotalPlayersLength(data)
+          setSelectedPlayersLength(data)
+      })
+      
   }, [])
 
   // Check if selected player is already chosen or not.
   useEffect(() => {
+    console.log(player)
     if (player != null) {
       if (selectedPlayersWithID.includes(player)) {
         setSelectedPlayersWithID(arrayRemove(selectedPlayersWithID, player))
-        console.log(selectedPlayersWithID[0])
       } else {
         setSelectedPlayersWithID([...selectedPlayersWithID, player])
-        console.log(selectedPlayersWithID)
       }
     }
+    console.log(selectedPlayersWithID)
     setPlayer(null)
   }, [player])
 
+  useEffect(() => {
+      if (field.length > 0) {
+        if (toggleSelectedPlayers) {
+          setSelectedPlayersLength(countPlayersForPosition(field, selectedPlayersWithID))
+        } else {
+          getPlayerCount(field)
+          .then((response) => {
+              const statusCode = response.status;
+              const data = response.json();
+              return Promise.all([statusCode, data]);
+          })
+          .then((data) => {
+              data = data[1]
+              setSelectedPlayersLength(data)
+          })
+        }  
+      } else {
+        //catch if selected players are being shown
+        if (toggleSelectedPlayers) {
+          setSelectedPlayersLength(selectedPlayersWithID.length)
+        } else {
+          getPlayerCountAll()
+          .then((response) => {
+              const statusCode = response.status;
+              const data = response.json();
+              return Promise.all([statusCode, data]);
+          })
+          .then((data) => {
+              data = data[1]
+              setSelectedPlayersLength(data)
+          })
+        }
+      }
+  }, [field])
+
+  useEffect(() => {
+    //selectedPlayersLength depends on whether we are showing selected players or showing all players
+    if (toggleSelectedPlayers) {
+      setSelectedPlayersLength(selectedPlayersWithID.length)
+    } else {
+      setSelectedPlayersLength(players.length)
+    }
+    
+  }, [toggleSelectedPlayers])
+
   return (
     <View style={{ flexDirection: 'column' }}>
-      <Header header={styles.header} nav={props.navigation} stackIndex={0} players={selectedPlayersWithID} player_id={selectedPlayersWithID[0]} nextIsOK={selectedPlayersWithID.length > 0 ? 'white' : 'gray'} />
+      <Header header={styles.header}
+              nav={props.navigation}
+              stackIndex={0}
+              players={selectedPlayersWithID}
+              player_dashboard={selectedPlayersWithID[0]}
+              nextIsOK_dashboard={selectedPlayersWithID.length === 1 ? 'white' : 'gray'}
+              nextIsOK_spider={selectedPlayersWithID.length > 1 ? 'white' : 'gray'} />
 
       <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode='cover'>
 
@@ -115,25 +152,47 @@ function ChoosePlayer (props) {
             onChangeText={setSearchPlayer}
             value={searchPlayer}
           />
+          <View style={{flexDirection:"row", width:"80%"}}>
+            <Text style={[styles.text_filters, {flex:0.5, textAlign:"center"}]}> Visar {selectedPlayersLength} av {totalPlayersLength}</Text>
+            <View style={{flex:0.5}}>
+              <TouchableOpacity style={{backgroundColor:"#0059a1", marginHorizontal:"20%", borderRadius:100}}
+                                onPress={() => {setToggleSelectedPlayers(!toggleSelectedPlayers)}}>
+                <Text style={{textAlign:"center", color: toggleSelectedPlayers ? "#ffe00f" : "white", fontFamily:"VitesseSans-Book", fontSize:17, fontWeight:"bold"}}>Visa valda</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          
           <View style={{ height: '85%' }}>
             <FlatList
-                            // Filter players by Name, Team, Age, Position and Minutes played
-              data={players.filter((player) => (fix(player.Player.toLowerCase()).includes(searchPlayer.toLowerCase()) &&
-                                player['Team within selected timeframe'].toLowerCase().includes(searchTeam.toLowerCase()) &&
-                                (player.Age >= minAge && player.Age <= maxAge) &&
-                                fixPlayerPositions(player.Position.toLowerCase()).includes(searchPosition.toLowerCase()) &&
-                                player['Minutes played'] >= minutesPlayed &&
-                                player.Height >= minHeight &&
-                                checkFoot(player, leftFoot, rightFoot)) &&
-                                (field.some(ele => player.Position.toLowerCase().includes(ele)) || field.length === 0))}
+
+              // Filter players by Name, Team, Age, Position and Minutes played
+              data={toggleSelectedPlayers ? selectedPlayersWithID.filter((player) =>
+                                            (fix(player.Player.toLowerCase()).includes(searchPlayer.toLowerCase()) &&
+                                            player['Team within selected timeframe'].toLowerCase().includes(searchTeam.toLowerCase()) &&
+                                            (player.Age >= minAge && player.Age <= maxAge) &&
+                                            fixPlayerPositions(player.Position.toLowerCase()).includes(searchPosition.toLowerCase()) &&
+                                            player['Minutes played'] >= minutesPlayed &&
+                                            player.Height >= minHeight &&
+                                            checkFoot(player, leftFoot, rightFoot)) &&
+                                            (field.some(ele => player.Position.toLowerCase().includes(ele)) || field.length === 0)
+                                            ) :
+                                            players.filter((player) =>
+                                            (fix(player.Player.toLowerCase()).includes(searchPlayer.toLowerCase()) &&
+                                            player['Team within selected timeframe'].toLowerCase().includes(searchTeam.toLowerCase()) &&
+                                            (player.Age >= minAge && player.Age <= maxAge) &&
+                                            fixPlayerPositions(player.Position.toLowerCase()).includes(searchPosition.toLowerCase()) &&
+                                            player['Minutes played'] >= minutesPlayed &&
+                                            player.Height >= minHeight &&
+                                            checkFoot(player, leftFoot, rightFoot)) &&
+                                            (field.some(ele => player.Position.toLowerCase().includes(ele)) || field.length === 0)
+                                            )}
               renderItem={({ item }) => {
                 const textColor = selectedPlayersWithID.includes(item) ? '#ffe00f' : 'white'
                 return (
                   <View style={styles.players_TO}>
                     <TouchableOpacity
                       onPress={() => { setPlayer(item) }}
-                      style={{ justifyContent: 'center' }}
-                    >
+                      style={{ justifyContent: 'center' }}>
 
                       <View style={styles.players_V}>
                         <View style={styles.players_V_L}>
@@ -150,8 +209,9 @@ function ChoosePlayer (props) {
                     </TouchableOpacity>
                   </View>
                 )
-              }}
-            />
+              }}>
+
+            </FlatList>
           </View>
         </View>
         <View style={styles.root_right}>
@@ -176,12 +236,12 @@ function ChoosePlayer (props) {
 
                   <Slider
                     style={{ width: windowWidth / 9, height: windowHeight / 20 }}
-                    minimumValue={Math.min.apply(Math, age)}
-                    maximumValue={Math.max.apply(Math, age)}
+                    minimumValue={0}
+                    maximumValue={50}
                     minimumTrackTintColor='#078efb'
                     maximumTrackTintColor='gray'
                     thumbTintColor='#078efb'
-                    value={Math.min.apply(Math, age)}
+                    value={minAge}
                     onValueChange={value => setMinAge(parseInt(value))}
                   />
                 </View>
@@ -197,12 +257,13 @@ function ChoosePlayer (props) {
 
                   <Slider
                     style={{ width: windowWidth / 9, height: windowHeight / 20 }}
-                    minimumValue={Math.min.apply(Math, age)}
-                    maximumValue={Math.max.apply(Math, age)}
+                    minimumValue={0}
+                    maximumValue={50}
                     minimumTrackTintColor='#078efb'
                     maximumTrackTintColor='gray'
                     thumbTintColor='#078efb'
-                    value={Math.max.apply(Math, age)}
+                    value={maxAge}
+                    step={1}
                     onValueChange={value => setMaxAge(parseInt(value))}
                   />
                 </View>
@@ -233,12 +294,12 @@ function ChoosePlayer (props) {
 
                   <Slider
                     style={{ width: windowWidth / 9, height: windowHeight / 20 }}
-                    minimumValue={Math.min.apply(Math, heightcm)}
-                    maximumValue={Math.max.apply(Math, heightcm)}
+                    minimumValue={100}
+                    maximumValue={250}
                     minimumTrackTintColor='#078efb'
                     maximumTrackTintColor='gray'
                     thumbTintColor='#078efb'
-                    value={Math.min.apply(Math, heightcm)}
+                    value={100}
                     onValueChange={value => setMinHeight(parseInt(value))}
                   />
                 </View>
@@ -248,24 +309,20 @@ function ChoosePlayer (props) {
                   <Text style={styles.slider_text}>Fot: </Text>
                   <TouchableOpacity
                     style={{ marginLeft: '10%' }}
-                    onPress={() => { setLeftFoot(!leftFoot) }}
-                  >
+                    onPress={() => { setLeftFoot(!leftFoot) }}>
                     <Text style={[styles.slider_text, { color: (leftFoot ? '#ffe00f' : 'white') }]}>
                       Vänster
                     </Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={{ marginLeft: '10%' }}
-                    onPress={() => { setRightFoot(!rightFoot) }}
-                  >
+                    onPress={() => { setRightFoot(!rightFoot) }}>
                     <Text style={[styles.slider_text, { color: (rightFoot ? '#ffe00f' : 'white') }]}>Höger
 
                     </Text>
                   </TouchableOpacity>
                 </View>
-
               </View>
-
             </View>
 
             <View style={[styles.filters_UL, { marginTop: '2%' }]}>
@@ -276,8 +333,7 @@ function ChoosePlayer (props) {
                     placeholder={0}
                     value={minutesPlayed}
                     style={styles.slider_text}
-                    onChangeText={value => setMinutesPlayed(value)}
-                  />
+                    onChangeText={value => setMinutesPlayed(value)}/>
                 </View>
                 <Slider
                   style={{ width: windowWidth / 4.5, height: windowHeight / 20, marginLeft: '0%', marginBottom: '6%' }}
@@ -287,12 +343,13 @@ function ChoosePlayer (props) {
                   maximumTrackTintColor='gray'
                   thumbTintColor='#078efb'
                   value={0}
-                  onValueChange={value => setMinutesPlayed(parseInt(value * 2700))}
+                  onValueChange={value => setMinutesPlayed(parseInt(value * 5000))}
                 />
               </View>
 
+              
               <View style={{ flex: 0.5 }}>
-
+                {/*
                 <View style={{ flex: 0.5, flexDirection: 'row', alignItems: 'center', marginLeft: '1%', marginBottom: '3%' }}>
                   <View>
                     <View style={{ flexDirection: 'row', width: windowWidth / 10 }}>
@@ -338,17 +395,11 @@ function ChoosePlayer (props) {
                     />
                   </View>
                 </View>
-                {/* <Slider style={{ width: windowWidth / 4.5, height: windowHeight / 20, marginLeft: "4%", marginBottom: "6%" }}
-                                    minimumValue={0}
-                                    maximumValue={1}
-                                    minimumTrackTintColor="#078efb"
-                                    maximumTrackTintColor="gray"
-                                    thumbTintColor="#078efb"
-                                    value={0}
-                                    onValueChange={value => setMinutesPlayed(parseInt(value * 2700))} /> */}
+                */}
               </View>
-
+              
             </View>
+          
 
           </View>
           <View style={styles.filters_L}>
@@ -380,11 +431,10 @@ const styles = StyleSheet.create({
   },
   players_TO: {
     width: windowWidth / 3,
-    marginLeft: windowWidth / 20,
     height: windowHeight / 20,
     borderRadius: 100,
     backgroundColor: '#0059a1',
-    marginVertical: windowWidth / 80
+    marginVertical: "1%"
   },
   players_V: {
     flexDirection: 'row',
@@ -409,7 +459,7 @@ const styles = StyleSheet.create({
   text_L: {
     color: 'white',
     fontWeight: 'bold',
-    fontSize: windowWidth / 80,
+    fontSize: windowWidth / 100,
     fontFamily: 'VitesseSans-Book',
     marginBottom: '7%'
   },
@@ -430,13 +480,12 @@ const styles = StyleSheet.create({
     marginBottom: '30%'
   },
   search: {
-    marginLeft: '11%',
+    marginTop: '2%',
     paddingLeft: '2%',
     borderWidth: 1,
     borderColor: 'black',
     borderRadius: 50,
     width: '80%',
-    marginTop: '3%',
     height: windowHeight / 14,
     fontSize: windowHeight * 0.02,
     fontWeight: 'bold',

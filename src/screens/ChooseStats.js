@@ -12,9 +12,10 @@ const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height
 
 function ChooseStats (props) {
-  console.log(props)
 
   const playersWithID = props.navigation.state.params.players
+
+  console.log("PLAYERS: ", playersWithID)
 
   function changeField (positions) {
     updateField(positions, setField)
@@ -33,6 +34,7 @@ function ChooseStats (props) {
   useEffect(() => {
     // TODO: Only choose one position on field.
     if (field.length !== 0) {
+      console.log(field)
       const res = setMall2(field)
       setStats(res.stats)
       setPos(res.position)

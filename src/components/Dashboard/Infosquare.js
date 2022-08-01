@@ -1,5 +1,7 @@
-import { StyleSheet, Text, View } from 'react-native'
-import { roundMarketValue } from '../../data'
+import { StyleSheet, Text, View, Dimensions } from 'react-native'
+import { round_market_value } from '../../data'
+
+const windowWidth = Dimensions.get('window').width
 
 function InfoSquare (props) {
   if (props.player == null) {
@@ -32,7 +34,7 @@ function InfoSquare (props) {
         </Text>
 
         <Text style={styles.slider_text}>
-          Marknadsvärde: {'\u20AC'}{roundMarketValue(Object.values(props.player['Market value']))}M
+          Marknadsvärde: {'\u20AC'}{round_market_value(Object.values(props.player['Market value']))}M
         </Text>
 
       </View>
@@ -43,7 +45,7 @@ function InfoSquare (props) {
 const styles = StyleSheet.create({
 
   slider_text: {
-    fontSize: 25,
+    fontSize: windowWidth / 50,
     fontWeight: 'bold',
     textAlign: 'center',
     width: '100%',

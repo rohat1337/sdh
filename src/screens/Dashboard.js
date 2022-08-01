@@ -16,6 +16,7 @@ function Dashboard (props) {
   const [selectedPlayer, setSelectedPlayer] = useState(null)
   const [maxStats, setMaxStats] = useState(null)
   const [field, setField] = useState([])
+  const player_id = props.navigation.getParam("player_id", "default")
 
   useEffect(() => {
     getPlayerStats(props.navigation.getParam('player_id', 'default'))
@@ -26,6 +27,7 @@ function Dashboard (props) {
       })
       .then((data) => {
         data = data[1]
+        console.log(data)
         setSelectedPlayer(data)
       })
 
@@ -93,7 +95,7 @@ function Dashboard (props) {
   return (
     <View style={{ flexDirection: 'column', height: windowHeight - windowHeight / 10, width: windowWidth }}>
 
-      <Header header={styles.header} stackIndex={2} nav={props.navigation} />
+<Header header={styles.header} stackIndex={2} nav={props.navigation} player_id={player_id} />
 
       {/* Till senare: Hur ska man switcha mellan om man valt flera spelare innan man går till dashboarden */}
 

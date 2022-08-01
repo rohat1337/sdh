@@ -33,7 +33,7 @@ function ChoosePlayer (props) {
   const [minAge, setMinAge] = useState(0)
   const [maxAge, setMaxAge] = useState(50)
   // Höjd states
-  const [minHeight, setMinHeight] = useState(100)
+  const [minHeight, setMinHeight] = useState(0)
   // Fot
   const [leftFoot, setLeftFoot] = useState(false)
   const [rightFoot, setRightFoot] = useState(false)
@@ -203,6 +203,8 @@ function ChoosePlayer (props) {
                         </View>
                         <View style={styles.players_V_R}>
                           <Text style={[styles.text_R, { color: textColor }]}>{item['Team within selected timeframe']}</Text>
+                          <Text style={[styles.text_R, { color: textColor }]}>, </Text>
+                          <Text style={[styles.text_R, { color: textColor }]}>{item.League}</Text>
                           <Text style={[styles.text_R, { color: textColor }]}>, </Text>
                           <Text style={[styles.text_R, { color: textColor }]}>{item.Age} år</Text>
                           <Text style={[styles.text_R, { color: textColor }]}>, </Text>
@@ -469,7 +471,7 @@ const styles = StyleSheet.create({
   text_R: {
     color: 'white',
     fontWeight: 'bold',
-    fontSize: windowWidth / 100,
+    fontSize: windowWidth / 140,
     fontFamily: 'VitesseSans-Book',
     marginBottom: '3.5%'
   },

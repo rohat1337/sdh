@@ -52,7 +52,7 @@ export default function Spider (props) {
           }))
         } else {
           testSpiderFetch(statsAndIDs.ids, statsAndIDs.stats).then((data) => {
-            console.log("spiderdata from fetch: ", data[1])
+            console.log('spiderdata from fetch: ', data[1])
             setTestSpiderData(fixSpiderData2(data[1], props.navigation.state.params.pos))
           })
         }
@@ -71,8 +71,7 @@ export default function Spider (props) {
     setIDsAndStats({ stats: props.navigation.state.params.stats, ids })
   }, [])
 
-  console.log("testspiderdata: ", testSpiderData)
-
+  console.log('testspiderdata: ', testSpiderData)
 
   if (testSpiderData === null) {
     return null
@@ -98,7 +97,7 @@ export default function Spider (props) {
       } else {
         console.log(radars)
         return (
-          
+
           <View>
             <Header stackIndex={1} nav={props.navigation} header={styles.header} />
             <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode='cover'>

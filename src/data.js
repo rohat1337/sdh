@@ -1,17 +1,17 @@
 import { Radar } from 'recharts'
 import { positions } from './positions'
 import { Dimensions } from 'react-native-web'
-import config from "./config.json";
+import config from './config.json'
 
 const _ = require('lodash')
 
 const colors = ['#FFC1CF', '#E8FFB7', '#E2A0FF', '#C4F5FC', '#B7FFD8']
 
-//hosting
+// hosting
 const url = process.env.REACT_APP_SERVER
 
-//development
-//const url = config.SERVER_URL
+// development
+// const url = config.SERVER_URL
 
 export function getPlayerStats (id) {
   try {
@@ -72,28 +72,28 @@ export function fix (str) {
   return str.replace('š', 's').replace('ć', 'c').replace('č', 'c').replace('ó', 'o')
 }
 
-//skicka tillbaka rätt ändelse för en given siffra
+// skicka tillbaka rätt ändelse för en given siffra
 //
 // talet mod 10 ger ett resultat
 // resultat 1 och 2 returnerar :a eftersom 'första' och 'andra'
 // resultat 3 och resten returnerar :e eftersom 'tredje' osv
 // med undantag 11 (11 mod 10 == 1) som också returnerar :e
-export function fixSuffix(int) {
-  //undantag
+export function fixSuffix (int) {
+  // undantag
   if (int == 11) {
-    return ":e"
+    return ':e'
   }
 
   //
   const result = int % 10
   if (result == 1 || result == 2) {
-    return ":a"
+    return ':a'
   } else {
-    return ":e"
+    return ':e'
   }
 }
 
-export function round_market_value(int) {
+export function round_market_value (int) {
   return int / 1000000
 }
 
@@ -103,35 +103,35 @@ export function fixPlayerPositions (position) {
   const arrayOfPositions = position.toLowerCase().split(', ')
 
   for (let index = 0; index < arrayOfPositions.length; index++) {
-    if (arrayOfPositions[index] == "gk") {
-      result.push("MV")
+    if (arrayOfPositions[index] == 'gk') {
+      result.push('MV')
     }
-    if (arrayOfPositions[index] == "cf") {
-      result.push("9")
+    if (arrayOfPositions[index] == 'cf') {
+      result.push('9')
     }
-    if (arrayOfPositions[index] == "lw" || arrayOfPositions[index] == "lmf" || arrayOfPositions[index] == "lamf" || arrayOfPositions[index] == "lwf") {
-      result.push("7 (v)")
+    if (arrayOfPositions[index] == 'lw' || arrayOfPositions[index] == 'lmf' || arrayOfPositions[index] == 'lamf' || arrayOfPositions[index] == 'lwf') {
+      result.push('7 (v)')
     }
-    if (arrayOfPositions[index] == "rw" || arrayOfPositions[index] == "rmf" || arrayOfPositions[index] == "ramf" || arrayOfPositions[index] == "rwf") {
-      result.push("7 (h)")
+    if (arrayOfPositions[index] == 'rw' || arrayOfPositions[index] == 'rmf' || arrayOfPositions[index] == 'ramf' || arrayOfPositions[index] == 'rwf') {
+      result.push('7 (h)')
     }
-    if (arrayOfPositions[index] == "amf" || arrayOfPositions[index] == "ramf" || arrayOfPositions[index] == "lamf") {
-      result.push("10")
+    if (arrayOfPositions[index] == 'amf' || arrayOfPositions[index] == 'ramf' || arrayOfPositions[index] == 'lamf') {
+      result.push('10')
     }
-    if (arrayOfPositions[index] == ("lcmf") || arrayOfPositions[index] == ("rcmf")) {
-      result.push("8")
+    if (arrayOfPositions[index] == ('lcmf') || arrayOfPositions[index] == ('rcmf')) {
+      result.push('8')
     }
-    if (arrayOfPositions[index] == ("dmf") || arrayOfPositions[index] == ("ldmf") || arrayOfPositions[index] == ("rdmf")) {
-      result.push("6")
+    if (arrayOfPositions[index] == ('dmf') || arrayOfPositions[index] == ('ldmf') || arrayOfPositions[index] == ('rdmf')) {
+      result.push('6')
     }
-    if (arrayOfPositions[index] == "lb" || arrayOfPositions[index] == ("lwb")) {
-      result.push("WB (v)")
+    if (arrayOfPositions[index] == 'lb' || arrayOfPositions[index] == ('lwb')) {
+      result.push('WB (v)')
     }
-    if (arrayOfPositions[index] == "rb" || arrayOfPositions[index] == ("rwb")) {
-      result.push("WB (h)")
+    if (arrayOfPositions[index] == 'rb' || arrayOfPositions[index] == ('rwb')) {
+      result.push('WB (h)')
     }
-    if (arrayOfPositions[index] == "lcb" || arrayOfPositions[index] == "rcb" || arrayOfPositions[index] == "cb") {
-      result.push("MB")
+    if (arrayOfPositions[index] == 'lcb' || arrayOfPositions[index] == 'rcb' || arrayOfPositions[index] == 'cb') {
+      result.push('MB')
     }
   }
 
@@ -173,7 +173,7 @@ export function getStatNames () {
   }
 }
 
-export function getTopList(position) {
+export function getTopList (position) {
   try {
     return fetch(`${url}/top15/${position}`)
   } catch (error) {
@@ -217,7 +217,7 @@ export function getMaxStatsForPositionArray (stats, array) {
   }
 }
 
-export function getPlayerCount(positions) {
+export function getPlayerCount (positions) {
   try {
     return fetch(`${url}/playerCount/${arrayToString(positions)}`)
   } catch (error) {
@@ -225,7 +225,7 @@ export function getPlayerCount(positions) {
   }
 }
 
-export function getPlayerCountAll() {
+export function getPlayerCountAll () {
   try {
     return fetch(`${url}/playerCountAll/`)
   } catch (error) {
@@ -233,7 +233,7 @@ export function getPlayerCountAll() {
   }
 }
 
-export function getPlayerRating(id) {
+export function getPlayerRating (id) {
   try {
     return fetch(`${url}/playerRating/${id}`)
   } catch (error) {
@@ -241,7 +241,7 @@ export function getPlayerRating(id) {
   }
 }
 
-export function getPlayerRanking(id) {
+export function getPlayerRanking (id) {
   try {
     return fetch(`${url}/playerRanking/${id}`)
   } catch (error) {
@@ -438,17 +438,16 @@ export function updateField (clickedBox, setField) {
   console.log(clickedBox.split(', '))
 }
 
-export function countPlayersForPosition(field, players) {
+export function countPlayersForPosition (field, players) {
   let counter = 0
-  console.log("field:", field)
+  console.log('field:', field)
   for (const [key, value] of Object.entries(players)) {
-    
     let done = false
-    console.log("positions for player: ", value.Position.split(","))
-    for (const pos of value.Position.toLowerCase().split(",")) {
-      console.log("checking if ", field, " includes ", pos.trim())
+    console.log('positions for player: ', value.Position.split(','))
+    for (const pos of value.Position.toLowerCase().split(',')) {
+      console.log('checking if ', field, ' includes ', pos.trim())
       if (field.includes(pos.trim()) && !done) {
-        console.log("found match!!")
+        console.log('found match!!')
         counter = counter + 1
         done = true
       }

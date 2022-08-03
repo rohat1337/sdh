@@ -1,13 +1,32 @@
 import pandas as pd
 from pre_processing import rating_algorithm as algorithm
 from pre_processing import stats_list
+import logging
+
+def read_df(filename, league):
+    temp_df = pd.read_excel(f"pre_processing/{filename}.xlsx")
+    temp_df["League"] = league
+    temp_df = temp_df[temp_df["Position"].notna()]
+
+    return temp_df
 
 def do_work():
 
-    df_u25 = pd.read_excel("pre_processing/playersAllsvenskanU25.xlsx")
-    df_o25 = pd.read_excel("pre_processing/playersAllsvenskanO25.xlsx")
+    # bug: players existing in both df_s are duplicates
+    df_1 = read_df("playersAllsvenskanU25", "Allsvenskan")
+    df_2 = read_df("playersAllsvenskanO25", "Allsvenskan")
+    df_3 = read_df("playersDenmark", "Superliga")
+    df_4 = read_df("playersFinland", "Veikkausliiga")
+    df_5 = read_df("playersNorway", "Eliteserien")
+    df_6 = read_df("playersIceland", "Úrvalsdeild karla")
+    df_7 = read_df("playersSuperEttanO25", "Superettan")
+    df_8 = read_df("playersSuperEttanU25", "Superettan")
+    df_9 = read_df("playersEttan13-21", "Ettan")
+    df_10 = read_df("playersEttan22-26", "Ettan")
+    df_11 = read_df("playersEttanO26", "Ettan")
 
-    df = pd.concat([df_o25, df_u25])
+
+    df = pd.concat([df_1, df_2, df_3, df_4, df_5, df_6, df_7, df_8, df_9, df_10, df_11])
     df = df.reset_index(drop=True)
 
     DF_LEN_ALL = df.shape[0]
@@ -48,7 +67,7 @@ def do_work():
     # Nior
     is_nine = algorithm.filter_for_position_arr(df["Position"], df["Minutes played"], ["CF"])
 
-    df[is_gk].head()
+    #df[is_gk].head()
 
     # %%
     df_cb = df.loc[is_centreback, stats_list.cb]

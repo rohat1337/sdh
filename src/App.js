@@ -37,8 +37,8 @@ const App = createStackNavigator({
   Spider: {
     screen: Spider,
     navigationOptions: { headerShown: false }
-  },
-  
+  }
+
 })
 
 const container = createAppContainer(App)

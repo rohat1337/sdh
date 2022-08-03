@@ -1,24 +1,24 @@
-import React, {useRef, useEffect} from 'react';
-import styled from "styled-components/native";
-import {Animated, Text} from 'react-native';
+import React, { useRef, useEffect } from 'react'
+import styled from 'styled-components/native'
+import { Animated, Text } from 'react-native'
 
 const EMPTY_COLOR = '#a0a0a1'
 const PROGRESS_COLOR = '#0085FF'
-const SIZE = 150;
+const SIZE = 150
 
 const CircleBase = styled(Animated.View)`
     width: ${SIZE}px;
     height: ${SIZE}px;
     border-radius: ${SIZE / 2}px;
     border-width: 15px;
-`;
+`
 
 const EmptyCircle = styled(CircleBase)`
     border-color: ${EMPTY_COLOR};
     justify-content: center
     align-items: center;
     transform: rotate(-45deg);
-`;
+`
 
 const Indicator = styled(CircleBase)`
     position: absolute;
@@ -26,7 +26,7 @@ const Indicator = styled(CircleBase)`
     border-top-color: ${PROGRESS_COLOR};
     border-right-color: transparent;
     border-bottom-color: transparent;
-`;
+`
 
 const CoverIndicator = styled(CircleBase)`
     position: absolute;
@@ -34,61 +34,63 @@ const CoverIndicator = styled(CircleBase)`
     border-top-color: ${EMPTY_COLOR};
     border-right-color: transparent;
     border-bottom-color: transparent;
-`;
+`
 
-export default function CircularProgress({progress = 100}) {
-    const animatedProgress = useRef(new Animated.Value(0)).current;
+export default function CircularProgress ({ progress = 100 }) {
+  const animatedProgress = useRef(new Animated.Value(0)).current
 
-    var background_color = ""
+  let background_color = ''
 
-    if (progress < 30) {
-        background_color = "red"
-    } else if (progress < 70) {
-        background_color = "orange"
-    } else {
-        background_color = "green"
-    }
+  if (progress < 30) {
+    background_color = 'red'
+  } else if (progress < 70) {
+    background_color = 'orange'
+  } else {
+    background_color = 'green'
+  }
 
-    const animateProgress = useRef(toValue => {
-        Animated.spring(animatedProgress, {
-            toValue,
-            useNativeDriver: true
-        }).start();
-    }).current;
+  const animateProgress = useRef(toValue => {
+    Animated.spring(animatedProgress, {
+      toValue,
+      useNativeDriver: true
+    }).start()
+  }).current
 
-    useEffect(() => {
-        animateProgress(progress);
-    }, [animateProgress, progress])
+  useEffect(() => {
+    animateProgress(progress)
+  }, [animateProgress, progress])
 
-    const firstIndicatorRotate = animatedProgress.interpolate({
-        inputRange: [0,50],
-        outputRange: ['0deg', '180deg'],
-        extrapolate: 'clamp',
-    });
+  const firstIndicatorRotate = animatedProgress.interpolate({
+    inputRange: [0, 50],
+    outputRange: ['0deg', '180deg'],
+    extrapolate: 'clamp'
+  })
 
-    const secondIndicatorRotate = animatedProgress.interpolate({
-        inputRange: [0,100],
-        outputRange: ['0deg', '360deg'],
-        extrapolate: 'clamp',
-    });
+  const secondIndicatorRotate = animatedProgress.interpolate({
+    inputRange: [0, 100],
+    outputRange: ['0deg', '360deg'],
+    extrapolate: 'clamp'
+  })
 
-    const secondIndicatorVisibility = animatedProgress.interpolate({
-        inputRange: [0, 49, 50, 100],
-        outputRange: [0,0,1,1],
-        extrapolate: 'clamp',
-    });
+  const secondIndicatorVisibility = animatedProgress.interpolate({
+    inputRange: [0, 49, 50, 100],
+    outputRange: [0, 0, 1, 1],
+    extrapolate: 'clamp'
+  })
 
-    return <EmptyCircle style={{backgroundColor:background_color}}>
-                <Indicator style={{
-                    transform: [{ rotate: firstIndicatorRotate}]
-                    }}
-                />
-                <CoverIndicator />
-                <Text style={{transform: [{rotate: '45deg'}], fontSize:SIZE / 2, color:"white", fontFamily:"VitesseSans-Book"}}>{progress != null ? progress : 0}</Text>
-                <Indicator style={{
-                    transform: [{ rotate: secondIndicatorRotate}],
-                    opacity: secondIndicatorVisibility,
-                    }}
-                />
-            </EmptyCircle>
+  return (
+    <EmptyCircle style={{ backgroundColor: background_color }}>
+      <Indicator style={{
+        transform: [{ rotate: firstIndicatorRotate }]
+      }}
+      />
+      <CoverIndicator />
+      <Text style={{ transform: [{ rotate: '45deg' }], fontSize: SIZE / 2, color: 'white', fontFamily: 'VitesseSans-Book' }}>{progress != null ? progress : 0}</Text>
+      <Indicator style={{
+        transform: [{ rotate: secondIndicatorRotate }],
+        opacity: secondIndicatorVisibility
+      }}
+      />
+    </EmptyCircle>
+  )
 }

@@ -18,21 +18,26 @@ def filter_for_position_arr(series_position: pd.Series, series_minutes:pd.Series
         
         for index, value in series_position.iteritems():
             #also removes spaces after split, if there are any (there were in some)
-            new_arr = [x.strip() for x in value.split(",")]
-            #ugly done flag
-            done = False
-            for val in new_arr:
-                # Check if any position in df["Position"] exists in arr
-                if val in arr and not done:
-                    # To make sure we do not return true for many positions
-                    # Ex. if a player has ["RCB", "CB", "RB"] and we are checking for defender positions
-                    # We only want to return true once, and not for all their positions
-                    # To keep len(result) == len(series) true
-                    
-                    if series_minutes[index] > 500:
-                        # Make sure we only add players with minutes played > 500
-                        result[index] = True
-                        done = True
-            if not done:
-                result[index] = False
+            try:
+                new_arr = [x.strip() for x in value.split(",")]
+                #ugly done flag
+                done = False
+                for val in new_arr:
+                    # Check if any position in df["Position"] exists in arr
+                    if val in arr and not done:
+                        # To make sure we do not return true for many positions
+                        # Ex. if a player has ["RCB", "CB", "RB"] and we are checking for defender positions
+                        # We only want to return true once, and not for all their positions
+                        # To keep len(result) == len(series) true
+                        
+                        if series_minutes[index] > 500:
+                            # Make sure we only add players with minutes played > 500
+                            result[index] = True
+                            done = True
+                if not done:
+                    result[index] = False
+            except Exception as e:
+                # ???????
+                print(f"{index=} {value=} {e=}")
+            
         return pd.Series(result)

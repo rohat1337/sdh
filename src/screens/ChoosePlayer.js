@@ -9,7 +9,6 @@ import Footer from '../components/Footer'
 const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height
 
-
 function ChoosePlayer (props) {
   function changeField (positions) {
     updateField(positions, setField)
@@ -34,7 +33,7 @@ function ChoosePlayer (props) {
   const [minAge, setMinAge] = useState(0)
   const [maxAge, setMaxAge] = useState(50)
   // Höjd states
-  const [minHeight, setMinHeight] = useState(100)
+  const [minHeight, setMinHeight] = useState(0)
   // Fot
   const [leftFoot, setLeftFoot] = useState(false)
   const [rightFoot, setRightFoot] = useState(false)
@@ -61,16 +60,15 @@ function ChoosePlayer (props) {
       })
     getPlayerCountAll()
       .then((response) => {
-          const statusCode = response.status;
-          const data = response.json();
-          return Promise.all([statusCode, data]);
+        const statusCode = response.status
+        const data = response.json()
+        return Promise.all([statusCode, data])
       })
       .then((data) => {
-          data = data[1]
-          setTotalPlayersLength(data)
-          setSelectedPlayersLength(data)
+        data = data[1]
+        setTotalPlayersLength(data)
+        setSelectedPlayersLength(data)
       })
-      
   }, [])
 
   // Check if selected player is already chosen or not.
@@ -88,59 +86,60 @@ function ChoosePlayer (props) {
   }, [player])
 
   useEffect(() => {
-      if (field.length > 0) {
-        if (toggleSelectedPlayers) {
-          setSelectedPlayersLength(countPlayersForPosition(field, selectedPlayersWithID))
-        } else {
-          getPlayerCount(field)
-          .then((response) => {
-              const statusCode = response.status;
-              const data = response.json();
-              return Promise.all([statusCode, data]);
-          })
-          .then((data) => {
-              data = data[1]
-              setSelectedPlayersLength(data)
-          })
-        }  
+    if (field.length > 0) {
+      if (toggleSelectedPlayers) {
+        setSelectedPlayersLength(countPlayersForPosition(field, selectedPlayersWithID))
       } else {
-        //catch if selected players are being shown
-        if (toggleSelectedPlayers) {
-          setSelectedPlayersLength(selectedPlayersWithID.length)
-        } else {
-          getPlayerCountAll()
+        getPlayerCount(field)
           .then((response) => {
-              const statusCode = response.status;
-              const data = response.json();
-              return Promise.all([statusCode, data]);
+            const statusCode = response.status
+            const data = response.json()
+            return Promise.all([statusCode, data])
           })
           .then((data) => {
-              data = data[1]
-              setSelectedPlayersLength(data)
+            data = data[1]
+            setSelectedPlayersLength(data)
           })
-        }
       }
+    } else {
+      // catch if selected players are being shown
+      if (toggleSelectedPlayers) {
+        setSelectedPlayersLength(selectedPlayersWithID.length)
+      } else {
+        getPlayerCountAll()
+          .then((response) => {
+            const statusCode = response.status
+            const data = response.json()
+            return Promise.all([statusCode, data])
+          })
+          .then((data) => {
+            data = data[1]
+            setSelectedPlayersLength(data)
+          })
+      }
+    }
   }, [field])
 
   useEffect(() => {
-    //selectedPlayersLength depends on whether we are showing selected players or showing all players
+    // selectedPlayersLength depends on whether we are showing selected players or showing all players
     if (toggleSelectedPlayers) {
       setSelectedPlayersLength(selectedPlayersWithID.length)
     } else {
       setSelectedPlayersLength(players.length)
     }
-    
   }, [toggleSelectedPlayers])
 
   return (
     <View style={{ flexDirection: 'column' }}>
-      <Header header={styles.header}
-              nav={props.navigation}
-              stackIndex={0}
-              players={selectedPlayersWithID}
-              player_dashboard={selectedPlayersWithID[0]}
-              nextIsOK_dashboard={selectedPlayersWithID.length === 1 ? 'white' : 'gray'}
-              nextIsOK_spider={selectedPlayersWithID.length > 1 ? 'white' : 'gray'} />
+      <Header
+        header={styles.header}
+        nav={props.navigation}
+        stackIndex={0}
+        players={selectedPlayersWithID}
+        player_dashboard={selectedPlayersWithID[0]}
+        nextIsOK_dashboard={selectedPlayersWithID.length === 1 ? 'white' : 'gray'}
+        nextIsOK_spider={selectedPlayersWithID.length > 1 ? 'white' : 'gray'}
+      />
 
       <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode='cover'>
 
@@ -152,22 +151,25 @@ function ChoosePlayer (props) {
             onChangeText={setSearchPlayer}
             value={searchPlayer}
           />
-          <View style={{flexDirection:"row", width:"80%"}}>
-            <Text style={[styles.text_filters, {flex:0.5, textAlign:"center"}]}> Visar {selectedPlayersLength} av {totalPlayersLength}</Text>
-            <View style={{flex:0.5}}>
-              <TouchableOpacity style={{backgroundColor:"#0059a1", marginHorizontal:"20%", borderRadius:100}}
-                                onPress={() => {setToggleSelectedPlayers(!toggleSelectedPlayers)}}>
-                <Text style={{textAlign:"center", color: toggleSelectedPlayers ? "#ffe00f" : "white", fontFamily:"VitesseSans-Book", fontSize:17, fontWeight:"bold"}}>Visa valda</Text>
+          <View style={{ flexDirection: 'row', width: '80%' }}>
+            <Text style={[styles.text_filters, { flex: 0.5, textAlign: 'center' }]}> Visar {selectedPlayersLength} av {totalPlayersLength}</Text>
+            <View style={{ flex: 0.5 }}>
+              <TouchableOpacity
+                style={{ backgroundColor: '#0059a1', marginHorizontal: '20%', borderRadius: 100 }}
+                onPress={() => { setToggleSelectedPlayers(!toggleSelectedPlayers) }}
+              >
+                <Text style={{ textAlign: 'center', color: toggleSelectedPlayers ? '#ffe00f' : 'white', fontFamily: 'VitesseSans-Book', fontSize: 17, fontWeight: 'bold' }}>Visa valda</Text>
               </TouchableOpacity>
             </View>
           </View>
-          
+
           <View style={{ height: '85%' }}>
             <FlatList
 
               // Filter players by Name, Team, Age, Position and Minutes played
-              data={toggleSelectedPlayers ? selectedPlayersWithID.filter((player) =>
-                                            (fix(player.Player.toLowerCase()).includes(searchPlayer.toLowerCase()) &&
+              data={toggleSelectedPlayers
+                ? selectedPlayersWithID.filter((player) =>
+                  (fix(player.Player.toLowerCase()).includes(searchPlayer.toLowerCase()) &&
                                             player['Team within selected timeframe'].toLowerCase().includes(searchTeam.toLowerCase()) &&
                                             (player.Age >= minAge && player.Age <= maxAge) &&
                                             fixPlayerPositions(player.Position.toLowerCase()).includes(searchPosition.toLowerCase()) &&
@@ -175,9 +177,9 @@ function ChoosePlayer (props) {
                                             player.Height >= minHeight &&
                                             checkFoot(player, leftFoot, rightFoot)) &&
                                             (field.some(ele => player.Position.toLowerCase().includes(ele)) || field.length === 0)
-                                            ) :
-                                            players.filter((player) =>
-                                            (fix(player.Player.toLowerCase()).includes(searchPlayer.toLowerCase()) &&
+                )
+                : players.filter((player) =>
+                  (fix(player.Player.toLowerCase()).includes(searchPlayer.toLowerCase()) &&
                                             player['Team within selected timeframe'].toLowerCase().includes(searchTeam.toLowerCase()) &&
                                             (player.Age >= minAge && player.Age <= maxAge) &&
                                             fixPlayerPositions(player.Position.toLowerCase()).includes(searchPosition.toLowerCase()) &&
@@ -185,14 +187,15 @@ function ChoosePlayer (props) {
                                             player.Height >= minHeight &&
                                             checkFoot(player, leftFoot, rightFoot)) &&
                                             (field.some(ele => player.Position.toLowerCase().includes(ele)) || field.length === 0)
-                                            )}
+                )}
               renderItem={({ item }) => {
                 const textColor = selectedPlayersWithID.includes(item) ? '#ffe00f' : 'white'
                 return (
                   <View style={styles.players_TO}>
                     <TouchableOpacity
                       onPress={() => { setPlayer(item) }}
-                      style={{ justifyContent: 'center' }}>
+                      style={{ justifyContent: 'center' }}
+                    >
 
                       <View style={styles.players_V}>
                         <View style={styles.players_V_L}>
@@ -200,6 +203,8 @@ function ChoosePlayer (props) {
                         </View>
                         <View style={styles.players_V_R}>
                           <Text style={[styles.text_R, { color: textColor }]}>{item['Team within selected timeframe']}</Text>
+                          <Text style={[styles.text_R, { color: textColor }]}>, </Text>
+                          <Text style={[styles.text_R, { color: textColor }]}>{item.League}</Text>
                           <Text style={[styles.text_R, { color: textColor }]}>, </Text>
                           <Text style={[styles.text_R, { color: textColor }]}>{item.Age} år</Text>
                           <Text style={[styles.text_R, { color: textColor }]}>, </Text>
@@ -209,9 +214,8 @@ function ChoosePlayer (props) {
                     </TouchableOpacity>
                   </View>
                 )
-              }}>
-
-            </FlatList>
+              }}
+            />
           </View>
         </View>
         <View style={styles.root_right}>
@@ -309,14 +313,16 @@ function ChoosePlayer (props) {
                   <Text style={styles.slider_text}>Fot: </Text>
                   <TouchableOpacity
                     style={{ marginLeft: '10%' }}
-                    onPress={() => { setLeftFoot(!leftFoot) }}>
+                    onPress={() => { setLeftFoot(!leftFoot) }}
+                  >
                     <Text style={[styles.slider_text, { color: (leftFoot ? '#ffe00f' : 'white') }]}>
                       Vänster
                     </Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={{ marginLeft: '10%' }}
-                    onPress={() => { setRightFoot(!rightFoot) }}>
+                    onPress={() => { setRightFoot(!rightFoot) }}
+                  >
                     <Text style={[styles.slider_text, { color: (rightFoot ? '#ffe00f' : 'white') }]}>Höger
 
                     </Text>
@@ -333,7 +339,8 @@ function ChoosePlayer (props) {
                     placeholder={0}
                     value={minutesPlayed}
                     style={styles.slider_text}
-                    onChangeText={value => setMinutesPlayed(value)}/>
+                    onChangeText={value => setMinutesPlayed(value)}
+                  />
                 </View>
                 <Slider
                   style={{ width: windowWidth / 4.5, height: windowHeight / 20, marginLeft: '0%', marginBottom: '6%' }}
@@ -347,7 +354,6 @@ function ChoosePlayer (props) {
                 />
               </View>
 
-              
               <View style={{ flex: 0.5 }}>
                 {/*
                 <View style={{ flex: 0.5, flexDirection: 'row', alignItems: 'center', marginLeft: '1%', marginBottom: '3%' }}>
@@ -397,9 +403,8 @@ function ChoosePlayer (props) {
                 </View>
                 */}
               </View>
-              
+
             </View>
-          
 
           </View>
           <View style={styles.filters_L}>
@@ -434,7 +439,7 @@ const styles = StyleSheet.create({
     height: windowHeight / 20,
     borderRadius: 100,
     backgroundColor: '#0059a1',
-    marginVertical: "1%"
+    marginVertical: '1%'
   },
   players_V: {
     flexDirection: 'row',
@@ -466,7 +471,7 @@ const styles = StyleSheet.create({
   text_R: {
     color: 'white',
     fontWeight: 'bold',
-    fontSize: windowWidth / 100,
+    fontSize: windowWidth / 140,
     fontFamily: 'VitesseSans-Book',
     marginBottom: '3.5%'
   },

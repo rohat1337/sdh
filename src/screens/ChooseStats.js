@@ -12,10 +12,9 @@ const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height
 
 function ChooseStats (props) {
-
   const playersWithID = props.navigation.state.params.players
 
-  console.log("PLAYERS: ", playersWithID)
+  console.log('PLAYERS: ', playersWithID)
 
   function changeField (positions) {
     updateField(positions, setField)

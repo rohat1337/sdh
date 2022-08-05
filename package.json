@@ -17,7 +17,7 @@
     "rc-progress": "^3.2.4",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-native": "^0.67.2",
+    "react-native": "^0.69.3",
     "react-native-gesture-handler": "^2.2.1",
     "react-native-progress": "^5.0.0",
     "react-native-safe-area-context": "^3.3.2",

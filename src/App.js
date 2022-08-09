@@ -18,6 +18,7 @@ LogBox.ignoreLogs([
 ])
 
 const App = createStackNavigator({
+  
   ChoosePlayer: {
     screen: ChoosePlayer,
     navigationOptions: { headerShown: false }

@@ -17,7 +17,7 @@ export default function DefensiveActions (props) {
           data={props.stats}
           renderItem={({ item }) => {
             let progressColor = ''
-            const percentile = (Object.values(props.player[item]) / props.maxStats[item])
+            const percentile = Object.values(props.player_ranked[item])
             if (percentile > 0.75) {
               progressColor = 'green'
             } else if (percentile < 0.25) {

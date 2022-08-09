@@ -21,9 +21,29 @@ export function getPlayerStats (id) {
   }
 }
 
+export function getPlayerStatsRanked (id) {
+  try {
+    return fetch(`${url}/playerRanked/${id}`)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export function getSpecificStats (id, stats) {
   try {
     return fetch(`${url}/specificData/${id}/${arrayToString(stats)}`).then((response) => {
+      const statusCode = response.status
+      const data = response.json()
+      return Promise.all([statusCode, data])
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export function getSpecificStatsRanked (id, stats) {
+  try {
+    return fetch(`${url}/specificDataRanked/${id}/${arrayToString(stats)}`).then((response) => {
       const statusCode = response.status
       const data = response.json()
       return Promise.all([statusCode, data])

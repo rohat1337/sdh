@@ -6,7 +6,7 @@ import InfoSquare from '../components/Dashboard/Infosquare'
 import OffensiveActions from '../components/Dashboard/OffensiveActions'
 import Speluppbyggnad from '../components/Dashboard/Speluppbyggnad'
 import Header from '../components/Header'
-import { getPlayerStats, getMaxStatsAll, uncheckFieldBox, getMaxStatsForPositionArray } from '../data'
+import { getPlayerStats, getPlayerStatsRanked, getMaxStatsAll, uncheckFieldBox, getMaxStatsForPositionArray } from '../data'
 import DashboardPlayerfield from '../components/Dashboard/DashbordPlayerfield'
 
 const windowWidth = Dimensions.get('window').width
@@ -14,6 +14,7 @@ const windowHeight = Dimensions.get('window').height
 
 function Dashboard (props) {
   const [selectedPlayer, setSelectedPlayer] = useState(null)
+  const [selectedPlayerRanked, setSelectedPlayerRanked] = useState(null)
   const [maxStats, setMaxStats] = useState(null)
   const [field, setField] = useState([])
   const player_id = props.navigation.getParam('player_id', 'default')
@@ -42,6 +43,20 @@ function Dashboard (props) {
         data = data[1]
         setMaxStats(data)
       })
+
+      getPlayerStatsRanked(props.navigation.getParam('player_id', 'default'))
+      .then((response) => {
+        const statusCode = response.status
+        const data = response.json()
+        return Promise.all([statusCode, data])
+      })
+      .then((data) => {
+        data = data[1]
+        console.log(data)
+        setSelectedPlayerRanked(data)
+      })
+      
+
   }, [])
 
   useEffect(() => {
@@ -120,26 +135,26 @@ function Dashboard (props) {
         {/* Offensiva aktioner */}
         <View style={{ flex: 0.25 }}>
           <Text style={styles.dashboard_stat_header}>Offensiva aktioner</Text>
-          <OffensiveActions player={selectedPlayer} stats={offensiveActions} maxStats={maxStats} />
+          <OffensiveActions player={selectedPlayer} player_ranked={selectedPlayerRanked} stats={offensiveActions} maxStats={maxStats} />
         </View>
 
         {/* Speluppbyggnad */}
         <View style={{ flex: 0.25 }}>
           <Text style={styles.dashboard_stat_header}>Speluppbyggnad</Text>
-          <Speluppbyggnad player={selectedPlayer} stats={speluppbyggnad} maxStats={maxStats} />
+          <Speluppbyggnad player={selectedPlayer} player_ranked={selectedPlayerRanked} stats={speluppbyggnad} maxStats={maxStats} />
         </View>
 
         <View style={{ flex: 0.25 }}>
           {/* Defensiva aktioner */}
           <View style={{ flex: 0.58 }}>
             <Text style={styles.dashboard_stat_header}>Defensiva aktioner</Text>
-            <DefensiveActions player={selectedPlayer} stats={defensiveActions} maxStats={maxStats} />
+            <DefensiveActions player={selectedPlayer} player_ranked={selectedPlayerRanked} stats={defensiveActions} maxStats={maxStats} />
           </View>
 
           {/* Fasta situationer */}
           <View style={{ flex: 0.42 }}>
             <Text style={styles.dashboard_stat_header}>Fasta situationer</Text>
-            <FastaSituationer player={selectedPlayer} stats={fastaSituationer} maxStats={maxStats} />
+            <FastaSituationer player={selectedPlayer} player_ranked={selectedPlayerRanked} stats={fastaSituationer} maxStats={maxStats} />
           </View>
 
         </View>

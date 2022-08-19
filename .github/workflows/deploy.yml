@@ -11,7 +11,7 @@ jobs:
       - name: Install packages
         run: |
           npm cache clean --force
-          npm ci --legacy-peer-deps
+          npm i --legacy-peer-deps
           npm un react-native-gesture-handler
           npm i react-native-gesture-handler@2.2.1
           npm audit --fix --force

@@ -15,7 +15,9 @@ jobs:
           npm un react-native-gesture-handler
           npm i react-native-gesture-handler@2.2.1 --legacy-peer-deps
           npm cache clean --force
+          npm audit fix --force
           npm ci --legacy-peer-deps
+          npm audit fix --force
           CI=false npm run build
       - name: Git Auto Commit
         uses: stefanzweifel/git-auto-commit-action@v4.14.1

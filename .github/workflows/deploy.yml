@@ -10,10 +10,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Install packages
         run: |
-          npm cache clean --force
-          npm i --legacy-peer-deps
-          npm un react-native-gesture-handler
-          npm i react-native-gesture-handler@2.2.1
+          npm i
           npm audit --fix --force
           CI=false npm run build
       - name: Git Auto Commit

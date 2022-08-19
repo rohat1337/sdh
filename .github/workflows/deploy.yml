@@ -10,11 +10,12 @@ jobs:
       - uses: actions/checkout@v3
       - name: Install packages
         run: |
-          npm i --force
+          npm i --legacy-peer-deps
+          npm audit fix --force
           npm un react-native-gesture-handler
-          npm i react-native-gesture-handler@2.2.1
+          npm i react-native-gesture-handler@2.2.1 --legacy-peer-deps
           npm cache clean --force
-          npm ci --force
+          npm ci --legacy-peer-deps
           CI=false npm run build
       - name: Git Auto Commit
         uses: stefanzweifel/git-auto-commit-action@v4.14.1

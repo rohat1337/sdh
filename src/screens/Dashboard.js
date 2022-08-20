@@ -19,6 +19,13 @@ function Dashboard (props) {
   const [field, setField] = useState([])
   const player_id = props.navigation.getParam('player_id', 'default')
 
+  // Tagna från Adrians excelark
+  const offensiveActions = ['Non-penalty goals per 90', 'xG per 90', 'Shots per 90', 'Shots on target, %', 'Assists per 90', 'Crosses from left flank per 90', 'Accurate crosses from left flank, %', 'Crosses from right flank per 90', 'Accurate crosses from right flank, %', 'Dribbles per 90', 'Successful dribbles, %', 'Offensive duels per 90', 'Offensive duels won, %', 'Touches in box per 90', 'Progressive runs per 90', 'Accelerations per 90']
+  const speluppbyggnad = ['Received passes per 90', 'Passes per 90', 'Accurate passes, %', 'Forward passes per 90', 'Accurate forward passes, %', 'Average pass length, m', 'xA per 90', 'Shot assists per 90', 'Passes to final third per 90', 'Accurate passes to final third, %', 'Passes to penalty area per 90', 'Accurate passes to penalty area, %', 'Deep completions per 90', 'Progressive passes per 90', 'Accurate progressive passes, %']
+  const defensiveActions = ['Successful defensive actions per 90', 'Defensive duels per 90', 'Defensive duels won, %', 'Aerial duels per 90', 'Aerial duels won, %', 'Sliding tackles per 90', 'PAdj Sliding tackles', 'Shots blocked per 90', 'PAdj Interceptions']
+  const fastaSituationer = ['Free kicks per 90', 'Direct free kicks per 90', 'Direct free kicks on target, %', 'Corners per 90', 'Penalties taken', 'Penalty conversion, %']
+  const allStats = offensiveActions.concat(defensiveActions, fastaSituationer, speluppbyggnad)
+
   useEffect(() => {
     getPlayerStats(props.navigation.getParam('player_id', 'default'))
       .then((response) => {
@@ -28,7 +35,6 @@ function Dashboard (props) {
       })
       .then((data) => {
         data = data[1]
-        console.log(data)
         setSelectedPlayer(data)
       })
 
@@ -52,7 +58,6 @@ function Dashboard (props) {
       })
       .then((data) => {
         data = data[1]
-        console.log(data)
         setSelectedPlayerRanked(data)
       })
       
@@ -61,7 +66,6 @@ function Dashboard (props) {
 
   useEffect(() => {
     if (field.length > 0) {
-      console.log('fetching for positions: ', field)
       getMaxStatsForPositionArray(allStats, field)
         .then((response) => {
           const statusCode = response.status
@@ -91,21 +95,12 @@ function Dashboard (props) {
   function changeField (positions) {
     if (positions.includes('0')) {
       setField(uncheckFieldBox(field, positions))
-      console.log('field: ', field)
     } else {
       setField([...field, ...positions.split(', ')])
-      console.log('field: ', field)
-      console.log('width: ', windowWidth)
-      console.log('height: ', windowHeight)
     }
   }
 
-  // Tagna från Adrians excelark
-  const offensiveActions = ['Non-penalty goals per 90', 'xG per 90', 'Shots per 90', 'Shots on target, %', 'Assists per 90', 'Crosses from left flank per 90', 'Accurate crosses from left flank, %', 'Crosses from right flank per 90', 'Accurate crosses from right flank, %', 'Dribbles per 90', 'Successful dribbles, %', 'Offensive duels per 90', 'Offensive duels won, %', 'Touches in box per 90', 'Progressive runs per 90', 'Accelerations per 90']
-  const speluppbyggnad = ['Received passes per 90', 'Passes per 90', 'Accurate passes, %', 'Forward passes per 90', 'Accurate forward passes, %', 'Average pass length, m', 'xA per 90', 'Shot assists per 90', 'Passes to final third per 90', 'Accurate passes to final third, %', 'Passes to penalty area per 90', 'Accurate passes to penalty area, %', 'Deep completions per 90', 'Progressive passes per 90', 'Accurate progressive passes, %']
-  const defensiveActions = ['Successful defensive actions per 90', 'Defensive duels per 90', 'Defensive duels won, %', 'Aerial duels per 90', 'Aerial duels won, %', 'Sliding tackles per 90', 'PAdj Sliding tackles', 'Shots blocked per 90', 'PAdj Interceptions']
-  const fastaSituationer = ['Free kicks per 90', 'Direct free kicks per 90', 'Direct free kicks on target, %', 'Corners per 90', 'Penalties taken', 'Penalty conversion, %']
-  const allStats = offensiveActions.concat(defensiveActions, fastaSituationer, speluppbyggnad)
+  
 
   return (
     <View style={{ flexDirection: 'column', height: windowHeight - windowHeight / 10, width: windowWidth }}>

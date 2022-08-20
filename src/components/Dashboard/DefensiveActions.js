@@ -4,7 +4,7 @@ import { Line } from 'rc-progress'
 import { getFontSize } from '../../data'
 
 export default function DefensiveActions (props) {
-  if (props.player == null || props.maxStats == null) {
+  if (props.player == null || props.maxStats == null || props.player_ranked == null) {
     return (
       <View>
         <Text>Loading...</Text>

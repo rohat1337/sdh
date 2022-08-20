@@ -61,7 +61,7 @@ function arrayToString (stats) {
     result += '$'
   })
 
-  return result
+  return encodeURI(result)
 }
 
 function arrayOfArrayToString (statsArray) {

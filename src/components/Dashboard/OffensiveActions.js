@@ -4,7 +4,7 @@ import { Line } from 'rc-progress'
 import { getFontSize } from '../../data'
 
 export default function OffensiveActions (props) {
-  if (props.player == null || props.maxStats == null) {
+  if (props.player == null || props.maxStats == null || props.player_ranked == null) {
     return (
       <View>
         <Text>Loading...</Text>
@@ -12,6 +12,7 @@ export default function OffensiveActions (props) {
     )
   } else {
     console.log(props.player_ranked)
+    console.log("MAX: ", props.maxStats)
     return (
       <View style={{ marginVertical: '2%' }}>
         <FlatList

@@ -11,6 +11,11 @@ def openExcelFile():
     
     return df
 
+def open_excel_file_ranked():
+    df = ratings.do_work_ranked()
+
+    return df
+
 
 
 def changePosName(pos_string):

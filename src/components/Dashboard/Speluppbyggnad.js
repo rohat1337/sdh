@@ -4,7 +4,7 @@ import { Line } from 'rc-progress'
 import { getFontSize } from '../../data'
 
 function Speluppbyggnad (props) {
-  if (props.player == null || props.maxStats == null) {
+  if (props.player == null || props.maxStats == null || props.player_ranked == null) {
     return (
       <View>
         <Text>Loading...</Text>
@@ -17,7 +17,7 @@ function Speluppbyggnad (props) {
           data={props.stats}
           renderItem={({ item }) => {
             let progressColor = ''
-            const percentile = (Object.values(props.player[item]) / props.maxStats[item])
+            const percentile = Object.values(props.player_ranked[item])
             if (percentile > 0.75) {
               progressColor = 'green'
             } else if (percentile < 0.25) {

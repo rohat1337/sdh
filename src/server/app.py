@@ -10,6 +10,7 @@ from flask_cors import CORS
 from pre_processing import pre_processing
 
 df = pre_processing.openExcelFile()
+df_rank = pre_processing.open_excel_file_ranked()
 print("df shape after read: ", df.shape[0])
 
 app = Flask(__name__)
@@ -40,6 +41,9 @@ def allPlayersForPosition(position_list):
 def allPlayerInfo(id):
     return df[id:id+1].to_json(force_ascii=False)
 
+def all_player_info_ranked(id):
+    return df_rank[id:id+1].to_json(force_ascii=False)
+
 
 def specific_info(stats, id: int):
     specificData = pd.DataFrame()
@@ -48,7 +52,7 @@ def specific_info(stats, id: int):
     for entries in stats:
         specificData[entries] = playerData[entries]
 
-    return specificData.to_json(force_ascii=False)
+    return specificData
 
 def spiderData(stats, ids):
     spider = pd.DataFrame(columns=ids)
@@ -169,11 +173,24 @@ def gk_allsvenskan():
 def player(id):
     return allPlayerInfo(int(id))
 
+@app.route("/playerRanked/<id>")
+def playerRanked(id):
+    return all_player_info_ranked(int(id))
+
 @app.route("/specificData/<id>/<stats>") 
 def specificPlayerStats1(id=None, stats=None):
     specificStats = stats.split("$")
     specificStats.remove("")
-    return specific_info(specificStats, int(id))
+    return specific_info(specificStats, int(id)).to_json(force_ascii=False)
+
+@app.route("/specificDataRanked/<id>/<stats>")
+def specificPlayerStatsRanked(id=None, stats=None):
+    specificStats = stats.split("$")
+    specificStats.remove("")
+    stats = specific_info(specificStats, int(id))
+    print(stats)
+    stats = stats.rank(pct=True)
+    return stats
 
 @app.route("/specificDataMultiID/<ids>/<stats>")
 def specificPlayersStats(ids = None, stats=None):
@@ -204,9 +221,9 @@ def playersFyn(ids = None):
     return allInfoPlayers(specificIDS)
 
 dashboardEntries = [] # Adrian pls help
-@app.route("/dashboard/<id>")
+@app.route("/dashboardStats/<id>")
 def dashboard():
-    return specific_info(dashboardEntries,int(id))
+    return specific_info(dashboardEntries,int(id)).to_json(force_ascii=False)
 
 @app.route("/maxStats/<stats>")
 def max_stats_all(stats=None):

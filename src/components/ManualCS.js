@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { View, Text, TouchableOpacity, FlatList, StyleSheet, Dimensions, TextInput } from 'react-native'
-import { getStatNames, arrayRemove, filterArray } from '../data'
+import { getStatNames, arrayRemove, filterArray, getIDs } from '../data'
 
 const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height
@@ -81,7 +81,7 @@ export default function ManualCS (props) {
             <TouchableOpacity
               disabled={selectedStats.length !== 2}
               style={[styles.graphButton, { backgroundColor: selectedStats.length === 2 ? 'gray' : '#292929' }]}
-              onPress={() => props.nav.navigate('Spider', { players: props.players, stats: selectedStats, manual: true })}
+              onPress={() => props.nav.navigate('XYPlot', { ids: getIDs(props.players), stats: selectedStats })}
             >
               <Text style={styles.text}>X/Y</Text>
             </TouchableOpacity>

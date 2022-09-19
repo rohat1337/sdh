@@ -475,3 +475,11 @@ export function countPlayersForPosition (field, players) {
   }
   return counter
 }
+
+export function getIDs(players) {
+  let result = []
+  for (var player of players) {
+    result.push('' + player.index)
+  }
+  return result
+}

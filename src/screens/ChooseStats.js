@@ -26,7 +26,7 @@ function ChooseStats (props) {
 
   // States
   const [field, setField] = useState([])
-  const [button, setButton] = useState(false) // True: Manual | False: Mall
+  const [button, setButton] = useState(true) // True: Manual | False: Mall
   const [stats, setStats] = useState(null)
   const [pos, setPos] = useState(null)
 

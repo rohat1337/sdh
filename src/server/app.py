@@ -72,10 +72,9 @@ def allInfoPlayers(ids):
 
 def specific_info_multiID(stats, ids):
     df_stats = df[stats]
-    normalized_df = (df_stats-df_stats.mean())/df_stats.std()
-    newdf = normalized_df.iloc[ids]
-    newdf = newdf[stats]
+    newdf = df_stats.iloc[ids]
     return newdf.to_json(force_ascii=False)
+
 def get_max_for_stat(stats, data: pd.DataFrame):
     result = {}
     print(len(data))

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { View, Text, TouchableOpacity, FlatList, StyleSheet, Dimensions, TextInput } from 'react-native'
 import { getStatNames, arrayRemove, filterArray, getIDs } from '../data'
+import PlayerField from './PlayerField'
 
 const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height
@@ -70,6 +71,12 @@ export default function ManualCS (props) {
         />
         <View style={styles.rightLower}>
 
+          <View style={styles.fieldView}>
+
+          <PlayerField func={props.func} button={props.button} mall clearField={props.clearField} />
+
+          </View>
+
           <View style={styles.graphs}>
             <TouchableOpacity
               style={styles.graphButton}
@@ -81,7 +88,7 @@ export default function ManualCS (props) {
             <TouchableOpacity
               disabled={selectedStats.length !== 2}
               style={[styles.graphButton, { backgroundColor: selectedStats.length === 2 ? 'gray' : '#292929' }]}
-              onPress={() => props.nav.navigate('XYPlot', { ids: getIDs(props.players), stats: selectedStats })}
+              onPress={() => props.nav.navigate('XYPlot', { ids: getIDs(props.players), stats: selectedStats, pos: props.pos })}
             >
               <Text style={styles.text}>X/Y</Text>
             </TouchableOpacity>
@@ -170,5 +177,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'gray',
     borderRadius: 20,
     justifyContent: 'center'
+  },
+  fieldView: {
   }
 })

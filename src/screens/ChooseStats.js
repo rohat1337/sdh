@@ -7,6 +7,7 @@ import { setMall2, updateField } from '../data'
 import CSLowerHeader from '../components/CSLowerHeader'
 import ManualCS from '../components/ManualCS'
 import MallCS from '../components/MallCS'
+import PlayerField from '../components/PlayerField'
 
 const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height
@@ -31,9 +32,7 @@ function ChooseStats (props) {
   const [pos, setPos] = useState(null)
 
   useEffect(() => {
-    // TODO: Only choose one position on field.
     if (field.length !== 0) {
-      console.log(field)
       const res = setMall2(field)
       setStats(res.stats)
       setPos(res.position)
@@ -50,7 +49,7 @@ function ChooseStats (props) {
           {/* Välj KPI:er eller mallar (header) */}
           <View>
             <CSLowerHeader setButton={setButton} button={button} />
-            <ManualCS nav={props.navigation} players={playersWithID} />
+            <ManualCS func={changeField} pos={pos} field={field} button={button} stats={stats} nav={props.navigation} players={playersWithID} clearField={clearField} />
           </View>
 
         </ImageBackground>

@@ -213,6 +213,19 @@ export function getSpecificStatsMultiID (ids, stats) {
   }
 }
 
+export function statsForPositions (positions, stats) {
+  try {
+    return fetch(`${url}/statsForPositions/${arrayToString(positions)}/${arrayToString(stats)}`).then((response) => {
+      const statusCode = response.status
+      const data = response.json()
+      return Promise.all([statusCode, data])
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
 export function getMaxStatsAll (stats) {
   try {
     return fetch(`${url}/maxStats/${arrayToString(stats)}`)
@@ -314,10 +327,11 @@ export function renderRadars (players) {
 }
 
 export function setMall2 (field) {
+  console.log(field)
   if (field.length !== 0) {
     let result
     for (const position of positions) {
-      if (JSON.stringify(field).toLowerCase === JSON.stringify(position.positions).toLowerCase) {
+      if (JSON.stringify(field).toLowerCase() === JSON.stringify(position.positions).toLowerCase()) {
         result = { position: position.positions, stats: [position.kpis.def, position.kpis.goalOppurtiny, position.kpis.playmaking, position.kpis.overall_fetch] }
       }
     }

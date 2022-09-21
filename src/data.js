@@ -1,4 +1,4 @@
-import { Radar } from 'recharts'
+import { Radar, Scatter } from 'recharts'
 import { positions } from './positions'
 import { Dimensions } from 'react-native-web'
 import config from './config.json'
@@ -324,6 +324,16 @@ export function renderRadars (players) {
     )
   })
   return radars
+}
+
+export function renderScatters (players) {
+  const scatters = players.map((player) => {
+    const color = colors[players.indexOf(player)]
+    return (
+      <Scatter name={player.Player} fill={color} data={player.data} />
+    )
+  })
+  return scatters
 }
 
 export function setMall2 (field) {

@@ -2,8 +2,8 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { View, StyleSheet, ImageBackground, Dimensions, Text } from 'react-native'
 import { useEffect, useState } from 'react'
-import { getSpecificStatsMultiID, statsForPositions } from '../data'
-import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Label } from 'recharts'
+import { getSpecificStatsMultiID, statsForPositions, renderScatters } from '../data'
+import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Label, Legend } from 'recharts'
 
 const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height
@@ -11,8 +11,10 @@ const windowHeight = Dimensions.get('window').height
 export default function XYPlot (props) {
 
     const [scatterData, setScatterData] = useState([])
+    const [scatters, setScatters] = useState(null)
 
     useEffect(() => {
+        // setScatters(renderScatters())
         statsForPositions(props.navigation.state.params.pos, props.navigation.state.params.stats).then((data) => {
             if (data[0] === 200) {
                 data = data[1]
@@ -28,13 +30,26 @@ export default function XYPlot (props) {
             }
             
         })
-        // getSpecificStatsMultiID(props.navigation.state.params.ids, props.navigation.state.params.stats).then((data) => {
-        //     if (data[0] === 200) {
-        //         data = data[1]
-        //         var result = []
-                
-        //     }
-        // })
+        getSpecificStatsMultiID(props.navigation.state.params.ids, props.navigation.state.params.stats.concat(['Player'])).then((data) => {
+            if (data[0] === 200) {
+                data = data[1]
+                var players = []
+                console.log(data)
+                for (var id of props.navigation.state.params.ids) {
+                    var obj = {}
+                    obj['Player'] = data['Player'][id]
+                    var playerData = []
+                    var obj2 = {}
+                    for (var key of props.navigation.state.params.stats) {
+                        obj2[key] = data[key][id]
+                    }
+                    playerData.push(obj2)
+                    obj['data'] = playerData
+                    players.push(obj)
+                }
+                setScatters(renderScatters(players))
+            }
+        })
     }, [])
 
     return (
@@ -44,18 +59,20 @@ export default function XYPlot (props) {
             <View style={{justifyContent:'center', alignItems:'center', marginTop: "5%"}}>
                     <ResponsiveContainer width={windowWidth*0.75} height={windowHeight*0.65}>
                         <ScatterChart
-                        width={windowWidth*0.7}
-                        height={windowHeight*0.60}
+                        width={windowWidth*0.75}
+                        height={windowHeight*0.65}
                         >
                         <CartesianGrid />
                         <XAxis type="number" dataKey={props.navigation.state.params.stats[0]} tick={{ stroke: 'white'}}>
-                            <Label value={props.navigation.state.params.stats[0]} offset={0} position="insideBottom" />
+                            <Label value={props.navigation.state.params.stats[0]} offset={0} position="bottom" />
                         </XAxis>
                         <YAxis type="number" dataKey={props.navigation.state.params.stats[1]} tick={{ stroke: 'white'}}>
                             <Label value={props.navigation.state.params.stats[1]} offset={0} position="insideLeft" />
                         </YAxis>
                         <Tooltip cursor={{ strokeDasharray: '5 5' }} />
-                        <Scatter data={scatterData} fill="blue" />
+                        <Legend />
+                        <Scatter name="Alla" data={scatterData} fill="gray" />
+                        {scatters}
                         </ScatterChart>
                     </ResponsiveContainer>
             </View>

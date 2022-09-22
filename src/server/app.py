@@ -41,6 +41,9 @@ def allPlayersForPosition(position_list):
 def allPlayerInfo(id):
     return df[id:id+1].to_json(force_ascii=False)
 
+def all_player_info_ranked(id):
+    return df_rank[id:id+1].to_json(force_ascii=False)
+
 
 def specific_info(stats, id: int):
     specificData = pd.DataFrame()
@@ -49,7 +52,7 @@ def specific_info(stats, id: int):
     for entries in stats:
         specificData[entries] = playerData[entries]
 
-    return specificData.to_json(force_ascii=False)
+    return specificData
 
 def spiderData(stats, ids):
     spider = pd.DataFrame(columns=ids)
@@ -69,10 +72,9 @@ def allInfoPlayers(ids):
 
 def specific_info_multiID(stats, ids):
     df_stats = df[stats]
-    normalized_df = (df_stats-df_stats.mean())/df_stats.std()
-    newdf = normalized_df.iloc[ids]
-    newdf = newdf[stats]
+    newdf = df_stats.iloc[ids]
     return newdf.to_json(force_ascii=False)
+
 def get_max_for_stat(stats, data: pd.DataFrame):
     result = {}
     print(len(data))
@@ -122,6 +124,10 @@ def filter_for_position_arr(series: pd.Series, arr: Array) -> pd.Series:
             if not done:
                 result.append(False)
         return pd.Series(result)
+
+def averageForPositions(positions):
+    print(positions)
+    return df.to_json(force_ascii=False )
 
 def allStats():
     return json.dumps(list(df.columns)[9:-1])
@@ -173,11 +179,24 @@ def gk_allsvenskan():
 def player(id):
     return allPlayerInfo(int(id))
 
+@app.route("/playerRanked/<id>")
+def playerRanked(id):
+    return all_player_info_ranked(int(id))
+
 @app.route("/specificData/<id>/<stats>") 
 def specificPlayerStats1(id=None, stats=None):
     specificStats = stats.split("$")
     specificStats.remove("")
-    return specific_info(specificStats, int(id))
+    return specific_info(specificStats, int(id)).to_json(force_ascii=False)
+
+@app.route("/specificDataRanked/<id>/<stats>")
+def specificPlayerStatsRanked(id=None, stats=None):
+    specificStats = stats.split("$")
+    specificStats.remove("")
+    stats = specific_info(specificStats, int(id))
+    print(stats)
+    stats = stats.rank(pct=True)
+    return stats
 
 @app.route("/specificDataMultiID/<ids>/<stats>")
 def specificPlayersStats(ids = None, stats=None):
@@ -208,9 +227,9 @@ def playersFyn(ids = None):
     return allInfoPlayers(specificIDS)
 
 dashboardEntries = [] # Adrian pls help
-@app.route("/dashboard/<id>")
+@app.route("/dashboardStats/<id>")
 def dashboard():
-    return specific_info(dashboardEntries,int(id))
+    return specific_info(dashboardEntries,int(id)).to_json(force_ascii=False)
 
 @app.route("/maxStats/<stats>")
 def max_stats_all(stats=None):
@@ -305,6 +324,28 @@ def playerRanking(id:int):
         result[string + " TOTAL"] = df_temp.shape[0]
 
     return pd.DataFrame(result).to_json(orient='records')
+
+@app.route("/statsForPositions/<positions>/<stats>")
+def statsForPos(positions=None, stats=None):
+    df_temp = df.copy()
+    specific_positions = positions.split("$")
+    specific_positions.remove("")
+    specific_positions_upper = [x.upper() for x in specific_positions]
+    
+
+    is_in_positions = filter_for_position_arr(df["Position"], specific_positions_upper)
+    df_temp = df_temp[is_in_positions]
+    specific_stats = stats.split("$")
+    specific_stats.remove("")
+    df_temp = df_temp[specific_stats]
+
+    return df_temp.to_json(force_ascii=False)
+
+@app.route("/averageForPositions/<positions>/<stats>")
+def avgForPos(positions=None, stats=None):
+    df_temp = df.copy()
+
+    return df_temp.to_json(force_ascii=False)
 
 if __name__ == '__main__':    
     app.run(debug=True, host='0.0.0.0', port=5000)

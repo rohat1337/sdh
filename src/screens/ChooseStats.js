@@ -26,14 +26,12 @@ function ChooseStats (props) {
 
   // States
   const [field, setField] = useState([])
-  const [button, setButton] = useState(false) // True: Manual | False: Mall
+  const [button, setButton] = useState(true) // True: Manual | False: Mall
   const [stats, setStats] = useState(null)
   const [pos, setPos] = useState(null)
 
   useEffect(() => {
-    // TODO: Only choose one position on field.
     if (field.length !== 0) {
-      console.log(field)
       const res = setMall2(field)
       setStats(res.stats)
       setPos(res.position)
@@ -50,7 +48,7 @@ function ChooseStats (props) {
           {/* Välj KPI:er eller mallar (header) */}
           <View>
             <CSLowerHeader setButton={setButton} button={button} />
-            <ManualCS nav={props.navigation} players={playersWithID} />
+            <ManualCS xyOK={field.length === 1} func={changeField} pos={pos} field={field} button={button} stats={stats} nav={props.navigation} players={playersWithID} clearField={clearField} />
           </View>
 
         </ImageBackground>
@@ -67,7 +65,7 @@ function ChooseStats (props) {
           {/* Välj KPI:er eller mallar (header) */}
           <View>
             <CSLowerHeader setButton={setButton} button={button} />
-            <MallCS func={changeField} pos={pos} field={field} button={button} stats={stats} nav={props.navigation} players={playersWithID} clearField={clearField} />
+            <MallCS spiderOK={field.length === 1} func={changeField} pos={pos} field={field} button={button} stats={stats} nav={props.navigation} players={playersWithID} clearField={clearField} />
           </View>
         </ImageBackground>
         <Footer />

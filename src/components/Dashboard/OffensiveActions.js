@@ -4,20 +4,22 @@ import { Line } from 'rc-progress'
 import { getFontSize } from '../../data'
 
 export default function OffensiveActions (props) {
-  if (props.player == null || props.maxStats == null) {
+  if (props.player == null || props.maxStats == null || props.player_ranked == null) {
     return (
       <View>
         <Text>Loading...</Text>
       </View>
     )
   } else {
+    console.log(props.player_ranked)
+    console.log('MAX: ', props.maxStats)
     return (
       <View style={{ marginVertical: '2%' }}>
         <FlatList
           data={props.stats}
           renderItem={({ item }) => {
             let progressColor = ''
-            const percentile = (Object.values(props.player[item]) / props.maxStats[item])
+            const percentile = Object.values(props.player_ranked[item])
 
             if (percentile > 0.75) {
               progressColor = 'green'

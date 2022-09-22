@@ -1,7 +1,6 @@
 import pandas as pd
 from pre_processing import rating_algorithm as algorithm
 from pre_processing import stats_list
-import logging
 
 def read_df(filename, league):
     temp_df = pd.read_excel(f"pre_processing/{filename}.xlsx")
@@ -11,6 +10,7 @@ def read_df(filename, league):
     return temp_df
 
 def do_work_ranked():
+
     df_1 = read_df("players_allsvenskan_190922", "Allsvenskan")
     df_2 = read_df("players_superettan_190922", "Superettan")
     df_3 = read_df("players_div1norra_1_190922", "Ettan")
@@ -153,5 +153,3 @@ def do_work():
         print("ERROR: LENGTHS OF DF DO NOT MATCH UP")
     else:
         return df
-
-    

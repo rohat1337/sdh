@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Dimensions, TextInput, ImageBackground } from 'react-native'
-import { getBasicStats, zip, arrayRemove, fix, updateField, checkFoot, fixPlayerPositions, contractToString, getPlayerCountAll, getPlayerCount, countPlayersForPosition } from '../data'
+import { getBasicStats, arrayRemove, fix, updateField, checkFoot, fixPlayerPositions, getPlayerCountAll, getPlayerCount, countPlayersForPosition } from '../data'
 import Slider from '@react-native-community/slider'
 import PlayerField from '../components/PlayerField'
 import Header from '../components/Header'
@@ -37,9 +37,6 @@ function ChoosePlayer (props) {
   // Fot
   const [leftFoot, setLeftFoot] = useState(false)
   const [rightFoot, setRightFoot] = useState(false)
-  // Kontraktlängd
-  const [minContract, setMinContract] = useState(0)
-  const [maxContract, setMaxContract] = useState(50)
   // Visa selectedPlayers
   const [toggleSelectedPlayers, setToggleSelectedPlayers] = useState(false)
 
@@ -138,7 +135,7 @@ function ChoosePlayer (props) {
         players={selectedPlayersWithID}
         player_dashboard={selectedPlayersWithID[0]}
         nextIsOK_dashboard={selectedPlayersWithID.length === 1 ? 'white' : 'gray'}
-        nextIsOK_spider={selectedPlayersWithID.length > 1 ? 'white' : 'gray'}
+        nextIsOK_spider={selectedPlayersWithID.length > 0 ? 'white' : 'gray'}
       />
 
       <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode='cover'>
@@ -165,7 +162,6 @@ function ChoosePlayer (props) {
 
           <View style={{ height: '85%' }}>
             <FlatList
-
               // Filter players by Name, Team, Age, Position and Minutes played
               data={toggleSelectedPlayers
                 ? selectedPlayersWithID.filter((player) =>

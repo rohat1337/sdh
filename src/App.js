@@ -10,6 +10,7 @@ import ChooseStats from './screens/ChooseStats'
 import Dashboard from './screens/Dashboard'
 import Spider from './screens/Spider'
 import Ratings from './screens/Ratings'
+import XYPlot from './screens/XYPlot'
 
 import { LogBox } from 'react-native'
 
@@ -18,6 +19,7 @@ LogBox.ignoreLogs([
 ])
 
 const App = createStackNavigator({
+
   ChoosePlayer: {
     screen: ChoosePlayer,
     navigationOptions: { headerShown: false }
@@ -36,6 +38,10 @@ const App = createStackNavigator({
   },
   Spider: {
     screen: Spider,
+    navigationOptions: { headerShown: false }
+  },
+  XYPlot: {
+    screen: XYPlot,
     navigationOptions: { headerShown: false }
   }
 

@@ -16,8 +16,6 @@ def open_excel_file_ranked():
 
     return df
 
-
-
 def changePosName(pos_string):
     
     result = []

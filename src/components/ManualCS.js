@@ -83,7 +83,8 @@ export default function ManualCS (props) {
 
           <View style={styles.graphs}>
             <TouchableOpacity
-              style={styles.graphButton}
+              disabled={!(selectedStats.length > 2)}
+              style={[styles.graphButton, { backgroundColor: selectedStats.length > 2 ? 'gray' : '#292929' }]}
               onPress={() => props.nav.navigate('Spider', { players: props.players, stats: selectedStats, manual: true })}
             >
               <Text style={styles.text}>Spindel</Text>

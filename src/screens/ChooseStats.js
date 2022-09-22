@@ -7,7 +7,6 @@ import { setMall2, updateField } from '../data'
 import CSLowerHeader from '../components/CSLowerHeader'
 import ManualCS from '../components/ManualCS'
 import MallCS from '../components/MallCS'
-import PlayerField from '../components/PlayerField'
 
 const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height
@@ -49,7 +48,7 @@ function ChooseStats (props) {
           {/* Välj KPI:er eller mallar (header) */}
           <View>
             <CSLowerHeader setButton={setButton} button={button} />
-            <ManualCS func={changeField} pos={pos} field={field} button={button} stats={stats} nav={props.navigation} players={playersWithID} clearField={clearField} />
+            <ManualCS xyOK={field.length === 1} func={changeField} pos={pos} field={field} button={button} stats={stats} nav={props.navigation} players={playersWithID} clearField={clearField} />
           </View>
 
         </ImageBackground>
@@ -66,7 +65,7 @@ function ChooseStats (props) {
           {/* Välj KPI:er eller mallar (header) */}
           <View>
             <CSLowerHeader setButton={setButton} button={button} />
-            <MallCS func={changeField} pos={pos} field={field} button={button} stats={stats} nav={props.navigation} players={playersWithID} clearField={clearField} />
+            <MallCS spiderOK={field.length === 1} func={changeField} pos={pos} field={field} button={button} stats={stats} nav={props.navigation} players={playersWithID} clearField={clearField} />
           </View>
         </ImageBackground>
         <Footer />

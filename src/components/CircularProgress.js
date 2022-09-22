@@ -39,14 +39,14 @@ const CoverIndicator = styled(CircleBase)`
 export default function CircularProgress ({ progress = 100 }) {
   const animatedProgress = useRef(new Animated.Value(0)).current
 
-  let background_color = ''
+  let backgroundColor = ''
 
   if (progress < 30) {
-    background_color = 'red'
+    backgroundColor = 'red'
   } else if (progress < 70) {
-    background_color = 'orange'
+    backgroundColor = 'orange'
   } else {
-    background_color = 'green'
+    backgroundColor = 'green'
   }
 
   const animateProgress = useRef(toValue => {
@@ -79,7 +79,7 @@ export default function CircularProgress ({ progress = 100 }) {
   })
 
   return (
-    <EmptyCircle style={{ backgroundColor: background_color }}>
+    <EmptyCircle style={{ backgroundColor }}>
       <Indicator style={{
         transform: [{ rotate: firstIndicatorRotate }]
       }}

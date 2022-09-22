@@ -334,5 +334,11 @@ def statsForPos(positions=None, stats=None):
 
     return df_temp.to_json(force_ascii=False)
 
+@app.route("/averageForPositions/<positions>/<stats>")
+def avgForPos(positions=None, stats=None):
+    df_temp = df.copy()
+
+    return df_temp.to_json(force_ascii=False)
+
 if __name__ == '__main__':    
     app.run(debug=True, host='0.0.0.0', port=5000)

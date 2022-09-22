@@ -13,19 +13,8 @@ export default function Spider (props) {
   // States
   const [radars, setRadars] = useState(null)
   const [statsAndIDs, setIDsAndStats] = useState({})
-  const [refreshDev, setRefreshDev] = useState(false)
   const [testSpiderData, setTestSpiderData] = useState(null)
   const [spiderData, setSpiderData] = useState(null)
-
-  useEffect(() => {
-    if (refreshDev) {
-      if (!_.isEqual({}, statsAndIDs)) {
-        testSpiderFetch(statsAndIDs.ids, statsAndIDs.stats).then((data) => {
-          console.log(data)
-        })
-      }
-    } setRefreshDev(false)
-  }, [refreshDev])
 
   useEffect(() => {
     if (!_.isEqual({}, statsAndIDs)) {

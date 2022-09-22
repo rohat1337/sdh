@@ -12,7 +12,7 @@ export default function OffensiveActions (props) {
     )
   } else {
     console.log(props.player_ranked)
-    console.log("MAX: ", props.maxStats)
+    console.log('MAX: ', props.maxStats)
     return (
       <View style={{ marginVertical: '2%' }}>
         <FlatList

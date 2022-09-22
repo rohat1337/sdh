@@ -1,7 +1,7 @@
-import react, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions, ImageBackground, FlatList } from 'react-native'
+import { useEffect, useState } from 'react'
+import { View, Text, StyleSheet, Dimensions, ImageBackground } from 'react-native'
 import Header from '../components/Header'
-import { getPlayerRating, round_market_value, getPlayerRanking, fixPlayerPositions } from '../data'
+import { getPlayerRating, roundMarketValue, getPlayerRanking, fixPlayerPositions } from '../data'
 import CircularProgress from '../components/CircularProgress'
 import PositionRanking from '../components/PositionRanking'
 import TopList from '../components/TopList'
@@ -10,13 +10,13 @@ const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height
 
 function Ratings (props) {
-  const player_id = props.navigation.getParam('player_id', 'default')
+  const playerID = props.navigation.getParam('player_id', 'default')
   const [ratingObj, setRatingObj] = useState(null)
   const [rankingObj, setRankingObj] = useState(null)
 
   useEffect(() => {
-    console.log('getting ratings for player_id: ', player_id)
-    getPlayerRating(player_id)
+    console.log('getting ratings for player_id: ', playerID)
+    getPlayerRating(playerID)
       .then((response) => {
         const statusCode = response.status
         const data = response.json()
@@ -26,7 +26,7 @@ function Ratings (props) {
         data = data[1][0]
         setRatingObj(data)
       })
-    getPlayerRanking(player_id)
+    getPlayerRanking(playerID)
       .then((response) => {
         const statusCode = response.status
         const data = response.json()
@@ -64,7 +64,7 @@ function Ratings (props) {
                 <Text style={styles.small_text}>Position(er): {fixPlayerPositions(ratingObj.Position)}</Text>
                 <Text style={styles.small_text}>Längd: {ratingObj.Height}cm</Text>
                 <Text style={styles.small_text}>Vikt: {ratingObj.Weight}kg</Text>
-                <Text style={styles.small_text}>Marknadsvärde: {'\u20AC'}{round_market_value(ratingObj['Market value'])}M</Text>
+                <Text style={styles.small_text}>Marknadsvärde: {'\u20AC'}{roundMarketValue(ratingObj['Market value'])}M</Text>
               </View>
 
               <View style={{ flex: 0.6, height: '100%' }}>

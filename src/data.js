@@ -97,23 +97,23 @@ export function fix (str) {
 // talet mod 10 ger ett resultat
 // resultat 1 och 2 returnerar :a eftersom 'första' och 'andra'
 // resultat 3 och resten returnerar :e eftersom 'tredje' osv
-// med undantag 11 (11 mod 10 == 1) som också returnerar :e
+// med undantag 11 (11 mod 10 === 1) som också returnerar :e
 export function fixSuffix (int) {
   // undantag
-  if (int == 11) {
+  if (int === 11) {
     return ':e'
   }
 
   //
   const result = int % 10
-  if (result == 1 || result == 2) {
+  if (result === 1 || result === 2) {
     return ':a'
   } else {
     return ':e'
   }
 }
 
-export function round_market_value (int) {
+export function roundMarketValue (int) {
   return int / 1000000
 }
 
@@ -123,34 +123,34 @@ export function fixPlayerPositions (position) {
   const arrayOfPositions = position.toLowerCase().split(', ')
 
   for (let index = 0; index < arrayOfPositions.length; index++) {
-    if (arrayOfPositions[index] == 'gk') {
+    if (arrayOfPositions[index] === 'gk') {
       result.push('MV')
     }
-    if (arrayOfPositions[index] == 'cf') {
+    if (arrayOfPositions[index] === 'cf') {
       result.push('9')
     }
-    if (arrayOfPositions[index] == 'lw' || arrayOfPositions[index] == 'lmf' || arrayOfPositions[index] == 'lamf' || arrayOfPositions[index] == 'lwf') {
+    if (arrayOfPositions[index] === 'lw' || arrayOfPositions[index] === 'lmf' || arrayOfPositions[index] === 'lamf' || arrayOfPositions[index] === 'lwf') {
       result.push('7 (v)')
     }
-    if (arrayOfPositions[index] == 'rw' || arrayOfPositions[index] == 'rmf' || arrayOfPositions[index] == 'ramf' || arrayOfPositions[index] == 'rwf') {
+    if (arrayOfPositions[index] === 'rw' || arrayOfPositions[index] === 'rmf' || arrayOfPositions[index] === 'ramf' || arrayOfPositions[index] === 'rwf') {
       result.push('7 (h)')
     }
-    if (arrayOfPositions[index] == 'amf' || arrayOfPositions[index] == 'ramf' || arrayOfPositions[index] == 'lamf') {
+    if (arrayOfPositions[index] === 'amf' || arrayOfPositions[index] === 'ramf' || arrayOfPositions[index] === 'lamf') {
       result.push('10')
     }
-    if (arrayOfPositions[index] == ('lcmf') || arrayOfPositions[index] == ('rcmf')) {
+    if (arrayOfPositions[index] === ('lcmf') || arrayOfPositions[index] === ('rcmf')) {
       result.push('8')
     }
-    if (arrayOfPositions[index] == ('dmf') || arrayOfPositions[index] == ('ldmf') || arrayOfPositions[index] == ('rdmf')) {
+    if (arrayOfPositions[index] === ('dmf') || arrayOfPositions[index] === ('ldmf') || arrayOfPositions[index] === ('rdmf')) {
       result.push('6')
     }
-    if (arrayOfPositions[index] == 'lb' || arrayOfPositions[index] == ('lwb')) {
+    if (arrayOfPositions[index] === 'lb' || arrayOfPositions[index] === ('lwb')) {
       result.push('WB (v)')
     }
-    if (arrayOfPositions[index] == 'rb' || arrayOfPositions[index] == ('rwb')) {
+    if (arrayOfPositions[index] === 'rb' || arrayOfPositions[index] === ('rwb')) {
       result.push('WB (h)')
     }
-    if (arrayOfPositions[index] == 'lcb' || arrayOfPositions[index] == 'rcb' || arrayOfPositions[index] == 'cb') {
+    if (arrayOfPositions[index] === 'lcb' || arrayOfPositions[index] === 'rcb' || arrayOfPositions[index] === 'cb') {
       result.push('MB')
     }
   }
@@ -224,7 +224,6 @@ export function statsForPositions (positions, stats) {
     console.log(error)
   }
 }
-
 
 export function getMaxStatsAll (stats) {
   try {
@@ -330,7 +329,7 @@ export function renderScatters (players) {
   const scatters = players.map((player) => {
     const color = colors[players.indexOf(player)]
     return (
-      <Scatter name={player.Player} fill={color} data={player.data} />
+      <Scatter name={player.Player} fill={color} data={player.data} id={player.Player} />
     )
   })
   return scatters
@@ -349,65 +348,12 @@ export function setMall2 (field) {
   }
 }
 
-// ???
-function fetchSpider (ids, mall) {
-  setTimeout(() => {
-    getSpecificStatsMultiID(ids, mall).then((data) => {
-      console.log(data)
-    })
-  }, 1000)
-}
-
-export function setSpiders (stats, ids) {
-  for (const mall of stats) {
-    fetchSpider(ids, mall)
-  }
-}
-
-export function makeSpiders (stats, ids) {
-  try {
-    return fetch(`${url}/specificDataMultiID/${arrayToString(ids)}/${arrayOfArrayToString(stats)}`).then((response) => {
-      const statusCode = response.status
-      const data = response.json()
-      return Promise.all([statusCode, data])
-    })
-  } catch (error) {
-    console.log(error)
-  }
-}
-
 export function testSpiderFetch (ids, stats) {
   try {
     return fetch(`${url}/spider/${arrayToString(ids)}/${arrayOfArrayToString(stats)}`).then((response) => {
       const statusCode = response.status
       const data = response.json()
       return Promise.all([statusCode, data])
-    })
-  } catch (error) {
-    console.log(error)
-  }
-}
-
-export function testSpiderFetch3 (ids, stats) {
-  try {
-    return fetch(`${url}/spider/${arrayToString(ids)}/${arrayToString(stats)}`).then((response) => {
-      const statusCode = response.status
-      const data = response.json()
-      return Promise.all([statusCode, data])
-    })
-  } catch (error) {
-    console.log(error)
-  }
-}
-
-export function testSpiderFetch2 (ids, stats, setSpider) {
-  try {
-    return fetch(`${url}/spider/${arrayToString(ids)}/${arrayOfArrayToString(stats)}`).then((response) => {
-      const statusCode = response.status
-      const data = response.json()
-      return Promise.all([statusCode, data])
-    }).then((data) => {
-      console.log(data)
     })
   } catch (error) {
     console.log(error)
@@ -500,9 +446,9 @@ export function countPlayersForPosition (field, players) {
   return counter
 }
 
-export function getIDs(players) {
-  let result = []
-  for (var player of players) {
+export function getIDs (players) {
+  const result = []
+  for (const player of players) {
     result.push('' + player.index)
   }
   return result

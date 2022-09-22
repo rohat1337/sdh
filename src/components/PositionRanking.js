@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, Dimensions } from 'react-native'
 import { fixSuffix } from '../data'
 
 const windowWidth = Dimensions.get('window').width
-const windowHeight = Dimensions.get('window').height
 
 export default function PositionRanking ({ position, value, total }) {
   return (

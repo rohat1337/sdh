@@ -14,6 +14,10 @@ export default function ManualCS (props) {
   const [search, setSearch] = useState('')
   const [filteredStats, setFilteredStats] = useState([])
 
+  function nextOK () {
+    return ((selectedStats.length === 2) && (props.xyOK))
+  }
+
   useEffect(() => {
     getStatNames().then((data) => {
       if (data[0] === 200) {
@@ -73,7 +77,7 @@ export default function ManualCS (props) {
 
           <View style={styles.fieldView}>
 
-          <PlayerField func={props.func} button={props.button} mall clearField={props.clearField} />
+            <PlayerField func={props.func} button={props.button} mall clearField={props.clearField} />
 
           </View>
 
@@ -86,8 +90,8 @@ export default function ManualCS (props) {
             </TouchableOpacity>
 
             <TouchableOpacity
-              disabled={selectedStats.length !== 2}
-              style={[styles.graphButton, { backgroundColor: selectedStats.length === 2 ? 'gray' : '#292929' }]}
+              disabled={!nextOK()}
+              style={[styles.graphButton, { backgroundColor: nextOK() ? 'gray' : '#292929' }]}
               onPress={() => props.nav.navigate('XYPlot', { ids: getIDs(props.players), stats: selectedStats, pos: props.pos })}
             >
               <Text style={styles.text}>X/Y</Text>

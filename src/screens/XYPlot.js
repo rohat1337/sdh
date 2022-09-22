@@ -1,6 +1,6 @@
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import { View, StyleSheet, ImageBackground, Dimensions } from 'react-native'
+import { View, StyleSheet, ImageBackground, Dimensions, Text } from 'react-native'
 import { useEffect, useState } from 'react'
 import { getSpecificStatsMultiID, statsForPositions, renderScatters } from '../data'
 import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Label, Legend } from 'recharts'
@@ -13,7 +13,6 @@ export default function XYPlot (props) {
   const [scatters, setScatters] = useState(null)
 
   useEffect(() => {
-    // setScatters(renderScatters())
     statsForPositions(props.navigation.state.params.pos, props.navigation.state.params.stats).then((data) => {
       if (data[0] === 200) {
         data = data[1]
@@ -57,23 +56,21 @@ export default function XYPlot (props) {
       <View>
         <Header stackIndex={1} nav={props.navigation} header={styles.header} />
         <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode='cover'>
-          <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: '5%' }}>
-            <ResponsiveContainer width={windowWidth * 0.75} height={windowHeight * 0.65}>
+          <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: '1%' }}>
+            <ResponsiveContainer width={windowWidth * 0.75} height={windowHeight * 0.75}>
               <ScatterChart
-                width={windowWidth * 0.75}
-                height={windowHeight * 0.65}
               >
                 <CartesianGrid />
                 <XAxis type='number' dataKey={props.navigation.state.params.stats[0]} tick={{ stroke: 'white' }}>
-                  <Label value={props.navigation.state.params.stats[0]} offset={0} position='bottom' />
+                  <Label value={props.navigation.state.params.stats[0]} offset={0} position='insideBottom' stroke='white'/>
                 </XAxis>
-                <YAxis type='number' dataKey={props.navigation.state.params.stats[1]} tick={{ stroke: 'white' }}>
-                  <Label value={props.navigation.state.params.stats[1]} offset={0} position='insideLeft' />
+                <YAxis type='number' dataKey={props.navigation.state.params.stats[1]} tick={{ stroke: 'white' }} >
+                  <Label value={props.navigation.state.params.stats[1]} offset={0} position='insideLeft' stroke='white' />
                 </YAxis>
                 <Tooltip cursor={{ strokeDasharray: '5 5' }} />
-                <Legend />
                 <Scatter name='Alla' data={scatterData} fill='gray' />
                 {scatters}
+                <Legend verticalAlign='top'/>
               </ScatterChart>
             </ResponsiveContainer>
           </View>

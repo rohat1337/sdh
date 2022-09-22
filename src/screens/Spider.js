@@ -41,7 +41,6 @@ export default function Spider (props) {
           }))
         } else {
           testSpiderFetch(statsAndIDs.ids, statsAndIDs.stats).then((data) => {
-            console.log('spiderdata from fetch: ', data[1])
             setTestSpiderData(fixSpiderData2(data[1], props.navigation.state.params.pos))
           })
         }
@@ -56,23 +55,21 @@ export default function Spider (props) {
     for (const player of props.navigation.state.params.players) {
       ids.push('' + player.index)
     }
-    console.log(props.navigation.state.params.stats)
     setIDsAndStats({ stats: props.navigation.state.params.stats, ids })
   }, [])
-
-  console.log('testspiderdata: ', testSpiderData)
 
   if (testSpiderData === null) {
     return null
   } else {
     if (props.navigation.state.params.manual !== null) {
       if (props.navigation.state.params.manual) {
+        console.log(radars)
         return (
           <View>
             <Header stackIndex={1} nav={props.navigation} header={styles.header} />
             <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode='cover'>
-              <ResponsiveContainer width={windowWidth} height={windowHeight * 0.85}>
-                <RadarChart cx='50%' cy='50%' outerRadius='80%' data={spiderData}>
+              <ResponsiveContainer width={windowWidth} height={windowHeight * 0.75}>
+                <RadarChart data={spiderData}>
                   <PolarGrid />
                   <PolarAngleAxis dataKey='KPI' fontFamily='VitesseSans-Book' fontWeight='bold' tick={{ fill: 'white' }} fontSize={windowHeight * 0.017} />
                   {radars}

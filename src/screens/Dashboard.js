@@ -17,7 +17,7 @@ function Dashboard (props) {
   const [selectedPlayerRanked, setSelectedPlayerRanked] = useState(null)
   const [maxStats, setMaxStats] = useState(null)
   const [field, setField] = useState([])
-  const player_id = props.navigation.getParam('player_id', 'default')
+  const playerID = props.navigation.getParam('player_id', 'default')
 
   // Tagna från Adrians excelark
   const offensiveActions = ['Non-penalty goals per 90', 'xG per 90', 'Shots per 90', 'Shots on target, %', 'Assists per 90', 'Crosses from left flank per 90', 'Accurate crosses from left flank, %', 'Crosses from right flank per 90', 'Accurate crosses from right flank, %', 'Dribbles per 90', 'Successful dribbles, %', 'Offensive duels per 90', 'Offensive duels won, %', 'Touches in box per 90', 'Progressive runs per 90', 'Accelerations per 90']
@@ -50,7 +50,7 @@ function Dashboard (props) {
         setMaxStats(data)
       })
 
-      getPlayerStatsRanked(props.navigation.getParam('player_id', 'default'))
+    getPlayerStatsRanked(props.navigation.getParam('player_id', 'default'))
       .then((response) => {
         const statusCode = response.status
         const data = response.json()
@@ -60,8 +60,6 @@ function Dashboard (props) {
         data = data[1]
         setSelectedPlayerRanked(data)
       })
-      
-
   }, [])
 
   useEffect(() => {
@@ -100,12 +98,10 @@ function Dashboard (props) {
     }
   }
 
-  
-
   return (
     <View style={{ flexDirection: 'column', height: windowHeight - windowHeight / 10, width: windowWidth }}>
 
-      <Header header={styles.header} stackIndex={2} nav={props.navigation} player_id={player_id} />
+      <Header header={styles.header} stackIndex={2} nav={props.navigation} player_id={playerID} />
 
       {/* Till senare: Hur ska man switcha mellan om man valt flera spelare innan man går till dashboarden */}
 

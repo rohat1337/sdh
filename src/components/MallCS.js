@@ -14,7 +14,8 @@ export default function MallCS (props) {
       </View>
       <View style={styles.buttonsView}>
         <TouchableOpacity
-          style={styles.graphButton}
+          disabled={!props.spiderOK}
+          style={[styles.graphButton, { backgroundColor: props.spiderOK ? 'gray' : '#292929' }]}
           onPress={() => props.nav.navigate('Spider', { players: props.players, stats: props.stats, pos: props.pos, manual: false })}
         >
           <Text style={styles.text}>Spindel</Text>

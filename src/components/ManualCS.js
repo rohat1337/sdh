@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { View, Text, TouchableOpacity, FlatList, StyleSheet, Dimensions, TextInput } from 'react-native'
-import { getStatNames, arrayRemove, filterArray } from '../data'
+import { getStatNames, arrayRemove, filterArray, getIDs } from '../data'
+import PlayerField from './PlayerField'
 
 const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height
@@ -12,6 +13,10 @@ export default function ManualCS (props) {
   const [selectStat, setSelectStat] = useState(null)
   const [search, setSearch] = useState('')
   const [filteredStats, setFilteredStats] = useState([])
+
+  function nextOK () {
+    return ((selectedStats.length === 2) && (props.xyOK))
+  }
 
   useEffect(() => {
     getStatNames().then((data) => {
@@ -70,12 +75,27 @@ export default function ManualCS (props) {
         />
         <View style={styles.rightLower}>
 
+          <View style={styles.fieldView}>
+
+            <PlayerField func={props.func} button={props.button} mall clearField={props.clearField} />
+
+          </View>
+
           <View style={styles.graphs}>
             <TouchableOpacity
-              style={styles.graphButton}
+              disabled={!(selectedStats.length > 2)}
+              style={[styles.graphButton, { backgroundColor: selectedStats.length > 2 ? 'gray' : '#292929' }]}
               onPress={() => props.nav.navigate('Spider', { players: props.players, stats: selectedStats, manual: true })}
             >
               <Text style={styles.text}>Spindel</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              disabled={!nextOK()}
+              style={[styles.graphButton, { backgroundColor: nextOK() ? 'gray' : '#292929' }]}
+              onPress={() => props.nav.navigate('XYPlot', { ids: getIDs(props.players), stats: selectedStats, pos: props.pos })}
+            >
+              <Text style={styles.text}>X/Y</Text>
             </TouchableOpacity>
 
           </View>
@@ -162,5 +182,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'gray',
     borderRadius: 20,
     justifyContent: 'center'
+  },
+  fieldView: {
   }
 })

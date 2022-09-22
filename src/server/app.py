@@ -72,10 +72,9 @@ def allInfoPlayers(ids):
 
 def specific_info_multiID(stats, ids):
     df_stats = df[stats]
-    normalized_df = (df_stats-df_stats.mean())/df_stats.std()
-    newdf = normalized_df.iloc[ids]
-    newdf = newdf[stats]
+    newdf = df_stats.iloc[ids]
     return newdf.to_json(force_ascii=False)
+
 def get_max_for_stat(stats, data: pd.DataFrame):
     result = {}
     print(len(data))
@@ -125,6 +124,10 @@ def filter_for_position_arr(series: pd.Series, arr: Array) -> pd.Series:
             if not done:
                 result.append(False)
         return pd.Series(result)
+
+def averageForPositions(positions):
+    print(positions)
+    return df.to_json(force_ascii=False )
 
 def allStats():
     return json.dumps(list(df.columns)[9:-1])
@@ -314,6 +317,28 @@ def playerRanking(id:int):
         result[string + " TOTAL"] = df_temp.shape[0]
 
     return pd.DataFrame(result).to_json(orient='records')
+
+@app.route("/statsForPositions/<positions>/<stats>")
+def statsForPos(positions=None, stats=None):
+    df_temp = df.copy()
+    specific_positions = positions.split("$")
+    specific_positions.remove("")
+    specific_positions_upper = [x.upper() for x in specific_positions]
+    
+
+    is_in_positions = filter_for_position_arr(df["Position"], specific_positions_upper)
+    df_temp = df_temp[is_in_positions]
+    specific_stats = stats.split("$")
+    specific_stats.remove("")
+    df_temp = df_temp[specific_stats]
+
+    return df_temp.to_json(force_ascii=False)
+
+@app.route("/averageForPositions/<positions>/<stats>")
+def avgForPos(positions=None, stats=None):
+    df_temp = df.copy()
+
+    return df_temp.to_json(force_ascii=False)
 
 if __name__ == '__main__':    
     app.run(debug=True, host='0.0.0.0', port=5000)

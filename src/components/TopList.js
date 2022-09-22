@@ -3,11 +3,9 @@ import { getTopList } from '../data'
 import { Dimensions, FlatList, View, Text, StyleSheet } from 'react-native'
 
 const windowWidth = Dimensions.get('window').width
-const windowHeight = Dimensions.get('window').height
 
 export default function TopList ({ position, player }) {
   const [playersList, setPlayersList] = useState(null)
-  const list_rank = 1
 
   useEffect(() => {
     getTopList(position)
@@ -44,7 +42,7 @@ export default function TopList ({ position, player }) {
           <FlatList
             data={playersList}
             renderItem={({ item }) => {
-              const boldText = player == item.Player ? 'bold' : 'normal'
+              const boldText = player === item.Player ? 'bold' : 'normal'
               return (
                 <View style={styles.player}>
                   <View style={{ flex: 0.8 }}>

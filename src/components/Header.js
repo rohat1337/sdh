@@ -2,9 +2,6 @@ import { Text, View, TouchableOpacity, Dimensions, StyleSheet } from 'react-nati
 
 const windowHeight = Dimensions.get('window').height
 
-let color_dashboard
-let color_spider
-
 function Header (props) {
   // ChoosePlayer header
   if (props.stackIndex === 0) {
@@ -30,7 +27,7 @@ function Header (props) {
             onPress={() => props.nextIsOK_spider === 'white' ? props.nav.navigate('ChooseStats', { players: props.players }) : {}}
           >
 
-            <Text style={[styles.small_text, { color: props.nextIsOK_spider }]}> Spindel -{'>'} </Text>
+            <Text style={[styles.small_text, { color: props.nextIsOK_spider }]}> KPI:er -{'>'} </Text>
           </TouchableOpacity>
 
         </View>

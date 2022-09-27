@@ -132,6 +132,9 @@ def averageForPositions(positions):
 def allStats():
     return json.dumps(list(df.columns)[9:-1])
 
+def all_player_info_ranked(id):
+    return df_rank[id:id+1].to_json(force_ascii=False)
+
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -293,6 +296,10 @@ def top_15_for_position(position=None):
     df_temp = df[['Player', 'Age', 'Team', 'Market value', rating_col]]
     df_temp_toplist = df_temp.nlargest(15, rating_col)
     return df_temp_toplist.to_json(orient='records')
+
+@app.route("/playerRanked/<id>")
+def playerRanked(id):
+    return all_player_info_ranked(int(id))
 
 @app.route("/playerRanking/<id>")
 def playerRanking(id:int):

@@ -48,7 +48,7 @@ function ChooseStats (props) {
           {/* Välj KPI:er eller mallar (header) */}
           <View>
             <CSLowerHeader setButton={setButton} button={button} />
-            <ManualCS xyOK={field.length === 1} func={changeField} pos={pos} field={field} button={button} stats={stats} nav={props.navigation} players={playersWithID} clearField={clearField} />
+            <ManualCS xyOK={field.length > 0} func={changeField} pos={pos} field={field} button={button} stats={stats} nav={props.navigation} players={playersWithID} clearField={clearField} />
           </View>
 
         </ImageBackground>
@@ -65,7 +65,7 @@ function ChooseStats (props) {
           {/* Välj KPI:er eller mallar (header) */}
           <View>
             <CSLowerHeader setButton={setButton} button={button} />
-            <MallCS spiderOK={field.length === 1} func={changeField} pos={pos} field={field} button={button} stats={stats} nav={props.navigation} players={playersWithID} clearField={clearField} />
+            <MallCS spiderOK={field.length > 0} func={changeField} pos={pos} field={field} button={button} stats={stats} nav={props.navigation} players={playersWithID} clearField={clearField} />
           </View>
         </ImageBackground>
         <Footer />

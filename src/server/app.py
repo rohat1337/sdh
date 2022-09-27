@@ -179,10 +179,6 @@ def gk_allsvenskan():
 def player(id):
     return allPlayerInfo(int(id))
 
-@app.route("/playerRanked/<id>")
-def playerRanked(id):
-    return all_player_info_ranked(int(id))
-
 @app.route("/specificData/<id>/<stats>") 
 def specificPlayerStats1(id=None, stats=None):
     specificStats = stats.split("$")

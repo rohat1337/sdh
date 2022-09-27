@@ -171,18 +171,19 @@ const styles = StyleSheet.create({
   graphs: {
     height: windowHeight / 5,
     borderRadius: 20,
-    marginTop: '2%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-evenly'
   },
   graphButton: {
-    height: windowHeight / 8,
+    height: windowHeight / 10,
     width: windowWidth / 10,
     backgroundColor: 'gray',
     borderRadius: 20,
     justifyContent: 'center'
   },
   fieldView: {
+    marginVertical: windowHeight*0.04,
+    marginLeft: windowWidth*0.05
   }
 })

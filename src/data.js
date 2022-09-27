@@ -361,7 +361,6 @@ export function testSpiderFetch (ids, stats) {
 }
 
 export function fixSpiderData2 (spiderData, position) {
-  console.log(position)
   const result = {}
   let p
   for (const pos of positions) {

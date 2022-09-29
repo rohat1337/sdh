@@ -3,7 +3,7 @@ import Footer from '../components/Footer'
 import { View, StyleSheet, ImageBackground, Dimensions, Text } from 'react-native'
 import { useEffect, useState } from 'react'
 import { getSpecificStatsMultiID, statsForPositions, renderScatters } from '../data'
-import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Label, Legend } from 'recharts'
+import { ScatterChart, Scatter, XAxis, YAxis, ZAxis, CartesianGrid, Tooltip, ResponsiveContainer, Label, Legend } from 'recharts'
 
 const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height
@@ -22,6 +22,7 @@ export default function XYPlot (props) {
           for (const key of props.navigation.state.params.stats) {
             obj[key] = data[key][id]
           }
+          obj['z'] = windowHeight*0.075
           result.push(obj)
         }
         setScatterData(result)
@@ -40,6 +41,7 @@ export default function XYPlot (props) {
           for (const key of props.navigation.state.params.stats) {
             obj2[key] = data[key][id]
           }
+          obj2['z'] = windowHeight*0.1
           playerData.push(obj2)
           obj.data = playerData
           players.push(obj)
@@ -67,8 +69,9 @@ export default function XYPlot (props) {
                 <YAxis type='number' dataKey={props.navigation.state.params.stats[1]} tick={{ stroke: 'white' }} >
                   <Label value={props.navigation.state.params.stats[1]} offset={0} position='insideLeft' stroke='white' />
                 </YAxis>
+                <ZAxis range={[windowHeight*0.05, windowHeight*0.3]} dataKey='z' />
                 <Tooltip cursor={{ strokeDasharray: '5 5' }} />
-                <Scatter name='Alla' data={scatterData} fill='gray' />
+                <Scatter name='Alla' data={scatterData} fill='gray' isAnimationActive={false} />
                 {scatters}
                 <Legend verticalAlign='top'/>
               </ScatterChart>

@@ -329,7 +329,7 @@ export function renderScatters (players) {
   const scatters = players.map((player) => {
     const color = colors[players.indexOf(player)]
     return (
-      <Scatter name={player.Player} fill={color} data={player.data} id={player.Player} />
+      <Scatter isAnimationActive={false} name={player.Player} fill={color} data={player.data} id={player.Player} />
     )
   })
   return scatters

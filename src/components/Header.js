@@ -1,6 +1,7 @@
 import { Text, View, TouchableOpacity, Dimensions, StyleSheet } from 'react-native'
 
 const windowHeight = Dimensions.get('window').height
+const windowWidth = Dimensions.get('window').width
 
 function Header (props) {
   // ChoosePlayer header
@@ -107,12 +108,12 @@ const styles = StyleSheet.create({
 
   small_text: {
     fontWeight: 'bold',
-    fontSize: 18,
+    fontSize: windowWidth*0.015,
     fontFamily: 'VitesseSans-Book'
   },
 
   header: {
-    fontSize: 50,
+    fontSize: windowWidth*0.04,
     fontWeight: 'bold',
     color: 'white',
     fontFamily: 'VitesseSans-Black',

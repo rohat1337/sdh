@@ -28,7 +28,7 @@ export default function MallCS (props) {
 
 const styles = StyleSheet.create({
   graphButton: {
-    height: windowHeight / 8,
+    height: windowHeight / 10,
     width: windowWidth / 10,
     backgroundColor: 'gray',
     borderRadius: 20,

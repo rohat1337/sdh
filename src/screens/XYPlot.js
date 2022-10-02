@@ -59,7 +59,7 @@ export default function XYPlot (props) {
         <Header stackIndex={1} nav={props.navigation} header={styles.header} />
         <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode='cover'>
           <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: '1%' }}>
-            <ResponsiveContainer width={windowWidth * 0.75} height={windowHeight * 0.75}>
+            <ResponsiveContainer width={windowWidth * 0.75} height={windowHeight * 0.75} >
               <ScatterChart
               >
                 <CartesianGrid />
@@ -67,7 +67,7 @@ export default function XYPlot (props) {
                   <Label value={props.navigation.state.params.stats[0]} offset={0} position='insideBottom' stroke='white'/>
                 </XAxis>
                 <YAxis type='number' dataKey={props.navigation.state.params.stats[1]} tick={{ stroke: 'white' }} >
-                  <Label value={props.navigation.state.params.stats[1]} offset={0} position='insideLeft' stroke='white' />
+                  <Label value={props.navigation.state.params.stats[1]} offset={20} position='insideLeft' stroke='white' angle={270} />
                 </YAxis>
                 <ZAxis dataKey='Player' />
                 <Tooltip cursor={{ strokeDasharray: '5 5' }} content={ <XYToolTip /> } isAnimationActive={false} />

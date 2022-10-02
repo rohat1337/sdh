@@ -293,6 +293,10 @@ def top_15_for_position(position=None):
     df_temp_toplist = df_temp.nlargest(15, rating_col)
     return df_temp_toplist.to_json(orient='records')
 
+@app.route("/playerRanked/<id>")
+def playerRanked(id):
+    return all_player_info_ranked(int(id))
+
 @app.route("/playerRanking/<id>")
 def playerRanking(id:int):
     result = {}

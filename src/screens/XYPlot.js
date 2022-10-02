@@ -1,9 +1,10 @@
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import { View, StyleSheet, ImageBackground, Dimensions, Text } from 'react-native'
+import { View, StyleSheet, ImageBackground, Dimensions } from 'react-native'
 import { useEffect, useState } from 'react'
 import { getSpecificStatsMultiID, statsForPositions, renderScatters } from '../data'
 import { ScatterChart, Scatter, XAxis, YAxis, ZAxis, CartesianGrid, Tooltip, ResponsiveContainer, Label, Legend } from 'recharts'
+import XYToolTip from '../components/XYToolTip'
 
 const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height
@@ -13,7 +14,7 @@ export default function XYPlot (props) {
   const [scatters, setScatters] = useState(null)
 
   useEffect(() => {
-    statsForPositions(props.navigation.state.params.pos, props.navigation.state.params.stats).then((data) => {
+    statsForPositions(props.navigation.state.params.pos, props.navigation.state.params.stats.concat(['Player'])).then((data) => {
       if (data[0] === 200) {
         data = data[1]
         const result = []
@@ -22,7 +23,7 @@ export default function XYPlot (props) {
           for (const key of props.navigation.state.params.stats) {
             obj[key] = data[key][id]
           }
-          obj['z'] = windowHeight*0.075
+          obj['Player'] = data.Player[id]
           result.push(obj)
         }
         setScatterData(result)
@@ -32,7 +33,6 @@ export default function XYPlot (props) {
       if (data[0] === 200) {
         data = data[1]
         const players = []
-        console.log(data)
         for (const id of props.navigation.state.params.ids) {
           const obj = {}
           obj.Player = data.Player[id]
@@ -41,7 +41,7 @@ export default function XYPlot (props) {
           for (const key of props.navigation.state.params.stats) {
             obj2[key] = data[key][id]
           }
-          obj2['z'] = windowHeight*0.1
+          obj2['Player'] = data.Player[id]
           playerData.push(obj2)
           obj.data = playerData
           players.push(obj)
@@ -69,8 +69,8 @@ export default function XYPlot (props) {
                 <YAxis type='number' dataKey={props.navigation.state.params.stats[1]} tick={{ stroke: 'white' }} >
                   <Label value={props.navigation.state.params.stats[1]} offset={0} position='insideLeft' stroke='white' />
                 </YAxis>
-                <ZAxis range={[windowHeight*0.05, windowHeight*0.3]} dataKey='z' />
-                <Tooltip cursor={{ strokeDasharray: '5 5' }} />
+                <ZAxis dataKey='Player' />
+                <Tooltip cursor={{ strokeDasharray: '5 5' }} content={ <XYToolTip /> } isAnimationActive={false} />
                 <Scatter name='Alla' data={scatterData} fill='gray' isAnimationActive={false} />
                 {scatters}
                 <Legend verticalAlign='top'/>

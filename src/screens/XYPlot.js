@@ -2,7 +2,7 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { View, StyleSheet, ImageBackground, Dimensions } from 'react-native'
 import { useEffect, useState } from 'react'
-import { getSpecificStatsMultiID, statsForPositions, renderScatters } from '../data'
+import { getSpecificStatsMultiID, statsForPositions, renderScatters, findPlayerID } from '../data'
 import { ScatterChart, Scatter, XAxis, YAxis, ZAxis, CartesianGrid, Tooltip, ResponsiveContainer, Label, Legend } from 'recharts'
 import XYToolTip from '../components/XYToolTip'
 
@@ -12,8 +12,10 @@ const windowHeight = Dimensions.get('window').height
 export default function XYPlot (props) {
   const [scatterData, setScatterData] = useState([])
   const [scatters, setScatters] = useState(null)
+  const [namesAndIDs, setNamesAndIDs] = useState([])
 
   useEffect(() => {
+    let namesAndIds = []
     statsForPositions(props.navigation.state.params.pos, props.navigation.state.params.stats.concat(['Player'])).then((data) => {
       if (data[0] === 200) {
         data = data[1]
@@ -24,6 +26,10 @@ export default function XYPlot (props) {
             obj[key] = data[key][id]
           }
           obj['Player'] = data.Player[id]
+          let pl = {}
+          pl['id'] = id
+          pl['Name'] = data.Player[id]
+          namesAndIds.push(pl)
           result.push(obj)
         }
         setScatterData(result)
@@ -42,6 +48,11 @@ export default function XYPlot (props) {
             obj2[key] = data[key][id]
           }
           obj2['Player'] = data.Player[id]
+          let pl = {}
+          pl['id'] = id
+          pl['Name'] = data.Player[id]
+          namesAndIds.push(pl)
+          setNamesAndIDs(namesAndIds)
           playerData.push(obj2)
           obj.data = playerData
           players.push(obj)
@@ -71,7 +82,7 @@ export default function XYPlot (props) {
                 </YAxis>
                 <ZAxis dataKey='Player' />
                 <Tooltip cursor={{ strokeDasharray: '5 5' }} content={ <XYToolTip /> } isAnimationActive={false} />
-                <Scatter name='Alla' data={scatterData} fill='gray' isAnimationActive={false} />
+                <Scatter name='Alla' data={scatterData} fill='gray' isAnimationActive={false} onClick={(e) => props.navigation.navigate('Dashboard', { player_id: findPlayerID(e.Player, namesAndIDs) })} />
                 {scatters}
                 <Legend verticalAlign='top'/>
               </ScatterChart>

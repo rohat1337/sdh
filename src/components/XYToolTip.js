@@ -5,7 +5,6 @@ const windowHeight = Dimensions.get('window').height
 const windowWidth = Dimensions.get('window').width
 
 export default function XYToolTip ({ payload, active }) {
-    console.log(payload)
     if (active) {
         return (
             <View style={styles.container}>

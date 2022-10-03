@@ -125,10 +125,6 @@ def filter_for_position_arr(series: pd.Series, arr: Array) -> pd.Series:
                 result.append(False)
         return pd.Series(result)
 
-def averageForPositions(positions):
-    print(positions)
-    return df.to_json(force_ascii=False )
-
 def allStats():
     return json.dumps(list(df.columns)[9:-1])
 
@@ -327,8 +323,6 @@ def statsForPos(positions=None, stats=None):
     specific_positions = positions.split("$")
     specific_positions.remove("")
     specific_positions_upper = [x.upper() for x in specific_positions]
-    
-
     is_in_positions = filter_for_position_arr(df["Position"], specific_positions_upper)
     df_temp = df_temp[is_in_positions]
     specific_stats = stats.split("$")
@@ -340,8 +334,20 @@ def statsForPos(positions=None, stats=None):
 @app.route("/averageForPositions/<positions>/<stats>")
 def avgForPos(positions=None, stats=None):
     df_temp = df.copy()
-
-    return df_temp.to_json(force_ascii=False)
+    specific_positions = positions.split("$")
+    specific_positions.remove("")
+    specific_positions_upper = [x.upper() for x in specific_positions]
+    is_in_positions = filter_for_position_arr(df["Position"], specific_positions_upper)
+    df_temp = df_temp[is_in_positions]
+    avgSpider = pd.DataFrame()
+    for mall in fixStatsArray(stats):
+        df_mall = df_temp[mall]
+        df_mall = df_mall.assign(Mean=df_mall.mean(axis=1))
+        df_mall = df_mall[['Mean']]
+        avgSpider = pd.concat([avgSpider, df_mall], axis=1)
+        
+    avgSpider = avgSpider.loc[:,~avgSpider.columns.duplicated()].copy()
+    return avgSpider.to_json(force_ascii=False)
 
 if __name__ == '__main__':    
     app.run(debug=True, host='0.0.0.0', port=5000)

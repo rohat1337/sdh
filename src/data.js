@@ -225,6 +225,18 @@ export function statsForPositions (positions, stats) {
   }
 }
 
+export function avgForPositions (positions, stats) {
+  try {
+    return fetch(`${url}/averageForPositions/${arrayToString(positions)}/${arrayOfArrayToString(stats)}`).then((response) => {
+      const statusCode = response.status
+      const data = response.json()
+      return Promise.all([statusCode, data])
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export function getMaxStatsAll (stats) {
   try {
     return fetch(`${url}/maxStats/${arrayToString(stats)}`)
@@ -416,8 +428,6 @@ export function fixSpiderData2 (spiderData, position) {
     overallkpis.push(obj)
   }
   result.Overall = overallkpis
-
-  console.log(result)
 
   return result
 }

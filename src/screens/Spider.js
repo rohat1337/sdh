@@ -3,7 +3,7 @@ import Footer from '../components/Footer'
 import { View, StyleSheet, ImageBackground, Dimensions, Text } from 'react-native'
 import { RadarChart, PolarGrid, PolarAngleAxis, ResponsiveContainer, Legend } from 'recharts'
 import { useEffect, useState } from 'react'
-import { renderRadars, testSpiderFetch, fixSpiderData2, getSpecificStatsMultiID } from '../data'
+import { renderRadars, testSpiderFetch, fixSpiderData2, getSpecificStatsMultiID, avgForPositions } from '../data'
 import _ from 'lodash'
 
 const windowWidth = Dimensions.get('window').width
@@ -50,6 +50,14 @@ export default function Spider (props) {
   }, [statsAndIDs])
 
   useEffect(() => {
+    if (testSpiderData !== null) {
+      avgForPositions(props.navigation.state.params.pos, statsAndIDs.stats).then((data) => {
+        console.log(data[1])
+      })
+    }
+  }, [testSpiderData])
+
+  useEffect(() => {
     setRadars(renderRadars(props.navigation.state.params.players))
     const ids = []
     for (const player of props.navigation.state.params.players) {
@@ -63,7 +71,6 @@ export default function Spider (props) {
   } else {
     if (props.navigation.state.params.manual !== null) {
       if (props.navigation.state.params.manual) {
-        console.log(radars)
         return (
           <View>
             <Header stackIndex={1} nav={props.navigation} header={styles.header} />

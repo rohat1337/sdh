@@ -2,6 +2,7 @@ import { Radar, Scatter } from 'recharts'
 import { positions } from './positions'
 import { Dimensions } from 'react-native-web'
 import config from './config.json'
+import MyDot from './components/MyDot'
 
 const _ = require('lodash')
 
@@ -341,14 +342,13 @@ export function renderScatters (players) {
   const scatters = players.map((player) => {
     const color = colors[players.indexOf(player)]
     return (
-      <Scatter name={player.Player} fill={color} data={player.data} id={player.Player} />
+      <Scatter shape={<MyDot clr={color}/>} isAnimationActive={false} name={player.Player} fill={color} data={player.data} id={player.Player} />
     )
   })
   return scatters
 }
 
 export function setMall2 (field) {
-  console.log(field)
   if (field.length !== 0) {
     let result
     for (const position of positions) {
@@ -434,7 +434,6 @@ export function fixSpiderData2 (spiderData, position) {
 
 export function updateField (clickedBox, setField) {
   setField(clickedBox.split(', '))
-  console.log(clickedBox.split(', '))
 }
 
 export function countPlayersForPosition (field, players) {
@@ -461,4 +460,12 @@ export function getIDs (players) {
     result.push('' + player.index)
   }
   return result
+}
+
+export function findPlayerID(player, players) {
+  for (var pl of players) {
+    if (pl.Name === player) {
+      return pl.id
+    }
+  }
 }

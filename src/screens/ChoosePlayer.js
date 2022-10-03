@@ -49,9 +49,6 @@ function ChoosePlayer (props) {
       })
       .then((data) => {
         data = data[1]
-
-        console.log(data)
-
         setPlayers(data)
         setSearchPlayer('')
       })
@@ -70,7 +67,6 @@ function ChoosePlayer (props) {
 
   // Check if selected player is already chosen or not.
   useEffect(() => {
-    console.log(player)
     if (player != null) {
       if (selectedPlayersWithID.includes(player)) {
         setSelectedPlayersWithID(arrayRemove(selectedPlayersWithID, player))
@@ -78,7 +74,6 @@ function ChoosePlayer (props) {
         setSelectedPlayersWithID([...selectedPlayersWithID, player])
       }
     }
-    console.log(selectedPlayersWithID)
     setPlayer(null)
   }, [player])
 

@@ -337,7 +337,6 @@ export function renderScatters (players) {
 }
 
 export function setMall2 (field) {
-  console.log(field)
   if (field.length !== 0) {
     let result
     for (const position of positions) {
@@ -425,7 +424,6 @@ export function fixSpiderData2 (spiderData, position) {
 
 export function updateField (clickedBox, setField) {
   setField(clickedBox.split(', '))
-  console.log(clickedBox.split(', '))
 }
 
 export function countPlayersForPosition (field, players) {
@@ -452,4 +450,12 @@ export function getIDs (players) {
     result.push('' + player.index)
   }
   return result
+}
+
+export function findPlayerID(player, players) {
+  for (var pl of players) {
+    if (pl.Name === player) {
+      return pl.id
+    }
+  }
 }

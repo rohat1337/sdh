@@ -81,7 +81,6 @@ export default function Spider (props) {
           </View>
         )
       } else {
-        console.log(radars)
         return (
 
           <View>

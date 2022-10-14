@@ -1,8 +1,9 @@
 
 from multiprocessing.dummy import Array
+from re import A
 from flask import Flask, redirect, url_for, render_template, request, flash
 import pandas as pd
-import sys
+from sklearn import preprocessing
 import numpy as np
 import json
 from flask_cors import CORS
@@ -12,6 +13,8 @@ from pre_processing import pre_processing
 df = pre_processing.openExcelFile()
 df_rank = pre_processing.open_excel_file_ranked()
 print("df shape after read: ", df.shape[0])
+
+min_max_scaler = preprocessing.MinMaxScaler()
 
 app = Flask(__name__)
 CORS(app)
@@ -24,6 +27,9 @@ forwardPos = ['SS', 'CF', 'LWF', 'RWF', 'LW', 'RW']
 midfielderPos = ['RCMF', 'LCMF', 'AMF', 'DMF', 'RDMF', 'LDMF', 'RAMF', 'LAMF']
 
 defenderPos = ['RB', 'RCB', 'LCB', 'LB', 'RCB3', 'CB', 'LCB3', 'RWB', 'LWB', 'RB5', 'LB5']
+
+def flatten(l):
+    return [item for sublist in l for item in sublist]
 
 # Return all players from list of positions. i.e forwards, midfielders or defenders
 def allPlayersForPosition(position_list):
@@ -54,18 +60,32 @@ def specific_info(stats, id: int):
 
     return specificData
 
-def spiderData(stats, ids):
-    spider = pd.DataFrame(columns=ids)
-    for mall in stats:
-        df_mall = df[mall]
-        normalized_df = (df_mall-df_mall.mean())/df_mall.std()
-        #normalized_df = df_mall.rank(pct=True)
-        newdf = normalized_df.iloc[ids]
-        spider = pd.concat([spider, newdf], axis=1)
+    # x_scaled = min_max_scaler.fit_transform(df)
+    # df_normalized = pd.DataFrame(x_scaled)
     
-    spider = spider.iloc[:, len(ids):]
+def spiderData(stats, ids, positions):
+    df_temp = df.copy()
+    specific_positions = positions.split("$")
+    specific_positions.remove("")
+    specific_positions_upper = [x.upper() for x in specific_positions]
+    is_in_positions = filter_for_position_arr(df["Position"], specific_positions_upper)
+    df_temp = df_temp[is_in_positions]
+    df_pos = pd.DataFrame()
 
-    return spider.to_json(force_ascii=False)
+    df_spider = pd.DataFrame()
+    for mall in stats:
+        df_pos = pd.concat([df_pos, df_temp[mall]], axis=1)
+        malldf = df[mall]
+        df_spider = pd.concat([df_spider, malldf], axis=1)
+
+    df_pos = pd.DataFrame(df_pos.mean().to_dict(), index=[df_pos.index.values[-1]+1])
+    df_spider = pd.concat([df_spider, df_pos])
+    df_norm = pd.DataFrame(min_max_scaler.fit_transform(df_spider))
+    df_norm.columns = flatten(stats)
+    df_final = pd.concat([df_norm.iloc[ids], df_norm.iloc[-1:]])
+
+
+    return df_final.to_json(force_ascii=False)
 
 def allInfoPlayers(ids):
     return df.iloc[ids].to_json(force_ascii=False, orient="records")
@@ -124,10 +144,6 @@ def filter_for_position_arr(series: pd.Series, arr: Array) -> pd.Series:
             if not done:
                 result.append(False)
         return pd.Series(result)
-
-def averageForPositions(positions):
-    print(positions)
-    return df.to_json(force_ascii=False )
 
 def allStats():
     return json.dumps(list(df.columns)[9:-1])
@@ -210,11 +226,11 @@ def basic_info_cock():
 def stats():
     return allStats()
 
-@app.route("/spider/<ids>/<stats>")
-def spiders(ids = None, stats=None):
+@app.route("/spider/<ids>/<stats>/<positions>")
+def spiders(ids = None, stats=None, positions=None):
     specificIDS = ids.split("$")
     specificIDS.remove("")
-    return spiderData(fixStatsArray(stats), specificIDS)
+    return spiderData(fixStatsArray(stats), specificIDS, positions)
 
 @app.route("/players/<ids>")
 def playersFyn(ids = None):
@@ -327,8 +343,6 @@ def statsForPos(positions=None, stats=None):
     specific_positions = positions.split("$")
     specific_positions.remove("")
     specific_positions_upper = [x.upper() for x in specific_positions]
-    
-
     is_in_positions = filter_for_position_arr(df["Position"], specific_positions_upper)
     df_temp = df_temp[is_in_positions]
     specific_stats = stats.split("$")
@@ -337,11 +351,26 @@ def statsForPos(positions=None, stats=None):
 
     return df_temp.to_json(force_ascii=False)
 
+    # normalized_df = (df_mall-df_mall.mean())/df_mall.std()
+
 @app.route("/averageForPositions/<positions>/<stats>")
 def avgForPos(positions=None, stats=None):
     df_temp = df.copy()
+    specific_positions = positions.split("$")
+    specific_positions.remove("")
+    specific_positions_upper = [x.upper() for x in specific_positions]
+    is_in_positions = filter_for_position_arr(df["Position"], specific_positions_upper)
+    df_temp = df_temp[is_in_positions]
+    avgSpider = pd.DataFrame()
+    for mall in fixStatsArray(stats):
+        df_mall = df_temp[mall]
+        normalized_df = (df_mall-df_mall.mean())/df_mall.std()
+        avgSpider = pd.concat([avgSpider, normalized_df], axis=1)
+        
 
-    return df_temp.to_json(force_ascii=False)
+    avgSpider = avgSpider.loc[:,~avgSpider.columns.duplicated()].copy()
+    avgSpider = pd.DataFrame(avgSpider.mean().to_dict(), index=[avgSpider.index.values[-1]])
+    return avgSpider.to_json(force_ascii=False)
 
 if __name__ == '__main__':    
     app.run(debug=True, host='0.0.0.0', port=5000)

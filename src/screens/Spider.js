@@ -3,7 +3,7 @@ import Footer from '../components/Footer'
 import { View, StyleSheet, ImageBackground, Dimensions, Text } from 'react-native'
 import { RadarChart, PolarGrid, PolarAngleAxis, ResponsiveContainer, Legend } from 'recharts'
 import { useEffect, useState } from 'react'
-import { renderRadars, testSpiderFetch, fixSpiderData2, getSpecificStatsMultiID } from '../data'
+import { renderRadars, testSpiderFetch, fixSpiderData2, getSpecificStatsMultiID, avgForPositions } from '../data'
 import _ from 'lodash'
 
 const windowWidth = Dimensions.get('window').width
@@ -15,6 +15,8 @@ export default function Spider (props) {
   const [statsAndIDs, setIDsAndStats] = useState({})
   const [testSpiderData, setTestSpiderData] = useState(null)
   const [spiderData, setSpiderData] = useState(null)
+  const [avgSpiderData, setAvgSpiderData] = useState(null)
+  const [final, setFinal] = useState(null)
 
   useEffect(() => {
     if (!_.isEqual({}, statsAndIDs)) {
@@ -40,17 +42,22 @@ export default function Spider (props) {
             }
           }))
         } else {
-          testSpiderFetch(statsAndIDs.ids, statsAndIDs.stats).then((data) => {
+          testSpiderFetch(statsAndIDs.ids, statsAndIDs.stats, props.navigation.state.params.pos).then((data) => {
             setTestSpiderData(fixSpiderData2(data[1], props.navigation.state.params.pos))
           })
         }
       }
     }
-    console.log(statsAndIDs)
   }, [statsAndIDs])
 
   useEffect(() => {
-    setRadars(renderRadars(props.navigation.state.params.players))
+    if (testSpiderData !== null) {
+      let keys = Object.keys(testSpiderData.Def[0])
+      setRadars(renderRadars(props.navigation.state.params.players, keys[keys.length-2]))
+    }
+  }, [testSpiderData])
+
+  useEffect(() => {
     const ids = []
     for (const player of props.navigation.state.params.players) {
       ids.push('' + player.index)
@@ -63,7 +70,6 @@ export default function Spider (props) {
   } else {
     if (props.navigation.state.params.manual !== null) {
       if (props.navigation.state.params.manual) {
-        console.log(radars)
         return (
           <View>
             <Header stackIndex={1} nav={props.navigation} header={styles.header} />
@@ -82,7 +88,6 @@ export default function Spider (props) {
         )
       } else {
         return (
-
           <View>
             <Header stackIndex={1} nav={props.navigation} header={styles.header} />
             <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode='cover'>
@@ -90,7 +95,7 @@ export default function Spider (props) {
                 <View style={styles.spdrs}>
                   <View style={{ flexDirection: 'column', marginVertical: '2%' }}>
                     <Text style={styles.text}>Skapa målchans</Text>
-                    <ResponsiveContainer width={windowWidth / 2} height={windowHeight / 3}>
+                    <ResponsiveContainer width={windowWidth / 2} height={windowHeight / 3.2}>
                       <RadarChart cx='50%' cy='50%' outerRadius='80%' data={testSpiderData.Goal}>
                         <PolarGrid />
                         <PolarAngleAxis dataKey='KPI' fontFamily='VitesseSans-Book' fontWeight='bold' tick={{ fill: 'white' }} fontSize={windowHeight * 0.017} />
@@ -101,7 +106,7 @@ export default function Spider (props) {
                   </View>
                   <View style={{ flexDirection: 'column', marginVertical: '2%' }}>
                     <Text style={styles.text}>Speluppbyggnad</Text>
-                    <ResponsiveContainer width={windowWidth / 2} height={windowHeight / 3}>
+                    <ResponsiveContainer width={windowWidth / 2} height={windowHeight / 3.2}>
                       <RadarChart cx='50%' cy='50%' outerRadius='80%' data={testSpiderData.Play}>
                         <PolarGrid />
                         <PolarAngleAxis dataKey='KPI' fontFamily='VitesseSans-Book' fontWeight='bold' tick={{ fill: 'white' }} fontSize={windowHeight * 0.017} />
@@ -116,7 +121,7 @@ export default function Spider (props) {
                 <View style={styles.spdrs}>
                   <View style={{ flexDirection: 'column', marginVertical: '2%' }}>
                     <Text style={styles.text}>Försvarsspel</Text>
-                    <ResponsiveContainer width={windowWidth / 2} height={windowHeight / 3}>
+                    <ResponsiveContainer width={windowWidth / 2} height={windowHeight / 3.2}>
                       <RadarChart cx='50%' cy='50%' outerRadius='80%' data={testSpiderData.Def}>
                         <PolarGrid />
                         <PolarAngleAxis dataKey='KPI' fontFamily='VitesseSans-Book' fontWeight='bold' tick={{ fill: 'white' }} fontSize={windowHeight * 0.017} />
@@ -127,7 +132,7 @@ export default function Spider (props) {
                   </View>
                   <View style={{ flexDirection: 'column', marginVertical: '2%' }}>
                     <Text style={styles.text}>Sammanställning</Text>
-                    <ResponsiveContainer width={windowWidth / 2} height={windowHeight / 3}>
+                    <ResponsiveContainer width={windowWidth / 2} height={windowHeight / 3.2}>
                       <RadarChart cx='50%' cy='50%' outerRadius='80%' data={testSpiderData.Overall}>
                         <PolarGrid />
                         <PolarAngleAxis dataKey='KPI' fontFamily='VitesseSans-Book' fontWeight='bold' tick={{ fill: 'white' }} fontSize={windowHeight * 0.017} />

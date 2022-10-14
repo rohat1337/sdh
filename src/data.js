@@ -226,6 +226,18 @@ export function statsForPositions (positions, stats) {
   }
 }
 
+export function avgForPositions (positions, stats) {
+  try {
+    return fetch(`${url}/averageForPositions/${arrayToString(positions)}/${arrayOfArrayToString(stats)}`).then((response) => {
+      const statusCode = response.status
+      const data = response.json()
+      return Promise.all([statusCode, data])
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export function getMaxStatsAll (stats) {
   try {
     return fetch(`${url}/maxStats/${arrayToString(stats)}`)
@@ -309,7 +321,7 @@ export function contractToString (milliSeconds) {
   return expiryDate.toString().slice(3, 7) + expiryDate.toString().slice(10, 15)
 }
 
-export function renderRadars (players) {
+export function renderRadars (players, last) {
   const radars = players.map((player) => {
     const color = colors[players.indexOf(player)]
     return (
@@ -323,6 +335,15 @@ export function renderRadars (players) {
       />
     )
   })
+  radars.push(
+    <Radar
+    key={parseInt(last)}
+    name="Position average"
+    dataKey={parseInt(last)}
+    stroke="white"
+    fill="white"
+    fillOpacity={0.5} />
+  )
   return radars
 }
 
@@ -348,9 +369,9 @@ export function setMall2 (field) {
   }
 }
 
-export function testSpiderFetch (ids, stats) {
+export function testSpiderFetch (ids, stats, pos) {
   try {
-    return fetch(`${url}/spider/${arrayToString(ids)}/${arrayOfArrayToString(stats)}`).then((response) => {
+    return fetch(`${url}/spider/${arrayToString(ids)}/${arrayOfArrayToString(stats)}/${arrayToString(pos)}`).then((response) => {
       const statusCode = response.status
       const data = response.json()
       return Promise.all([statusCode, data])
@@ -416,8 +437,6 @@ export function fixSpiderData2 (spiderData, position) {
     overallkpis.push(obj)
   }
   result.Overall = overallkpis
-
-  console.log(result)
 
   return result
 }

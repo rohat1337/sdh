@@ -109,7 +109,7 @@ def get_max_for_stat(stats, data: pd.DataFrame):
 
 def basic_info():
 
-    result = df[["Player", "Team within selected timeframe", "League", "Age", "Position", "Minutes played", "Height", "Foot", "Contract expires"]].copy()
+    result = df[["Player", "Team within selected timeframe", "League", "Age", "Position", "Minutes played", "Height", "Foot", "Contract expires", "Market value"]].copy()
     result = result.reset_index()
 
     return result.to_json(force_ascii=False, orient="records")

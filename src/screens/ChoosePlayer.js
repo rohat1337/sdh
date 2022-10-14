@@ -49,7 +49,7 @@ function ChoosePlayer (props) {
       })
       .then((data) => {
         data = data[1]
-        setPlayers(data)
+        setPlayers(data.sort((a, b) => b['Market value'] - a['Market value']))
         setSearchPlayer('')
       })
     getPlayerCountAll()

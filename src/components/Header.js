@@ -4,6 +4,7 @@ const windowHeight = Dimensions.get('window').height
 const windowWidth = Dimensions.get('window').width
 
 function Header (props) {
+
   // ChoosePlayer header
   if (props.stackIndex === 0) {
     return (
@@ -83,10 +84,11 @@ function Header (props) {
 
       </View>
     )
+    // Spider
   } else if (props.stackIndex === 3) {
     return (
       <View style={props.header}>
-        <View style={{ flex: 0.2 }}>
+        <View style={{ flex: 0.1 }}>
           <TouchableOpacity
             onPress={() => props.nav.goBack()}
           >
@@ -95,8 +97,16 @@ function Header (props) {
             </Text>
           </TouchableOpacity>
         </View>
-        <View style={{ flex: 0.6, paddingRight: '10%' }}>
-          <Text style={{ fontSize: windowHeight * 0.04, fontWeight: 'bold', color: 'white', fontFamily: 'VitesseSans-Black' }}>IK Sirius Datahub</Text>
+        <View style={{ flex: 0.8 }}>
+          <Text style={styles.header}>IK Sirius Datahub</Text>
+        </View>
+
+        <View style={{ flex: 0.1 }}>
+
+          <TouchableOpacity onPress={() => props.setSettingsPressed(!props.settingsPressed)}>
+            <Text style={[styles.small_text, { color: props.settingsPressed ? 'yellow' : 'white' }]}>Inställningar</Text>
+          </TouchableOpacity>
+
         </View>
 
       </View>

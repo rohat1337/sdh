@@ -321,7 +321,7 @@ export function contractToString (milliSeconds) {
   return expiryDate.toString().slice(3, 7) + expiryDate.toString().slice(10, 15)
 }
 
-export function renderRadars (players, last) {
+export function renderRadars (players) {
   const radars = players.map((player) => {
     const color = colors[players.indexOf(player)]
     return (
@@ -335,16 +335,20 @@ export function renderRadars (players, last) {
       />
     )
   })
-  radars.push(
-    <Radar
-    key={parseInt(last)}
-    name="Position average"
-    dataKey={parseInt(last)}
-    stroke="white"
-    fill="white"
-    fillOpacity={0.5} />
-  )
   return radars
+}
+
+export function renderAverageRadar (value) {
+  return (
+    <Radar
+      key={parseInt(value)}
+      name='Position Average'
+      dataKey={parseInt(value)}
+      stroke='white'
+      fill='white'
+      fillOpacity={0.6}
+    />
+  )
 }
 
 export function renderScatters (players) {

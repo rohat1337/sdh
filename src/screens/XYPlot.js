@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { getSpecificStatsMultiID, statsForPositions, renderScatters, findPlayerID } from '../data'
 import { ScatterChart, Scatter, XAxis, YAxis, ZAxis, CartesianGrid, Tooltip, ResponsiveContainer, Label, Legend } from 'recharts'
 import XYToolTip from '../components/XYToolTip'
+import XYSettings from './XYSettings'
 
 const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height
@@ -13,6 +14,8 @@ export default function XYPlot (props) {
   const [scatterData, setScatterData] = useState([])
   const [scatters, setScatters] = useState(null)
   const [namesAndIDs, setNamesAndIDs] = useState([])
+  const [settingsPressed, setSettingsPressed] = useState(false)
+  const [domain, setDomain] = useState([[NaN, NaN], [NaN, NaN]])
 
   useEffect(() => {
     let namesAndIds = []
@@ -67,17 +70,18 @@ export default function XYPlot (props) {
   } else {
     return (
       <View>
-        <Header stackIndex={1} nav={props.navigation} header={styles.header} />
+        <Header stackIndex={3} nav={props.navigation} header={styles.header} settingsPressed={settingsPressed} setSettingsPressed={setSettingsPressed} />
         <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode='cover'>
-          <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: '1%' }}>
+          <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: '1%', flexDirection: 'row' }}>
+            <XYSettings settingsPressed={settingsPressed} setDomain={setDomain} />
             <ResponsiveContainer width={windowWidth * 0.75} height={windowHeight * 0.75} >
               <ScatterChart
               >
                 <CartesianGrid />
-                <XAxis type='number' dataKey={props.navigation.state.params.stats[0]} tick={{ stroke: 'white' }}>
+                <XAxis type='number' dataKey={props.navigation.state.params.stats[0]} tick={{ stroke: 'white' }} domain={isNaN(domain[0][0]) ? undefined : domain[0]} allowDataOverflow={true}>
                   <Label value={props.navigation.state.params.stats[0]} offset={0} position='insideBottom' stroke='white'/>
                 </XAxis>
-                <YAxis type='number' dataKey={props.navigation.state.params.stats[1]} tick={{ stroke: 'white' }} >
+                <YAxis type='number' dataKey={props.navigation.state.params.stats[1]} tick={{ stroke: 'white' }} domain={isNaN(domain[1][0]) ? undefined : domain[1]} allowDataOverflow={true}>
                   <Label value={props.navigation.state.params.stats[1]} offset={20} position='insideLeft' stroke='white' angle={270} />
                 </YAxis>
                 <ZAxis dataKey='Player' />

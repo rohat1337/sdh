@@ -1,12 +1,9 @@
-import { View, StyleSheet, ImageBackground, Dimensions, Text, TouchableOpacity } from 'react-native'
-import { useEffect, useState } from 'react'
+import { View, StyleSheet, Dimensions, Text, TouchableOpacity } from 'react-native'
 
 const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height
 
 export default function SpiderSettings(props) {
-
-    console.log(props)
 
     if (props.settingsPressed) {
         return (

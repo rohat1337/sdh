@@ -73,7 +73,7 @@ export default function XYPlot (props) {
         <Header stackIndex={3} nav={props.navigation} header={styles.header} settingsPressed={settingsPressed} setSettingsPressed={setSettingsPressed} />
         <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode='cover'>
           <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: '1%', flexDirection: 'row' }}>
-            <XYSettings settingsPressed={settingsPressed} setDomain={setDomain} />
+            <XYSettings settingsPressed={settingsPressed} setDomain={setDomain} stats={props.navigation.state.params.stats}/>
             <ResponsiveContainer width={windowWidth * 0.75} height={windowHeight * 0.75} >
               <ScatterChart
               >

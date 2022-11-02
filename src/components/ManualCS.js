@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   text: {
-    fontSize: windowHeight / 40,
+    fontSize: windowHeight / 50,
     fontWeight: 'bold',
     textAlign: 'center',
     color: 'white',
@@ -134,11 +134,11 @@ const styles = StyleSheet.create({
   },
   statButton: {
     width: windowWidth * 0.25,
-    height: windowHeight * 0.1,
+    height: windowHeight * 0.05,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 100,
-    marginVertical: windowWidth / 70
+    marginVertical: windowWidth / 100
   },
   search: {
     paddingLeft: '2%',

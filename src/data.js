@@ -175,11 +175,7 @@ export function allsvenskanPlayers () {
 }
 
 export function getBasicStats () {
-  try {
-    return fetch(`${url}/BasicInfoPlayers`)
-  } catch (error) {
-    console.log(error)
-  }
+  return fetch(`${url}/BasicInfoPlayers`)
 }
 
 export function getStatNames () {
@@ -271,11 +267,7 @@ export function getPlayerCount (positions) {
 }
 
 export function getPlayerCountAll () {
-  try {
-    return fetch(`${url}/playerCountAll/`)
-  } catch (error) {
-    console.log(error)
-  }
+  return fetch(`${url}/playerCountAll/`)
 }
 
 export function getPlayerRating (id) {

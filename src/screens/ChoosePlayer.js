@@ -41,28 +41,21 @@ function ChoosePlayer (props) {
   const [toggleSelectedPlayers, setToggleSelectedPlayers] = useState(false)
 
   useEffect(() => {
-    getBasicStats() // Fetch
-      .then((response) => {
-        const statusCode = response.status
-        const data = response.json()
-        return Promise.all([statusCode, data])
-      })
-      .then((data) => {
-        data = data[1]
-        setPlayers(data.sort((a, b) => b['Market value'] - a['Market value']))
-        setSearchPlayer('')
-      })
-    getPlayerCountAll()
-      .then((response) => {
-        const statusCode = response.status
-        const data = response.json()
-        return Promise.all([statusCode, data])
-      })
-      .then((data) => {
-        data = data[1]
-        setTotalPlayersLength(data)
-        setSelectedPlayersLength(data)
-      })
+    Promise.all([
+      getBasicStats(),
+      getPlayerCountAll()
+    ])
+    .then(async([res1, res2]) => {
+      const a = await res1.json();
+      const b = await res2.json();
+      setPlayers(a.sort((a, b) => b['Market value'] - a['Market value']))
+      setSearchPlayer('')
+      setTotalPlayersLength(b)
+      setSelectedPlayersLength(b)
+    })
+    .catch((e) => {
+      console.log(e)
+    })
   }, [])
 
   // Check if selected player is already chosen or not.
@@ -120,8 +113,9 @@ function ChoosePlayer (props) {
       setSelectedPlayersLength(players.length)
     }
   }, [toggleSelectedPlayers])
-
+  
   return (
+    
     <View style={{ flexDirection: 'column' }}>
       <Header
         header={styles.header}

@@ -19,7 +19,7 @@ export default function XYSettings(props) {
                     <View style={styles.row}>
 
                         <Text style={styles.small_text}>
-                            X-axel: 
+                            {props.stats[0]}: 
                         </Text>
                         <TextInput 
                         style={styles.input}
@@ -41,7 +41,7 @@ export default function XYSettings(props) {
                     <View style={styles.row}>
 
                         <Text style={styles.small_text}>
-                            Y-axel: 
+                            {props.stats[1]}: 
                         </Text>
                         <TextInput 
                         style={styles.input}
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     },
 
     input: {
-        width: windowWidth*0.02,
+        width: windowWidth*0.03,
         height: windowHeight*0.03,
         backgroundColor: '#bfc4c9',
         borderColor: 'white',

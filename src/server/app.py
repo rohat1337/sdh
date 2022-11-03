@@ -374,8 +374,12 @@ def avgForPos(positions=None, stats=None):
 
 @app.route("/filterPlayers", methods=['POST'])
 def filterPlayers():
-    print(request.json)
-    return {}
+    df_temp = df.copy()
+    content = request.json
+    for filter in content:
+        df_temp = df_temp[df_temp[filter["stat"]] >  int(filter["value"])]
+
+    return df_temp.to_json(force_ascii=False, orient="records")
 
 if __name__ == '__main__':    
     app.run(debug=True, host='0.0.0.0', port=5000)

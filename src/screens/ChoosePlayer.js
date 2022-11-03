@@ -41,6 +41,8 @@ function ChoosePlayer (props) {
   // Visa selectedPlayers
   const [toggleSelectedPlayers, setToggleSelectedPlayers] = useState(false)
   const [filterPressed, setFilterPressed] = useState(false)
+  const [playersFiltered, setPlayersFiltered] = useState([])
+  const [filters, setFilters] = useState([])
 
   useEffect(() => {
     Promise.all([
@@ -348,6 +350,17 @@ function ChoosePlayer (props) {
                                                 checkFoot(player, leftFoot, rightFoot)) &&
                                                 (field.some(ele => player.Position.toLowerCase().includes(ele)) || field.length === 0)
                     )
+                    : playersFiltered.length > 0 ? playersFiltered.filter((player) =>
+                    (fix(player.Player.toLowerCase()).includes(searchPlayer.toLowerCase()) &&
+                                              player['Team within selected timeframe'].toLowerCase().includes(searchTeam.toLowerCase()) &&
+                                              (player.Age >= minAge && player.Age <= maxAge) &&
+                                              fixPlayerPositions(player.Position.toLowerCase()).includes(searchPosition.toLowerCase()) &&
+                                              player['Minutes played'] >= minutesPlayed &&
+                                              player.Height >= minHeight &&
+                                              checkFoot(player, leftFoot, rightFoot)) &&
+                                              (field.some(ele => player.Position.toLowerCase().includes(ele)) || field.length === 0)
+                  ) 
+                    
                     : players.filter((player) =>
                       (fix(player.Player.toLowerCase()).includes(searchPlayer.toLowerCase()) &&
                                                 player['Team within selected timeframe'].toLowerCase().includes(searchTeam.toLowerCase()) &&
@@ -390,7 +403,7 @@ function ChoosePlayer (props) {
             </View>
 
             <View style={styles.root_right}>
-              <Filters />
+              <Filters setPlayersFiltered={setPlayersFiltered} playersFiltered={playersFiltered} filters={filters} setFilters={setFilters} />
             </View>
 
           </ImageBackground>
@@ -450,6 +463,17 @@ function ChoosePlayer (props) {
                                                 checkFoot(player, leftFoot, rightFoot)) &&
                                                 (field.some(ele => player.Position.toLowerCase().includes(ele)) || field.length === 0)
                     )
+                    : playersFiltered.length > 0 ? playersFiltered.filter((player) =>
+                    (fix(player.Player.toLowerCase()).includes(searchPlayer.toLowerCase()) &&
+                                              player['Team within selected timeframe'].toLowerCase().includes(searchTeam.toLowerCase()) &&
+                                              (player.Age >= minAge && player.Age <= maxAge) &&
+                                              fixPlayerPositions(player.Position.toLowerCase()).includes(searchPosition.toLowerCase()) &&
+                                              player['Minutes played'] >= minutesPlayed &&
+                                              player.Height >= minHeight &&
+                                              checkFoot(player, leftFoot, rightFoot)) &&
+                                              (field.some(ele => player.Position.toLowerCase().includes(ele)) || field.length === 0)
+                  ) 
+                    
                     : players.filter((player) =>
                       (fix(player.Player.toLowerCase()).includes(searchPlayer.toLowerCase()) &&
                                                 player['Team within selected timeframe'].toLowerCase().includes(searchTeam.toLowerCase()) &&

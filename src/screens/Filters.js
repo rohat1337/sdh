@@ -11,7 +11,7 @@ export default function Filters(props) {
     function addable() {
         if ((selectedStat !== null) && 
         (Number.isInteger(parseInt(statMin))) &&
-        (!filters.some((e => e.stat == selectedStat)))) {
+        (!props.filters.some((e => e.stat == selectedStat)))) {
             return true
         } else {
             return false
@@ -19,7 +19,15 @@ export default function Filters(props) {
     }
 
     function applicable() {
-        if (filters.length > 0) {
+        if (props.filters.length > 0) {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    function resettable() {
+        if (applicable() && props.playersFiltered.length > 0) {
             return true
         } else {
             return false
@@ -29,7 +37,6 @@ export default function Filters(props) {
     const [stats, setStats] = useState([])
     const [selectedStat, setSelectedStat] = useState(null)
     const [statMin, setStatMin] = useState(null)
-    const [filters, setFilters] = useState([])
 
     useEffect(() => {
         getStatNames().then((data) => {
@@ -39,8 +46,6 @@ export default function Filters(props) {
             }
         })
     }, [])
-
-    console.log(filters)
 
     return (
         <View style={styles.container}>
@@ -69,14 +74,14 @@ export default function Filters(props) {
                             <TextInput
                             style={styles.input}
                             value={statMin}
-                            placeholder='Minimum...'
+                            placeholder='Mer än...'
                             onChangeText={setStatMin}
                             textAlign='center' />
                         </View>
                         <TouchableOpacity disabled={!addable()} 
                         style={[styles.statbutton, { width: windowWidth*0.1, backgroundColor: addable() ? '#0059a1' : '#001a30'}]} 
                         onPress={() => {
-                            setFilters([...filters, {
+                            props.setFilters([...props.filters, {
                                 'stat': selectedStat,
                                 'value': statMin
                             }]);
@@ -98,12 +103,12 @@ export default function Filters(props) {
                 <View style={{ flex: 0.6 }}>
 
                     <FlatList
-                    data={filters}
+                    data={props.filters}
                     numColumns={4}
                     contentContainerStyle={{ flex: 1 }}
                     renderItem={({ item }) => {
                         return (
-                            <TouchableOpacity onPress={() => setFilters(arrayRemove(filters, item))}>
+                            <TouchableOpacity onPress={() => props.setFilters(arrayRemove(props.filters, item))}>
                                 <Text style={[styles.text, { marginHorizontal: windowWidth*0.03, marginVertical: windowWidth*0.02}]}>{item.stat} {'>'} {item.value}</Text>
                             </TouchableOpacity>
                         )
@@ -111,13 +116,24 @@ export default function Filters(props) {
 
                 </View>
 
-                <View style={{ flex: 0.2, justifyContent: 'center', alignItems: 'center'}}>
+                <View style={{ flex: 0.2, justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row'}}>
                     <TouchableOpacity disabled={!applicable()} 
                     style={[styles.statbutton, { width: windowWidth*0.15, backgroundColor: applicable() ? '#0059a1' : '#001a30'}]}
                     onPress={() => {
-                        filteredPlayers(filters)
+                        filteredPlayers(props.filters).then((response) => {
+                            const statusCode = response.status
+                            const data = response.json()
+                            return Promise.all([statusCode, data])
+                        }).then((data) => {
+                            props.setPlayersFiltered(data[1].sort((a, b) => b['Market value'] - a['Market value']))
+                        })
                     }}>
                         <Text style={[styles.text, {fontSize: windowHeight/40}]}>Tillämpa filter</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                    disabled={!resettable()} style={[styles.statbutton, {width: windowWidth*0.15, backgroundColor: resettable() ? '#0059a1' : '#001a30'}]}
+                    onPress={() => {props.setPlayersFiltered([]); props.setFilters([])}} >
+                        <Text style={[styles.text, {fontSize: windowHeight/40}]}>Återställ</Text>
                     </TouchableOpacity>
                 </View>
 

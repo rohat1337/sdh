@@ -372,5 +372,10 @@ def avgForPos(positions=None, stats=None):
     avgSpider = pd.DataFrame(avgSpider.mean().to_dict(), index=[avgSpider.index.values[-1]])
     return avgSpider.to_json(force_ascii=False)
 
+@app.route("/filterPlayers", methods=['POST'])
+def filterPlayers():
+    print(request.json)
+    return {}
+
 if __name__ == '__main__':    
     app.run(debug=True, host='0.0.0.0', port=5000)

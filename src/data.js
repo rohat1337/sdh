@@ -377,6 +377,20 @@ export function testSpiderFetch (ids, stats, pos) {
   }
 }
 
+export function filteredPlayers(filters) {
+  try {
+    return fetch(`${url}/filterPlayers`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(filters)
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export function fixSpiderData2 (spiderData, position) {
   const result = {}
   let p

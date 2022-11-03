@@ -379,6 +379,7 @@ def filterPlayers():
     for filter in content:
         df_temp = df_temp[df_temp[filter["stat"]] >  int(filter["value"])]
 
+    df_temp = df_temp.reset_index()
     return df_temp.to_json(force_ascii=False, orient="records")
 
 if __name__ == '__main__':    

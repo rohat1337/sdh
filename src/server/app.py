@@ -1,4 +1,6 @@
 
+import logging
+
 from multiprocessing.dummy import Array
 from re import A
 from flask import Flask, redirect, url_for, render_template, request, flash
@@ -7,6 +9,13 @@ from sklearn import preprocessing
 import numpy as np
 import json
 from flask_cors import CORS
+
+logging.basicConfig(level=logging.INFO,
+                    datefmt='%Y-%m-%d %H:%M:%S',
+                    format="%(asctime)s [%(name)-12.12s] [%(levelname)-5.5s] %(filename)s %(lineno)s %(message)s")
+
+VERSION="1.1"
+logging.info("Backend version {VERSION} started")
 
 from pre_processing import pre_processing
 
@@ -34,7 +43,8 @@ def flatten(l):
 # Return all players from list of positions. i.e forwards, midfielders or defenders
 def allPlayersForPosition(position_list):
     result = {}
-    positionJson = json.loads(df["Position"].to_json())
+    df_copy = df.copy()
+    positionJson = json.loads(df_copy["Position"].to_json())
     for player in positionJson:
         playerPosTemp = positionJson[player]
         playerPos = playerPosTemp.split(",")
@@ -45,15 +55,18 @@ def allPlayersForPosition(position_list):
     return json.dumps(result)
 
 def allPlayerInfo(id):
-    return df[id:id+1].to_json(force_ascii=False)
+    df_copy = df.copy()
+    return df_copy[id:id+1].to_json(force_ascii=False)
 
 def all_player_info_ranked(id):
-    return df_rank[id:id+1].to_json(force_ascii=False)
+    df_copy = df_rank.copy()
+    return df_copy[id:id+1].to_json(force_ascii=False)
 
 
 def specific_info(stats, id: int):
     specificData = pd.DataFrame()
-    playerData = df[id:id+1]
+    df_copy = df.copy()
+    playerData = df_copy[id:id+1]
 
     for entries in stats:
         specificData[entries] = playerData[entries]
@@ -66,16 +79,19 @@ def specific_info(stats, id: int):
 def spiderData(stats, ids, positions):
     df_temp = df.copy()
     specific_positions = positions.split("$")
-    specific_positions.remove("")
+    try:
+        specific_positions.remove("")
+    except ValueError:
+        pass
     specific_positions_upper = [x.upper() for x in specific_positions]
-    is_in_positions = filter_for_position_arr(df["Position"], specific_positions_upper)
+    is_in_positions = filter_for_position_arr(df_temp["Position"], specific_positions_upper)
     df_temp = df_temp[is_in_positions]
     df_pos = pd.DataFrame()
 
     df_spider = pd.DataFrame()
     for mall in stats:
         df_pos = pd.concat([df_pos, df_temp[mall]], axis=1)
-        malldf = df[mall]
+        malldf = df_temp[mall]
         df_spider = pd.concat([df_spider, malldf], axis=1)
 
     df_pos = pd.DataFrame(df_pos.mean().to_dict(), index=[df_pos.index.values[-1]+1])
@@ -88,16 +104,17 @@ def spiderData(stats, ids, positions):
     return df_final.to_json(force_ascii=False)
 
 def allInfoPlayers(ids):
-    return df.iloc[ids].to_json(force_ascii=False, orient="records")
+    df_copy = df.copy()
+    return df_copy.iloc[ids].to_json(force_ascii=False, orient="records")
 
 def specific_info_multiID(stats, ids):
-    df_stats = df[stats]
+    df_copy = df.copy()
+    df_stats = df_copy[stats]
     newdf = df_stats.iloc[ids]
     return newdf.to_json(force_ascii=False)
 
 def get_max_for_stat(stats, data: pd.DataFrame):
     result = {}
-    print(len(data))
 
     for stat in stats:
         if data[stat].max() == 'NaN':
@@ -108,8 +125,8 @@ def get_max_for_stat(stats, data: pd.DataFrame):
     return json.dumps(result)
 
 def basic_info():
-
-    result = df[["Player", "Team within selected timeframe", "League", "Age", "Position", "Minutes played", "Height", "Foot", "Contract expires", "Market value"]].copy()
+    df_copy = df.copy()
+    result = df_copy[["Player", "Team within selected timeframe", "League", "Age", "Position", "Minutes played", "Height", "Foot", "Contract expires", "Market value"]]
     result = result.reset_index()
 
     return result.to_json(force_ascii=False, orient="records")
@@ -117,10 +134,16 @@ def basic_info():
 def fixStatsArray(stats):
     result = []
     euro = stats.split("€")
-    euro.remove("")
+    try:
+        euro.remove("")
+    except ValueError:
+        pass
     for mall in euro:
         dollar = mall.split("$")
-        dollar.remove("")
+        try:
+            dollar.remove("")
+        except ValueError:
+            pass
         result.append(dollar)
     return result
 # Creates a series of true/false depending on if any value in series is present in arr
@@ -158,65 +181,110 @@ def index():
 
 @app.route("/all")
 def all():
-    return df.to_json(force_ascii = False)
+    logging.info("starting /all")
+    json = df.to_json(force_ascii = False)
+    logging.info("done with /all")
+    return json
 
 @app.route("/playersAllsvenskan")
 def players():
-    return df["Player"].to_json(force_ascii=False)
+    logging.info("starting /playersAllsvenskan")
+    df_copy = df.copy()
+    json = df_copy["Player"].to_json(force_ascii=False)
+    logging.info("done with /playersAllsvenskan")
+    return json
 
 @app.route("/teams")
 def teams():
-    return df["Team"].to_json(force_ascii=False)
+    logging.info("starting /teams")
+    df_copy = df.copy()
+    json = df_copy["Team"].to_json(force_ascii=False)
+    logging.info("done with /teams")
+    return json
 
 @app.route("/fwdAllsvenskan")
 def fwd_allsvenskan():
-    return allPlayersForPosition(forwardPos)
+    logging.info("starting /fwdAllsvenskan")
+    json = allPlayersForPosition(forwardPos)
+    logging.info("done with /fwdAllsvenskan")
+    return json
 
 @app.route("/midAllsvenskan")
 def mid_allsvenskan():
-    return allPlayersForPosition(midfielderPos)
+    logging.info("starting with /midAllsvenskan")
+    json = allPlayersForPosition(midfielderPos)
+    logging.info("done with /midAllsvenskan")
+    return json
 
 @app.route("/defAllsvenskan")
 def def_allsvenskan():
-
-    is_defender = filter_for_position_arr(df["Position"], defenderPos)
-    return df[is_defender].to_json(orient="records")
+    logging.info("starting with /defAllsvenskan")
+    df_copy = df.copy()
+    is_defender = filter_for_position_arr(df_copy["Position"], defenderPos)
+    json = df_copy[is_defender].to_json(orient="records")
+    logging.info("done with /defAllsvenskan")
+    return json
 
 @app.route("/gkAllsvenskan")
 def gk_allsvenskan():
+    logging.info("starting with /gkAllsvenskan")
+    df_copy = df.copy()
     result = {}
-    positionJson = json.loads(df["Position"].to_json())
+    positionJson = json.loads(df_copy["Position"].to_json())
     for player in positionJson:
         if positionJson[player] == "GK":
             result[player] = "GK"
+    logging.info("done with /gkAllsvenskan")
     return json.dumps(result)
 
 @app.route("/player/<id>")
 def player(id):
-    return allPlayerInfo(int(id))
+    logging.info("starting /player/<id>")
+    json = allPlayerInfo(int(id))
+    logging.info("done with /player/<id>")
+    return json
 
 @app.route("/specificData/<id>/<stats>") 
 def specificPlayerStats1(id=None, stats=None):
+    logging.info("starting /specificData/<id>/<stats>")
     specificStats = stats.split("$")
-    specificStats.remove("")
-    return specific_info(specificStats, int(id)).to_json(force_ascii=False)
+    try:
+        specificStats.remove("")
+    except ValueError:
+        pass
+    json = specific_info(specificStats, int(id)).to_json(force_ascii=False)
+    logging.info("done with /specificData/<id>/<stats>")
+    return json
 
 @app.route("/specificDataRanked/<id>/<stats>")
 def specificPlayerStatsRanked(id=None, stats=None):
+    logging.info("starting /specificDataRanked/<id>/<stats>")
     specificStats = stats.split("$")
-    specificStats.remove("")
+    try:
+        specificStats.remove("")
+    except ValueError:
+        pass
     stats = specific_info(specificStats, int(id))
-    print(stats)
     stats = stats.rank(pct=True)
+    logging.info("done with /specificDataRanked/<id>/<stats>")
     return stats
 
 @app.route("/specificDataMultiID/<ids>/<stats>")
 def specificPlayersStats(ids = None, stats=None):
+    logging.info("starting /specificDataMultiID/<ids>/<stats>")
     specificStats = stats.split("$")
-    specificStats.remove("")
+    try:
+        specificStats.remove("")
+    except ValueError:
+        pass
     specificIDS = ids.split("$")
-    specificIDS.remove("")
-    return specific_info_multiID(specificStats, specificIDS)
+    try:
+        specificIDS.remove("")
+    except ValueError:
+        pass
+    json = specific_info_multiID(specificStats, specificIDS)
+    logging.info("done with /specificDataMultiID/<ids>/<stats>")
+    return json
 
 @app.route("/BasicInfoPlayers") 
 def basic_info_cock():
@@ -229,13 +297,19 @@ def stats():
 @app.route("/spider/<ids>/<stats>/<positions>")
 def spiders(ids = None, stats=None, positions=None):
     specificIDS = ids.split("$")
-    specificIDS.remove("")
+    try:
+        specificIDS.remove("")
+    except ValueError:
+        pass
     return spiderData(fixStatsArray(stats), specificIDS, positions)
 
 @app.route("/players/<ids>")
 def playersFyn(ids = None):
     specificIDS = ids.split("$")
-    specificIDS.remove("")
+    try:
+        specificIDS.remove("")
+    except ValueError:
+        pass
     return allInfoPlayers(specificIDS)
 
 dashboardEntries = [] # Adrian pls help
@@ -245,28 +319,36 @@ def dashboard():
 
 @app.route("/maxStats/<stats>")
 def max_stats_all(stats=None):
-    plays_alot = df["Minutes played"] > 500
-    df_plays_alot = df[plays_alot]
+    df_copy = df.copy()
+    plays_alot = df_copy["Minutes played"] > 500
+    df_plays_alot = df_copy[plays_alot]
 
     specificStats = stats.split("$")
-    specificStats.remove("")
+    try:
+        specificStats.remove("")
+    except ValueError:
+        pass
 
     return get_max_for_stat(specificStats, df_plays_alot)
 
 @app.route("/maxStatsFromArray/<stats>/<positions>")
 def max_stats_for_positionArray(stats=None, positions=None):
-
+    df_copy = df.copy()
     # Remove outliers
-    plays_alot = df["Minutes played"] > 500
-    df_temp = df[plays_alot]
+    plays_alot = df_copy["Minutes played"] > 500
+    df_temp = df_copy[plays_alot]
     
     specificPositions=positions.split("$")
-    specificPositions.remove("")
-
+    try:
+        specificPositions.remove("")
+    except ValueError:
+        pass
     specificStats = stats.split("$")
-    specificStats.remove("")
-
-    is_in_positions = filter_for_position_arr(df["Position"], specificPositions)
+    try:
+        specificStats.remove("")
+    except ValueError:
+        pass
+    is_in_positions = filter_for_position_arr(df_temp["Position"], specificPositions)
     df_temp = df_temp[is_in_positions]
 
     print("Length of df with filter: ", str(specificPositions),": ", df_temp.shape[0])
@@ -277,11 +359,12 @@ def max_stats_for_positionArray(stats=None, positions=None):
 def player_count(positions=None):
     df_temp = df.copy()
     specific_positions = positions.split("$")
-    specific_positions.remove("")
+    try:
+        specific_positions.remove("")
+    except ValueError:
+        pass
     specific_positions_upper = [x.upper() for x in specific_positions]
-    
-
-    is_in_positions = filter_for_position_arr(df["Position"], specific_positions_upper)
+    is_in_positions = filter_for_position_arr(df_temp["Position"], specific_positions_upper)
     df_temp = df_temp[is_in_positions]
 
     return str(df_temp.shape[0])
@@ -305,7 +388,8 @@ def get_player_rating(id:int):
 @app.route("/top15/<position>")
 def top_15_for_position(position=None):
     rating_col = "Rating as " + position
-    df_temp = df[['Player', 'Age', 'Team', 'Market value', rating_col]]
+    df_copy = df.copy()
+    df_temp = df_copy[['Player', 'Age', 'Team', 'Market value', rating_col]]
     df_temp_toplist = df_temp.nlargest(15, rating_col)
     return df_temp_toplist.to_json(orient='records')
 
@@ -341,12 +425,18 @@ def playerRanking(id:int):
 def statsForPos(positions=None, stats=None):
     df_temp = df.copy()
     specific_positions = positions.split("$")
-    specific_positions.remove("")
+    try:
+        specific_positions.remove("")
+    except ValueError:
+        pass
     specific_positions_upper = [x.upper() for x in specific_positions]
-    is_in_positions = filter_for_position_arr(df["Position"], specific_positions_upper)
+    is_in_positions = filter_for_position_arr(df_temp["Position"], specific_positions_upper)
     df_temp = df_temp[is_in_positions]
     specific_stats = stats.split("$")
-    specific_stats.remove("")
+    try:
+        specific_stats.remove("")
+    except ValueError:
+        pass
     df_temp = df_temp[specific_stats]
 
     return df_temp.to_json(force_ascii=False)
@@ -357,9 +447,12 @@ def statsForPos(positions=None, stats=None):
 def avgForPos(positions=None, stats=None):
     df_temp = df.copy()
     specific_positions = positions.split("$")
-    specific_positions.remove("")
+    try:
+        specific_positions.remove("")
+    except ValueError:
+        pass
     specific_positions_upper = [x.upper() for x in specific_positions]
-    is_in_positions = filter_for_position_arr(df["Position"], specific_positions_upper)
+    is_in_positions = filter_for_position_arr(df_temp["Position"], specific_positions_upper)
     df_temp = df_temp[is_in_positions]
     avgSpider = pd.DataFrame()
     for mall in fixStatsArray(stats):
@@ -371,6 +464,17 @@ def avgForPos(positions=None, stats=None):
     avgSpider = avgSpider.loc[:,~avgSpider.columns.duplicated()].copy()
     avgSpider = pd.DataFrame(avgSpider.mean().to_dict(), index=[avgSpider.index.values[-1]])
     return avgSpider.to_json(force_ascii=False)
+
+@app.route("/filterPlayers", methods=['POST'])
+def filterPlayers():
+    df_temp = df.copy()
+    content = request.json
+    for filter in content:
+        df_temp = df_temp[df_temp[filter["stat"]] >  filter["value"]]
+        #df_temp = df_temp
+
+    df_temp = df_temp.reset_index()
+    return df_temp.to_json(force_ascii=False, orient="records")
 
 if __name__ == '__main__':    
     app.run(debug=True, host='0.0.0.0', port=5000)

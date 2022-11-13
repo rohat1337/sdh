@@ -9,7 +9,6 @@ from sklearn import preprocessing
 import numpy as np
 import json
 from flask_cors import CORS
-import sys
 
 logging.basicConfig(level=logging.INFO,
                     datefmt='%Y-%m-%d %H:%M:%S',
@@ -23,7 +22,6 @@ from pre_processing import pre_processing
 df = pre_processing.openExcelFile()
 df_rank = pre_processing.open_excel_file_ranked()
 print("df shape after read: ", df.shape[0])
-print(df.head())
 
 min_max_scaler = preprocessing.MinMaxScaler()
 
@@ -79,7 +77,6 @@ def specific_info(stats, id: int):
     # df_normalized = pd.DataFrame(x_scaled)
     
 def spiderData(stats, ids, positions):
-    logging.info("====FUNCTION========IN SPIDERDATA===============")
     df_temp = df.copy()
     specific_positions = positions.split("$")
     try:
@@ -88,26 +85,20 @@ def spiderData(stats, ids, positions):
         pass
     specific_positions_upper = [x.upper() for x in specific_positions]
     is_in_positions = filter_for_position_arr(df_temp["Position"], specific_positions_upper)
-    df_temp = df_temp[is_in_positions].reset_index()
-    df_temp = df_temp.set_index('index')
+    df_temp = df_temp[is_in_positions]
     df_pos = pd.DataFrame()
+
     df_spider = pd.DataFrame()
     for mall in stats:
         df_pos = pd.concat([df_pos, df_temp[mall]], axis=1)
         malldf = df_temp[mall]
         df_spider = pd.concat([df_spider, malldf], axis=1)
-    logging.info("df_spider shape: ", str(df_spider.shape))
-    df_pos = pd.DataFrame(df_pos.mean().to_dict(), index=[df_pos.index.values[-1]+1])
-    logging.info("df_pos shape: ", str(df_pos.shape))
-    df_spider = pd.concat([df_spider, df_pos])
-    logging.info("df_spider and df_pos concat shape:", str(df_spider.shape))
-    df_norm = pd.DataFrame(min_max_scaler.fit_transform(df_spider))
-    df_norm.index = list(df_spider.index.values)
-    logging.info("df_norm shape:", str(df_norm.shape))
-    df_norm.columns = flatten(stats)
-    ids = list(map(lambda x: int(x), ids))
-    df_final = pd.concat([df_norm.loc[ids], df_norm.iloc[-1:]])
 
+    df_pos = pd.DataFrame(df_pos.mean().to_dict(), index=[df_pos.index.values[-1]+1])
+    df_spider = pd.concat([df_spider, df_pos])
+    df_norm = pd.DataFrame(min_max_scaler.fit_transform(df_spider))
+    df_norm.columns = flatten(stats)
+    df_final = pd.concat([df_norm.iloc[ids], df_norm.iloc[-1:]])
     return df_final.to_json(force_ascii=False)
 
 def allInfoPlayers(ids):
@@ -477,7 +468,7 @@ def filterPlayers():
     df_temp = df.copy()
     content = request.json
     for filter in content:
-        df_temp = df_temp[df_temp[filter["stat"]] >  float(filter["value"])]
+        df_temp = df_temp[df_temp[filter["stat"]] >  filter["value"]]
         #df_temp = df_temp
 
     df_temp = df_temp.reset_index()

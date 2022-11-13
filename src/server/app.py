@@ -18,6 +18,13 @@ logging.basicConfig(level=logging.INFO,
 VERSION="1.1"
 logging.info("Backend version {VERSION} started")
 
+logging.basicConfig(level=logging.INFO,
+                    datefmt='%Y-%m-%d %H:%M:%S',
+                    format="%(asctime)s [%(name)-12.12s] [%(levelname)-5.5s] %(filename)s %(lineno)s %(message)s")
+
+VERSION="1.1"
+logging.info("Backend version {VERSION} started")
+
 from pre_processing import pre_processing
 
 df = pre_processing.openExcelFile()
@@ -478,7 +485,7 @@ def filterPlayers():
     content = request.json
     for filter in content:
         df_temp = df_temp[df_temp[filter["stat"]] >  float(filter["value"])]
-        #df_temp = df_temp
+
 
     df_temp = df_temp.reset_index()
     return df_temp.to_json(force_ascii=False, orient="records")

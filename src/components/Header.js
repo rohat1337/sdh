@@ -11,6 +11,10 @@ function Header (props) {
       <View style={props.header}>
         <View style={{ flex: 0.1 }} />
 
+          <TouchableOpacity onPress={() => props.setFilterPressed(!props.filterPressed)}>
+            <Text style={[styles.small_text, { color: props.filterPressed ? 'gold' : 'white' }]}>Filter</Text>
+          </TouchableOpacity>
+
         <View style={{ flex: 0.8 }}>
           <Text style={styles.header}>IK Sirius Datahub</Text>
         </View>

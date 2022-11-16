@@ -1,7 +1,7 @@
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { View, StyleSheet, ImageBackground, Dimensions, Text } from 'react-native'
-import { RadarChart, PolarGrid, PolarAngleAxis, ResponsiveContainer, Legend } from 'recharts'
+import { RadarChart, PolarGrid, PolarAngleAxis, ResponsiveContainer, Legend, PolarRadiusAxis } from 'recharts'
 import { useEffect, useState } from 'react'
 import { renderRadars, testSpiderFetch, fixSpiderData2, getSpecificStatsMultiID, renderAverageRadar } from '../data'
 import _ from 'lodash'
@@ -20,15 +20,47 @@ export default function Spider (props) {
   const [spiderData, setSpiderData] = useState(null)
   const [settingsPressed, setSettingsPressed] = useState(false)
   const [avgOn, setAvgOn] = useState(true)
+  const [removedRadars, setRemovedRadars] = useState([])
 
+  function removeFromPlayerRadars(id, playerRadars) {
+    let result = []
+    for (var i = 0; i < playerRadars.length; i++) {
+      if (playerRadars[i]["props"]["dataKey"] != id) {
+        if (playerRadars[i]["props"]["name"] != "Position Average") {
+          result.push(playerRadars[i])
+        }
+      } else {
+        setRemovedRadars([...removedRadars, playerRadars[i]])
+      }
+    }
+    setPlayerRadars(result)
+  }
+
+  function addToPlayerRadars(player, playerRadars) {
+    let playerToAdd = removedRadars.filter((radar) => radar["props"]["dataKey"] == player.index)[0]
+    setPlayerRadars([...playerRadars, playerToAdd])
+    setRemovedRadars(removedRadars.filter((radar) => radar["props"]["dataKey"] != player.index))
+  }
+
+  console.log(removedRadars)
 
   useEffect(() => {
     if (avgOn) {
-      setRadars([playerRadars, avgRadar])
+      if (playerRadars != null) {
+        if (avgRadar != null) {
+          if (playerRadars.some((radar) => radar["props"]["name"] == "Position Average")) {
+            setRadars(playerRadars)
+          } else {
+            let allRadars = playerRadars.concat(avgRadar)
+            setRadars(allRadars)
+          }
+        }
+      }
     } else {
-      setRadars(playerRadars)
+      setRadars(playerRadars.filter((radar) => radar["props"]["name"] != "Position Average"))
     }
   }, [avgOn, playerRadars, avgRadar])
+
 
   useEffect(() => {
     if (!_.isEqual({}, statsAndIDs)) {
@@ -106,7 +138,7 @@ export default function Spider (props) {
             <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode='cover'>
               <View style={{ flexDirection:"row" }}>
 
-                <SpiderSettings settingsPressed={settingsPressed} avgOn={avgOn} setAvgOn={setAvgOn} players={props.navigation.state.params.players} />
+                <SpiderSettings addToPlayerRadars={addToPlayerRadars} removeFromPlayerRadars={removeFromPlayerRadars} settingsPressed={settingsPressed} avgOn={avgOn} setAvgOn={setAvgOn} players={props.navigation.state.params.players} radars={radars} />
 
                 <View>
 
@@ -117,6 +149,7 @@ export default function Spider (props) {
                         <RadarChart cx='50%' cy='50%' outerRadius='80%' data={testSpiderData.Goal}>
                           <PolarGrid />
                           <PolarAngleAxis dataKey='KPI' fontFamily='VitesseSans-Book' fontWeight='bold' tick={{ fill: 'white' }} fontSize={windowHeight * 0.017} />
+                          <PolarRadiusAxis domain={[0, 1]} angle={30} tick={false} axisLine={false} />
                           {radars}
                           <Legend />
                         </RadarChart>
@@ -128,6 +161,7 @@ export default function Spider (props) {
                         <RadarChart cx='50%' cy='50%' outerRadius='80%' data={testSpiderData.Play}>
                           <PolarGrid />
                           <PolarAngleAxis dataKey='KPI' fontFamily='VitesseSans-Book' fontWeight='bold' tick={{ fill: 'white' }} fontSize={windowHeight * 0.017} />
+                          <PolarRadiusAxis domain={[0, 1]} angle={30} tick={false} axisLine={false} />
                           {radars}
                           <Legend />
                         </RadarChart>
@@ -143,6 +177,7 @@ export default function Spider (props) {
                         <RadarChart cx='50%' cy='50%' outerRadius='80%' data={testSpiderData.Def}>
                           <PolarGrid />
                           <PolarAngleAxis dataKey='KPI' fontFamily='VitesseSans-Book' fontWeight='bold' tick={{ fill: 'white' }} fontSize={windowHeight * 0.017} />
+                          <PolarRadiusAxis domain={[0, 1]} angle={30} tick={false} axisLine={false} />
                           {radars}
                           <Legend />
                         </RadarChart>
@@ -154,6 +189,7 @@ export default function Spider (props) {
                         <RadarChart cx='50%' cy='50%' outerRadius='80%' data={testSpiderData.Overall}>
                           <PolarGrid />
                           <PolarAngleAxis dataKey='KPI' fontFamily='VitesseSans-Book' fontWeight='bold' tick={{ fill: 'white' }} fontSize={windowHeight * 0.017} />
+                          <PolarRadiusAxis domain={[0, 1]} angle={30} tick={false} axisLine={false} />
                           {radars}
                           <Legend />
                         </RadarChart>

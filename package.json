@@ -21,7 +21,7 @@
     "react-native-progress": "^5.0.0",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.18.2",
-    "react-native-web": "^0.17.7",
+    "react-native-web": "^0.18.10",
     "react-native-web-hover": "^0.2.9",
     "react-native-web-image": "^0.0.6",
     "react-navigation": "^4.4.4",

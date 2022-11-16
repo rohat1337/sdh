@@ -4,16 +4,15 @@ const windowHeight = Dimensions.get('window').height
 const windowWidth = Dimensions.get('window').width
 
 function Header (props) {
-
   // ChoosePlayer header
   if (props.stackIndex === 0) {
     return (
       <View style={props.header}>
         <View style={{ flex: 0.1 }} />
 
-          <TouchableOpacity onPress={() => props.setFilterPressed(!props.filterPressed)}>
-            <Text style={[styles.small_text, { color: props.filterPressed ? 'gold' : 'white' }]}>Filter</Text>
-          </TouchableOpacity>
+        <TouchableOpacity onPress={() => props.setFilterPressed(!props.filterPressed)}>
+          <Text style={[styles.small_text, { color: props.filterPressed ? 'gold' : 'white' }]}>Filter</Text>
+        </TouchableOpacity>
 
         <View style={{ flex: 0.8 }}>
           <Text style={styles.header}>IK Sirius Datahub</Text>
@@ -122,12 +121,12 @@ const styles = StyleSheet.create({
 
   small_text: {
     fontWeight: 'bold',
-    fontSize: windowWidth*0.015,
+    fontSize: windowWidth * 0.015,
     fontFamily: 'VitesseSans-Book'
   },
 
   header: {
-    fontSize: windowWidth*0.04,
+    fontSize: windowWidth * 0.04,
     fontWeight: 'bold',
     color: 'white',
     fontFamily: 'VitesseSans-Black',

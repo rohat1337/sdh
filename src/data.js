@@ -347,7 +347,7 @@ export function renderScatters (players) {
   const scatters = players.map((player) => {
     const color = colors[players.indexOf(player)]
     return (
-      <Scatter shape={<MyDot clr={color}/>} isAnimationActive={false} name={player.Player} fill={color} data={player.data} id={player.Player} />
+      <Scatter shape={<MyDot clr={color} />} isAnimationActive={false} name={player.Player} fill={color} data={player.data} id={player.Player} />
     )
   })
   return scatters
@@ -377,7 +377,7 @@ export function testSpiderFetch (ids, stats, pos) {
   }
 }
 
-export function filteredPlayers(filters) {
+export function filteredPlayers (filters) {
   try {
     return fetch(`${url}/filterPlayers`, {
       method: 'POST',
@@ -481,8 +481,8 @@ export function getIDs (players) {
   return result
 }
 
-export function findPlayerID(player, players) {
-  for (var pl of players) {
+export function findPlayerID (player, players) {
+  for (const pl of players) {
     if (pl.Name === player) {
       return pl.id
     }

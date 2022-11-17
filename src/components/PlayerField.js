@@ -193,8 +193,8 @@ function PlayerField (props) {
       {/* Goalkeepers */}
       <Hoverable style={{ flex: 0.08, height: '40%', marginRight: '0.5%', marginTop: '15%' }}>
         {({ hovered }) => (
-          <TouchableOpacity style={{ height: '100%' }} onPress={() => { set1(!one) }}>
-            <View style={one ? styles.pressed : hovered ? styles.hovered : styles.notHovered}>
+          <TouchableOpacity disabled={true} style={{ height: '100%' }} onPress={() => { set1(!one) }}>
+            <View style={styles.notHovered}>
               <Text style={styles.numberStyle}>1</Text>
             </View>
           </TouchableOpacity>

@@ -25,12 +25,14 @@ logging.basicConfig(level=logging.INFO,
 VERSION="1.1"
 logging.info("Backend version {VERSION} started")
 
-from pre_processing import pre_processing
+from pre_processing import pre_processing, siriusplayers
 
 df = pre_processing.openExcelFile()
 df_rank = pre_processing.open_excel_file_ranked()
 print("df shape after read: ", df.shape[0])
 print(df.head())
+mathisendf = siriusplayers.read_player("Mathisen")
+print(mathisendf.head())
 
 min_max_scaler = preprocessing.MinMaxScaler()
 

@@ -488,3 +488,57 @@ export function findPlayerID (player, players) {
     }
   }
 }
+
+export function sirius_players() {
+  try {
+    return fetch(`${url}/siriusplayers`).then((response) => {
+      const statusCode = response.status
+      const data = response.json()
+      return Promise.all([statusCode, data])
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export function sirius_players_names() {
+  try {
+    return fetch(`${url}/siriusplayers/names`).then((response) => {
+      const statusCode = response.status
+      const data = response.json()
+      return Promise.all([statusCode, data])
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export function sirius_players_stats() {
+  try {
+    return fetch(`${url}/siriusplayers/availablestats`).then((response) => {
+      const statusCode = response.status
+      const data = response.json()
+      return Promise.all([statusCode, data])
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export function getTrendlineData (requestContent) {
+  try {
+    return fetch(`${url}/siriusplayers/trendline`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(requestContent)
+    }).then((response) => {
+      const statusCode = response.status
+      const data = response.json()
+      return Promise.all([statusCode, data])
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}

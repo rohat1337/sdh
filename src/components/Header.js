@@ -8,19 +8,26 @@ function Header (props) {
   if (props.stackIndex === 0) {
     return (
       <View style={props.header}>
-        <View style={{ flex: 0.1 }} />
+        <View style={{ flex: 0.25, flexDirection: 'row', justifyContent: 'space-evenly' }}>
 
-        <TouchableOpacity onPress={() => props.setFilterPressed(!props.filterPressed)}>
+        <TouchableOpacity
+        onPress={() => props.setFilterPressed(!props.filterPressed)}>
           <Text style={[styles.small_text, { color: props.filterPressed ? 'gold' : 'white' }]}>Filter</Text>
         </TouchableOpacity>
 
-        <View style={{ flex: 0.8 }}>
+        <TouchableOpacity 
+        onPress={() => props.nav.navigate('SiriusPlayers')} >
+          <Text style={[styles.small_text, {color: 'white'}]}>Trendlinje</Text>
+        </TouchableOpacity>
+
+        </View>
+
+        <View style={{ flex: 0.5 }}>
           <Text style={styles.header}>IK Sirius Datahub</Text>
         </View>
 
-        <View style={{ flex: 0.1, flexDirection: 'row', justifyContent: 'flex-end' }}>
+        <View style={{ flex: 0.25, flexDirection: 'row', justifyContent: 'space-evenly' }}>
           <TouchableOpacity
-            style={{ marginRight: '10%' }}
             onPress={() => props.nextIsOK_dashboard === 'white' ? props.nav.navigate('Dashboard', { player_id: props.player_dashboard.index }) : {}}
           >
 
@@ -28,7 +35,6 @@ function Header (props) {
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={{ marginRight: '10%' }}
             onPress={() => props.nextIsOK_spider === 'white' ? props.nav.navigate('ChooseStats', { players: props.players }) : {}}
           >
 
@@ -109,6 +115,28 @@ function Header (props) {
           <TouchableOpacity onPress={() => props.setSettingsPressed(!props.settingsPressed)}>
             <Text style={[styles.small_text, { color: props.settingsPressed ? 'yellow' : 'white' }]}>Inställningar</Text>
           </TouchableOpacity>
+
+        </View>
+
+      </View>
+    )
+  } else if (props.stackIndex === 4) {
+    return (
+      <View style={props.header}>
+        <View style={{ flex: 0.1, justifyContent: 'center' }}>
+          <TouchableOpacity
+            onPress={() => props.nav.goBack()}
+          >
+            <Text style={{ color: 'white', fontWeight: 'bold', fontSize: windowHeight * 0.025, fontFamily: 'VitesseSans-Book' }}>
+              {'<'}- Tillbaka
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <View style={{ flex: 0.8 }}>
+          <Text style={styles.header}>IK Sirius Datahub</Text>
+        </View>
+
+        <View style={{ flex: 0.1 }}>
 
         </View>
 

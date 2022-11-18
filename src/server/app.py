@@ -3,7 +3,7 @@ import logging
 
 from multiprocessing.dummy import Array
 from re import A
-from flask import Flask, redirect, url_for, render_template, request, flash
+from flask import Flask, redirect, url_for, render_template, request, flash, jsonify
 import pandas as pd
 from sklearn import preprocessing
 import numpy as np
@@ -31,8 +31,7 @@ df = pre_processing.openExcelFile()
 df_rank = pre_processing.open_excel_file_ranked()
 print("df shape after read: ", df.shape[0])
 print(df.head())
-mathisendf = siriusplayers.read_player("Mathisen")
-print(mathisendf.head())
+df_sirius = siriusplayers.load_sirius_players()
 
 min_max_scaler = preprocessing.MinMaxScaler()
 
@@ -491,6 +490,39 @@ def filterPlayers():
 
     df_temp = df_temp.reset_index()
     return df_temp.to_json(force_ascii=False, orient="records")
+
+@app.route("/siriusplayers")
+def siriusallplayers():
+    df_temp = df_sirius.copy()
+    return df_temp.to_json(force_ascii=False, orient="records")
+
+@app.route("/siriusplayers/names")
+def siriusnames():
+    names = df_sirius['Name'].unique()
+    return jsonify({'names': names.tolist()})
+
+@app.route("/siriusplayers/availablestats")
+def available_stats():
+    cols = list(df_sirius.columns)
+    cols.remove('Name')
+    cols.remove('Year')
+    return jsonify({'stats': cols})
+
+@app.route("/siriusplayers/trendline", methods=["POST"])
+def trendline():
+    df_temp = df_sirius.copy()
+    content = request.json
+    df_temp = df_temp[df_temp['Name'] == content['player']]
+    years = df_temp['Year'].unique()
+    print(df_temp)
+    df_temp = df_temp.groupby('Year')[content['stat']].mean()
+    result = []
+    for year in years:
+        d = {}
+        d['Year'] = int(year)
+        d[content['player']] = float(df_temp[year])
+        result.append(d)
+    return {'data': result}
 
 if __name__ == '__main__':    
     app.run(debug=True, host='0.0.0.0', port=5000)

@@ -200,15 +200,30 @@ function ChoosePlayer (props) {
                 </View>
               </View>
               <View style={[styles.filters_UL, { marginTop: '1%' }]}>
-                <TextInput
-                  placeholder='Sök position...'
-                  placeholderTextColor='white'
-                  style={styles.search_small}
-                  onChangeText={setPosition}
-                />
+                <View style={{ flex: 0.5, alignItems:'center', marginTop: '3%' }}>
+                  <View style={{ flexDirection: 'row' }}>
+                      <Text style={[styles.slider_text, { marginLeft: '15%' }]}>Spelade minuter</Text>
+                      <TextInput
+                        placeholder={0}
+                        value={minutesPlayed}
+                        style={styles.slider_text}
+                        onChangeText={value => setMinutesPlayed(value)}
+                      />
+                    </View>
+                    <Slider
+                      style={{ width: windowWidth / 5, height: windowHeight / 20, marginLeft: '0%', marginBottom: '6%' }}
+                      minimumValue={0}
+                      maximumValue={1}
+                      minimumTrackTintColor='#078efb'
+                      maximumTrackTintColor='gray'
+                      thumbTintColor='#078efb'
+                      value={0}
+                      onValueChange={value => setMinutesPlayed(parseInt(value * 5000))}
+                    />
+                  </View>
 
                 {/* Längd och fot */}
-                <View style={{ flex: 0.5, marginLeft: '1%', marginBottom: '2.5%', flexDirection: 'row' }}>
+                <View style={{ flex: 0.5, marginLeft: '3%', marginBottom: '2.5%', flexDirection: 'row' }}>
 
                   {/* Längd */}
                   <View>
@@ -255,33 +270,6 @@ function ChoosePlayer (props) {
                     </TouchableOpacity>
                   </View>
                 </View>
-              </View>
-
-              <View style={[styles.filters_UL, { marginTop: '2%' }]}>
-                <View style={{ flex: 0.5 }}>
-                  <View style={{ flexDirection: 'row' }}>
-                    <Text style={[styles.slider_text, { marginLeft: '15%' }]}>Spelade minuter</Text>
-                    <TextInput
-                      placeholder={0}
-                      value={minutesPlayed}
-                      style={styles.slider_text}
-                      onChangeText={value => setMinutesPlayed(value)}
-                    />
-                  </View>
-                  <Slider
-                    style={{ width: windowWidth / 4.5, height: windowHeight / 20, marginLeft: '0%', marginBottom: '6%' }}
-                    minimumValue={0}
-                    maximumValue={1}
-                    minimumTrackTintColor='#078efb'
-                    maximumTrackTintColor='gray'
-                    thumbTintColor='#078efb'
-                    value={0}
-                    onValueChange={value => setMinutesPlayed(parseInt(value * 5000))}
-                  />
-                </View>
-
-                <View style={{ flex: 0.5 }} />
-
               </View>
 
             </View>
@@ -569,15 +557,31 @@ function ChoosePlayer (props) {
                   </View>
                 </View>
                 <View style={[styles.filters_UL, { marginTop: '1%' }]}>
-                  <TextInput
-                    placeholder='Sök position...'
-                    placeholderTextColor='white'
-                    style={styles.search_small}
-                    onChangeText={setPosition}
-                  />
+                  <View style={{ flex: 0.5, alignItems:'center', marginTop: '3%' }}>
+                    <View style={{ flexDirection: 'row' }}>
+                      <Text style={[styles.slider_text, { marginLeft: '15%' }]}>Spelade minuter</Text>
+                      <TextInput
+                        placeholder={0}
+                        value={minutesPlayed}
+                        style={styles.slider_text}
+                        onChangeText={value => setMinutesPlayed(value)}
+                      />
+                    </View>
+                    <Slider
+                      style={{ width: windowWidth / 5, height: windowHeight / 20, marginLeft: '0%', marginBottom: '6%' }}
+                      minimumValue={0}
+                      maximumValue={1}
+                      minimumTrackTintColor='#078efb'
+                      maximumTrackTintColor='gray'
+                      thumbTintColor='#078efb'
+                      value={0}
+                      onValueChange={value => setMinutesPlayed(parseInt(value * 5000))}
+                    />
+                  </View>
 
                   {/* Längd och fot */}
-                  <View style={{ flex: 0.5, marginLeft: '1%', marginBottom: '2.5%', flexDirection: 'row' }}>
+                  <View style={{ flex: 0.5, paddingLeft: '3%', marginBottom: '2.5%', flexDirection: 'row' }}>
+                    
 
                     {/* Längd */}
                     <View>
@@ -624,81 +628,6 @@ function ChoosePlayer (props) {
                       </TouchableOpacity>
                     </View>
                   </View>
-                </View>
-
-                <View style={[styles.filters_UL, { marginTop: '2%' }]}>
-                  <View style={{ flex: 0.5 }}>
-                    <View style={{ flexDirection: 'row' }}>
-                      <Text style={[styles.slider_text, { marginLeft: '15%' }]}>Spelade minuter</Text>
-                      <TextInput
-                        placeholder={0}
-                        value={minutesPlayed}
-                        style={styles.slider_text}
-                        onChangeText={value => setMinutesPlayed(value)}
-                      />
-                    </View>
-                    <Slider
-                      style={{ width: windowWidth / 4.5, height: windowHeight / 20, marginLeft: '0%', marginBottom: '6%' }}
-                      minimumValue={0}
-                      maximumValue={1}
-                      minimumTrackTintColor='#078efb'
-                      maximumTrackTintColor='gray'
-                      thumbTintColor='#078efb'
-                      value={0}
-                      onValueChange={value => setMinutesPlayed(parseInt(value * 5000))}
-                    />
-                  </View>
-
-                  <View style={{ flex: 0.5 }}>
-                    {/*
-                    <View style={{ flex: 0.5, flexDirection: 'row', alignItems: 'center', marginLeft: '1%', marginBottom: '3%' }}>
-                      <View>
-                        <View style={{ flexDirection: 'row', width: windowWidth / 10 }}>
-                          <Text style={styles.slider_text}>Kontraktlängd (min)</Text>
-                          <TextInput
-                            style={[styles.slider_text, { width: windowWidth / 30 }]}
-                            value={contractToString(minContract)}
-                            onChangeText={value => setMinContract(value)}
-                          />
-                        </View>
-
-                        <Slider
-                          style={{ width: windowWidth / 9, height: windowHeight / 20 }}
-                          minimumValue={Math.min.apply(Math, contractLengths)}
-                          maximumValue={Math.max.apply(Math, contractLengths)}
-                          minimumTrackTintColor='#078efb'
-                          maximumTrackTintColor='gray'
-                          thumbTintColor='#078efb'
-                          value={0}
-                          onValueChange={value => setMinContract(parseInt(value))}
-                        />
-                      </View>
-                      <View style={{ marginLeft: '3%' }}>
-                        <View style={{ flexDirection: 'row', width: windowWidth / 10 }}>
-                          <Text style={styles.slider_text}>Kontraktlängd (max)</Text>
-                          <TextInput
-                            style={[styles.slider_text, { width: windowWidth / 30 }]}
-                            placeholder={maxContract}
-                            value={Math.min((Math.max.apply(Math, contractLengths)), maxContract)}
-                            onChangeText={value => setMaxContract(value)}
-                          />
-                        </View>
-
-                        <Slider
-                          style={{ width: windowWidth / 10, height: windowHeight / 20 }}
-                          minimumValue={Math.min.apply(Math, contractLengths)}
-                          maximumValue={Math.max.apply(Math, contractLengths)}
-                          minimumTrackTintColor='#078efb'
-                          maximumTrackTintColor='gray'
-                          thumbTintColor='#078efb'
-                                                // value={50}
-                          onValueChange={value => setMaxContract(parseInt(value))}
-                        />
-                      </View>
-                    </View>
-                    */}
-                  </View>
-
                 </View>
 
               </View>
@@ -779,7 +708,6 @@ const styles = StyleSheet.create({
   filters_L: {
     height: '60%',
     alignItems: 'center',
-    marginBottom: '30%'
   },
   search: {
     marginTop: '2%',
@@ -798,7 +726,7 @@ const styles = StyleSheet.create({
   },
   filters_UL: {
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    justifyContent: 'flex-end',
     alignItems: 'center',
     width: '80%',
     height: '20%'

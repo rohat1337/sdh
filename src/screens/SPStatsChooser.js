@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Dimensions, } from 'react-native'
-import { sirius_players_stats } from '../data'
+import { arrayRemove, sirius_players_stats } from '../data'
 import Trendline from './Trendline'
 
 const windowWidth = Dimensions.get('window').width
@@ -9,7 +9,7 @@ const windowHeight = Dimensions.get('window').height
 export default function StatsChooser(props) {
     
     const [stats, setStats] = useState([])
-    const [selectedStat, setSelectedStat] = useState(null)
+    const [selectedStats, setSelectedStats] = useState([])
 
     useEffect(() => {
         sirius_players_stats().then((data) => {
@@ -28,14 +28,14 @@ export default function StatsChooser(props) {
                     <FlatList
                     data={stats}
                     renderItem={({ item }) => {
-                        const backgroundColor = selectedStat == item ? '#0059a1' : '#001a30'
+                        const backgroundColor = selectedStats.includes(item) ? '#0059a1' : '#001a30'
                         return (
                             <TouchableOpacity style={[styles.statButton, {backgroundColor: backgroundColor}]}
                             onPress={() => {
-                                if (selectedStat == item) {
-                                    setSelectedStat(null)
+                                if (selectedStats.includes(item)) {
+                                    setSelectedStats(arrayRemove(selectedStats, item))
                                 } else {
-                                    setSelectedStat(item)
+                                    setSelectedStats([...selectedStats, item])
                                 }
                             }}>
                                 <Text style={styles.text}>{item}</Text>
@@ -46,7 +46,7 @@ export default function StatsChooser(props) {
                 </View>
                 <View style={styles.right}>
 
-                    <Trendline stat={selectedStat} player={props.player} />
+                    <Trendline stats={selectedStats} player={props.player} />
 
 
                 </View>

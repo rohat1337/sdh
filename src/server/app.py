@@ -514,15 +514,26 @@ def trendline():
     content = request.json
     df_temp = df_temp[df_temp['Name'] == content['player']]
     years = df_temp['Year'].unique()
-    print(df_temp)
-    df_temp = df_temp.groupby('Year')[content['stat']].mean()
-    result = []
-    for year in years:
-        d = {}
-        d['Year'] = int(year)
-        d[content['player']] = float(df_temp[year])
-        result.append(d)
-    return {'data': result}
+    data = []
+    sums = []
+    df_stats = df_temp.iloc[:, 2:]
+    df_norm = pd.DataFrame(min_max_scaler.fit_transform(df_stats))
+    df_norm.columns = list(df_stats.columns)
+    df_norm.insert(0, 'Year', df_temp['Year'])
+    for stat in content['stats']:
+        df_t = df_norm.groupby('Year')[stat].mean()
+        df_sum = df_temp.groupby('Year')[stat].sum()
+        for year in years:
+            d = {}
+            s = {}
+            d['Year'] = int(year)
+            d[stat] = float(df_t[year])
+            s['Year'] = int(year)
+            s[stat] = float(df_sum[year])
+            data.append(d)
+            sums.append(s)
+    return {'data': data, 'sums': sums}
+
 
 if __name__ == '__main__':    
     app.run(debug=True, host='0.0.0.0', port=5000)

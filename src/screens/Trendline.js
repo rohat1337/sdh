@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Dimensions, } from 'react-native'
-import { LineChart, CartesianGrid, XAxis, YAxis, Line, Label } from 'recharts'
-import { getTrendlineData } from '../data'
+import { LineChart, CartesianGrid, XAxis, YAxis, Legend, Tooltip, Label } from 'recharts'
+import { getTrendlineData, renderLines } from '../data'
+import TrendlineToolTip from '../components/TrendlineToolTip'
 
 const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height
@@ -9,15 +10,20 @@ const windowHeight = Dimensions.get('window').height
 export default function Trendline(props) {
 
     const [data, setData] = useState(null)
+    const [toolTipPayload, setToolTipPayload] = useState(null)
+    const [lines, setLines] = useState([])
 
     useEffect(() => {
-        if (props.stat != null) {
-            getTrendlineData(props).then((data) => {
+        if (props.stats.length != 0) {
+            getTrendlineData({ 'stats': props.stats, 'player': props.player}).then((data) => {
                 setData(data[1].data)
+                setToolTipPayload(data[1].sums)
+                renderLines(props.stats, setLines)
             })
         }
-    }, [props.stat])
-    if (props.stat == null) {
+    }, [props.stats])
+
+    if (props.stats.length == 0) {
         return null
     } else {
         if (data == null) {
@@ -40,13 +46,20 @@ export default function Trendline(props) {
                     angle={-45} 
                     dx={-windowWidth/100} 
                     tickMargin={windowHeight/80}
-                    tick={{ stroke: 'white' }} />
+                    tick={{ stroke: 'white' }}
+                    allowDuplicatedCategory={false} />
                     <YAxis 
-                    tick={{ stroke:'white'}}>
-                        <Label value={`${props.stat} / match`} angle={-90} stroke='white' position={'insideLeft'} style={{ textAnchor: 'middle'}} />
+                    tick={{ stroke:'white'}}
+                    domain={[0, 1]}>
+                        <Label value={`Per match`} angle={-90} stroke='white' position={'insideLeft'} style={{ textAnchor: 'middle'}} />
                     </YAxis>
-                    <Line type="monotone" dataKey={props.player.toString()} stroke="#8884d8" strokeWidth={3} />
-
+                    <Tooltip 
+                    cursor={{ strokeDasharray: '5 5' }}
+                    content={<TrendlineToolTip pl={toolTipPayload} />}
+                    isAnimationActive={false}
+                     />
+                    {lines}
+                    <Legend verticalAlign='top' dx={50} />
                 </LineChart>
             )
         }

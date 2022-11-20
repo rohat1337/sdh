@@ -53,8 +53,6 @@ export default function SiriusPlayers(props) {
 
                 </View>
 
-                <Text style={[styles.text, { fontSize: windowHeight/40, alignSelf: 'center'}]}>{'->'}</Text>
-
                 <View style={styles.rootRest}>
                     <StatsChooser player={selectedName} />
                 </View>

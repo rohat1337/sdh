@@ -1,4 +1,4 @@
-import { Radar, Scatter } from 'recharts'
+import { Radar, Scatter, Line } from 'recharts'
 import { positions } from './positions'
 import { Dimensions } from 'react-native-web'
 import config from './config.json'
@@ -541,4 +541,14 @@ export function getTrendlineData (requestContent) {
   } catch (error) {
     console.log(error)
   }
+}
+
+export function renderLines(stats, setLines) {
+  const lines = stats.map((stat) => {
+    const color = colors[stats.indexOf(stat)]
+    return (
+      <Line type="monotone" dataKey={stat} stroke={color} strokeWidth={2} />
+    )
+  })
+  setLines(lines)
 }

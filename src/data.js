@@ -14,25 +14,51 @@ const colors = ['#FFC1CF', '#E8FFB7', '#E2A0FF', '#C4F5FC', '#B7FFD8']
 // development
 const url = config.SERVER_URL
 
-export function getPlayerStats (id) {
+
+export function getPlayerStats(id) {
+  let token = localStorage.getItem("access_token");
   try {
-    return fetch(`${url}/player/${id}`)
+    return fetch(`${url}/player/${id}`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        "Accept": "application/json",
+        "Authorization": "Bearer " + token
+      }
+    });
+
   } catch (error) {
     console.log(error)
   }
 }
 
-export function getPlayerStatsRanked (id) {
+export function getPlayerStatsRanked(id) {
+  let token = localStorage.getItem("access_token");
   try {
-    return fetch(`${url}/playerRanked/${id}`)
+    return fetch(`${url}/playerRanked/${id}`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        "Accept": "application/json",
+        "Authorization": "Bearer " + token
+      }
+    })
   } catch (error) {
     console.log(error)
   }
 }
 
-export function getSpecificStats (id, stats) {
+export function getSpecificStats(id, stats) {
+  let token = localStorage.getItem("access_token");
   try {
-    return fetch(`${url}/specificData/${id}/${arrayToString(stats)}`).then((response) => {
+    return fetch(`${url}/specificData/${id}/${arrayToString(stats)}`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        "Accept": "application/json",
+        "Authorization": "Bearer " + token
+      }
+    }).then((response) => {
       const statusCode = response.status
       const data = response.json()
       return Promise.all([statusCode, data])
@@ -42,9 +68,17 @@ export function getSpecificStats (id, stats) {
   }
 }
 
-export function getSpecificStatsRanked (id, stats) {
+export function getSpecificStatsRanked(id, stats) {
+  let token = localStorage.getItem("access_token");
   try {
-    return fetch(`${url}/specificDataRanked/${id}/${arrayToString(stats)}`).then((response) => {
+    return fetch(`${url}/specificDataRanked/${id}/${arrayToString(stats)}`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        "Accept": "application/json",
+        "Authorization": "Bearer " + token
+      }
+    }).then((response) => {
       const statusCode = response.status
       const data = response.json()
       return Promise.all([statusCode, data])
@@ -54,7 +88,7 @@ export function getSpecificStatsRanked (id, stats) {
   }
 }
 
-function arrayToString (stats) {
+function arrayToString(stats) {
   let result = ''
 
   stats.forEach(statsInArray => {
@@ -65,7 +99,7 @@ function arrayToString (stats) {
   return encodeURI(result)
 }
 
-function arrayOfArrayToString (statsArray) {
+function arrayOfArrayToString(statsArray) {
   let result = ''
 
   for (const mall of statsArray) {
@@ -75,7 +109,7 @@ function arrayOfArrayToString (statsArray) {
   return result
 }
 
-export function getFontSize () {
+export function getFontSize() {
   const windowWidth = Dimensions.get('window').width
 
   if (windowWidth > 1800) {
@@ -89,7 +123,7 @@ export const zip = (arr, ...arrs) => {
   return arr.map((val, i) => arrs.reduce((a, arr) => [...a, arr[i]], [val]))
 }
 
-export function fix (str) {
+export function fix(str) {
   return str.replace('š', 's').replace('ć', 'c').replace('č', 'c').replace('ó', 'o')
 }
 
@@ -99,7 +133,7 @@ export function fix (str) {
 // resultat 1 och 2 returnerar :a eftersom 'första' och 'andra'
 // resultat 3 och resten returnerar :e eftersom 'tredje' osv
 // med undantag 11 (11 mod 10 === 1) som också returnerar :e
-export function fixSuffix (int) {
+export function fixSuffix(int) {
   // undantag
   if (int === 11) {
     return ':e'
@@ -114,11 +148,11 @@ export function fixSuffix (int) {
   }
 }
 
-export function roundMarketValue (int) {
+export function roundMarketValue(int) {
   return int / 1000000
 }
 
-export function fixPlayerPositions (position) {
+export function fixPlayerPositions(position) {
   let result = []
   // var result = "";
   const arrayOfPositions = position.toLowerCase().split(', ')
@@ -161,26 +195,50 @@ export function fixPlayerPositions (position) {
   return result.join(', ')
 }
 
-export function uncheckFieldBox (field, box) {
+export function uncheckFieldBox(field, box) {
   box = box.replace('0', '').split(', ')
   return field.filter(ele => !box.includes(ele))
 }
 
-export function allsvenskanPlayers () {
+export function allsvenskanPlayers() {
+  let token = localStorage.getItem("access_token");
   try {
-    return fetch(`${url}/playersAllsvenskan`)
+    return fetch(`${url}/playersAllsvenskan`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        "Accept": "application/json",
+        "Authorization": "Bearer " + token
+      }
+    });
   } catch (error) {
     console.log(error)
   }
 }
 
-export function getBasicStats () {
-  return fetch(`${url}/BasicInfoPlayers`)
+export function getBasicStats() {
+  let token = localStorage.getItem("access_token");
+  return fetch(`${url}/BasicInfoPlayers`, {
+    method: 'GET',
+    headers: {
+      "Content-Type": "application/json;charset=UTF-8",
+      "Accept": "application/json",
+      "Authorization": "Bearer " + token
+    }
+  });
 }
 
-export function getStatNames () {
+export function getStatNames() {
+  let token = localStorage.getItem("access_token");
   try {
-    return fetch(`${url}/stats`).then((response) => {
+    return fetch(`${url}/stats`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        "Accept": "application/json",
+        "Authorization": "Bearer " + token
+      }
+    }).then((response) => {
       const statusCode = response.status
       const data = response.json()
       return Promise.all([statusCode, data])
@@ -190,17 +248,33 @@ export function getStatNames () {
   }
 }
 
-export function getTopList (position) {
+export function getTopList(position) {
+  let token = localStorage.getItem("access_token");
   try {
-    return fetch(`${url}/top15/${position}`)
+    return fetch(`${url}/top15/${position}`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        "Accept": "application/json",
+        "Authorization": "Bearer " + token
+      }
+    })
   } catch (error) {
     console.log(error)
   }
 }
 
-export function getSpecificStatsMultiID (ids, stats) {
+export function getSpecificStatsMultiID(ids, stats) {
+  let token = localStorage.getItem("access_token");
   try {
-    return fetch(`${url}/specificDataMultiID/${arrayToString(ids)}/${arrayToString(stats)}`).then((response) => {
+    return fetch(`${url}/specificDataMultiID/${arrayToString(ids)}/${arrayToString(stats)}`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        "Accept": "application/json",
+        "Authorization": "Bearer " + token
+      }
+    }).then((response) => {
       const statusCode = response.status
       const data = response.json()
       return Promise.all([statusCode, data])
@@ -210,9 +284,17 @@ export function getSpecificStatsMultiID (ids, stats) {
   }
 }
 
-export function statsForPositions (positions, stats) {
+export function statsForPositions(positions, stats) {
+  let token = localStorage.getItem("access_token");
   try {
-    return fetch(`${url}/statsForPositions/${arrayToString(positions)}/${arrayToString(stats)}`).then((response) => {
+    return fetch(`${url}/statsForPositions/${arrayToString(positions)}/${arrayToString(stats)}`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        "Accept": "application/json",
+        "Authorization": "Bearer " + token
+      }
+    }).then((response) => {
       const statusCode = response.status
       const data = response.json()
       return Promise.all([statusCode, data])
@@ -222,9 +304,17 @@ export function statsForPositions (positions, stats) {
   }
 }
 
-export function avgForPositions (positions, stats) {
+export function avgForPositions(positions, stats) {
+  let token = localStorage.getItem("access_token");
   try {
-    return fetch(`${url}/averageForPositions/${arrayToString(positions)}/${arrayOfArrayToString(stats)}`).then((response) => {
+    return fetch(`${url}/averageForPositions/${arrayToString(positions)}/${arrayOfArrayToString(stats)}`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        "Accept": "application/json",
+        "Authorization": "Bearer " + token
+      }
+    }).then((response) => {
       const statusCode = response.status
       const data = response.json()
       return Promise.all([statusCode, data])
@@ -234,70 +324,126 @@ export function avgForPositions (positions, stats) {
   }
 }
 
-export function getMaxStatsAll (stats) {
+export function getMaxStatsAll(stats) {
+  let token = localStorage.getItem("access_token");
   try {
-    return fetch(`${url}/maxStats/${arrayToString(stats)}`)
+    return fetch(`${url}/maxStats/${arrayToString(stats)}`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        "Accept": "application/json",
+        "Authorization": "Bearer " + token
+      }
+    })
   } catch (error) {
     console.log(error)
   }
 }
 
-export function getMaxStatsForPosition (stats, position) {
+export function getMaxStatsForPosition(stats, position) {
+  let token = localStorage.getItem("access_token");
   try {
-    return fetch(`${url}/maxStats/${arrayToString(stats)}/${position}`)
+    return fetch(`${url}/maxStats/${arrayToString(stats)}/${position}`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        "Accept": "application/json",
+        "Authorization": "Bearer " + token
+      }
+    });
   } catch (error) {
     console.log(error)
   }
 }
 
-export function getMaxStatsForPositionArray (stats, array) {
+export function getMaxStatsForPositionArray(stats, array) {
+  let token = localStorage.getItem("access_token");
   try {
-    return fetch(`${url}/maxStatsFromArray/${arrayToString(stats)}/${arrayToString(array)}`)
+    return fetch(`${url}/maxStatsFromArray/${arrayToString(stats)}/${arrayToString(array)}`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        "Accept": "application/json",
+        "Authorization": "Bearer " + token
+      }
+    });
   } catch (error) {
     console.log(error)
   }
 }
 
-export function getPlayerCount (positions) {
+export function getPlayerCount(positions) {
+  let token = localStorage.getItem("access_token");
   try {
-    return fetch(`${url}/playerCount/${arrayToString(positions)}`)
+    return fetch(`${url}/playerCount/${arrayToString(positions)}` , {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        "Accept": "application/json",
+        "Authorization": "Bearer " + token
+      }
+    });
   } catch (error) {
     console.log(error)
   }
 }
 
-export function getPlayerCountAll () {
-  return fetch(`${url}/playerCountAll/`)
+export function getPlayerCountAll() {
+  let token = localStorage.getItem("access_token");
+  return fetch(`${url}/playerCountAll/` , {
+    method: 'GET',
+    headers: {
+      "Content-Type": "application/json;charset=UTF-8",
+      "Accept": "application/json",
+      "Authorization": "Bearer " + token
+    }
+  }); 
 }
 
-export function getPlayerRating (id) {
+export function getPlayerRating(id) {
+  let token = localStorage.getItem("access_token");
   try {
-    return fetch(`${url}/playerRating/${id}`)
+    return fetch(`${url}/playerRating/${id}`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        "Accept": "application/json",
+        "Authorization": "Bearer " + token
+      }
+    });
   } catch (error) {
     console.log(error)
   }
 }
 
-export function getPlayerRanking (id) {
+export function getPlayerRanking(id) {
+  let token = localStorage.getItem("access_token");
   try {
-    return fetch(`${url}/playerRanking/${id}`)
+    return fetch(`${url}/playerRanking/${id}`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        "Accept": "application/json",
+        "Authorization": "Bearer " + token
+      }
+    });
   } catch (error) {
     console.log(error)
   }
 }
 
-export function arrayRemove (arr, value) {
+export function arrayRemove(arr, value) {
   return arr.filter(function (ele) {
     return !_.isEqual(ele, value)
   })
 }
 
-export function filterArray (arr, value) {
+export function filterArray(arr, value) {
   return arr.filter(function (ele) {
     return ele.toLowerCase().includes(value.toLowerCase())
   })
 }
-export function checkFoot (player, left, right) {
+export function checkFoot(player, left, right) {
   if ((left && right) || (!left && !right)) {
     // ??
     return true
@@ -308,12 +454,12 @@ export function checkFoot (player, left, right) {
   }
 }
 
-export function contractToString (milliSeconds) {
+export function contractToString(milliSeconds) {
   const expiryDate = new Date(milliSeconds)
   return expiryDate.toString().slice(3, 7) + expiryDate.toString().slice(10, 15)
 }
 
-export function renderRadars (players) {
+export function renderRadars(players) {
   const radars = players.map((player) => {
     const color = colors[players.indexOf(player)]
     return (
@@ -330,7 +476,7 @@ export function renderRadars (players) {
   return radars
 }
 
-export function renderAverageRadar (value) {
+export function renderAverageRadar(value) {
   return (
     <Radar
       key={parseInt(value)}
@@ -343,17 +489,17 @@ export function renderAverageRadar (value) {
   )
 }
 
-export function renderScatters (players) {
+export function renderScatters(players) {
   const scatters = players.map((player) => {
     const color = colors[players.indexOf(player)]
     return (
-      <Scatter shape={<MyDot clr={color}/>} isAnimationActive={false} name={player.Player} fill={color} data={player.data} id={player.Player} />
+      <Scatter shape={<MyDot clr={color} />} isAnimationActive={false} name={player.Player} fill={color} data={player.data} id={player.Player} />
     )
   })
   return scatters
 }
 
-export function setMall2 (field) {
+export function setMall2(field) {
   if (field.length !== 0) {
     let result
     for (const position of positions) {
@@ -365,9 +511,17 @@ export function setMall2 (field) {
   }
 }
 
-export function testSpiderFetch (ids, stats, pos) {
+export function testSpiderFetch(ids, stats, pos) {
+  let token = localStorage.getItem("access_token");
   try {
-    return fetch(`${url}/spider/${arrayToString(ids)}/${arrayOfArrayToString(stats)}/${arrayToString(pos)}`).then((response) => {
+    return fetch(`${url}/spider/${arrayToString(ids)}/${arrayOfArrayToString(stats)}/${arrayToString(pos)}`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        "Accept": "application/json",
+        "Authorization": "Bearer " + token
+      }
+    }).then((response) => {
       const statusCode = response.status
       const data = response.json()
       return Promise.all([statusCode, data])
@@ -377,7 +531,26 @@ export function testSpiderFetch (ids, stats, pos) {
   }
 }
 
-export function fixSpiderData2 (spiderData, position) {
+
+// OBS FIX THIS
+export function filteredPlayers(filters) {
+  let token = localStorage.getItem("access_token");
+  try {
+    return fetch(`${url}/filterPlayers`, {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        'Content-Type': 'application/json',
+        "Authorization": "Bearer " + token
+      },
+      body: JSON.stringify(filters)
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export function fixSpiderData2(spiderData, position) {
   const result = {}
   let p
   for (const pos of positions) {
@@ -437,11 +610,11 @@ export function fixSpiderData2 (spiderData, position) {
   return result
 }
 
-export function updateField (clickedBox, setField) {
+export function updateField(clickedBox, setField) {
   setField(clickedBox.split(', '))
 }
 
-export function countPlayersForPosition (field, players) {
+export function countPlayersForPosition(field, players) {
   let counter = 0
   console.log('field:', field)
   for (const [key, value] of Object.entries(players)) {
@@ -459,7 +632,7 @@ export function countPlayersForPosition (field, players) {
   return counter
 }
 
-export function getIDs (players) {
+export function getIDs(players) {
   const result = []
   for (const player of players) {
     result.push('' + player.index)

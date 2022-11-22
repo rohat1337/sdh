@@ -9,8 +9,17 @@ function Header (props) {
   if (props.stackIndex === 0) {
     return (
       <View style={props.header}>
-        <View style={{ flex: 0.1 }} />
+        <View style={{ flex: 0.1 }}>
+          <TouchableOpacity style={styles.logout_button}
+                            onPress={() => {
+                                localStorage.removeItem("access_token")
+                                props.nav.navigate("Login")
+                              }}>
+            <Text style={styles.small_text}>Logga ut</Text>
+          </TouchableOpacity>
+        </View>
 
+        
         <View style={{ flex: 0.8 }}>
           <Text style={styles.header}>IK Sirius Datahub</Text>
         </View>
@@ -119,7 +128,8 @@ const styles = StyleSheet.create({
   small_text: {
     fontWeight: 'bold',
     fontSize: windowWidth*0.015,
-    fontFamily: 'VitesseSans-Book'
+    fontFamily: 'VitesseSans-Book',
+    color: 'white'
   },
 
   header: {
@@ -129,7 +139,13 @@ const styles = StyleSheet.create({
     fontFamily: 'VitesseSans-Black',
     justifyContent: 'center',
     textAlign: 'center'
+  },
+
+  logout_button : {
+    marginLeft: "10%",
   }
 })
+
+
 
 export default Header

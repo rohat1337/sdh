@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
+import config from '../config.json'
 import "./Login.css";
-const URL = "http://localhost:5000";
+const URL = config.SERVER_URL;
 
 function Login(props) {
+
 
     const [token, setToken] = useState(0)
     const [username, setUsername] = useState('')
@@ -16,6 +18,9 @@ function Login(props) {
 
             const username = e.target.name.value
             const password = e.target.password.value
+
+            e.target.name.value =''
+            e.target.password.value=''
 
             const response = await fetch(`${URL}/login`, {
                 method: 'POST',
@@ -36,12 +41,9 @@ function Login(props) {
             .then((data) => {
                 data = data[1];
                 if (data.access_token) {
+                    console.log(data)
                     setToken(data.access_token); // Temp!
                     localStorage.setItem("access_token", data.access_token);
-                    // setText({
-                    //     text: "Sucessfully logged in!",
-                    //     color: "green"
-                    // });
                     console.log("LOGGED IN - NAVIGATING TO CHOOSE PLAYER");
                     props.navigation.navigate('ChoosePlayer', { token: data.access_token })
                 } else {
@@ -63,91 +65,35 @@ function Login(props) {
         }
     }
 
-    // return (
-    //     <form onSubmit={handleSubmit}>
-    //         <input
-    //             type="text"
-    //             placeholder="username"
-    //             value={username}
-    //             onChange={(e) => setUsername(e.target.value)}
-    //         />
-    //         <input
-    //             type="password"
-    //             placeholder="password"
-    //             value={password}
-    //             onChange={(e) => setPassword(e.target.value)}
-    //         />
-    //         <button type="submit">Login</button>
-    //     </form>
-    // )
-
-    const handleLogout = (event) => {
-        event.preventDefault();
-
-        try {
-            fetch(`${URL}/logout`,
-                {
-                    method: "POST",
-                    headers: {
-                        "Authorization": "Bearer " + token
-                    }
-                })
-                .then((response) => {
-                    const statusCode = response.status;
-                    const data = response.json();
-                    return Promise.all([statusCode, data]);
-                })
-                .then((data) => {
-                    console.log(data)
-                    localStorage.removeItem("access_token");
-                    setToken(0);
-                    setText({
-                        text: "Succesfully logged out!",
-                        color: "green"
-                    })
-                })
-        } catch (err) {
-            console.log(err);
-        }
-    };
-
-
-    const RenderLoggedInState = () => {
-        return <div>
-                <h1>You are logged in!</h1>
-                {/* <button onClick={handleProfileClick}>Profile</button> */}
-                <button onClick={handleLogout}>Logout</button>
-            </div>
-    }
-
     const renderForm = () => {
         return <div className="login-form">
             <div className="form">
-                <div className="title">Sign In</div>
                 <form onSubmit={handleSubmit}>
+
                     <div className="input-container">
-                        <label>Username </label>
+                        <label className='username'>Användarnamn </label>
                         <input type="text" name="name" />
                     </div>
                     <div className="input-container">
-                        <label>Password</label>
-                        <input type="password" name="password" />
+                        <label className='password'>Lösenord</label>
+                        <input type="password" name="password"/>
                     </div>
                     <div className="button-container">
-                        <input type="submit" value="Login" />
+                        <input type="submit" value="Logga in" />
                     </div>
                 </form>
-            </div>
-            <div>
-                <h5>Do you have an invitation code? If so, signup here!</h5>
             </div>
         </div>
     }
 
-    return (<div className="app">
-        {token === 0 ? renderForm() : RenderLoggedInState()}
-        {text.text}
-    </div>);
+    return (<div className="root">
+                <div className="app">
+                    <div className='sirius-small'/>
+                    <label className="header">Sirius Datahub</label>
+                    {renderForm()}
+                    {text.text}     
+                </div>
+            </div>);
 
 }
 

@@ -1,13 +1,30 @@
+.header {
+  font-family: "VitesseSans-Book";
+  font-weight: 700;
+  font-size: 64px;
+  background-color: #001342 ;
+  color: white;
+  text-align: center;
+}
+
+.root {
+  width: 100vw;
+  height: 100vh;
+  background-color:#001342;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .app {
-    font-family: sans-serif;
-    display: flex;
+    font-family: "VitesseSans-Book";
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    gap: 20px;
-    height: 100vh;
-    font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
-    background-color: #f8f9fd;
+    height:100vh;
+    background-color: #001342;
+    margin-left: 15%;
+    margin-right: 15%;
   }
   
   input[type="text"],
@@ -15,14 +32,22 @@
     height: 25px;
     border: 1px solid rgba(0, 0, 0, 0.2);
   }
+
+  .username,
+  .password {
+    color:white;
+    font-family: "VitesseSans-Book";
+    font-weight: bold;
+    text-align: left;
+  }
   
   input[type="submit"] {
     margin-top: 10px;
     cursor: pointer;
     font-size: 15px;
-    background: #01d28e;
-    border: 1px solid #01d28e;
-    color: #fff;
+    background: #d0d33d;
+    border: 1px solid #969733;
+    color: "b";
     padding: 10px 20px;
   }
   
@@ -36,9 +61,21 @@
   }
   
   .login-form {
-    background-color: white;
+    background-color: #021e64;
+    margin-top: 5%;
     padding: 2rem;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+
+  .sirius-small {
+    background-image: url("../imgs/iks_small.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100%;
+    height: 168px;
+    margin-top: 20%;
+    margin-bottom: 5%;
   }
   
   .list-container {
@@ -53,6 +90,9 @@
   .title {
     font-size: 25px;
     margin-bottom: 20px;
+    color: #fff;
+    font-family: "VitesseSans-Book";
+    font-weight: bold;
   }
   
   .input-container {

@@ -525,6 +525,24 @@ export function sirius_players_stats() {
   }
 }
 
+export function getNormalizedTrendlineData (requestContent) {
+  try {
+    return fetch(`${url}/siriusplayers/trendline/normalized`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(requestContent)
+    }).then((response) => {
+      const statusCode = response.status
+      const data = response.json()
+      return Promise.all([statusCode, data])
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export function getTrendlineData (requestContent) {
   try {
     return fetch(`${url}/siriusplayers/trendline`, {

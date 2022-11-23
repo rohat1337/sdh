@@ -508,31 +508,59 @@ def available_stats():
     cols.remove('Year')
     return jsonify({'stats': cols})
 
+# @app.route("/siriusplayers/trendline", methods=["POST"])
+# def trendline():
+#     df_temp = df_sirius.copy()
+#     content = request.json
+#     df_temp = df_temp[df_temp['Name'] == content['player']]
+#     years = df_temp['Year'].unique()
+#     result = []
+#     sums = []
+#     for stat in content['stats']:
+#         df_t = df_temp.groupby('Year')[stat].mean()
+#         df_sum = df_temp.groupby('Year')[stat].sum()
+#         for year in years:
+#             d = {}
+#             s = {}
+#             d['Year'] = int(year)
+#             d[stat] = float(df_t[year])
+#             s['Year'] = int(year)
+#             s[stat] = float(df_sum[year])
+#             result.append(d)
+#             sums.append(s)
+#     return {'data': result, 'sums': sums}
+
 @app.route("/siriusplayers/trendline", methods=["POST"])
-def trendline():
+def trendline_normalized():
     df_temp = df_sirius.copy()
     content = request.json
     df_temp = df_temp[df_temp['Name'] == content['player']]
     years = df_temp['Year'].unique()
-    data = []
+    data_norm = []
     sums = []
+    data = []
     df_stats = df_temp.iloc[:, 2:]
     df_norm = pd.DataFrame(min_max_scaler.fit_transform(df_stats))
     df_norm.columns = list(df_stats.columns)
     df_norm.insert(0, 'Year', df_temp['Year'])
     for stat in content['stats']:
-        df_t = df_norm.groupby('Year')[stat].mean()
+        df_t = df_temp.groupby('Year')[stat].mean()
+        df_n = df_norm.groupby('Year')[stat].mean()
         df_sum = df_temp.groupby('Year')[stat].sum()
         for year in years:
             d = {}
             s = {}
+            a = {}
             d['Year'] = int(year)
-            d[stat] = float(df_t[year])
+            d[stat] = float(df_n[year])
             s['Year'] = int(year)
             s[stat] = float(df_sum[year])
-            data.append(d)
+            a['Year'] = int(year)
+            a[stat] = float(df_t[year])
+            data_norm.append(d)
             sums.append(s)
-    return {'data': data, 'sums': sums}
+            data.append(a)
+    return {'data_n': data_norm, 'sums': sums, 'data': data}
 
 
 if __name__ == '__main__':    

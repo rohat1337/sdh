@@ -12,6 +12,7 @@ import Dashboard from './screens/Dashboard'
 import Spider from './screens/Spider'
 import Ratings from './screens/Ratings'
 import XYPlot from './screens/XYPlot'
+import SiriusPlayers from './screens/SiriusPlayers'
 
 import { LogBox } from 'react-native'
 
@@ -47,6 +48,10 @@ const App = createStackNavigator({
   },
   XYPlot: {
     screen: XYPlot,
+    navigationOptions: { headerShown: false }
+  },
+  SiriusPlayers: {
+    screen: SiriusPlayers,
     navigationOptions: { headerShown: false }
   }
 

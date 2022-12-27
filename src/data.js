@@ -1,4 +1,4 @@
-import { Radar, Scatter } from 'recharts'
+import { Radar, Scatter, Line } from 'recharts'
 import { positions } from './positions'
 import { Dimensions } from 'react-native-web'
 import config from './config.json'
@@ -532,6 +532,7 @@ export function testSpiderFetch(ids, stats, pos) {
 }
 
 
+
 // OBS FIX THIS
 export function filteredPlayers(filters) {
   let token = localStorage.getItem("access_token");
@@ -640,10 +641,92 @@ export function getIDs(players) {
   return result
 }
 
-export function findPlayerID(player, players) {
-  for (var pl of players) {
+export function findPlayerID (player, players) {
+  for (const pl of players) {
     if (pl.Name === player) {
       return pl.id
     }
   }
+}
+
+export function sirius_players() {
+  try {
+    return fetch(`${url}/siriusplayers`).then((response) => {
+      const statusCode = response.status
+      const data = response.json()
+      return Promise.all([statusCode, data])
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export function sirius_players_names() {
+  try {
+    return fetch(`${url}/siriusplayers/names`).then((response) => {
+      const statusCode = response.status
+      const data = response.json()
+      return Promise.all([statusCode, data])
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export function sirius_players_stats() {
+  try {
+    return fetch(`${url}/siriusplayers/availablestats`).then((response) => {
+      const statusCode = response.status
+      const data = response.json()
+      return Promise.all([statusCode, data])
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export function getNormalizedTrendlineData (requestContent) {
+  try {
+    return fetch(`${url}/siriusplayers/trendline/normalized`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(requestContent)
+    }).then((response) => {
+      const statusCode = response.status
+      const data = response.json()
+      return Promise.all([statusCode, data])
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export function getTrendlineData (requestContent) {
+  try {
+    return fetch(`${url}/siriusplayers/trendline`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(requestContent)
+    }).then((response) => {
+      const statusCode = response.status
+      const data = response.json()
+      return Promise.all([statusCode, data])
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export function renderLines(stats, setLines) {
+  const lines = stats.map((stat) => {
+    const color = colors[stats.indexOf(stat)]
+    return (
+      <Line type="monotone" dataKey={stat} stroke={color} strokeWidth={2} />
+    )
+  })
+  setLines(lines)
 }

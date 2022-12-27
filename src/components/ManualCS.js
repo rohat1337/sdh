@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   fieldView: {
-    marginVertical: windowHeight*0.04,
-    marginLeft: windowWidth*0.05
+    marginVertical: windowHeight * 0.04,
+    marginLeft: windowWidth * 0.05
   }
 })

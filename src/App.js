@@ -5,6 +5,7 @@ import { createStackNavigator } from 'react-navigation-stack'
 import { createAppContainer } from 'react-navigation'
 
 // Screens in navigator
+import Login from './screens/Login'
 import ChoosePlayer from './screens/ChoosePlayer'
 import ChooseStats from './screens/ChooseStats'
 import Dashboard from './screens/Dashboard'
@@ -21,6 +22,10 @@ LogBox.ignoreLogs([
 
 const App = createStackNavigator({
 
+  Login: {
+    screen: Login,
+    navigationOptions: { headerShown: false }
+  },
   ChoosePlayer: {
     screen: ChoosePlayer,
     navigationOptions: { headerShown: false }

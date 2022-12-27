@@ -149,8 +149,9 @@ const styles = StyleSheet.create({
 
   small_text: {
     fontWeight: 'bold',
-    fontSize: windowWidth * 0.015,
-    fontFamily: 'VitesseSans-Book'
+    fontSize: windowWidth*0.015,
+    fontFamily: 'VitesseSans-Book',
+    color: 'white'
   },
 
   header: {
@@ -160,7 +161,13 @@ const styles = StyleSheet.create({
     fontFamily: 'VitesseSans-Black',
     justifyContent: 'center',
     textAlign: 'center'
+  },
+
+  logout_button : {
+    marginLeft: "10%",
   }
 })
+
+
 
 export default Header

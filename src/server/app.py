@@ -2,21 +2,25 @@
 import logging
 
 from multiprocessing.dummy import Array
+from datetime import datetime, timedelta, timezone
 from re import A
-from flask import Flask, redirect, url_for, render_template, request, flash, jsonify
+from flask import Flask, redirect, url_for, render_template, request, flash, jsonify, json
+from werkzeug.exceptions import HTTPException
 import pandas as pd
 from sklearn import preprocessing
 import numpy as np
 import json
-from flask_cors import CORS
+from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity, \
+                               unset_jwt_cookies, jwt_required, JWTManager
+from flask_cors import CORS, cross_origin
 import sys
 
 logging.basicConfig(level=logging.INFO,
                     datefmt='%Y-%m-%d %H:%M:%S',
                     format="%(asctime)s [%(name)-12.12s] [%(levelname)-5.5s] %(filename)s %(lineno)s %(message)s")
 
-VERSION="1.1"
-logging.info("Backend version {VERSION} started")
+VERSION="1.2"
+logging.info(f"Backend version {VERSION} started")
 
 logging.basicConfig(level=logging.INFO,
                     datefmt='%Y-%m-%d %H:%M:%S',
@@ -36,9 +40,30 @@ df_sirius = siriusplayers.load_sirius_players()
 min_max_scaler = preprocessing.MinMaxScaler()
 
 app = Flask(__name__)
+app.config["JWT_SECRET_KEY"] = "slemmig-torsk"
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(seconds=600) # 5 minutes
+jwt = JWTManager(app)
 CORS(app)
 app.config['JSON_AS_ASCII'] = False
 # app.config['APPLICATION_ROOT'] = '/api/v1'
+
+# Generic Exception Handler
+@app.errorhandler(HTTPException)
+def handle_exception(e):
+    """Return JSON instead of HTML for HTTP errors."""
+    # start with the correct headers and status code from the error
+    response = e.get_response()
+    # replace the body with JSON
+    response.data = json.dumps({
+        "code": e.code,
+        "name": e.name,
+        "description": e.description,
+    })
+    response.content_type = "application/json"
+    return response
+
+
+
 
 # forward positions
 forwardPos = ['SS', 'CF', 'LWF', 'RWF', 'LW', 'RW']
@@ -104,14 +129,12 @@ def spiderData(stats, ids, positions):
         df_pos = pd.concat([df_pos, df_temp[mall]], axis=1)
         malldf = df_temp[mall]
         df_spider = pd.concat([df_spider, malldf], axis=1)
-    logging.info("df_spider shape: ", str(df_spider.shape))
     df_pos = pd.DataFrame(df_pos.mean().to_dict(), index=[df_pos.index.values[-1]+1])
     logging.info("df_pos shape: ", str(df_pos.shape))
     df_spider = pd.concat([df_spider, df_pos])
     logging.info("df_spider and df_pos concat shape:", str(df_spider.shape))
     df_norm = pd.DataFrame(min_max_scaler.fit_transform(df_spider))
     df_norm.index = list(df_spider.index.values)
-    logging.info("df_norm shape:", str(df_norm.shape))
     df_norm.columns = flatten(stats)
     ids = list(map(lambda x: int(x), ids))
     df_final = pd.concat([df_norm.loc[ids], df_norm.iloc[-1:]])
@@ -189,12 +212,79 @@ def allStats():
 def all_player_info_ranked(id):
     return df_rank[id:id+1].to_json(force_ascii=False)
 
+
+
+
+
+
+@app.after_request
+def refresh_expiring_jwts(response):
+    """
+    This function is called after each request. If the JWT has expired, a new one is generated and returned to the client.
+    """
+    try:
+        exp_timestamp = get_jwt()["exp"]
+        now = datetime.now(timezone.utc)
+        target_timestamp = datetime.timestamp(now + timedelta(seconds=600))
+        if target_timestamp > exp_timestamp:
+            access_token = create_access_token(identity=get_jwt_identity())
+            data = response.get_json()
+            if type(data) is dict:
+                data["access_token"] = access_token 
+                response.data = json.dumps(data)
+        return response
+    except (RuntimeError, KeyError):
+        # Case where there is not a valid JWT. Just return the original respone
+        return response
+
+
+# Login route
+@app.route("/login", methods=["POST"])
+def login():
+
+    if not request.is_json:
+        return jsonify({"msg": "Missing JSON in request"}), 400
+
+    username = request.json.get("username", None)
+    password = request.json.get("password", None)
+    if not username:
+        return jsonify({"msg": "Missing username parameter"}), 400
+    if not password:
+        return jsonify({"msg": "Missing password parameter"}), 400
+
+    if username != "admin" or password != "password":
+        return jsonify({"msg": "Bad username or password"}), 401
+
+    # Identity can be any data that is json serializable
+    access_token = create_access_token(identity=username)
+    return jsonify(access_token=access_token), 200
+
+ # Logout route
+@app.route("/logout", methods=["POST"])
+@cross_origin()
+@jwt_required()  
+def logout():
+    response = jsonify({"msg": "logout successful"})
+    unset_jwt_cookies(response)
+    return response
+
+# Status route
+@app.route("/status", methods=["GET"])
+@cross_origin()
+@jwt_required()  
+def status():
+    return jsonify({
+        "msg": "status ok",
+        "numplayers": len(df),
+        }), 200
+
 @app.route("/")
 def index():
     return render_template("index.html")
 
 
 @app.route("/all")
+@jwt_required()  
 def all():
     logging.info("starting /all")
     json = df.to_json(force_ascii = False)
@@ -202,6 +292,7 @@ def all():
     return json
 
 @app.route("/playersAllsvenskan")
+@jwt_required()  
 def players():
     logging.info("starting /playersAllsvenskan")
     df_copy = df.copy()
@@ -210,6 +301,7 @@ def players():
     return json
 
 @app.route("/teams")
+@jwt_required()  
 def teams():
     logging.info("starting /teams")
     df_copy = df.copy()
@@ -218,6 +310,7 @@ def teams():
     return json
 
 @app.route("/fwdAllsvenskan")
+@jwt_required()  
 def fwd_allsvenskan():
     logging.info("starting /fwdAllsvenskan")
     json = allPlayersForPosition(forwardPos)
@@ -225,6 +318,7 @@ def fwd_allsvenskan():
     return json
 
 @app.route("/midAllsvenskan")
+@jwt_required()  
 def mid_allsvenskan():
     logging.info("starting with /midAllsvenskan")
     json = allPlayersForPosition(midfielderPos)
@@ -232,6 +326,7 @@ def mid_allsvenskan():
     return json
 
 @app.route("/defAllsvenskan")
+@jwt_required()  
 def def_allsvenskan():
     logging.info("starting with /defAllsvenskan")
     df_copy = df.copy()
@@ -241,6 +336,7 @@ def def_allsvenskan():
     return json
 
 @app.route("/gkAllsvenskan")
+@jwt_required()  
 def gk_allsvenskan():
     logging.info("starting with /gkAllsvenskan")
     df_copy = df.copy()
@@ -253,6 +349,7 @@ def gk_allsvenskan():
     return json.dumps(result)
 
 @app.route("/player/<id>")
+@jwt_required()  
 def player(id):
     logging.info("starting /player/<id>")
     json = allPlayerInfo(int(id))
@@ -260,6 +357,7 @@ def player(id):
     return json
 
 @app.route("/specificData/<id>/<stats>") 
+@jwt_required()  
 def specificPlayerStats1(id=None, stats=None):
     logging.info("starting /specificData/<id>/<stats>")
     specificStats = stats.split("$")
@@ -272,6 +370,7 @@ def specificPlayerStats1(id=None, stats=None):
     return json
 
 @app.route("/specificDataRanked/<id>/<stats>")
+@jwt_required()  
 def specificPlayerStatsRanked(id=None, stats=None):
     logging.info("starting /specificDataRanked/<id>/<stats>")
     specificStats = stats.split("$")
@@ -285,6 +384,7 @@ def specificPlayerStatsRanked(id=None, stats=None):
     return stats
 
 @app.route("/specificDataMultiID/<ids>/<stats>")
+@jwt_required()  
 def specificPlayersStats(ids = None, stats=None):
     logging.info("starting /specificDataMultiID/<ids>/<stats>")
     specificStats = stats.split("$")
@@ -302,14 +402,17 @@ def specificPlayersStats(ids = None, stats=None):
     return json
 
 @app.route("/BasicInfoPlayers") 
+@jwt_required()  
 def basic_info_cock():
     return basic_info()
 
 @app.route("/stats")
+@jwt_required()  
 def stats():
     return allStats()
 
 @app.route("/spider/<ids>/<stats>/<positions>")
+@jwt_required()  
 def spiders(ids = None, stats=None, positions=None):
     specificIDS = ids.split("$")
     try:
@@ -319,6 +422,7 @@ def spiders(ids = None, stats=None, positions=None):
     return spiderData(fixStatsArray(stats), specificIDS, positions)
 
 @app.route("/players/<ids>")
+@jwt_required()  
 def playersFyn(ids = None):
     specificIDS = ids.split("$")
     try:
@@ -329,10 +433,12 @@ def playersFyn(ids = None):
 
 dashboardEntries = [] # Adrian pls help
 @app.route("/dashboardStats/<id>")
+@jwt_required()  
 def dashboard():
     return specific_info(dashboardEntries,int(id)).to_json(force_ascii=False)
 
 @app.route("/maxStats/<stats>")
+@jwt_required()  
 def max_stats_all(stats=None):
     df_copy = df.copy()
     plays_alot = df_copy["Minutes played"] > 500
@@ -347,6 +453,7 @@ def max_stats_all(stats=None):
     return get_max_for_stat(specificStats, df_plays_alot)
 
 @app.route("/maxStatsFromArray/<stats>/<positions>")
+@jwt_required()  
 def max_stats_for_positionArray(stats=None, positions=None):
     df_copy = df.copy()
     # Remove outliers
@@ -371,6 +478,7 @@ def max_stats_for_positionArray(stats=None, positions=None):
     return get_max_for_stat(specificStats, df_temp)
 
 @app.route("/playerCount/<positions>")
+@jwt_required()  
 def player_count(positions=None):
     df_temp = df.copy()
     specific_positions = positions.split("$")
@@ -385,10 +493,12 @@ def player_count(positions=None):
     return str(df_temp.shape[0])
 
 @app.route("/playerCountAll/")
+@jwt_required()  
 def player_count_all():
     return str(df.shape[0])
 
 @app.route("/playerRating/<id>")
+@jwt_required()  
 def get_player_rating(id:int):
     df_temp = df.iloc[[id]].filter(regex="Rating")
     df_temp["Player"] = df.iloc[[id]]["Player"]
@@ -401,6 +511,7 @@ def get_player_rating(id:int):
     return df_temp.to_json(orient="records")
 
 @app.route("/top15/<position>")
+@jwt_required()  
 def top_15_for_position(position=None):
     rating_col = "Rating as " + position
     df_copy = df.copy()
@@ -409,10 +520,12 @@ def top_15_for_position(position=None):
     return df_temp_toplist.to_json(orient='records')
 
 @app.route("/playerRanked/<id>")
+@jwt_required()  
 def playerRanked(id):
     return all_player_info_ranked(int(id))
 
 @app.route("/playerRanking/<id>")
+@jwt_required()  
 def playerRanking(id:int):
     result = {}
     
@@ -437,6 +550,7 @@ def playerRanking(id:int):
     return pd.DataFrame(result).to_json(orient='records')
 
 @app.route("/statsForPositions/<positions>/<stats>")
+@jwt_required()  
 def statsForPos(positions=None, stats=None):
     df_temp = df.copy()
     specific_positions = positions.split("$")
@@ -459,6 +573,7 @@ def statsForPos(positions=None, stats=None):
     # normalized_df = (df_mall-df_mall.mean())/df_mall.std()
 
 @app.route("/averageForPositions/<positions>/<stats>")
+@jwt_required()  
 def avgForPos(positions=None, stats=None):
     df_temp = df.copy()
     specific_positions = positions.split("$")
@@ -481,6 +596,7 @@ def avgForPos(positions=None, stats=None):
     return avgSpider.to_json(force_ascii=False)
 
 @app.route("/filterPlayers", methods=['POST'])
+@jwt_required()  
 def filterPlayers():
     df_temp = df.copy()
     content = request.json

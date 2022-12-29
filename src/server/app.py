@@ -28,8 +28,6 @@ from pre_processing import pre_processing, siriusplayers
 
 df = pre_processing.openExcelFile()
 df_rank = pre_processing.open_excel_file_ranked()
-print("df shape after read: ", df.shape[0])
-print(df.head())
 df_sirius = siriusplayers.load_sirius_players()
 
 min_max_scaler = preprocessing.MinMaxScaler()

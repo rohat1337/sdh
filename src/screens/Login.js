@@ -41,13 +41,11 @@ function Login(props) {
             .then((data) => {
                 data = data[1];
                 if (data.access_token) {
-                    console.log(data)
                     setToken(data.access_token); // Temp!
                     localStorage.setItem("access_token", data.access_token);
-                    console.log("LOGGED IN - NAVIGATING TO CHOOSE PLAYER");
+                    setText(""); // Clear error message
                     props.navigation.navigate('ChoosePlayer', { token: data.access_token })
                 } else {
-                    console.log("setting error text");
                     setText({
                         text: "Incorrect email or password",
                         color: "red"

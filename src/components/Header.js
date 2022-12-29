@@ -10,6 +10,14 @@ function Header (props) {
       <View style={props.header}>
         <View style={{ flex: 0.25, flexDirection: 'row', justifyContent: 'space-evenly' }}>
 
+        <TouchableOpacity style={styles.logout_button}
+                            onPress={() => {
+                              localStorage.removeItem("access_token")
+                              props.nav.navigate("Login")
+                            }}>
+          <Text style={styles.small_text}>Logga ut</Text>
+        </TouchableOpacity>
+
         <TouchableOpacity
         onPress={() => props.setFilterPressed(!props.filterPressed)}>
           <Text style={[styles.small_text, { color: props.filterPressed ? 'gold' : 'white' }]}>Filter</Text>

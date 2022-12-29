@@ -1,6 +1,4 @@
-
 import logging
-
 from multiprocessing.dummy import Array
 from datetime import datetime, timedelta, timezone
 from re import A
@@ -19,15 +17,12 @@ logging.basicConfig(level=logging.INFO,
                     datefmt='%Y-%m-%d %H:%M:%S',
                     format="%(asctime)s [%(name)-12.12s] [%(levelname)-5.5s] %(filename)s %(lineno)s %(message)s")
 
-VERSION="1.2"
+VERSION="1.3"
 logging.info(f"Backend version {VERSION} started")
 
 logging.basicConfig(level=logging.INFO,
                     datefmt='%Y-%m-%d %H:%M:%S',
                     format="%(asctime)s [%(name)-12.12s] [%(levelname)-5.5s] %(filename)s %(lineno)s %(message)s")
-
-VERSION="1.1"
-logging.info("Backend version {VERSION} started")
 
 from pre_processing import pre_processing, siriusplayers
 
@@ -41,7 +36,7 @@ min_max_scaler = preprocessing.MinMaxScaler()
 
 app = Flask(__name__)
 app.config["JWT_SECRET_KEY"] = "slemmig-torsk"
-app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(seconds=600) # 5 minutes
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1) # 5 minutes
 jwt = JWTManager(app)
 CORS(app)
 app.config['JSON_AS_ASCII'] = False
@@ -225,7 +220,7 @@ def refresh_expiring_jwts(response):
     try:
         exp_timestamp = get_jwt()["exp"]
         now = datetime.now(timezone.utc)
-        target_timestamp = datetime.timestamp(now + timedelta(seconds=600))
+        target_timestamp = datetime.timestamp(now + timedelta(hours=1))
         if target_timestamp > exp_timestamp:
             access_token = create_access_token(identity=get_jwt_identity())
             data = response.get_json()

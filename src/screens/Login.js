@@ -47,6 +47,7 @@ function Login(props) {
                     console.log("LOGGED IN - NAVIGATING TO CHOOSE PLAYER");
                     props.navigation.navigate('ChoosePlayer', { token: data.access_token })
                 } else {
+                    console.log("setting error text");
                     setText({
                         text: "Incorrect email or password",
                         color: "red"
@@ -91,7 +92,7 @@ function Login(props) {
                     <div className='sirius-small'/>
                     <label className="header">Sirius Datahub</label>
                     {renderForm()}
-                    {text.text}     
+                    <div style={{color:text.color, textAlign:'center', padding:'5%'}}>{text.text}</div>     
                 </div>
             </div>);
 

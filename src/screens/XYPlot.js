@@ -18,7 +18,7 @@ export default function XYPlot (props) {
   const [domain, setDomain] = useState([[NaN, NaN], [NaN, NaN]])
 
   useEffect(() => {
-    let namesAndIds = []
+    const namesAndIds = []
     statsForPositions(props.navigation.state.params.pos, props.navigation.state.params.stats.concat(['Player'])).then((data) => {
       if (data[0] === 200) {
         data = data[1]
@@ -28,10 +28,10 @@ export default function XYPlot (props) {
           for (const key of props.navigation.state.params.stats) {
             obj[key] = data[key][id]
           }
-          obj['Player'] = data.Player[id]
-          let pl = {}
-          pl['id'] = id
-          pl['Name'] = data.Player[id]
+          obj.Player = data.Player[id]
+          const pl = {}
+          pl.id = id
+          pl.Name = data.Player[id]
           namesAndIds.push(pl)
           result.push(obj)
         }
@@ -50,10 +50,10 @@ export default function XYPlot (props) {
           for (const key of props.navigation.state.params.stats) {
             obj2[key] = data[key][id]
           }
-          obj2['Player'] = data.Player[id]
-          let pl = {}
-          pl['id'] = id
-          pl['Name'] = data.Player[id]
+          obj2.Player = data.Player[id]
+          const pl = {}
+          pl.id = id
+          pl.Name = data.Player[id]
           namesAndIds.push(pl)
           setNamesAndIDs(namesAndIds)
           playerData.push(obj2)
@@ -73,22 +73,21 @@ export default function XYPlot (props) {
         <Header stackIndex={3} nav={props.navigation} header={styles.header} settingsPressed={settingsPressed} setSettingsPressed={setSettingsPressed} />
         <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode='cover'>
           <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: '1%', flexDirection: 'row' }}>
-            <XYSettings settingsPressed={settingsPressed} setDomain={setDomain} stats={props.navigation.state.params.stats}/>
-            <ResponsiveContainer width={windowWidth * 0.75} height={windowHeight * 0.75} >
-              <ScatterChart
-              >
+            <XYSettings settingsPressed={settingsPressed} setDomain={setDomain} stats={props.navigation.state.params.stats} />
+            <ResponsiveContainer width={windowWidth * 0.75} height={windowHeight * 0.75}>
+              <ScatterChart>
                 <CartesianGrid />
-                <XAxis type='number' dataKey={props.navigation.state.params.stats[0]} tick={{ stroke: 'white' }} domain={isNaN(domain[0][0]) ? undefined : domain[0]} allowDataOverflow={true}>
-                  <Label value={props.navigation.state.params.stats[0]} offset={0} position='insideBottom' stroke='white'/>
+                <XAxis type='number' dataKey={props.navigation.state.params.stats[0]} tick={{ stroke: 'white' }} domain={isNaN(domain[0][0]) ? undefined : domain[0]} allowDataOverflow>
+                  <Label value={props.navigation.state.params.stats[0]} offset={0} position='insideBottom' stroke='white' />
                 </XAxis>
-                <YAxis type='number' dataKey={props.navigation.state.params.stats[1]} tick={{ stroke: 'white' }} domain={isNaN(domain[1][0]) ? undefined : domain[1]} allowDataOverflow={true}>
+                <YAxis type='number' dataKey={props.navigation.state.params.stats[1]} tick={{ stroke: 'white' }} domain={isNaN(domain[1][0]) ? undefined : domain[1]} allowDataOverflow>
                   <Label value={props.navigation.state.params.stats[1]} offset={20} position='insideLeft' stroke='white' angle={270} />
                 </YAxis>
                 <ZAxis dataKey='Player' />
-                <Tooltip cursor={{ strokeDasharray: '5 5' }} content={ <XYToolTip /> } isAnimationActive={false} />
+                <Tooltip cursor={{ strokeDasharray: '5 5' }} content={<XYToolTip />} isAnimationActive={false} />
                 <Scatter name='Alla' data={scatterData} fill='gray' isAnimationActive={false} onClick={(e) => props.navigation.navigate('Dashboard', { player_id: findPlayerID(e.Player, namesAndIDs) })} />
                 {scatters}
-                <Legend verticalAlign='top'/>
+                <Legend verticalAlign='top' />
               </ScatterChart>
             </ResponsiveContainer>
           </View>

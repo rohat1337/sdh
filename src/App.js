@@ -5,12 +5,14 @@ import { createStackNavigator } from 'react-navigation-stack'
 import { createAppContainer } from 'react-navigation'
 
 // Screens in navigator
+import Login from './screens/Login'
 import ChoosePlayer from './screens/ChoosePlayer'
 import ChooseStats from './screens/ChooseStats'
 import Dashboard from './screens/Dashboard'
 import Spider from './screens/Spider'
 import Ratings from './screens/Ratings'
 import XYPlot from './screens/XYPlot'
+import SiriusPlayers from './screens/SiriusPlayers'
 
 import { LogBox } from 'react-native'
 
@@ -20,6 +22,10 @@ LogBox.ignoreLogs([
 
 const App = createStackNavigator({
 
+  Login: {
+    screen: Login,
+    navigationOptions: { headerShown: false }
+  },
   ChoosePlayer: {
     screen: ChoosePlayer,
     navigationOptions: { headerShown: false }
@@ -42,6 +48,10 @@ const App = createStackNavigator({
   },
   XYPlot: {
     screen: XYPlot,
+    navigationOptions: { headerShown: false }
+  },
+  SiriusPlayers: {
+    screen: SiriusPlayers,
     navigationOptions: { headerShown: false }
   }
 

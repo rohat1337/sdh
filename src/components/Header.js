@@ -4,24 +4,38 @@ const windowHeight = Dimensions.get('window').height
 const windowWidth = Dimensions.get('window').width
 
 function Header (props) {
-
   // ChoosePlayer header
   if (props.stackIndex === 0) {
     return (
       <View style={props.header}>
-        <View style={{ flex: 0.1 }} />
+        <View style={{ flex: 0.25, flexDirection: 'row', justifyContent: 'space-evenly' }}>
 
-          <TouchableOpacity onPress={() => props.setFilterPressed(!props.filterPressed)}>
-            <Text style={[styles.small_text, { color: props.filterPressed ? 'gold' : 'white' }]}>Filter</Text>
-          </TouchableOpacity>
+        <TouchableOpacity style={styles.logout_button}
+                            onPress={() => {
+                              localStorage.removeItem("access_token")
+                              props.nav.navigate("Login")
+                            }}>
+          <Text style={styles.small_text}>Logga ut</Text>
+        </TouchableOpacity>
 
-        <View style={{ flex: 0.8 }}>
+        <TouchableOpacity
+        onPress={() => props.setFilterPressed(!props.filterPressed)}>
+          <Text style={[styles.small_text, { color: props.filterPressed ? 'gold' : 'white' }]}>Filter</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity 
+        onPress={() => props.nav.navigate('SiriusPlayers')} >
+          <Text style={[styles.small_text, {color: 'white'}]}>Trendlinje</Text>
+        </TouchableOpacity>
+
+        </View>
+
+        <View style={{ flex: 0.5 }}>
           <Text style={styles.header}>IK Sirius Datahub</Text>
         </View>
 
-        <View style={{ flex: 0.1, flexDirection: 'row', justifyContent: 'flex-end' }}>
+        <View style={{ flex: 0.25, flexDirection: 'row', justifyContent: 'space-evenly' }}>
           <TouchableOpacity
-            style={{ marginRight: '10%' }}
             onPress={() => props.nextIsOK_dashboard === 'white' ? props.nav.navigate('Dashboard', { player_id: props.player_dashboard.index }) : {}}
           >
 
@@ -29,7 +43,6 @@ function Header (props) {
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={{ marginRight: '10%' }}
             onPress={() => props.nextIsOK_spider === 'white' ? props.nav.navigate('ChooseStats', { players: props.players }) : {}}
           >
 
@@ -115,6 +128,28 @@ function Header (props) {
 
       </View>
     )
+  } else if (props.stackIndex === 4) {
+    return (
+      <View style={props.header}>
+        <View style={{ flex: 0.1, justifyContent: 'center' }}>
+          <TouchableOpacity
+            onPress={() => props.nav.goBack()}
+          >
+            <Text style={{ color: 'white', fontWeight: 'bold', fontSize: windowHeight * 0.025, fontFamily: 'VitesseSans-Book' }}>
+              {'<'}- Tillbaka
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <View style={{ flex: 0.8 }}>
+          <Text style={styles.header}>IK Sirius Datahub</Text>
+        </View>
+
+        <View style={{ flex: 0.1 }}>
+
+        </View>
+
+      </View>
+    )
   }
 }
 
@@ -123,17 +158,24 @@ const styles = StyleSheet.create({
   small_text: {
     fontWeight: 'bold',
     fontSize: windowWidth*0.015,
-    fontFamily: 'VitesseSans-Book'
+    fontFamily: 'VitesseSans-Book',
+    color: 'white'
   },
 
   header: {
-    fontSize: windowWidth*0.04,
+    fontSize: windowWidth * 0.04,
     fontWeight: 'bold',
     color: 'white',
     fontFamily: 'VitesseSans-Black',
     justifyContent: 'center',
     textAlign: 'center'
+  },
+
+  logout_button : {
+    marginLeft: "10%",
   }
 })
+
+
 
 export default Header

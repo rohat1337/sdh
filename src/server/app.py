@@ -232,6 +232,9 @@ def refresh_expiring_jwts(response):
 
 
 # Login route
+# Route shall give access to 2 users, sirius and odense
+# sirius has password mingradona23
+# odense has password orstermiti15
 @app.route("/login", methods=["POST"])
 def login():
 
@@ -245,7 +248,11 @@ def login():
     if not password:
         return jsonify({"msg": "Missing password parameter"}), 400
 
-    if username != "admin" or password != "password":
+    if username == "sirius" and password == "mingradona23":
+        pass
+    elif username == "odense" and password == "orstermiti15":
+        pass
+    else:
         return jsonify({"msg": "Bad username or password"}), 401
 
     # Identity can be any data that is json serializable

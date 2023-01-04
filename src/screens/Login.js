@@ -65,24 +65,23 @@ function Login(props) {
     }
 
     const renderForm = () => {
-        return <div className="login-form">
-            <div className="form">
-                <form onSubmit={handleSubmit}>
-
-                    <div className="input-container">
-                        <label className='username'>Användarnamn </label>
-                        <input type="text" name="name" />
+        return  <div className="login-form">
+                    <div className="form">
+                        <form onSubmit={handleSubmit}>
+                            <div className="input-container">
+                                <label className='username'>Användarnamn </label>
+                                <input type="text" name="name" />
+                            </div>
+                            <div className="input-container">
+                                <label className='password'>Lösenord</label>
+                                <input type="password" name="password"/>
+                            </div>
+                            <div className="button-container">
+                                <input type="submit" value="Logga in" />
+                            </div>
+                        </form>
                     </div>
-                    <div className="input-container">
-                        <label className='password'>Lösenord</label>
-                        <input type="password" name="password"/>
-                    </div>
-                    <div className="button-container">
-                        <input type="submit" value="Logga in" />
-                    </div>
-                </form>
-            </div>
-        </div>
+                </div>
     }
 
     return (<div className="root">

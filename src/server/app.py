@@ -243,6 +243,7 @@ def login():
 
     username = request.json.get("username", None)
     password = request.json.get("password", None)
+    
     if not username:
         return jsonify({"msg": "Missing username parameter"}), 400
     if not password:

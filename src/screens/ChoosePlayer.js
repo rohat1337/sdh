@@ -653,12 +653,13 @@ const styles = StyleSheet.create({
   root_left: {
     flex: 0.45,
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    marginVertical: '1%'
 
   },
   root_right: {
     flex: 0.55,
-    height: windowHeight * 0.8
+    marginVertical: '1%'
   },
   players_TO: {
     width: windowWidth / 3,

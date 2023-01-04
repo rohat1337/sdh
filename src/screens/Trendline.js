@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity, Dimensions, Switch 
 import { LineChart, CartesianGrid, XAxis, YAxis, Legend, Tooltip, Label } from 'recharts'
 import { getNormalizedTrendlineData, renderLines, getTrendlineData } from '../data'
 import TrendlineToolTip from '../components/TrendlineToolTip'
+import './background.css'
 
 const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height

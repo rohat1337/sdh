@@ -7,6 +7,7 @@ import { setMall2, updateField } from '../data'
 import CSLowerHeader from '../components/CSLowerHeader'
 import ManualCS from '../components/ManualCS'
 import MallCS from '../components/MallCS'
+import './background.css'
 
 const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height

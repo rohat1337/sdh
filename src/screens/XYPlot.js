@@ -6,6 +6,7 @@ import { getSpecificStatsMultiID, statsForPositions, renderScatters, findPlayerI
 import { ScatterChart, Scatter, XAxis, YAxis, ZAxis, CartesianGrid, Tooltip, ResponsiveContainer, Label, Legend } from 'recharts'
 import XYToolTip from '../components/XYToolTip'
 import XYSettings from './XYSettings'
+import './background.css'
 
 const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height

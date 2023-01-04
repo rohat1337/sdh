@@ -4,6 +4,7 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { sirius_players_names } from '../data'
 import StatsChooser from './SPStatsChooser'
+import './background.css'
 
 const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height

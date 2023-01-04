@@ -8,6 +8,7 @@ import Speluppbyggnad from '../components/Dashboard/Speluppbyggnad'
 import Header from '../components/Header'
 import { getPlayerStats, getPlayerStatsRanked, getMaxStatsAll, uncheckFieldBox, getMaxStatsForPositionArray } from '../data'
 import DashboardPlayerfield from '../components/Dashboard/DashbordPlayerfield'
+import './background.css'
 
 const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height

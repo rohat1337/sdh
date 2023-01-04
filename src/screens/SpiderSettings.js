@@ -1,4 +1,5 @@
 import { View, StyleSheet, Dimensions, Text, TouchableOpacity, FlatList } from 'react-native'
+import './background.css'
 
 const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height

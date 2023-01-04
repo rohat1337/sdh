@@ -7,6 +7,7 @@ import PlayerField from '../components/PlayerField'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import Filters from './Filters'
+import './background.css'
 
 const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height

@@ -5,6 +5,7 @@ import { getPlayerRating, roundMarketValue, getPlayerRanking, fixPlayerPositions
 import CircularProgress from '../components/CircularProgress'
 import PositionRanking from '../components/PositionRanking'
 import TopList from '../components/TopList'
+import './background.css'
 
 const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height

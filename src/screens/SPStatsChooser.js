@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Dimensions, } from 'react-native'
 import { arrayRemove, sirius_players_stats } from '../data'
 import Trendline from './Trendline'
+import './background.css'
 
 const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height

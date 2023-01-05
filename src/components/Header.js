@@ -1,9 +1,22 @@
+import { render } from '@testing-library/react'
 import { Text, View, TouchableOpacity, Dimensions, StyleSheet } from 'react-native'
 
 const windowHeight = Dimensions.get('window').height
 const windowWidth = Dimensions.get('window').width
 
 function Header (props) {
+
+  function renderTitle() {
+    let theme = localStorage.getItem("theme")
+
+    console.log(theme)
+    if (theme === "odense") {
+      return (<Text style={styles.header}>Odense BK Datahub</Text>)
+    }
+    else {
+      return (<Text style={styles.header}>IK Sirius Datahub</Text>)
+    }
+  }
   // ChoosePlayer header
   if (props.stackIndex === 0) {
     return (
@@ -31,7 +44,7 @@ function Header (props) {
         </View>
 
         <View style={{ flex: 0.5 }}>
-          <Text style={styles.header}>IK Sirius Datahub</Text>
+          {renderTitle()}
         </View>
 
         <View style={{ flex: 0.25, flexDirection: 'row', justifyContent: 'space-evenly' }}>
@@ -66,7 +79,7 @@ function Header (props) {
           </TouchableOpacity>
         </View>
         <View style={{ flex: 0.8 }}>
-          <Text style={styles.header}>IK Sirius Datahub</Text>
+          {renderTitle()}
         </View>
         <View style={{ flex: 0.1 }} />
 
@@ -87,7 +100,7 @@ function Header (props) {
           </TouchableOpacity>
         </View>
         <View style={{ flex: 0.8 }}>
-          <Text style={styles.header}>IK Sirius Datahub</Text>
+          {renderTitle()}
         </View>
         <View style={{ flex: 0.1 }}>
           <TouchableOpacity onPress={() => {
@@ -115,7 +128,7 @@ function Header (props) {
           </TouchableOpacity>
         </View>
         <View style={{ flex: 0.8 }}>
-          <Text style={styles.header}>IK Sirius Datahub</Text>
+          {renderTitle()}
         </View>
 
         <View style={{ flex: 0.1 }}>
@@ -141,7 +154,7 @@ function Header (props) {
           </TouchableOpacity>
         </View>
         <View style={{ flex: 0.8 }}>
-          <Text style={styles.header}>IK Sirius Datahub</Text>
+          {renderTitle()}
         </View>
 
         <View style={{ flex: 0.1 }}>

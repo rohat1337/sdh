@@ -43,6 +43,12 @@ function Login(props) {
                 if (data.access_token) {
                     setToken(data.access_token); // Temp!
                     localStorage.setItem("access_token", data.access_token);
+                    if (username == "sirius") {
+                        localStorage.setItem("theme", "sirius");
+                    }
+                    else if (username == "odense") {
+                        localStorage.setItem("theme", "odense");
+                    }
                     setText(""); // Clear error message
                     props.navigation.navigate('ChoosePlayer', { token: data.access_token })
                 } else {

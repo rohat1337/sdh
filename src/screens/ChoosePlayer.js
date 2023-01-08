@@ -45,6 +45,7 @@ function ChoosePlayer (props) {
   const [filterPressed, setFilterPressed] = useState(false)
   const [playersFiltered, setPlayersFiltered] = useState([])
   const [filters, setFilters] = useState([])
+  const [backgroundImg, setBackgroundImg] = useState(require('../imgs/sirius_50.png'))
 
   useEffect(() => {
     Promise.all([
@@ -62,6 +63,19 @@ function ChoosePlayer (props) {
       .catch((e) => {
         console.log(e)
       })
+
+      // Set background image
+      let theme = localStorage.getItem('theme')
+      if (theme !== null) {
+        if (theme === 'odense') {
+          console.log("setting background to odense")
+          setBackgroundImg(require('../imgs/odense_50.png'))
+        }
+        else {
+          console.log("setting background to sirius")
+          setBackgroundImg(require('../imgs/sirius_50.png'))
+        }
+      }
   }, [])
 
   // Check if selected player is already chosen or not.
@@ -132,7 +146,8 @@ function ChoosePlayer (props) {
           nextIsOK_dashboard={selectedPlayersWithID.length === 1 ? 'white' : 'gray'}
           nextIsOK_spider={selectedPlayersWithID.length > 0 ? 'white' : 'gray'}
         />
-        <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode='cover'>
+        <View style={styles.root}>
+          <ImageBackground style={styles.background_image} source={backgroundImg}>
           <View style={[styles.root_left, { justifyContent: 'space-between' }]}>
             <TextInput
               placeholder='Sök spelare'
@@ -278,7 +293,9 @@ function ChoosePlayer (props) {
               <PlayerField func={changeField} mall={false} field={field} clearField={clearField} />
             </View>
           </View>
-        </ImageBackground>
+          </ImageBackground>
+
+        </View>
 
         <Footer />
 
@@ -301,7 +318,8 @@ function ChoosePlayer (props) {
             nextIsOK_spider={selectedPlayersWithID.length > 0 ? 'white' : 'gray'}
           />
 
-          <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode='cover'>
+          <View style={styles.root}>
+            <ImageBackground style={styles.background_image} source={backgroundImg}>
 
             <View style={styles.root_left}>
               <TextInput
@@ -393,8 +411,9 @@ function ChoosePlayer (props) {
             <View style={styles.root_right}>
               <Filters setPlayersFiltered={setPlayersFiltered} playersFiltered={playersFiltered} filters={filters} setFilters={setFilters} />
             </View>
-
-          </ImageBackground>
+            </ImageBackground>
+          </View>
+          
           <Footer />
         </View>
       )
@@ -414,7 +433,8 @@ function ChoosePlayer (props) {
             nextIsOK_spider={selectedPlayersWithID.length > 0 ? 'white' : 'gray'}
           />
 
-          <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode='cover'>
+          <View style={styles.root}>
+            <ImageBackground style={styles.background_image} source={backgroundImg}>
 
             <View style={styles.root_left}>
               <TextInput
@@ -636,7 +656,8 @@ function ChoosePlayer (props) {
                 <PlayerField func={changeField} mall={false} field={field} clearField={clearField} />
               </View>
             </View>
-          </ImageBackground>
+            </ImageBackground>
+          </View>
           <Footer />
         </View>
       )
@@ -781,6 +802,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#001324',
     textAlign: 'center',
     flexDirection: 'row'
+  },
+
+  background_image: {
+    width:'30%',
+    height:'30%',
   }
 })
 

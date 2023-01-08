@@ -1,3 +1,17 @@
-body {
-    background-color: #001324;
+#body-odense {
+    background-image: url(../imgs/odense_50.png);
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: center;
+    background-attachment: fixed;
+    background-size: 30%;
+}
+
+#body-sirius {
+    background-image: url(../imgs/sirius.png);
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: center;
+    background-attachment: fixed;
+    background-size: 20%;
 }

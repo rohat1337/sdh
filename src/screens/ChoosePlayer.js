@@ -8,6 +8,7 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import Filters from './Filters'
 import './background.css'
+import Background from '../components/Background'
 
 const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height
@@ -45,7 +46,7 @@ function ChoosePlayer (props) {
   const [filterPressed, setFilterPressed] = useState(false)
   const [playersFiltered, setPlayersFiltered] = useState([])
   const [filters, setFilters] = useState([])
-  const [backgroundImg, setBackgroundImg] = useState(require('../imgs/sirius_50.png'))
+  const [backgroundColor, setBackgroundColor] = useState('#001324')
 
   useEffect(() => {
     Promise.all([
@@ -63,19 +64,6 @@ function ChoosePlayer (props) {
       .catch((e) => {
         console.log(e)
       })
-
-      // Set background image
-      let theme = localStorage.getItem('theme')
-      if (theme !== null) {
-        if (theme === 'odense') {
-          console.log("setting background to odense")
-          setBackgroundImg(require('../imgs/odense_50.png'))
-        }
-        else {
-          console.log("setting background to sirius")
-          setBackgroundImg(require('../imgs/sirius_50.png'))
-        }
-      }
   }, [])
 
   // Check if selected player is already chosen or not.
@@ -135,6 +123,7 @@ function ChoosePlayer (props) {
   }, [toggleSelectedPlayers])
 
   if (players.length === 0) {
+    {/* VIEW TO RETURN IF NO PLAYERS ARE LOADED */}
     return (
       <View style={{ flexDirection: 'column' }}>
         <Header
@@ -143,14 +132,14 @@ function ChoosePlayer (props) {
           stackIndex={0}
           players={selectedPlayersWithID}
           player_dashboard={selectedPlayersWithID[0]}
-          nextIsOK_dashboard={selectedPlayersWithID.length === 1 ? 'white' : 'gray'}
-          nextIsOK_spider={selectedPlayersWithID.length > 0 ? 'white' : 'gray'}
+          nextIsOK_dashboard={selectedPlayersWithID.length === 1 ? 'white' : '#5d5e5e'}
+          nextIsOK_spider={selectedPlayersWithID.length > 0 ? 'white' : '#5d5e5e'}
         />
-        <View style={styles.root}>
-          <ImageBackground style={styles.background_image} source={backgroundImg}>
-          <View style={[styles.root_left, { justifyContent: 'space-between' }]}>
+        <View style={[styles.root, { backgroundColor: backgroundColor}]}>
+          <Background weakerLogo={true}/>
+          <View style={styles.root_left}>
             <TextInput
-              placeholder='Sök spelare'
+              placeholder='Sök spelare...'
               placeholderTextColor='white'
               style={styles.search}
               onChangeText={setSearchPlayer}
@@ -185,7 +174,7 @@ function ChoosePlayer (props) {
                       minimumValue={0}
                       maximumValue={50}
                       minimumTrackTintColor='#078efb'
-                      maximumTrackTintColor='gray'
+                      maximumTrackTintColor='#5d5e5e'
                       thumbTintColor='#078efb'
                       value={minAge}
                       onValueChange={value => setMinAge(parseInt(value))}
@@ -206,7 +195,7 @@ function ChoosePlayer (props) {
                       minimumValue={0}
                       maximumValue={50}
                       minimumTrackTintColor='#078efb'
-                      maximumTrackTintColor='gray'
+                      maximumTrackTintColor='#5d5e5e'
                       thumbTintColor='#078efb'
                       value={maxAge}
                       step={1}
@@ -231,7 +220,7 @@ function ChoosePlayer (props) {
                       minimumValue={0}
                       maximumValue={1}
                       minimumTrackTintColor='#078efb'
-                      maximumTrackTintColor='gray'
+                      maximumTrackTintColor='#5d5e5e'
                       thumbTintColor='#078efb'
                       value={0}
                       onValueChange={value => setMinutesPlayed(parseInt(value * 5000))}
@@ -258,7 +247,7 @@ function ChoosePlayer (props) {
                       minimumValue={100}
                       maximumValue={250}
                       minimumTrackTintColor='#078efb'
-                      maximumTrackTintColor='gray'
+                      maximumTrackTintColor='#5d5e5e'
                       thumbTintColor='#078efb'
                       value={100}
                       onValueChange={value => setMinHeight(parseInt(value))}
@@ -293,7 +282,6 @@ function ChoosePlayer (props) {
               <PlayerField func={changeField} mall={false} field={field} clearField={clearField} />
             </View>
           </View>
-          </ImageBackground>
 
         </View>
 
@@ -302,6 +290,7 @@ function ChoosePlayer (props) {
       </View>
     )
   } else {
+    {/* VIEW TO RETURN IF FILTER BUTTON IS PRESSED */}
     if (filterPressed) {
       return (
 
@@ -314,22 +303,23 @@ function ChoosePlayer (props) {
             stackIndex={0}
             players={selectedPlayersWithID}
             player_dashboard={selectedPlayersWithID[0]}
-            nextIsOK_dashboard={selectedPlayersWithID.length === 1 ? 'white' : 'gray'}
-            nextIsOK_spider={selectedPlayersWithID.length > 0 ? 'white' : 'gray'}
+            nextIsOK_dashboard={selectedPlayersWithID.length === 1 ? 'white' : '#5d5e5e'}
+            nextIsOK_spider={selectedPlayersWithID.length > 0 ? 'white' : '#5d5e5e'}
           />
 
-          <View style={styles.root}>
-            <ImageBackground style={styles.background_image} source={backgroundImg}>
+          <View style={[styles.root, { backgroundColor: backgroundColor}]}>
+            
+          <Background weakerLogo={true}/>
 
             <View style={styles.root_left}>
               <TextInput
-                placeholder='Sök spelare'
+                placeholder='Sök spelare...'
                 placeholderTextColor='white'
                 style={styles.search}
                 onChangeText={setSearchPlayer}
                 value={searchPlayer}
               />
-              <View style={{ flexDirection: 'row', width: '80%' }}>
+              <View style={{ flex:0.05, flexDirection: 'row', width: '75%', justifyContent:'center', alignItems:'center' }}>
                 <Text style={[styles.text_filters, { flex: 0.5, textAlign: 'center' }]}> Visar {selectedPlayersLength} av {totalPlayersLength}</Text>
                 <View style={{ flex: 0.5 }}>
                   <TouchableOpacity
@@ -341,7 +331,7 @@ function ChoosePlayer (props) {
                 </View>
               </View>
 
-              <View style={{ height: '85%' }}>
+              <View style={{flex:0.9, width:'75%'}}>
                 <FlatList
                   // Filter players by Name, Team, Age, Position and Minutes played
                   data={toggleSelectedPlayers
@@ -404,6 +394,7 @@ function ChoosePlayer (props) {
                       </View>
                     )
                   }}
+                  showsVerticalScrollIndicator={false}
                 />
               </View>
             </View>
@@ -411,13 +402,13 @@ function ChoosePlayer (props) {
             <View style={styles.root_right}>
               <Filters setPlayersFiltered={setPlayersFiltered} playersFiltered={playersFiltered} filters={filters} setFilters={setFilters} />
             </View>
-            </ImageBackground>
           </View>
           
           <Footer />
         </View>
       )
     } else {
+      {/* NORMAL VIEW (NO FILTER PRESSED AND PLAYERS LOADED) */}
       return (
 
         <View style={{ flexDirection: 'column' }}>
@@ -429,22 +420,22 @@ function ChoosePlayer (props) {
             stackIndex={0}
             players={selectedPlayersWithID}
             player_dashboard={selectedPlayersWithID[0]}
-            nextIsOK_dashboard={selectedPlayersWithID.length === 1 ? 'white' : 'gray'}
-            nextIsOK_spider={selectedPlayersWithID.length > 0 ? 'white' : 'gray'}
+            nextIsOK_dashboard={selectedPlayersWithID.length === 1 ? 'white' : '#5d5e5e'}
+            nextIsOK_spider={selectedPlayersWithID.length > 0 ? 'white' : '#5d5e5e'}
           />
 
-          <View style={styles.root}>
-            <ImageBackground style={styles.background_image} source={backgroundImg}>
-
+          <View style={[styles.root, { backgroundColor: backgroundColor}]}>
+            
+          <Background weakerLogo={true}/>
             <View style={styles.root_left}>
               <TextInput
-                placeholder='Sök spelare'
+                placeholder='Sök spelare...'
                 placeholderTextColor='white'
                 style={styles.search}
                 onChangeText={setSearchPlayer}
                 value={searchPlayer}
               />
-              <View style={{ flexDirection: 'row', width: '80%' }}>
+              <View style={{ flex:0.05,flexDirection: 'row', width:'75%', justifyContent:'center', alignItems:'center' }}>
                 <Text style={[styles.text_filters, { flex: 0.5, textAlign: 'center' }]}> Visar {selectedPlayersLength} av {totalPlayersLength}</Text>
                 <View style={{ flex: 0.5 }}>
                   <TouchableOpacity
@@ -456,7 +447,7 @@ function ChoosePlayer (props) {
                 </View>
               </View>
 
-              <View style={{ height: '85%' }}>
+              <View style={{flex:0.9, width:'75%'}}>
                 <FlatList
                   // Filter players by Name, Team, Age, Position and Minutes played
                   data={toggleSelectedPlayers
@@ -519,6 +510,7 @@ function ChoosePlayer (props) {
                       </View>
                     )
                   }}
+                  showsVerticalScrollIndicator={false}
                 />
               </View>
             </View>
@@ -547,7 +539,7 @@ function ChoosePlayer (props) {
                         minimumValue={0}
                         maximumValue={50}
                         minimumTrackTintColor='#078efb'
-                        maximumTrackTintColor='gray'
+                        maximumTrackTintColor='#5d5e5e'
                         thumbTintColor='#078efb'
                         value={minAge}
                         onValueChange={value => setMinAge(parseInt(value))}
@@ -568,7 +560,7 @@ function ChoosePlayer (props) {
                         minimumValue={0}
                         maximumValue={50}
                         minimumTrackTintColor='#078efb'
-                        maximumTrackTintColor='gray'
+                        maximumTrackTintColor='#5d5e5e'
                         thumbTintColor='#078efb'
                         value={maxAge}
                         step={1}
@@ -593,7 +585,7 @@ function ChoosePlayer (props) {
                       minimumValue={0}
                       maximumValue={1}
                       minimumTrackTintColor='#078efb'
-                      maximumTrackTintColor='gray'
+                      maximumTrackTintColor='#5d5e5e'
                       thumbTintColor='#078efb'
                       value={0}
                       onValueChange={value => setMinutesPlayed(parseInt(value * 5000))}
@@ -621,7 +613,7 @@ function ChoosePlayer (props) {
                         minimumValue={100}
                         maximumValue={250}
                         minimumTrackTintColor='#078efb'
-                        maximumTrackTintColor='gray'
+                        maximumTrackTintColor='#5d5e5e'
                         thumbTintColor='#078efb'
                         value={100}
                         onValueChange={value => setMinHeight(parseInt(value))}
@@ -656,7 +648,6 @@ function ChoosePlayer (props) {
                 <PlayerField func={changeField} mall={false} field={field} clearField={clearField} />
               </View>
             </View>
-            </ImageBackground>
           </View>
           <Footer />
         </View>
@@ -669,14 +660,13 @@ const styles = StyleSheet.create({
   root: {
     width: windowWidth,
     height: windowHeight * 0.8,
-    flexDirection: 'row',
-    backgroundColor: '#001324'
+    flexDirection: 'row'
   },
   root_left: {
     flex: 0.45,
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginVertical: '1%'
+    alignItems: 'left',
+    marginVertical: '1%',
+    marginHorizontal: '2%'
 
   },
   root_right: {
@@ -684,10 +674,9 @@ const styles = StyleSheet.create({
     marginVertical: '1%'
   },
   players_TO: {
-    width: windowWidth / 3,
     height: windowHeight / 20,
     borderRadius: 100,
-    backgroundColor: '#0059a1',
+    backgroundColor: '#5d5e5e',
     marginVertical: '1%'
   },
   players_V: {
@@ -733,19 +722,29 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   search: {
-    marginTop: '2%',
+    flex:0.05,
+    width: '75%',
     paddingLeft: '2%',
     borderWidth: 1,
     borderColor: 'black',
     borderRadius: 50,
-    width: '80%',
-    height: windowHeight / 14,
     fontSize: windowHeight * 0.02,
     fontWeight: 'bold',
-    backgroundColor: 'gray',
+    backgroundColor: '#5d5e5e',
     color: 'white',
-    fontFamily: 'VitesseSans-Book',
-    opacity: 0.9
+    fontFamily: 'VitesseSans-Book'
+  },
+  search_small: {
+    flex: 0.5,
+    padding: '2%',
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 50,
+    fontSize: windowHeight * 0.02,
+    fontWeight: 'bold',
+    backgroundColor: '#5d5e5e',
+    color: 'white',
+    fontFamily: 'VitesseSans-Book'
   },
   filters_UL: {
     flexDirection: 'row',
@@ -754,36 +753,14 @@ const styles = StyleSheet.create({
     width: '80%',
     height: '20%'
   },
-  filters_TO: {
-    backgroundColor: '#0059a1',
-    width: windowWidth / 4.5,
-    height: windowHeight / 11,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 50
+  selected_text: {
+    flex: 0.1
   },
   text_filters: {
     color: 'white',
     fontWeight: 'bold',
     fontSize: 17,
     fontFamily: 'VitesseSans-Book'
-  },
-  search_small: {
-    flex: 0.5,
-    paddingLeft: '2%',
-    borderWidth: 1,
-    borderColor: 'black',
-    borderRadius: 50,
-    height: '55%',
-    fontSize: windowHeight * 0.015,
-    fontWeight: 'bold',
-    backgroundColor: 'gray',
-    color: 'white',
-    fontFamily: 'VitesseSans-Book',
-    opacity: 0.9
-  },
-  image: {
-    flex: 1
   },
   slider_text: {
     fontSize: windowHeight * 0.018,
@@ -802,11 +779,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#001324',
     textAlign: 'center',
     flexDirection: 'row'
-  },
-
-  background_image: {
-    width:'30%',
-    height:'30%',
   }
 })
 

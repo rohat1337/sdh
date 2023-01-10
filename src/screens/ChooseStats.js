@@ -8,6 +8,7 @@ import CSLowerHeader from '../components/CSLowerHeader'
 import ManualCS from '../components/ManualCS'
 import MallCS from '../components/MallCS'
 import './background.css'
+import Background from '../components/Background'
 
 const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height
@@ -42,15 +43,16 @@ function ChooseStats (props) {
       <View style={{ flexDirection: 'column' }}>
 
         <Header header={styles.header} stackIndex={1} nav={props.navigation} />
-        <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode='cover'>
+        <View style={styles.root}>
 
+          <Background weakerLogo={true}/>
           {/* Välj KPI:er eller mallar (header) */}
           <View>
             <CSLowerHeader setButton={setButton} button={button} />
             <ManualCS xyOK={field.length > 0} func={changeField} pos={pos} field={field} button={button} stats={stats} nav={props.navigation} players={playersWithID} clearField={clearField} />
           </View>
 
-        </ImageBackground>
+        </View>
         <Footer />
       </View>
     )
@@ -59,14 +61,15 @@ function ChooseStats (props) {
       <View style={{ flexDirection: 'column' }}>
 
         <Header header={styles.header} stackIndex={1} nav={props.navigation} />
-        <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode='cover'>
+        <View style={styles.root}>
 
+          <Background weakerLogo={true}/>
           {/* Välj KPI:er eller mallar (header) */}
           <View>
             <CSLowerHeader setButton={setButton} button={button} />
             <MallCS spiderOK={field.length > 0} func={changeField} pos={pos} field={field} button={button} stats={stats} nav={props.navigation} players={playersWithID} clearField={clearField} />
           </View>
-        </ImageBackground>
+        </View>
         <Footer />
       </View>
     )

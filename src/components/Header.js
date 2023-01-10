@@ -9,7 +9,6 @@ function Header (props) {
   function renderTitle() {
     let theme = localStorage.getItem("theme")
 
-    console.log(theme)
     if (theme === "odense") {
       return (<Text style={styles.header}>Odense BK Datahub</Text>)
     }
@@ -87,7 +86,6 @@ function Header (props) {
     )
     // Dashboard header
   } else if (props.stackIndex === 2) {
-    console.log('showing dashboard for player index: ', props.player_id)
     return (
       <View style={props.header}>
         <View style={{ flex: 0.1 }}>
@@ -105,7 +103,6 @@ function Header (props) {
         <View style={{ flex: 0.1 }}>
           <TouchableOpacity onPress={() => {
             props.nav.navigate('Ratings', { player_id: props.player_id })
-            console.log('ratings page for player index: ' + props.player_id)
           }}
           >
             <Text style={[styles.small_text, { color: 'white' }]}>Ratings {'->'}</Text>

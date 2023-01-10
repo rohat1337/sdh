@@ -2,7 +2,7 @@
   font-family: "VitesseSans-Book";
   font-weight: 700;
   font-size: 64px;
-  background-color: #001342 ;
+  background-color: #001324 ;
   color: white;
   text-align: center;
 }
@@ -10,7 +10,7 @@
 .root {
   width: 100vw;
   height: 100vh;
-  background-color:#001342;
+  background-color:#001324;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -22,7 +22,7 @@
     justify-content: center;
     flex-direction: column;
     height:100vh;
-    background-color: #001342;
+    background-color: #001324;
     margin-left: 15%;
     margin-right: 15%;
   }
@@ -61,7 +61,7 @@
   }
   
   .login-form {
-    background-color: #021e64;
+    background-color: #101c3a;
     margin-top: 5%;
     padding: 2rem;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);

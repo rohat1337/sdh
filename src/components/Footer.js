@@ -16,6 +16,7 @@ export default function Footer (props) {
 
 const styles = StyleSheet.create({
   container: {
+    opacity: 0.9,
     width: windowWidth,
     height: windowHeight * 0.1,
     backgroundColor: '#001324',

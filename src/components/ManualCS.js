@@ -52,6 +52,7 @@ export default function ManualCS (props) {
       <View style={styles.left}>
         <FlatList
           data={filteredStats}
+          style={styles.list}
           renderItem={({ item }) => {
             const backgroundColor = selectedStats.includes(item) ? '#0059a1' : '#001a30'
             return (
@@ -109,21 +110,23 @@ export default function ManualCS (props) {
 const styles = StyleSheet.create({
   root: {
     width: windowWidth * 0.9,
-    height: windowHeight * 0.75,
+    height: windowHeight * 0.7,
     alignSelf: 'center',
     justifyContent: 'space-around',
     flexDirection: 'row',
     alignItems: 'center'
   },
   left: {
-    height: windowHeight * 0.75,
-    width: windowWidth * 0.3,
+    flex:0.5,
+    height: "90%",
     alignItems: 'center'
   },
   right: {
-    height: windowHeight * 0.75,
-    width: windowWidth * 0.5,
+    flex:0.5,
     alignItems: 'center'
+  },
+  list: {
+    width: "75%",
   },
   text: {
     fontSize: windowHeight / 50,
@@ -133,12 +136,11 @@ const styles = StyleSheet.create({
     fontFamily: 'VitesseSans-Book'
   },
   statButton: {
-    width: windowWidth * 0.25,
-    height: windowHeight * 0.05,
+    height: "3rem",
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 100,
-    marginVertical: windowWidth / 100
+    marginVertical: "0.5rem"
   },
   search: {
     paddingLeft: '2%',

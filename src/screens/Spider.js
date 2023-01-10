@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import { renderRadars, testSpiderFetch, fixSpiderData2, getSpecificStatsMultiID, renderAverageRadar } from '../data'
 import _ from 'lodash'
 import SpiderSettings from './SpiderSettings'
+import Background from '../components/Background'
 
 const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height
@@ -117,7 +118,8 @@ export default function Spider (props) {
         return (
           <View>
             <Header stackIndex={3} nav={props.navigation} header={styles.header} />
-            <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode='cover'>
+            <View style={styles.root}>
+              <Background weakerLogo={true}/>
               <ResponsiveContainer width={windowWidth} height={windowHeight * 0.75}>
                 <RadarChart data={spiderData}>
                   <PolarGrid />
@@ -126,7 +128,7 @@ export default function Spider (props) {
                   <Legend />
                 </RadarChart>
               </ResponsiveContainer>
-            </ImageBackground>
+            </View>
             <Footer />
           </View>
         )
@@ -134,7 +136,8 @@ export default function Spider (props) {
         return (
           <View>
             <Header stackIndex={3} nav={props.navigation} header={styles.header} settingsPressed={settingsPressed} setSettingsPressed={setSettingsPressed} />
-            <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode='cover'>
+            <View style={styles.root}>
+              <Background weakerLogo={true}/>
               <View style={{ flexDirection: 'row' }}>
 
                 <SpiderSettings addToPlayerRadars={addToPlayerRadars} removeFromPlayerRadars={removeFromPlayerRadars} settingsPressed={settingsPressed} avgOn={avgOn} setAvgOn={setAvgOn} players={props.navigation.state.params.players} radars={radars} />
@@ -199,7 +202,7 @@ export default function Spider (props) {
                 </View>
 
               </View>
-            </ImageBackground>
+            </View>
             <Footer />
           </View>
         )

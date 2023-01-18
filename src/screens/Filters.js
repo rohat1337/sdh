@@ -115,7 +115,7 @@ export default function Filters (props) {
             renderItem={({ item }) => {
               return (
                 <TouchableOpacity onPress={() => props.setFilters(arrayRemove(props.filters, item))}>
-                  <Text style={[styles.text, { marginHorizontal: windowWidth * 0.03, marginVertical: windowWidth * 0.02 }]}>{item.stat} {'>'} {item.value}</Text>
+                  <Text style={[styles.applied_filter_text, { margin: "1rem"}]}>{item.stat} {'>'} {item.value}</Text>
                 </TouchableOpacity>
               )
             }}
@@ -128,6 +128,7 @@ export default function Filters (props) {
             disabled={!applicable()}
             style={[styles.statbutton, { width: windowWidth * 0.15, backgroundColor: applicable() ? '#0059a1' : '#001a30' }]}
             onPress={() => {
+              console.log(props.filters)
               filteredPlayers(props.filters).then((response) => {
                 const statusCode = response.status
                 const data = response.json()
@@ -170,10 +171,10 @@ const styles = StyleSheet.create({
     flexDirection: 'column'
   },
   statbutton: {
-    width: windowWidth * 0.2,
-    height: windowHeight * 0.05,
-    backgroundColor: '#001a30',
-    marginVertical: windowHeight * 0.01,
+    width: "70%",
+    height: '25px',
+    backgroundColor: '#5d5e5e',
+    marginVertical: "1%",
     borderRadius: 100,
     justifyContent: 'center',
     alignItems: 'center',
@@ -187,9 +188,19 @@ const styles = StyleSheet.create({
     color: 'white',
     fontFamily: 'VitesseSans-Book'
   },
+  applied_filter_text: {
+    padding: "1rem",
+    fontSize: "24px",
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: 'white',
+    fontFamily: 'VitesseSans-Book',
+    backgroundColor: '#5d5e5e',
+    borderRadius: 100
+  },
   input: {
-    width: windowWidth * 0.05,
-    height: windowHeight * 0.04,
+    width: "50%",
+    height: "5%",
     backgroundColor: '#bfc4c9',
     borderColor: 'white',
     borderWidth: 1,

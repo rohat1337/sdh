@@ -6,9 +6,10 @@ import InfoSquare from '../components/Dashboard/Infosquare'
 import OffensiveActions from '../components/Dashboard/OffensiveActions'
 import Speluppbyggnad from '../components/Dashboard/Speluppbyggnad'
 import Header from '../components/Header'
-import { getPlayerStats, getPlayerStatsRanked, getMaxStatsAll, uncheckFieldBox, getMaxStatsForPositionArray } from '../data'
+import { getPlayerStats, getPlayerStatsRanked, getMaxStatsAll, uncheckFieldBox, getMaxStatsForPositionArray, getStatus } from '../data'
 import DashboardPlayerfield from '../components/Dashboard/DashbordPlayerfield'
 import './background.css'
+import Background from '../components/Background'
 
 const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height
@@ -27,39 +28,69 @@ function Dashboard (props) {
   const fastaSituationer = ['Free kicks per 90', 'Direct free kicks per 90', 'Direct free kicks on target, %', 'Corners per 90', 'Penalties taken', 'Penalty conversion, %']
   const allStats = offensiveActions.concat(defensiveActions, fastaSituationer, speluppbyggnad)
 
+  //loads data for dashboard in 3 fetches:
+  //  1. fetch player stats
+  //  2. fetch all max stats
+  // 3. 
   useEffect(() => {
-    getPlayerStats(props.navigation.getParam('player_id', 'default'))
+    // fetch status using getStatus
+    //if response === 200 continue with fetches below
+    //else navigate to Login page
+    getStatus()
       .then((response) => {
         const statusCode = response.status
         const data = response.json()
         return Promise.all([statusCode, data])
       })
       .then((data) => {
-        data = data[1]
-        setSelectedPlayer(data)
-      })
+        console.log(data)
+        if (data[0] === 401) {
+          console.log("status not ok")
+          props.navigation.navigate('Login')
+        } else if (data[0] === 200) {
+          console.log('status ok')
 
-    // fetch all stats
-    getMaxStatsAll(allStats)
-      .then((response) => {
-        const statusCode = response.status
-        const data = response.json()
-        return Promise.all([statusCode, data])
-      })
-      .then((data) => {
-        data = data[1]
-        setMaxStats(data)
-      })
+          // === 1.fetch player stats ===
+          getPlayerStats(props.navigation.getParam('player_id', 'default'))
+          .then((response) => {
+            const statusCode = response.status
+            const data = response.json()
+            return Promise.all([statusCode, data])
+          })
+          .then((data) => {
+            data = data[1]
+            setSelectedPlayer(data)
+          })
 
-    getPlayerStatsRanked(props.navigation.getParam('player_id', 'default'))
-      .then((response) => {
-        const statusCode = response.status
-        const data = response.json()
-        return Promise.all([statusCode, data])
-      })
-      .then((data) => {
-        data = data[1]
-        setSelectedPlayerRanked(data)
+          // === 2.fetch all max stats ===
+          getMaxStatsAll(allStats)
+          .then((response) => {
+            const statusCode = response.status
+            const data = response.json()
+            return Promise.all([statusCode, data])
+          })
+          .then((data) => {
+              data = data[1]
+              setMaxStats(data)
+          })
+
+          // === 3.fetch player ranking from max-stats and player stats ===
+          getPlayerStatsRanked(props.navigation.getParam('player_id', 'default'))
+          .then((response) => {
+            const statusCode = response.status
+            const data = response.json()
+            return Promise.all([statusCode, data])
+          })
+          .then((data) => {
+              data = data[1];
+              setSelectedPlayerRanked(data);
+          })
+
+        
+        } else {
+          console.log("error")
+          console.log(data)
+        }
       })
   }, [])
 
@@ -107,7 +138,7 @@ function Dashboard (props) {
       {/* Till senare: Hur ska man switcha mellan om man valt flera spelare innan man går till dashboarden */}
 
       {/* Put content here (This view is divided into 4 parts, row) */}
-      <ImageBackground style={styles.root} source={require('../imgs/iks.png')} resizeMode='cover'>
+      <View style={styles.root}>
 
         {/* Leftmost view, inforutan + 10 viktigaste mätpunkterna */}
         <View style={{ flex: 0.25, height: '100%' }}>
@@ -150,7 +181,7 @@ function Dashboard (props) {
           </View>
 
         </View>
-      </ImageBackground>
+      </View>
     </View>
 
   )

@@ -90,6 +90,7 @@ function Login(props) {
                 </div>
     }
 
+    //return (<div></div>)
     return (<div className="root">
                 <div className="app">
                     <div className='sirius-small'/>

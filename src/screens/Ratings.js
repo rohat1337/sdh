@@ -6,6 +6,7 @@ import CircularProgress from '../components/CircularProgress'
 import PositionRanking from '../components/PositionRanking'
 import TopList from '../components/TopList'
 import './background.css'
+import Background from '../components/Background'
 
 const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height
@@ -43,18 +44,21 @@ function Ratings (props) {
     return (
       <View style={styles.root}>
         <Header header={styles.header} stackIndex={1} nav={props.navigation} />
-        <ImageBackground style={styles.content_root} source={require('../imgs/iks.png')} resizeMode='cover'>
+        <View style={styles.content_root}>
+          <Background weakerLogo={true}/>
           <View>
             <Text style={styles.loading}>Loading...</Text>
           </View>
-        </ImageBackground>
+        </View>
       </View>
     )
   } else {
     return (
       <View style={styles.root}>
         <Header header={styles.header} stackIndex={1} nav={props.navigation} />
-        <ImageBackground style={styles.content_root} source={require('../imgs/iks.png')} resizeMode='cover'>
+        <View style={styles.content_root}>
+
+          <Background weakerLogo={true}/>
           <View style={{ flexDirection: 'row', height: '100%' }}>
 
             <View style={{ flex: 0.4, flexDirection: 'column', margin: '2%' }}>
@@ -196,7 +200,7 @@ function Ratings (props) {
             </View>
           </View>
 
-        </ImageBackground>
+        </View>
       </View>
     )
   }

@@ -15,6 +15,25 @@ const colors = ['#FFC1CF', '#E8FFB7', '#E2A0FF', '#C4F5FC', '#B7FFD8']
 const url = config.SERVER_URL
 
 
+
+//function for fetching status of server with url = `${url}/status/ that uses the JWT token located in localstorage under key "access_token"
+export function getStatus() {
+  try {
+    let token = localStorage.getItem("access_token");
+    return fetch(`${url}/status`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        "Accept": "application/json",
+        "Authorization": "Bearer " + token
+      }
+    });
+  } catch (error) {
+    console.log(error)
+  }
+
+}
+
 export function getPlayerStats(id) {
   let token = localStorage.getItem("access_token");
   try {

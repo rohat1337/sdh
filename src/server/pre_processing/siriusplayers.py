@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-sirius_players = ["A. Bjarnason", "A. Hellborg", "C. Kouakou", "D. Stensson", "D. Widgren", "E. Sylisufaj", "F. Olsson", "F. Rogić", "J. Roche", "J. Voelkerling Persson", "K. Da Graca", "M. Mathisen", "Ó. Ómarsson", "P. Karlsson Lagemyr", "P. Nwadike", "T. Björkström", "T. Matthews", "Y. Sugita"]
+sirius_players = ["A. Bjarnason", "A. Hellborg", "C. Kouakou", "D. Stensson", "D. Widgren", "E. Sylisufaj", "F. Olsson", "F.Rogic", "J. Roche", "J. Voelkerling Persson", "K. Da Graca", "M. Mathisen", "O.Omarsson", "P. Karlsson Lagemyr", "P. Nwadike", "T.Bjorkstrom", "T. Matthews", "Y. Sugita"]
 
 def read_player(filename):
     temp_df = pd.read_excel(f"pre_processing/sirius/{filename}.xlsx")

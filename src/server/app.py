@@ -107,12 +107,7 @@ def specific_info(stats, id: int):
 def spiderData(stats, ids, positions):
     logging.info("====FUNCTION========IN SPIDERDATA===============")
     df_temp = df.copy()
-    specific_positions = positions.split("$")
-    try:
-        specific_positions.remove("")
-    except ValueError:
-        pass
-    specific_positions_upper = [x.upper() for x in specific_positions]
+    specific_positions_upper = [x.upper() for x in positions]
     is_in_positions = filter_for_position_arr(df_temp["Position"], specific_positions_upper)
     df_temp = df_temp[is_in_positions].reset_index()
     df_temp = df_temp.set_index('index')
@@ -123,9 +118,7 @@ def spiderData(stats, ids, positions):
         malldf = df_temp[mall]
         df_spider = pd.concat([df_spider, malldf], axis=1)
     df_pos = pd.DataFrame(df_pos.mean().to_dict(), index=[df_pos.index.values[-1]+1])
-    logging.info("df_pos shape: ", str(df_pos.shape))
     df_spider = pd.concat([df_spider, df_pos])
-    logging.info("df_spider and df_pos concat shape:", str(df_spider.shape))
     df_norm = pd.DataFrame(min_max_scaler.fit_transform(df_spider))
     df_norm.index = list(df_spider.index.values)
     df_norm.columns = flatten(stats)
@@ -416,11 +409,15 @@ def stats():
 @jwt_required()  
 def spiders(ids = None, stats=None, positions=None):
     specificIDS = ids.split("$")
+    specificStats = stats.split("$")
+    specificPositions = positions.split("$")
     try:
         specificIDS.remove("")
+        specificStats.remove("")
+        specificPositions.remove("")
     except ValueError:
         pass
-    return spiderData(fixStatsArray(stats), specificIDS, positions)
+    return spiderData(specificStats, specificIDS, specificPositions)
 
 @app.route("/players/<ids>")
 @jwt_required()  

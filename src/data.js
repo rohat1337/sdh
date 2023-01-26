@@ -533,7 +533,7 @@ export function setMall2(field) {
 export function testSpiderFetch(ids, stats, pos) {
   let token = localStorage.getItem("access_token");
   try {
-    return fetch(`${url}/spider/${arrayToString(ids)}/${arrayOfArrayToString(stats)}/${arrayToString(pos)}`, {
+    return fetch(`${url}/spider/${arrayToString(ids)}/${arrayToString(stats)}/${arrayToString(pos)}`, {
       method: 'GET',
       headers: {
         "Content-Type": "application/json;charset=UTF-8",

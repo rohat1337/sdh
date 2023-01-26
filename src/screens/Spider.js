@@ -87,7 +87,9 @@ export default function Spider (props) {
           }))
         } else {
           testSpiderFetch(statsAndIDs.ids, statsAndIDs.stats, props.navigation.state.params.pos).then((data) => {
-            setTestSpiderData(fixSpiderData2(data[1], props.navigation.state.params.pos))
+            let result = fixSpiderData2(data[1], props.navigation.state.params.pos);
+            console.log(result)
+            setTestSpiderData(result)
           })
         }
       }
@@ -96,9 +98,22 @@ export default function Spider (props) {
 
   useEffect(() => {
     if (testSpiderData !== null) {
+      
+      //retrieve the keys for the fetch (aka index of all players and index of the average-player-index)
+      // example keys: ['3600', '3877', '3879', '6321', 'KPI']
+      // means we have players with index:
+      //  '3600', '3877', '3879'
+      // and index of player average:
+      //  '6321'
       const keys = Object.keys(testSpiderData.Def[0])
-      setPlayerRadars(renderRadars(props.navigation.state.params.players))
-      setAvgRadar(renderAverageRadar(keys[keys.length - 2]))
+
+      //set the spider for the individual players
+      let players = props.navigation.state.params.players
+      setPlayerRadars(renderRadars(players))
+
+      //set the spider for the "average player"
+      let average_player = keys[keys.length - 2]
+      setAvgRadar(renderAverageRadar(average_player))
     }
   }, [testSpiderData])
 

@@ -111,6 +111,8 @@ def spiderData(stats, ids, positions):
     is_in_positions = filter_for_position_arr(df_temp["Position"], specific_positions_upper)
     df_temp = df_temp[is_in_positions].reset_index()
     df_temp = df_temp.set_index('index')
+
+    # create pos and spider df's
     df_pos = pd.DataFrame()
     df_spider = pd.DataFrame()
     for mall in stats:
@@ -126,6 +128,39 @@ def spiderData(stats, ids, positions):
     df_final = pd.concat([df_norm.loc[ids], df_norm.iloc[-1:]])
 
     return df_final.to_json(force_ascii=False)
+
+def temp_spiderData(stats, ids, positions):
+    df_temp = df.copy()
+    df_temp.loc["mean"] = 0
+    df_temp = df_temp.reset_index()
+    positions_upper = [x.upper() for x in positions]
+    df_temp.loc[df_temp["index"] == "mean", ["Position"]] = positions_upper[0]
+
+    # filter for position
+    is_in_position = filter_for_position_arr(df_temp["Position"], positions_upper)
+    df_position = df_temp[is_in_position]
+
+    #filter for ids
+    df_ids = df_temp.iloc[ids]
+    df_names = df_ids[["index", "Player"]]
+
+    #filter for stats
+    print(stats)
+    df_stats = df_position[stats]
+    df_stats.loc["mean"] = df_stats.mean() #adds a row with the average values
+
+    #rank the stats
+    df_ranked = df_stats.rank(pct=True)
+
+    #concat the ranked stats with the names
+    df_ranked = pd.concat([df_ranked, df_names], axis=1)
+    df_ranked.loc["mean", ["Player"]] = "mean"  # adds Player name "mean" to the row
+    print(df_ranked)
+    df_ranked = df_ranked.dropna(subset=['Player'])  # drops every row containing NaN
+    print(df_ranked)
+
+    return df_ranked.to_json(force_ascii=False)
+
 
 def allInfoPlayers(ids):
     df_copy = df.copy()
@@ -197,11 +232,6 @@ def allStats():
 
 def all_player_info_ranked(id):
     return df_rank[id:id+1].to_json(force_ascii=False)
-
-
-
-
-
 
 @app.after_request
 def refresh_expiring_jwts(response):
@@ -405,19 +435,36 @@ def basic_info_cock():
 def stats():
     return allStats()
 
-@app.route("/spider/<ids>/<stats>/<positions>")
+@app.route("/spiderMall/<ids>/<stats>/<positions>")
 @jwt_required()  
-def spiders(ids = None, stats=None, positions=None):
+def spider_mall(ids = None, stats=None, positions=None):
+    specificIDS = ids.split("$")
+    #specificStats = stats.split("$")
+    specificPositions = positions.split("$")
+    try:
+        specificIDS.remove("")
+    #    specificStats.remove("")
+        specificPositions.remove("")
+    except ValueError:
+        pass
+    return spiderData(fixStatsArray(stats), specificIDS, specificPositions)
+
+@app.route("/spiderManual/<ids>/<stats>/<positions>")
+@jwt_required()  
+def spider_manual(ids = None, stats=None, positions=None):
     specificIDS = ids.split("$")
     specificStats = stats.split("$")
     specificPositions = positions.split("$")
+    print(specificIDS)
+    print(specificStats)
+    print(specificPositions)
     try:
         specificIDS.remove("")
         specificStats.remove("")
         specificPositions.remove("")
     except ValueError:
         pass
-    return spiderData(specificStats, specificIDS, specificPositions)
+    return temp_spiderData(specificStats, specificIDS, specificPositions)
 
 @app.route("/players/<ids>")
 @jwt_required()  

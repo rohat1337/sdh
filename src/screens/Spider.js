@@ -1,9 +1,9 @@
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { View, StyleSheet, ImageBackground, Dimensions, Text } from 'react-native'
-import { RadarChart, PolarGrid, PolarAngleAxis, ResponsiveContainer, Legend, PolarRadiusAxis } from 'recharts'
+import { RadarChart, PolarGrid, PolarAngleAxis, ResponsiveContainer, Legend, PolarRadiusAxis, Radar } from 'recharts'
 import { useEffect, useState } from 'react'
-import { renderRadars, testSpiderFetch, fixSpiderData2, getSpecificStatsMultiID, renderAverageRadar } from '../data'
+import { renderRadars, spiderMall, spiderManual, fixSpiderData2, getSpecificStatsMultiID, renderAverageRadar } from '../data'
 import _ from 'lodash'
 import SpiderSettings from './SpiderSettings'
 import Background from '../components/Background'
@@ -17,8 +17,8 @@ export default function Spider (props) {
   const [avgRadar, setAvgRadar] = useState(null)
   const [playerRadars, setPlayerRadars] = useState(null)
   const [statsAndIDs, setIDsAndStats] = useState({})
-  const [testSpiderData, setTestSpiderData] = useState(null)
-  const [spiderData, setSpiderData] = useState(null)
+  const [mallSpiderData, setMallSpiderData] = useState(null)
+  const [manualSpiderData, setManualSpiderData] = useState(null)
   const [settingsPressed, setSettingsPressed] = useState(false)
   const [avgOn, setAvgOn] = useState(true)
   const [removedRadars, setRemovedRadars] = useState([])
@@ -45,10 +45,14 @@ export default function Spider (props) {
 
   useEffect(() => {
     if (avgOn) {
+      console.log(avgOn)
       if (playerRadars != null) {
+        console.log(playerRadars)
         if (avgRadar != null) {
+          console.log(avgRadar)
           if (playerRadars.some((radar) => radar.props.name == 'Position Average')) {
             setRadars(playerRadars)
+            console.log(playerRadars)
           } else {
             const allRadars = playerRadars.concat(avgRadar)
             setRadars(allRadars)
@@ -65,28 +69,33 @@ export default function Spider (props) {
       const manual = props.navigation.state.params.manual
       if (manual !== null) {
         if (manual) {
-          let fetch_result = getSpecificStatsMultiID(statsAndIDs.ids, props.navigation.state.params.stats); 
+          let fetch_result = spiderManual(statsAndIDs.ids, props.navigation.state.params.stats, props.navigation.state.params.pos); 
           fetch_result.then((data) => {
             if (data[0] === 200) {
               data = data[1]
-              const spider = []
-              for (const key of props.navigation.state.params.stats) {
-                const obj = {}
-                obj.KPI = key
-                spider.push(obj)
+              console.log(data);
+
+              //create object to store data for spider
+              var spider = []
+              for (const kpi of props.navigation.state.params.stats) {
+                var obj = {}
+                obj.KPI = kpi // creates entry {"KPI":"Goals"}, for example
+                spider.push(obj)  //push to array containing each object for each stat
               }
+              console.log(spider)
               for (const ob of spider) {
                 for (const id of Object.keys(data[ob.KPI])) {
                   ob[id] = data[ob.KPI][id]
                 }
               }
-              setSpiderData(spider)
+              console.log(spider)
+              setManualSpiderData(spider) 
             }
           });
         } else {
-          testSpiderFetch(statsAndIDs.ids, statsAndIDs.stats, props.navigation.state.params.pos).then((data) => {
+          spiderMall(statsAndIDs.ids, statsAndIDs.stats, props.navigation.state.params.pos).then((data) => {
             let result = fixSpiderData2(data[1], props.navigation.state.params.pos);
-            setTestSpiderData(result)
+            setMallSpiderData(result)
           })
         }
       }
@@ -94,7 +103,7 @@ export default function Spider (props) {
   }, [statsAndIDs])
 
   useEffect(() => {
-    if (testSpiderData !== null) {
+    if (mallSpiderData !== null) {
 
       //retrieve the keys for the fetch (aka index of all players and index of the average-player-index)
       // example keys: ['3600', '3877', '3879', '6321', 'KPI']
@@ -102,20 +111,20 @@ export default function Spider (props) {
       //  '3600', '3877', '3879'
       // and index of player average:
       //  '6321'
-      const keys = Object.keys(testSpiderData.Def[0])
+      const keys = Object.keys(mallSpiderData.Def[0])
 
       //set the spider for the individual players
       let players = props.navigation.state.params.players
       setPlayerRadars(renderRadars(players))
 
       //set the spider for the "average player"
-      let average_player = keys[keys.length - 2]
-      setAvgRadar(renderAverageRadar(average_player))
+      let average_player_dataKey = "mean"
+      setAvgRadar(renderAverageRadar(average_player_dataKey))
     }
-  }, [testSpiderData])
+  }, [mallSpiderData])
 
   useEffect(() => {
-    if (spiderData !== null) {
+    if (manualSpiderData !== null) {
 
       //retrieve the keys for the fetch (aka index of all players and index of the average-player-index)
       // example keys: ['3600', '3877', '3879', '6321', 'KPI']
@@ -123,43 +132,43 @@ export default function Spider (props) {
       //  '3600', '3877', '3879'
       // and index of player average:
       //  '6321'
-      const keys = Object.keys(spiderData)
+      const keys = Object.keys(manualSpiderData)
 
       //set the spider for the individual players
       let players = props.navigation.state.params.players
       let result = renderRadars(players);
+      console.log(result)
       setPlayerRadars(result)
 
       //set the spider for the "average player"
-      let average_player = keys[keys.length - 2]
-      setAvgRadar(renderAverageRadar(average_player))
+      let average_player_dataKey = "mean"
+      setAvgRadar(renderAverageRadar(average_player_dataKey))
     }
-  }, [spiderData])
+  }, [manualSpiderData])
 
   useEffect(() => {
     const ids = []
+    console.log("hello");
     for (const player of props.navigation.state.params.players) {
       ids.push('' + player.index)
     }
     setIDsAndStats({ stats: props.navigation.state.params.stats, ids })
   }, [])
 
-  // if (testSpiderData === null) {
-  //   return null
-  // } else {
     if (props.navigation.state.params.manual !== null) {
       if (props.navigation.state.params.manual) {
-        if (spiderData !== null && radars !== null) {
+        if (manualSpiderData !== null && radars !== null) {
           console.log("data loaded!")
           return (
           <View>
-            <Header stackIndex={3} nav={props.navigation} header={styles.header} />
+            <Header stackIndex={3} nav={props.navigation} header={styles.header} settingsPressed={settingsPressed} setSettingsPressed={setSettingsPressed} />
             <View style={styles.root}>
               <Background weakerLogo={true}/>
+              <SpiderSettings addToPlayerRadars={addToPlayerRadars} removeFromPlayerRadars={removeFromPlayerRadars} settingsPressed={settingsPressed} avgOn={avgOn} setAvgOn={setAvgOn} players={props.navigation.state.params.players} radars={radars} />
               <ResponsiveContainer width={windowWidth} height={windowHeight * 0.75}>
-                <RadarChart data={spiderData}>
+                <RadarChart data={manualSpiderData}>
                   <PolarGrid />
-                  <PolarAngleAxis dataKey='KPI' fontFamily='VitesseSans-Book' fontWeight='bold' tick={{ fill: 'white' }} fontSize={windowHeight * 0.017} />
+                  <PolarAngleAxis dataKey='KPI' fontFamily='VitesseSans-Book' fontWeight='bold' tick={{ fill: 'white' }} fontSize={windowHeight * 0.017} domain={[0, 1]} />
                   {radars}
                   <Legend />
                 </RadarChart>
@@ -180,7 +189,7 @@ export default function Spider (props) {
             <Background weakerLogo={true}/>
             <View style={{ flexDirection: 'row' }}>
 
-              <SpiderSettings addToPlayerRadars={addToPlayerRadars} removeFromPlayerRadars={removeFromPlayerRadars} settingsPressed={settingsPressed} avgOn={avgOn} setAvgOn={setAvgOn} players={props.navigation.state.params.players} radars={radars} />
+            <SpiderSettings addToPlayerRadars={addToPlayerRadars} removeFromPlayerRadars={removeFromPlayerRadars} settingsPressed={settingsPressed} avgOn={avgOn} setAvgOn={setAvgOn} players={props.navigation.state.params.players} radars={radars} />
 
               <View>
 
@@ -188,7 +197,7 @@ export default function Spider (props) {
                   <View style={{ flexDirection: 'column', marginVertical: '2%' }}>
                     <Text style={styles.text}>Skapa målchans</Text>
                     <ResponsiveContainer width={windowWidth * 0.4} height={windowHeight / 3.2}>
-                      <RadarChart cx='50%' cy='50%' outerRadius='80%' data={testSpiderData.Goal}>
+                      <RadarChart cx='50%' cy='50%' outerRadius='80%' data={mallSpiderData.Goal}>
                         <PolarGrid />
                         <PolarAngleAxis dataKey='KPI' fontFamily='VitesseSans-Book' fontWeight='bold' tick={{ fill: 'white' }} fontSize={windowHeight * 0.017} />
                         <PolarRadiusAxis domain={[0, 1]} angle={30} tick={false} axisLine={false} />
@@ -200,7 +209,7 @@ export default function Spider (props) {
                   <View style={{ flexDirection: 'column', marginVertical: '2%' }}>
                     <Text style={styles.text}>Speluppbyggnad</Text>
                     <ResponsiveContainer width={windowWidth * 0.4} height={windowHeight / 3.2}>
-                      <RadarChart cx='50%' cy='50%' outerRadius='80%' data={testSpiderData.Play}>
+                      <RadarChart cx='50%' cy='50%' outerRadius='80%' data={mallSpiderData.Play}>
                         <PolarGrid />
                         <PolarAngleAxis dataKey='KPI' fontFamily='VitesseSans-Book' fontWeight='bold' tick={{ fill: 'white' }} fontSize={windowHeight * 0.017} />
                         <PolarRadiusAxis domain={[0, 1]} angle={30} tick={false} axisLine={false} />
@@ -216,7 +225,7 @@ export default function Spider (props) {
                   <View style={{ flexDirection: 'column', marginVertical: '2%' }}>
                     <Text style={styles.text}>Försvarsspel</Text>
                     <ResponsiveContainer width={windowWidth * 0.4} height={windowHeight / 3.2}>
-                      <RadarChart cx='50%' cy='50%' outerRadius='80%' data={testSpiderData.Def}>
+                      <RadarChart cx='50%' cy='50%' outerRadius='80%' data={mallSpiderData.Def}>
                         <PolarGrid />
                         <PolarAngleAxis dataKey='KPI' fontFamily='VitesseSans-Book' fontWeight='bold' tick={{ fill: 'white' }} fontSize={windowHeight * 0.017} />
                         <PolarRadiusAxis domain={[0, 1]} angle={30} tick={false} axisLine={false} />
@@ -228,7 +237,7 @@ export default function Spider (props) {
                   <View style={{ flexDirection: 'column', marginVertical: '2%' }}>
                     <Text style={styles.text}>Sammanställning</Text>
                     <ResponsiveContainer width={windowWidth * 0.4} height={windowHeight / 3.2}>
-                      <RadarChart cx='50%' cy='50%' outerRadius='80%' data={testSpiderData.Overall}>
+                      <RadarChart cx='50%' cy='50%' outerRadius='80%' data={mallSpiderData.Overall}>
                         <PolarGrid />
                         <PolarAngleAxis dataKey='KPI' fontFamily='VitesseSans-Book' fontWeight='bold' tick={{ fill: 'white' }} fontSize={windowHeight * 0.017} />
                         <PolarRadiusAxis domain={[0, 1]} angle={30} tick={false} axisLine={false} />
@@ -248,8 +257,7 @@ export default function Spider (props) {
       )
     }
     }
-  }
-// }
+ }
 
 const styles = StyleSheet.create({
   root: {

@@ -117,7 +117,8 @@ export default function Spider (props) {
       setPlayerRadars(renderRadars(players))
 
       //set the spider for the "average player"
-      let average_player_dataKey = "mean"
+      let average_player_dataKey = keys[keys.length - 2]
+      console.log(average_player_dataKey)
       setAvgRadar(renderAverageRadar(average_player_dataKey))
       console.log(mallSpiderData)
     }
@@ -180,8 +181,15 @@ export default function Spider (props) {
           </View>
         )
       } else {
-        console.log("data not loaded yet")
-        return null;
+        return (
+          <View>
+            <Header stackIndex={3} nav={props.navigation} header={styles.header} settingsPressed={settingsPressed} setSettingsPressed={setSettingsPressed} />
+            <View style={[styles.root, {justifyContent:'center', alignItems:'center'}]}>
+              <Background weakerLogo={true}/>
+              <ActivityIndicator size={'large'}/>
+            </View>
+          </View>
+        )
       }
     } else {
       if (mallSpiderData !== null && radars !== null) {

@@ -6,7 +6,7 @@ import MyDot from './components/MyDot'
 
 const _ = require('lodash')
 
-const colors = ['#FFC1CF', '#E8FFB7', '#E2A0FF', '#C4F5FC', '#B7FFD8']
+const colors = ['red', 'blue', 'yellow', 'green', 'purple']
 
 // hosting
 // const url = process.env.REACT_APP_SERVER
@@ -489,7 +489,7 @@ export function renderRadars(players) {
         dataKey={parseInt(player.index)}
         stroke={color}
         fill={color}
-        fillOpacity={0.6}
+        fillOpacity={0.4}
       />
     )
   })
@@ -504,7 +504,7 @@ export function renderAverageRadar(value) {
       dataKey={value}
       stroke='white'
       fill='white'
-      fillOpacity={1}
+      fillOpacity={0.8}
     />
   )
 }

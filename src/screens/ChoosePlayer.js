@@ -304,7 +304,7 @@ function ChoosePlayer (props) {
             players={selectedPlayersWithID}
             player_dashboard={selectedPlayersWithID[0]}
             nextIsOK_dashboard={selectedPlayersWithID.length === 1 ? 'white' : '#5d5e5e'}
-            nextIsOK_spider={selectedPlayersWithID.length > 0 ? 'white' : '#5d5e5e'}
+            nextIsOK_spider={(selectedPlayersWithID.length > 0 && selectedPlayersWithID.length < 5) ? 'white' : '#5d5e5e'}
           />
 
           <View style={[styles.root, { backgroundColor: backgroundColor}]}>
@@ -421,7 +421,7 @@ function ChoosePlayer (props) {
             players={selectedPlayersWithID}
             player_dashboard={selectedPlayersWithID[0]}
             nextIsOK_dashboard={selectedPlayersWithID.length === 1 ? 'white' : '#5d5e5e'}
-            nextIsOK_spider={selectedPlayersWithID.length > 0 ? 'white' : '#5d5e5e'}
+            nextIsOK_spider={(selectedPlayersWithID.length > 0 && selectedPlayersWithID.length < 5) ? 'white' : '#5d5e5e'}
           />
 
           <View style={[styles.root, { backgroundColor: backgroundColor}]}>

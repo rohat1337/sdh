@@ -10,11 +10,11 @@ function Background(props) {
 
       if (theme === 'odense') {
         let style = {
-          width: '600px',
-          height: '600px',
+          width: windowHeight*0.7,
+          height: windowHeight*0.7,
           position: 'absolute',
-          left: windowWidth / 2 - 300,
-          top: windowHeight*0.8 / 2 - 300,
+          left: windowWidth / 2 - (windowHeight*0.7 / 2),
+          top: windowHeight*0.8 / 2 - (windowHeight*0.7 / 2),
         }
 
         console.log(props)
@@ -28,11 +28,11 @@ function Background(props) {
 
       else {
         let style = {
-          width: '400px',
-          height: '630px',
+          width: windowHeight*0.7*0.635, // 0.635 is the ratio of width to the height of the image
+          height: windowHeight*0.7,
           position: 'absolute',
-          left: windowWidth / 2 - 400 / 2,
-          top: windowHeight*0.8 / 2 - 630 / 2
+          left: windowWidth / 2 - (windowHeight*0.7*0.635/2),
+          top: windowHeight*0.8 / 2 - (windowHeight*0.7/2)
         }
 
         if (props.weakerLogo === true === true) {

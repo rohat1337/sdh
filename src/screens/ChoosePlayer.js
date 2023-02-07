@@ -150,138 +150,15 @@ function ChoosePlayer (props) {
 
           </View>
           <View style={styles.root_right}>
-            <View style={styles.filters_U}>
-              <View style={[styles.filters_UL, { marginTop: '4%' }]}>
-                <TextInput
-                  placeholder='Sök lag...'
-                  placeholderTextColor='white'
-                  style={styles.search_small}
-                  onChangeText={setTeam}
-                />
-                <View style={{ flex: 0.5, flexDirection: 'row', alignItems: 'center', marginLeft: '1%', marginBottom: '3%' }}>
-                  <View>
-                    <View style={{ flexDirection: 'row', width: windowWidth / 10 }}>
-                      <Text style={styles.slider_text}>Ålder (min)</Text>
-                      <TextInput
-                        style={[styles.slider_text, { width: windowWidth / 30 }]}
-                        value={minAge}
-                        onChangeText={value => setMinAge(value)}
-                      />
-                    </View>
+              <View style={styles.filters_U}>
+                
+                {/* no filters displayed if no players are loaded */}
 
-                    <Slider
-                      style={{ width: windowWidth / 9, height: windowHeight / 20 }}
-                      minimumValue={0}
-                      maximumValue={50}
-                      minimumTrackTintColor='#078efb'
-                      maximumTrackTintColor='#5d5e5e'
-                      thumbTintColor='#078efb'
-                      value={minAge}
-                      onValueChange={value => setMinAge(parseInt(value))}
-                    />
-                  </View>
-                  <View style={{ marginLeft: '3%' }}>
-                    <View style={{ flexDirection: 'row', width: windowWidth / 10 }}>
-                      <Text style={styles.slider_text}>Ålder (max)</Text>
-                      <TextInput
-                        style={[styles.slider_text, { width: windowWidth / 30 }]}
-                        value={maxAge}
-                        onChangeText={value => setMaxAge(value)}
-                      />
-                    </View>
-
-                    <Slider
-                      style={{ width: windowWidth / 9, height: windowHeight / 20 }}
-                      minimumValue={0}
-                      maximumValue={50}
-                      minimumTrackTintColor='#078efb'
-                      maximumTrackTintColor='#5d5e5e'
-                      thumbTintColor='#078efb'
-                      value={maxAge}
-                      step={1}
-                      onValueChange={value => setMaxAge(parseInt(value))}
-                    />
-                  </View>
-                </View>
               </View>
-              <View style={[styles.filters_UL, { marginTop: '1%' }]}>
-                <View style={{ flex: 0.5, alignItems:'center', marginTop: '3%' }}>
-                  <View style={{ flexDirection: 'row' }}>
-                      <Text style={[styles.slider_text, { marginLeft: '15%' }]}>Spelade minuter</Text>
-                      <TextInput
-                        placeholder={0}
-                        value={minutesPlayed}
-                        style={styles.slider_text}
-                        onChangeText={value => setMinutesPlayed(value)}
-                      />
-                    </View>
-                    <Slider
-                      style={{ width: windowWidth / 5, height: windowHeight / 20, marginLeft: '0%', marginBottom: '6%' }}
-                      minimumValue={0}
-                      maximumValue={1}
-                      minimumTrackTintColor='#078efb'
-                      maximumTrackTintColor='#5d5e5e'
-                      thumbTintColor='#078efb'
-                      value={0}
-                      onValueChange={value => setMinutesPlayed(parseInt(value * 5000))}
-                    />
-                  </View>
-
-                {/* Längd och fot */}
-                <View style={{ flex: 0.5, marginLeft: '3%', marginBottom: '2.5%', flexDirection: 'row' }}>
-
-                  {/* Längd */}
-                  <View>
-
-                    <View style={{ flexDirection: 'row', width: windowWidth / 10 }}>
-                      <Text style={styles.slider_text}>Min. längd (cm)</Text>
-                      <TextInput
-                        style={[styles.slider_text, { width: windowWidth / 30 }]}
-                        value={minHeight}
-                        onChangeText={value => setMinHeight(value)}
-                      />
-                    </View>
-
-                    <Slider
-                      style={{ width: windowWidth / 9, height: windowHeight / 20 }}
-                      minimumValue={100}
-                      maximumValue={250}
-                      minimumTrackTintColor='#078efb'
-                      maximumTrackTintColor='#5d5e5e'
-                      thumbTintColor='#078efb'
-                      value={100}
-                      onValueChange={value => setMinHeight(parseInt(value))}
-                    />
-                  </View>
-
-                  {/* Fot */}
-                  <View style={{ alignItems: 'center', flexDirection: 'row', marginLeft: '3%' }}>
-                    <Text style={styles.slider_text}>Fot: </Text>
-                    <TouchableOpacity
-                      style={{ marginLeft: '10%' }}
-                      onPress={() => { setLeftFoot(!leftFoot) }}
-                    >
-                      <Text style={[styles.slider_text, { color: (leftFoot ? '#ffe00f' : 'white') }]}>
-                        Vänster
-                      </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      style={{ marginLeft: '10%' }}
-                      onPress={() => { setRightFoot(!rightFoot) }}
-                    >
-                      <Text style={[styles.slider_text, { color: (rightFoot ? '#ffe00f' : 'white') }]}>Höger
-
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
+              <View style={styles.filters_L}>
+                <PlayerField func={changeField} mall={false} field={field} clearField={clearField} />
               </View>
-
             </View>
-            <View style={styles.filters_L}>
-              <PlayerField func={changeField} mall={false} field={field} clearField={clearField} />
-            </View>
-          </View>
 
         </View>
 
@@ -516,7 +393,7 @@ function ChoosePlayer (props) {
             </View>
             <View style={styles.root_right}>
               <View style={styles.filters_U}>
-                <View style={[styles.filters_UL, { marginTop: '4%' }]}>
+                <View style={[styles.filters_UL, {marginTop:'5%'}]}>
                   <TextInput
                     placeholder='Sök lag...'
                     placeholderTextColor='white'
@@ -524,8 +401,8 @@ function ChoosePlayer (props) {
                     onChangeText={setTeam}
                   />
                   <View style={{ flex: 0.5, flexDirection: 'row', alignItems: 'center', marginLeft: '1%', marginBottom: '3%' }}>
-                    <View>
-                      <View style={{ flexDirection: 'row', width: windowWidth / 10 }}>
+                    <View style={styles.slider_view}>
+                      <View style={{ flexDirection: 'row'}}>
                         <Text style={styles.slider_text}>Ålder (min)</Text>
                         <TextInput
                           style={[styles.slider_text, { width: windowWidth / 30 }]}
@@ -545,8 +422,8 @@ function ChoosePlayer (props) {
                         onValueChange={value => setMinAge(parseInt(value))}
                       />
                     </View>
-                    <View style={{ marginLeft: '3%' }}>
-                      <View style={{ flexDirection: 'row', width: windowWidth / 10 }}>
+                    <View style={styles.slider_view}>
+                      <View style={{ flexDirection: 'row'}}>
                         <Text style={styles.slider_text}>Ålder (max)</Text>
                         <TextInput
                           style={[styles.slider_text, { width: windowWidth / 30 }]}
@@ -569,37 +446,16 @@ function ChoosePlayer (props) {
                     </View>
                   </View>
                 </View>
-                <View style={[styles.filters_UL, { marginTop: '1%' }]}>
-                  <View style={{ flex: 0.5, alignItems:'center', marginTop: '3%' }}>
-                    <View style={{ flexDirection: 'row' }}>
-                      <Text style={[styles.slider_text, { marginLeft: '15%' }]}>Spelade minuter</Text>
-                      <TextInput
-                        placeholder={0}
-                        value={minutesPlayed}
-                        style={styles.slider_text}
-                        onChangeText={value => setMinutesPlayed(value)}
-                      />
-                    </View>
-                    <Slider
-                      style={{ width: windowWidth / 5, height: windowHeight / 20, marginLeft: '0%', marginBottom: '6%' }}
-                      minimumValue={0}
-                      maximumValue={1}
-                      minimumTrackTintColor='#078efb'
-                      maximumTrackTintColor='#5d5e5e'
-                      thumbTintColor='#078efb'
-                      value={0}
-                      onValueChange={value => setMinutesPlayed(parseInt(value * 5000))}
-                    />
-                  </View>
+                <View style={[styles.filters_UL]}>
 
                   {/* Längd och fot */}
                   <View style={{ flex: 0.5, paddingLeft: '3%', marginBottom: '2.5%', flexDirection: 'row' }}>
                     
 
                     {/* Längd */}
-                    <View>
+                    <View styles={styles.slider_view}>
 
-                      <View style={{ flexDirection: 'row', width: windowWidth / 10 }}>
+                      <View style={{ flexDirection: 'row'}}>
                         <Text style={styles.slider_text}>Min. längd (cm)</Text>
                         <TextInput
                           style={[styles.slider_text, { width: windowWidth / 30 }]}
@@ -642,6 +498,29 @@ function ChoosePlayer (props) {
                     </View>
                   </View>
                 </View>
+                <View style={styles.filters_UL}>
+                <View style={styles.minutes_slider}>
+                    <View style={{ flexDirection: 'row' }}>
+                      <Text style={[styles.slider_text, { marginLeft: '15%' }]}>Spelade minuter</Text>
+                      <TextInput
+                        placeholder={0}
+                        value={minutesPlayed}
+                        style={styles.slider_text}
+                        onChangeText={value => setMinutesPlayed(value)}
+                      />
+                    </View>
+                    <Slider
+                      style={{ width: windowWidth / 5, height: windowHeight / 20, marginLeft: '0%', marginBottom: '6%' }}
+                      minimumValue={0}
+                      maximumValue={1}
+                      minimumTrackTintColor='#078efb'
+                      maximumTrackTintColor='#5d5e5e'
+                      thumbTintColor='#078efb'
+                      value={0}
+                      onValueChange={value => setMinutesPlayed(parseInt(value * 5000))}
+                    />
+                  </View>
+                </View>
 
               </View>
               <View style={styles.filters_L}>
@@ -671,7 +550,7 @@ const styles = StyleSheet.create({
   },
   root_right: {
     flex: 0.55,
-    marginVertical: '1%'
+    marginVertical: '1%',
   },
   players_TO: {
     height: windowHeight / 20,
@@ -715,7 +594,8 @@ const styles = StyleSheet.create({
   },
   filters_U: {
     height: '40%',
-    alignItems: 'center'
+    alignItems: 'center',
+    gap: '5%'
   },
   filters_L: {
     height: '60%',
@@ -735,7 +615,7 @@ const styles = StyleSheet.create({
     fontFamily: 'VitesseSans-Book'
   },
   search_small: {
-    flex: 0.5,
+    flex: 0.45,
     padding: '2%',
     borderWidth: 1,
     borderColor: 'black',
@@ -744,7 +624,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     backgroundColor: '#5d5e5e',
     color: 'white',
-    fontFamily: 'VitesseSans-Book'
+    fontFamily: 'VitesseSans-Book',
   },
   filters_UL: {
     flexDirection: 'row',
@@ -779,6 +659,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#001324',
     textAlign: 'center',
     flexDirection: 'row'
+  },
+  slider_view: {
+    marginHorizontal: '1%',
+    width: windowWidth / 10
+  },
+  minutes_slider: {
+    flex:0.5,
   }
 })
 

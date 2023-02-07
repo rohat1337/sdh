@@ -6,7 +6,7 @@ import MyDot from './components/MyDot'
 
 const _ = require('lodash')
 
-const colors = ['#FFC1CF', '#E8FFB7', '#E2A0FF', '#C4F5FC', '#B7FFD8']
+const colors = ['red', 'blue', 'yellow', 'green', 'purple']
 
 // hosting
 // const url = process.env.REACT_APP_SERVER
@@ -479,6 +479,7 @@ export function contractToString(milliSeconds) {
 }
 
 export function renderRadars(players) {
+  console.log(players)
   const radars = players.map((player) => {
     const color = colors[players.indexOf(player)]
     return (
@@ -488,7 +489,7 @@ export function renderRadars(players) {
         dataKey={parseInt(player.index)}
         stroke={color}
         fill={color}
-        fillOpacity={0.6}
+        fillOpacity={0.4}
       />
     )
   })
@@ -498,12 +499,12 @@ export function renderRadars(players) {
 export function renderAverageRadar(value) {
   return (
     <Radar
-      key={parseInt(value)}
+      key={value}
       name='Position Average'
-      dataKey={parseInt(value)}
+      dataKey={value}
       stroke='white'
       fill='white'
-      fillOpacity={0.6}
+      fillOpacity={0.8}
     />
   )
 }
@@ -530,10 +531,10 @@ export function setMall2(field) {
   }
 }
 
-export function testSpiderFetch(ids, stats, pos) {
+export function spiderMall(ids, stats, pos) {
   let token = localStorage.getItem("access_token");
   try {
-    return fetch(`${url}/spider/${arrayToString(ids)}/${arrayOfArrayToString(stats)}/${arrayToString(pos)}`, {
+    return fetch(`${url}/spiderMall/${arrayToString(ids)}/${arrayOfArrayToString(stats)}/${arrayToString(pos)}`, {
       method: 'GET',
       headers: {
         "Content-Type": "application/json;charset=UTF-8",
@@ -550,6 +551,28 @@ export function testSpiderFetch(ids, stats, pos) {
   }
 }
 
+export function spiderManual(ids, stats, pos) {
+  let token = localStorage.getItem("access_token");
+  console.log(arrayToString(ids));
+  console.log(arrayToString(stats));
+  console.log(arrayToString(pos));
+  try {
+    return fetch(`${url}/spiderManual/${arrayToString(ids)}/${arrayToString(stats)}/${arrayToString(pos)}`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        "Accept": "application/json",
+        "Authorization": "Bearer " + token
+      }
+    }).then((response) => {
+      const statusCode = response.status
+      const data = response.json()
+      return Promise.all([statusCode, data])
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 
 // OBS FIX THIS

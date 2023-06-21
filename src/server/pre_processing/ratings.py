@@ -11,38 +11,29 @@ def read_df(filename, league):
 
 def do_work_ranked():
 
+    date = "230621"
+
     # Sweden (1/2/3)
-    df_1 = read_df("Allsvenskan_210223", "Allsvenskan")
-    df_2 = read_df("Superettan_210223", "Superettan")
-    df_3 = read_df("Ettan_U24_210223", "Ettan")
-    df_4 = read_df("Ettan_O24_210223", "Ettan")
+    df_1 = read_df("Allsvenskan_"+date, "Allsvenskan")
+    df_2 = read_df("Superettan_"+date, "Superettan")
+    df_3 = read_df("Ettan_O23_"+date, "Ettan")
+    df_4 = read_df("Ettan_U23_"+date, "Ettan")
     # Denmark (1/2)
-    df_5 = read_df("Superliga_210223", "Superliga")
-    df_6 = read_df("1st_Division_210223", "1. Division")
+    df_5 = read_df("Superliga_"+date, "Superliga")
+    df_6 = read_df("1st_Division_"+date, "1. Division")
     # Norway (1/2)
-    df_7 = read_df("Eliteserien_210223", "Eliteserien")
-    df_8 = read_df("Obos_Ligaen_210223", "OBOS-ligaen")
-    # Bosnia (1)
-    df_9 = read_df("Premijer_Liga_210223", "Premijer_Liga")
+    df_7 = read_df("Eliteserien_"+date, "Eliteserien")
+    df_8 = read_df("Obos_Ligaen_"+date, "OBOS-ligaen")
     # Finland (1)
-    df_10 = read_df("Veikkausliiga_210223", "Veikkausliiga")
+    df_9 = read_df("Veikkausliiga_"+date, "Veikkausliiga")
     # Iceland (1)
-    df_11 = read_df("Besta-deild_karla_210223", "Besta-deild karla")
-    # Netherland (1/2)
-    df_12 = read_df("Eredivisie_O25_210223", "Eredivise")
-    df_13 = read_df("Eredivisie_U25_210223", "Eredivise")
-    df_14 = read_df("Eerste_Divisie_U23_210223", "Eerste Divisie")
-    df_15 = read_df("Eerste_Divisie_O23_210223", "Eerste Divisie")
-    # Serbia (1)
-    df_16 = read_df("Super_Liga_O25_210223", "Super Liga")
-    df_17 = read_df("Super_Liga_U25_210223", "Super Liga")
+    df_10 = read_df("Besta-deild_karla_"+date, "Besta-deild karla")
     # Germany
-    df_18 = read_df("3_Bundesliga_U25_210223", "3. Bundesliga")
-    df_19 = read_df("3_Bundesliga_O25_210223", "3. Bundesliga")
+    df_11 = read_df("3_Bundesliga_"+date, "3. Bundesliga")
+    # Poland
+    df_12 = read_df("Ekstraklasa_"+date, "Ekstraklasa")
 
-
-
-    df = pd.concat([df_1, df_2, df_3, df_4, df_5, df_6, df_7, df_8, df_9, df_10, df_11, df_12, df_13, df_14, df_15, df_16, df_17, df_18, df_19])
+    df = pd.concat([df_1, df_2, df_3, df_4, df_5, df_6, df_7, df_8, df_9, df_10, df_11, df_12])
     df = df.reset_index(drop=True)
     df = df.rank(pct=True)
     df = df.drop(["Player",
@@ -65,38 +56,29 @@ def do_work_ranked():
 
 def do_work():
 
+    date = "230621"
+
     # Sweden (1/2/3)
-    df_1 = read_df("Allsvenskan_210223", "Allsvenskan")
-    df_2 = read_df("Superettan_210223", "Superettan")
-    df_3 = read_df("Ettan_U24_210223", "Ettan")
-    df_4 = read_df("Ettan_O24_210223", "Ettan")
+    df_1 = read_df("Allsvenskan_"+date, "Allsvenskan")
+    df_2 = read_df("Superettan_"+date, "Superettan")
+    df_3 = read_df("Ettan_O23_"+date, "Ettan")
+    df_4 = read_df("Ettan_U23_"+date, "Ettan")
     # Denmark (1/2)
-    df_5 = read_df("Superliga_210223", "Superliga")
-    df_6 = read_df("1st_Division_210223", "1. Division")
+    df_5 = read_df("Superliga_"+date, "Superliga")
+    df_6 = read_df("1st_Division_"+date, "1. Division")
     # Norway (1/2)
-    df_7 = read_df("Eliteserien_210223", "Eliteserien")
-    df_8 = read_df("Obos_Ligaen_210223", "OBOS-ligaen")
-    # Bosnia (1)
-    df_9 = read_df("Premijer_Liga_210223", "Premijer_Liga")
+    df_7 = read_df("Eliteserien_"+date, "Eliteserien")
+    df_8 = read_df("Obos_Ligaen_"+date, "OBOS-ligaen")
     # Finland (1)
-    df_10 = read_df("Veikkausliiga_210223", "Veikkausliiga")
+    df_9 = read_df("Veikkausliiga_"+date, "Veikkausliiga")
     # Iceland (1)
-    df_11 = read_df("Besta-deild_karla_210223", "Besta-deild karla")
-    # Netherland (1/2)
-    df_12 = read_df("Eredivisie_O25_210223", "Eredivise")
-    df_13 = read_df("Eredivisie_U25_210223", "Eredivise")
-    df_14 = read_df("Eerste_Divisie_U23_210223", "Eerste Divisie")
-    df_15 = read_df("Eerste_Divisie_O23_210223", "Eerste Divisie")
-    # Serbia (1)
-    df_16 = read_df("Super_Liga_O25_210223", "Super Liga")
-    df_17 = read_df("Super_Liga_U25_210223", "Super Liga")
+    df_10 = read_df("Besta-deild_karla_"+date, "Besta-deild karla")
     # Germany
-    df_18 = read_df("3_Bundesliga_U25_210223", "3. Bundesliga")
-    df_19 = read_df("3_Bundesliga_O25_210223", "3. Bundesliga")
+    df_11 = read_df("3_Bundesliga_"+date, "3. Bundesliga")
+    # Poland
+    df_12 = read_df("Ekstraklasa_"+date, "Ekstraklasa")
 
-
-
-    df = pd.concat([df_1, df_2, df_3, df_4, df_5, df_6, df_7, df_8, df_9, df_10, df_11, df_12, df_13, df_14, df_15, df_16, df_17, df_18, df_19])
+    df = pd.concat([df_1, df_2, df_3, df_4, df_5, df_6, df_7, df_8, df_9, df_10, df_11, df_12])
     df = df.reset_index(drop=True)
 
     DF_LEN_ALL = df.shape[0]

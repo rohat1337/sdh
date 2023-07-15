@@ -11,7 +11,7 @@ def read_df(filename, league):
 
 def do_work_ranked():
 
-    date = "230621"
+    date = "230715"
 
     # Sweden (1/2/3)
     df_1 = read_df("Allsvenskan_"+date, "Allsvenskan")
@@ -56,7 +56,7 @@ def do_work_ranked():
 
 def do_work():
 
-    date = "230621"
+    date = "230715"
 
     # Sweden (1/2/3)
     df_1 = read_df("Allsvenskan_"+date, "Allsvenskan")
